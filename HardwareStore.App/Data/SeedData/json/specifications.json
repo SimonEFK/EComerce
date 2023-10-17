@@ -1,0 +1,1367 @@
+[
+  {
+    "Id": 9,
+    "Name": "Core Count",
+    "CategoryId": 5,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 10,
+    "Name": "Performance Core Clock",
+    "CategoryId": 5,
+    "Filter": false,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 11,
+    "Name": "Performance Boost Clock",
+    "CategoryId": 5,
+    "Filter": false,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 12,
+    "Name": "TDP",
+    "CategoryId": 5,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 13,
+    "Name": "Series",
+    "CategoryId": 5,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 14,
+    "Name": "Microarchitecture",
+    "CategoryId": 5,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 15,
+    "Name": "Core Family",
+    "CategoryId": 5,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 16,
+    "Name": "Socket",
+    "CategoryId": 5,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 17,
+    "Name": "Integrated Graphics",
+    "CategoryId": 5,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 18,
+    "Name": "Maximum Supported Memory",
+    "CategoryId": 5,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 19,
+    "Name": "ECC Support",
+    "CategoryId": 5,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 20,
+    "Name": "Includes Cooler",
+    "CategoryId": 5,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 21,
+    "Name": "Packaging",
+    "CategoryId": 5,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 22,
+    "Name": "Performance L1 Cache",
+    "CategoryId": 5,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 23,
+    "Name": "Performance L2 Cache",
+    "CategoryId": 5,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 24,
+    "Name": "L3 Cache",
+    "CategoryId": 5,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 25,
+    "Name": "Lithography",
+    "CategoryId": 5,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 26,
+    "Name": "Includes CPU Cooler",
+    "CategoryId": 5,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 27,
+    "Name": "Simultaneous Multithreading",
+    "CategoryId": 5,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 28,
+    "Name": "Efficiency L1 Cache",
+    "CategoryId": 5,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 29,
+    "Name": "Efficiency L2 Cache",
+    "CategoryId": 5,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 30,
+    "Name": "Model",
+    "CategoryId": 6,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 31,
+    "Name": "Fan RPM",
+    "CategoryId": 6,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 32,
+    "Name": "Noise Level",
+    "CategoryId": 6,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 33,
+    "Name": "Height",
+    "CategoryId": 6,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 34,
+    "Name": "Water Cooled",
+    "CategoryId": 6,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 35,
+    "Name": "Fanless",
+    "CategoryId": 6,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 36,
+    "Name": "CPU Socket",
+    "CategoryId": 6,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 37,
+    "Name": "Color",
+    "CategoryId": 6,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 38,
+    "Name": "Socket / CPU",
+    "CategoryId": 7,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 39,
+    "Name": "Form Factor",
+    "CategoryId": 7,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 40,
+    "Name": "Chipset",
+    "CategoryId": 7,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 41,
+    "Name": "Memory Max",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 42,
+    "Name": "Memory Type",
+    "CategoryId": 7,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 43,
+    "Name": "Memory Slots",
+    "CategoryId": 7,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 44,
+    "Name": "Color",
+    "CategoryId": 7,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 45,
+    "Name": "SLI/CrossFire",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 46,
+    "Name": "PCIe x16 Slots",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 47,
+    "Name": "PCIe x8 Slots",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 48,
+    "Name": "PCIe x4 Slots",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 49,
+    "Name": "PCIe x1 Slots",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 50,
+    "Name": "PCI Slots",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 51,
+    "Name": "M.2 Slots",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 52,
+    "Name": "Mini-PCIe Slots",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 53,
+    "Name": "Half Mini-PCIe Slots",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 54,
+    "Name": "Mini-PCIe / mSATA Slots",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 55,
+    "Name": "mSATA Slots",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 56,
+    "Name": "SATA 6.0 Gb/s",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 57,
+    "Name": "Onboard Ethernet",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 58,
+    "Name": "Onboard Video",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 59,
+    "Name": "USB 2.0 Headers",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 60,
+    "Name": "USB 2.0 Headers (Single Port)",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 61,
+    "Name": "USB 3.2 Gen 1 Headers",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 62,
+    "Name": "USB 3.2 Gen 2 Headers",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 63,
+    "Name": "USB 3.2 Gen 2x2 Headers",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 64,
+    "Name": "Supports ECC",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 65,
+    "Name": "Wireless Networking",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 66,
+    "Name": "RAID Support",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 67,
+    "Name": "Memory Speed",
+    "CategoryId": 7,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 68,
+    "Name": "Speed",
+    "CategoryId": 8,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 69,
+    "Name": "Form Factor",
+    "CategoryId": 8,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 70,
+    "Name": "Modules",
+    "CategoryId": 8,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 71,
+    "Name": "Price / GB",
+    "CategoryId": 8,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 72,
+    "Name": "Color",
+    "CategoryId": 8,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 73,
+    "Name": "First Word Latency",
+    "CategoryId": 8,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 74,
+    "Name": "CAS Latency",
+    "CategoryId": 8,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 75,
+    "Name": "Voltage",
+    "CategoryId": 8,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 76,
+    "Name": "Timing",
+    "CategoryId": 8,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 77,
+    "Name": "ECC / Registered",
+    "CategoryId": 8,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 78,
+    "Name": "Heat Spreader",
+    "CategoryId": 8,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 79,
+    "Name": "Capacity",
+    "CategoryId": 9,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 80,
+    "Name": "Price / GB",
+    "CategoryId": 9,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 81,
+    "Name": "Type",
+    "CategoryId": 9,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 82,
+    "Name": "Cache",
+    "CategoryId": 9,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 83,
+    "Name": "Form Factor",
+    "CategoryId": 9,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 84,
+    "Name": "Interface",
+    "CategoryId": 9,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 85,
+    "Name": "NVME",
+    "CategoryId": 9,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 86,
+    "Name": "Model",
+    "CategoryId": 10,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 87,
+    "Name": "Chipset",
+    "CategoryId": 10,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 88,
+    "Name": "Memory",
+    "CategoryId": 10,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 89,
+    "Name": "Memory Type",
+    "CategoryId": 10,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 90,
+    "Name": "Core Clock",
+    "CategoryId": 10,
+    "Filter": false,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 91,
+    "Name": "Boost Clock",
+    "CategoryId": 10,
+    "Filter": false,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 92,
+    "Name": "Effective Memory Clock",
+    "CategoryId": 10,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 93,
+    "Name": "Interface",
+    "CategoryId": 10,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 94,
+    "Name": "Color",
+    "CategoryId": 10,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 95,
+    "Name": "Frame Sync",
+    "CategoryId": 10,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 96,
+    "Name": "Length",
+    "CategoryId": 10,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 97,
+    "Name": "TDP",
+    "CategoryId": 10,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 98,
+    "Name": "Case Expansion Slot Width",
+    "CategoryId": 10,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 99,
+    "Name": "Total Slot Width",
+    "CategoryId": 10,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 100,
+    "Name": "Cooling",
+    "CategoryId": 10,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 101,
+    "Name": "External Power",
+    "CategoryId": 10,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 102,
+    "Name": "HDMI Outputs",
+    "CategoryId": 10,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 103,
+    "Name": "DisplayPort Outputs",
+    "CategoryId": 10,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 104,
+    "Name": "HDMI 2.1a Outputs",
+    "CategoryId": 10,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 105,
+    "Name": "DisplayPort 1.4 Outputs",
+    "CategoryId": 10,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 106,
+    "Name": "DisplayPort 1.4a Outputs",
+    "CategoryId": 10,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 107,
+    "Name": "Model",
+    "CategoryId": 11,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 108,
+    "Name": "Type",
+    "CategoryId": 11,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 109,
+    "Name": "Efficiency Rating",
+    "CategoryId": 11,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 110,
+    "Name": "Wattage",
+    "CategoryId": 11,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 111,
+    "Name": "Length",
+    "CategoryId": 11,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 112,
+    "Name": "Modular",
+    "CategoryId": 11,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 113,
+    "Name": "Color",
+    "CategoryId": 11,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 114,
+    "Name": "Fanless",
+    "CategoryId": 11,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 115,
+    "Name": "ATX 4-Pin Connectors",
+    "CategoryId": 11,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 116,
+    "Name": "EPS 8-Pin Connectors",
+    "CategoryId": 11,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 117,
+    "Name": "PCIe 12+4-Pin 12VHPWR Connectors",
+    "CategoryId": 11,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 118,
+    "Name": "PCIe 12-Pin Connectors",
+    "CategoryId": 11,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 119,
+    "Name": "PCIe 8-Pin Connectors",
+    "CategoryId": 11,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 120,
+    "Name": "PCIe 6+2-Pin Connectors",
+    "CategoryId": 11,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 121,
+    "Name": "PCIe 6-Pin Connectors",
+    "CategoryId": 11,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 122,
+    "Name": "SATA Connectors",
+    "CategoryId": 11,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 123,
+    "Name": "Molex 4-Pin Connectors",
+    "CategoryId": 11,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 124,
+    "Name": "Type",
+    "CategoryId": 12,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 125,
+    "Name": "Color",
+    "CategoryId": 12,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 126,
+    "Name": "Power Supply",
+    "CategoryId": 12,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 127,
+    "Name": "Side Panel",
+    "CategoryId": 12,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 128,
+    "Name": "Power Supply Shroud",
+    "CategoryId": 12,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 129,
+    "Name": "Front Panel USB",
+    "CategoryId": 12,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 130,
+    "Name": "Motherboard Form Factor",
+    "CategoryId": 12,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 131,
+    "Name": "Maximum Video Card Length",
+    "CategoryId": 12,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 132,
+    "Name": "Drive Bays",
+    "CategoryId": 12,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 133,
+    "Name": "Expansion Slots",
+    "CategoryId": 12,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 134,
+    "Name": "Dimensions",
+    "CategoryId": 12,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 135,
+    "Name": "Volume",
+    "CategoryId": 12,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 136,
+    "Name": "Model",
+    "CategoryId": 13,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 137,
+    "Name": "Type",
+    "CategoryId": 13,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 138,
+    "Name": "Frequency Response",
+    "CategoryId": 13,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 139,
+    "Name": "Microphone",
+    "CategoryId": 13,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 140,
+    "Name": "Wireless",
+    "CategoryId": 13,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 141,
+    "Name": "Enclosure Type",
+    "CategoryId": 13,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 142,
+    "Name": "Color",
+    "CategoryId": 13,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 143,
+    "Name": "Active Noise Cancelling",
+    "CategoryId": 13,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 144,
+    "Name": "Connection",
+    "CategoryId": 13,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 145,
+    "Name": "Channels",
+    "CategoryId": 13,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 146,
+    "Name": "Impedance",
+    "CategoryId": 13,
+    "Filter": false,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 147,
+    "Name": "Sensitivity at 1 V RMS",
+    "CategoryId": 13,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 148,
+    "Name": "Cord Length",
+    "CategoryId": 13,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 149,
+    "Name": "Model",
+    "CategoryId": 14,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 150,
+    "Name": "Style",
+    "CategoryId": 14,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 151,
+    "Name": "Mechanical",
+    "CategoryId": 14,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 152,
+    "Name": "Switch Type",
+    "CategoryId": 14,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 153,
+    "Name": "Backlit",
+    "CategoryId": 14,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 154,
+    "Name": "Tenkeyless",
+    "CategoryId": 14,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 155,
+    "Name": "Connection Type",
+    "CategoryId": 14,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 156,
+    "Name": "Color",
+    "CategoryId": 14,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 157,
+    "Name": "Mouse Included",
+    "CategoryId": 14,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 158,
+    "Name": "Model",
+    "CategoryId": 15,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 159,
+    "Name": "Tracking Method",
+    "CategoryId": 15,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 160,
+    "Name": "Connection Type",
+    "CategoryId": 15,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 161,
+    "Name": "Maximum DPI",
+    "CategoryId": 15,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 162,
+    "Name": "Hand Orientation",
+    "CategoryId": 15,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 163,
+    "Name": "Color",
+    "CategoryId": 15,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 164,
+    "Name": "Model",
+    "CategoryId": 16,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 165,
+    "Name": "Configuration",
+    "CategoryId": 16,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 166,
+    "Name": "Total Wattage",
+    "CategoryId": 16,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 167,
+    "Name": "Frequency Response",
+    "CategoryId": 16,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 168,
+    "Name": "Power (Front, Each)",
+    "CategoryId": 16,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 169,
+    "Name": "Power (Center)",
+    "CategoryId": 16,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 170,
+    "Name": "Power (Rear, Each)",
+    "CategoryId": 16,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 171,
+    "Name": "Power (Subwoofer)",
+    "CategoryId": 16,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 172,
+    "Name": "Color",
+    "CategoryId": 16,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 173,
+    "Name": "Model",
+    "CategoryId": 17,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 174,
+    "Name": "Resolution",
+    "CategoryId": 17,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 175,
+    "Name": "Connection",
+    "CategoryId": 17,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 176,
+    "Name": "Focus Type",
+    "CategoryId": 17,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 177,
+    "Name": "Operating System",
+    "CategoryId": 17,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 178,
+    "Name": "FOV Angle",
+    "CategoryId": 17,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 179,
+    "Name": "Digital Zoom",
+    "CategoryId": 17,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 180,
+    "Name": "Privacy Shutter",
+    "CategoryId": 17,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 181,
+    "Name": "Built-In Lighting",
+    "CategoryId": 17,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 182,
+    "Name": "Automatic Lighting Adjust",
+    "CategoryId": 17,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 183,
+    "Name": "Supports Windows Hello",
+    "CategoryId": 17,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 184,
+    "Name": "Sensor Pixels",
+    "CategoryId": 17,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 185,
+    "Name": "Model",
+    "CategoryId": 18,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 186,
+    "Name": "Screen Size",
+    "CategoryId": 18,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 187,
+    "Name": "Resolution",
+    "CategoryId": 18,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 188,
+    "Name": "Refresh Rate",
+    "CategoryId": 18,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 189,
+    "Name": "Response Time (G2G)",
+    "CategoryId": 18,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 190,
+    "Name": "Panel Type",
+    "CategoryId": 18,
+    "Filter": true,
+    "InfoLevel": "Essential"
+  },
+  {
+    "Id": 191,
+    "Name": "Aspect Ratio",
+    "CategoryId": 18,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 192,
+    "Name": "Color",
+    "CategoryId": 18,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 193,
+    "Name": "Brightness",
+    "CategoryId": 18,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 194,
+    "Name": "Widescreen",
+    "CategoryId": 18,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 195,
+    "Name": "Curved Screen",
+    "CategoryId": 18,
+    "Filter": true,
+    "InfoLevel": null
+  },
+  {
+    "Id": 196,
+    "Name": "Frame Sync",
+    "CategoryId": 18,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 197,
+    "Name": "Built-in Speakers",
+    "CategoryId": 18,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 198,
+    "Name": "Viewing Angle",
+    "CategoryId": 18,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 199,
+    "Name": "Inputs",
+    "CategoryId": 18,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 200,
+    "Name": "HDR Tier",
+    "CategoryId": 18,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 201,
+    "Name": "Curvature Radius",
+    "CategoryId": 18,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 202,
+    "Name": "Response Time (MPRT)",
+    "CategoryId": 18,
+    "Filter": false,
+    "InfoLevel": null
+  },
+  {
+    "Id": 203,
+    "Name": "VESA Mounting",
+    "CategoryId": 18,
+    "Filter": false,
+    "InfoLevel": null
+  }
+]

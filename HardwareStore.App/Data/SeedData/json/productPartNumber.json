@@ -1,0 +1,472 @@
+[
+  {
+    "Id": 1,
+    "ProductId": 3,
+    "Number": "100-100000065BOX"
+  },
+  {
+    "Id": 2,
+    "ProductId": 4,
+    "Number": "100-100000910WOF"
+  },
+  {
+    "Id": 3,
+    "ProductId": 5,
+    "Number": "BX8071513700K"
+  },
+  {
+    "Id": 4,
+    "ProductId": 5,
+    "Number": "i7-13700K"
+  },
+  {
+    "Id": 5,
+    "ProductId": 6,
+    "Number": "100-100000063WOF"
+  },
+  {
+    "Id": 6,
+    "ProductId": 7,
+    "Number": "RR-212S-20PK-R2"
+  },
+  {
+    "Id": 7,
+    "ProductId": 8,
+    "Number": "MLW-D24M-A18PC-R2"
+  },
+  {
+    "Id": 8,
+    "ProductId": 9,
+    "Number": "BK022"
+  },
+  {
+    "Id": 9,
+    "ProductId": 10,
+    "Number": "CW-9060070-WW"
+  },
+  {
+    "Id": 10,
+    "ProductId": 11,
+    "Number": "B550 GAMING GEN3"
+  },
+  {
+    "Id": 11,
+    "ProductId": 11,
+    "Number": "7B86-050R"
+  },
+  {
+    "Id": 12,
+    "ProductId": 11,
+    "Number": "911-7B86-050"
+  },
+  {
+    "Id": 13,
+    "ProductId": 12,
+    "Number": "B650 AORUS ELITE AX"
+  },
+  {
+    "Id": 14,
+    "ProductId": 13,
+    "Number": "MAG B550 TOMAHAWK"
+  },
+  {
+    "Id": 15,
+    "ProductId": 13,
+    "Number": "7C91-001R"
+  },
+  {
+    "Id": 16,
+    "ProductId": 13,
+    "Number": "B550TMHWK"
+  },
+  {
+    "Id": 17,
+    "ProductId": 14,
+    "Number": "Z790 AORUS ELITE AX"
+  },
+  {
+    "Id": 18,
+    "ProductId": 15,
+    "Number": "CMK16GX4M2B3200C16"
+  },
+  {
+    "Id": 19,
+    "ProductId": 16,
+    "Number": "CMK32GX5M2B5600C36"
+  },
+  {
+    "Id": 20,
+    "ProductId": 17,
+    "Number": "CMW32GX4M2Z3600C18"
+  },
+  {
+    "Id": 21,
+    "ProductId": 18,
+    "Number": "F5-6000J3636F16GX2-TZ5RK"
+  },
+  {
+    "Id": 22,
+    "ProductId": 19,
+    "Number": "MZ-V8P2T0B/AM"
+  },
+  {
+    "Id": 23,
+    "ProductId": 19,
+    "Number": "MZ-V8P2T0BW"
+  },
+  {
+    "Id": 24,
+    "ProductId": 20,
+    "Number": "ST2000DM008"
+  },
+  {
+    "Id": 25,
+    "ProductId": 21,
+    "Number": "SA400S37/240G"
+  },
+  {
+    "Id": 26,
+    "ProductId": 22,
+    "Number": "CT4000P3SSD8"
+  },
+  {
+    "Id": 27,
+    "ProductId": 23,
+    "Number": "RTX3060Ventus2X12GOC"
+  },
+  {
+    "Id": 28,
+    "ProductId": 23,
+    "Number": "GeForce RTX 3060 VENTUS 2X 12G OC"
+  },
+  {
+    "Id": 29,
+    "ProductId": 23,
+    "Number": "V397-022R"
+  },
+  {
+    "Id": 30,
+    "ProductId": 23,
+    "Number": "912-V397-039"
+  },
+  {
+    "Id": 31,
+    "ProductId": 24,
+    "Number": "GV-N4070WF3OC-12GD"
+  },
+  {
+    "Id": 32,
+    "ProductId": 25,
+    "Number": "ROG-STRIX-RTX4090-O24G-GAMING"
+  },
+  {
+    "Id": 33,
+    "ProductId": 25,
+    "Number": "90YV0ID0-M0NA00"
+  },
+  {
+    "Id": 34,
+    "ProductId": 25,
+    "Number": "90YV0ID0-M0AA00"
+  },
+  {
+    "Id": 35,
+    "ProductId": 26,
+    "Number": "RTX3060Ventus3X12GOC"
+  },
+  {
+    "Id": 36,
+    "ProductId": 26,
+    "Number": "GeForce RTX 3060 VENTUS 3X 12G OC"
+  },
+  {
+    "Id": 37,
+    "ProductId": 26,
+    "Number": "V397-031R"
+  },
+  {
+    "Id": 38,
+    "ProductId": 26,
+    "Number": "G3060V3X12C"
+  },
+  {
+    "Id": 39,
+    "ProductId": 26,
+    "Number": "912-V397-038"
+  },
+  {
+    "Id": 40,
+    "ProductId": 27,
+    "Number": "CP-9020262-NA"
+  },
+  {
+    "Id": 41,
+    "ProductId": 27,
+    "Number": "CP-9020262-UK"
+  },
+  {
+    "Id": 42,
+    "ProductId": 27,
+    "Number": "CP-9020262-EU"
+  },
+  {
+    "Id": 43,
+    "ProductId": 27,
+    "Number": "CP-9020262-AU"
+  },
+  {
+    "Id": 44,
+    "ProductId": 28,
+    "Number": "PS-TPD-0600NNFAGU-2"
+  },
+  {
+    "Id": 45,
+    "ProductId": 29,
+    "Number": "MPG A650GF"
+  },
+  {
+    "Id": 46,
+    "ProductId": 29,
+    "Number": "306-7ZP0A11-CE0"
+  },
+  {
+    "Id": 47,
+    "ProductId": 30,
+    "Number": "100-W1-0500-KR"
+  },
+  {
+    "Id": 48,
+    "ProductId": 30,
+    "Number": "100-W1-0500-K2"
+  },
+  {
+    "Id": 49,
+    "ProductId": 30,
+    "Number": "100-W1-0500-K3"
+  },
+  {
+    "Id": 50,
+    "ProductId": 31,
+    "Number": "R-CC560-BKGAA4-G-1"
+  },
+  {
+    "Id": 51,
+    "ProductId": 32,
+    "Number": "CC-H51FB-01"
+  },
+  {
+    "Id": 52,
+    "ProductId": 33,
+    "Number": "PC-O11DEW"
+  },
+  {
+    "Id": 53,
+    "ProductId": 33,
+    "Number": "O11DEW"
+  },
+  {
+    "Id": 54,
+    "ProductId": 34,
+    "Number": "FD-C-NOR1C-02"
+  },
+  {
+    "Id": 55,
+    "ProductId": 35,
+    "Number": "KHX-HSCP-RD"
+  },
+  {
+    "Id": 56,
+    "ProductId": 35,
+    "Number": "4P5M0AA"
+  },
+  {
+    "Id": 57,
+    "ProductId": 36,
+    "Number": "RZ04-03240100-R3U1"
+  },
+  {
+    "Id": 58,
+    "ProductId": 37,
+    "Number": "981-000817"
+  },
+  {
+    "Id": 59,
+    "ProductId": 38,
+    "Number": "RZ04-02980200-R3M1"
+  },
+  {
+    "Id": 60,
+    "ProductId": 38,
+    "Number": "RZ04-02980200"
+  },
+  {
+    "Id": 61,
+    "ProductId": 39,
+    "Number": "CH-910D019-NA"
+  },
+  {
+    "Id": 62,
+    "ProductId": 40,
+    "Number": "920-002478"
+  },
+  {
+    "Id": 63,
+    "ProductId": 40,
+    "Number": "920-002479"
+  },
+  {
+    "Id": 64,
+    "ProductId": 41,
+    "Number": "RZ03-03390300-R3M1"
+  },
+  {
+    "Id": 65,
+    "ProductId": 42,
+    "Number": "RZ03-03490200-R3U1"
+  },
+  {
+    "Id": 66,
+    "ProductId": 43,
+    "Number": "910-005469"
+  },
+  {
+    "Id": 67,
+    "ProductId": 44,
+    "Number": "RZ01-04000100-R3U1"
+  },
+  {
+    "Id": 68,
+    "ProductId": 45,
+    "Number": "RZ01-03850200-R3U1"
+  },
+  {
+    "Id": 69,
+    "ProductId": 45,
+    "Number": "RZ01-03850200-R3M1"
+  },
+  {
+    "Id": 70,
+    "ProductId": 45,
+    "Number": "RZ01-03850200-R3G1"
+  },
+  {
+    "Id": 71,
+    "ProductId": 45,
+    "Number": "RZ01-03850200-R3A1"
+  },
+  {
+    "Id": 72,
+    "ProductId": 46,
+    "Number": "RZ01-03250100-R3U1"
+  },
+  {
+    "Id": 73,
+    "ProductId": 46,
+    "Number": "RZ01-03250100-R3M1"
+  },
+  {
+    "Id": 74,
+    "ProductId": 47,
+    "Number": "980-000800"
+  },
+  {
+    "Id": 75,
+    "ProductId": 47,
+    "Number": "980-000810"
+  },
+  {
+    "Id": 76,
+    "ProductId": 47,
+    "Number": "980-000812"
+  },
+  {
+    "Id": 77,
+    "ProductId": 48,
+    "Number": "980-000467"
+  },
+  {
+    "Id": 78,
+    "ProductId": 49,
+    "Number": "RZ05-03920100-R3U1"
+  },
+  {
+    "Id": 79,
+    "ProductId": 49,
+    "Number": "RZ05-03920100-R3M1"
+  },
+  {
+    "Id": 80,
+    "ProductId": 50,
+    "Number": "MF8375"
+  },
+  {
+    "Id": 81,
+    "ProductId": 51,
+    "Number": "960-001105"
+  },
+  {
+    "Id": 82,
+    "ProductId": 52,
+    "Number": "RZ19-04420100-R3U1"
+  },
+  {
+    "Id": 83,
+    "ProductId": 52,
+    "Number": "RZ19-04420100-R3M1"
+  },
+  {
+    "Id": 84,
+    "ProductId": 53,
+    "Number": "VG27AQ"
+  },
+  {
+    "Id": 85,
+    "ProductId": 53,
+    "Number": "90LM0500-B01370"
+  },
+  {
+    "Id": 86,
+    "ProductId": 53,
+    "Number": "90LM0500-B03370"
+  },
+  {
+    "Id": 87,
+    "ProductId": 54,
+    "Number": "LC27G75TQSUXEN"
+  },
+  {
+    "Id": 88,
+    "ProductId": 54,
+    "Number": "LC27G75TQSNXZA"
+  },
+  {
+    "Id": 89,
+    "ProductId": 54,
+    "Number": "LC27G75TQSRXEN"
+  },
+  {
+    "Id": 90,
+    "ProductId": 55,
+    "Number": "C27G2Z"
+  },
+  {
+    "Id": 91,
+    "ProductId": 56,
+    "Number": "960-000694"
+  },
+  {
+    "Id": 92,
+    "ProductId": 57,
+    "Number": "RZ19-02320100-R3U1"
+  },
+  {
+    "Id": 93,
+    "ProductId": 58,
+    "Number": "27GR75Q-B"
+  },
+  {
+    "Id": 94,
+    "ProductId": 58,
+    "Number": "27GR75Q-B.AEU"
+  }
+]

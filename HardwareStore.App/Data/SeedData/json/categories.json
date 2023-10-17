@@ -1,0 +1,86 @@
+[
+  {
+    "Id": 5,
+    "Name": "Processor",
+    "FilePath": "Images/Layout/nav-cpu.png",
+    "Url": null
+  },
+  {
+    "Id": 6,
+    "Name": "Cooler",
+    "FilePath": "Images/Layout/nav-cpucooler.png",
+    "Url": null
+  },
+  {
+    "Id": 7,
+    "Name": "Motherboard",
+    "FilePath": "Images/Layout/nav-motherboard.png",
+    "Url": null
+  },
+  {
+    "Id": 8,
+    "Name": "Memory",
+    "FilePath": "Images/Layout/nav-memory.png",
+    "Url": null
+  },
+  {
+    "Id": 9,
+    "Name": "Storage",
+    "FilePath": "Images/Layout/nav-ssd.png",
+    "Url": null
+  },
+  {
+    "Id": 10,
+    "Name": "Video Card",
+    "FilePath": "Images/Layout/nav-videocard.png",
+    "Url": null
+  },
+  {
+    "Id": 11,
+    "Name": "Power Supply",
+    "FilePath": "Images/Layout/nav-powersupply.png",
+    "Url": null
+  },
+  {
+    "Id": 12,
+    "Name": "Case",
+    "FilePath": "Images/Layout/nav-case.png",
+    "Url": null
+  },
+  {
+    "Id": 13,
+    "Name": "Headphones",
+    "FilePath": "Images/Layout/nav-headphones.jpg",
+    "Url": null
+  },
+  {
+    "Id": 14,
+    "Name": "Keyboard",
+    "FilePath": "Images/Layout/nav-kb.jpg",
+    "Url": null
+  },
+  {
+    "Id": 15,
+    "Name": "Mouse",
+    "FilePath": "Images/Layout/nav-mouse.png",
+    "Url": null
+  },
+  {
+    "Id": 16,
+    "Name": "Speakers",
+    "FilePath": "Images/Layout/nav-sp.jpg",
+    "Url": null
+  },
+  {
+    "Id": 17,
+    "Name": "Webcam",
+    "FilePath": "Images/Layout/nav-wc.jpg",
+    "Url": null
+  },
+  {
+    "Id": 18,
+    "Name": "Monitor",
+    "FilePath": "Images/Layout/nav-mon.jpg",
+    "Url": null
+  }
+]

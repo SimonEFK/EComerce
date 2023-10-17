@@ -1,0 +1,102 @@
+[
+  {
+    "Id": 3,
+    "Name": "AMD"
+  },
+  {
+    "Id": 4,
+    "Name": "Intel"
+  },
+  {
+    "Id": 5,
+    "Name": "Coooler Master"
+  },
+  {
+    "Id": 6,
+    "Name": "be quiet!"
+  },
+  {
+    "Id": 7,
+    "Name": "Corsair"
+  },
+  {
+    "Id": 8,
+    "Name": "MSI"
+  },
+  {
+    "Id": 9,
+    "Name": "Gigabyte"
+  },
+  {
+    "Id": 10,
+    "Name": "G.Skill"
+  },
+  {
+    "Id": 11,
+    "Name": "Samsung"
+  },
+  {
+    "Id": 12,
+    "Name": "Seagate"
+  },
+  {
+    "Id": 13,
+    "Name": "Kingston"
+  },
+  {
+    "Id": 14,
+    "Name": "Cruical"
+  },
+  {
+    "Id": 15,
+    "Name": "Asus"
+  },
+  {
+    "Id": 16,
+    "Name": "Thremaltake"
+  },
+  {
+    "Id": 17,
+    "Name": "EVGA"
+  },
+  {
+    "Id": 18,
+    "Name": "Deepcool"
+  },
+  {
+    "Id": 19,
+    "Name": "NZXT"
+  },
+  {
+    "Id": 20,
+    "Name": "Lian Li"
+  },
+  {
+    "Id": 21,
+    "Name": "Fractal Design"
+  },
+  {
+    "Id": 22,
+    "Name": "HP"
+  },
+  {
+    "Id": 23,
+    "Name": "Razer"
+  },
+  {
+    "Id": 24,
+    "Name": "Logitech"
+  },
+  {
+    "Id": 25,
+    "Name": "Creative Labs"
+  },
+  {
+    "Id": 26,
+    "Name": "AOC"
+  },
+  {
+    "Id": 27,
+    "Name": "LG"
+  }
+]

@@ -1,0 +1,394 @@
+[
+  {
+    "Id": 3,
+    "Name": "AMD Ryzen 5 5600X",
+    "NameDetailed": "AMD Ryzen 5 5600X 3.7 GHz 6-Core Processor",
+    "CategoryId": 5,
+    "ManufacturerId": 3
+  },
+  {
+    "Id": 4,
+    "Name": "AMD Ryzen 7 7800X3D",
+    "NameDetailed": "AMD Ryzen 7 7800X3D 4.2 GHz 8-Core Processor",
+    "CategoryId": 5,
+    "ManufacturerId": 3
+  },
+  {
+    "Id": 5,
+    "Name": "Intel Core i7-13700K",
+    "NameDetailed": "Intel Core i7-13700K 3.4 GHz 16-Core Processor",
+    "CategoryId": 5,
+    "ManufacturerId": 4
+  },
+  {
+    "Id": 6,
+    "Name": "AMD Ryzen 7 5800X",
+    "NameDetailed": "AMD Ryzen 7 5800X 3.8 GHz 8-Core Processor",
+    "CategoryId": 5,
+    "ManufacturerId": 3
+  },
+  {
+    "Id": 7,
+    "Name": "Cooler Master Hyper 212 Black Edition",
+    "NameDetailed": "Cooler Master Hyper 212 Black Edition 42 CFM CPU Cooler",
+    "CategoryId": 6,
+    "ManufacturerId": 5
+  },
+  {
+    "Id": 8,
+    "Name": "Cooler Master MASTERLIQUID ML240L RGB V2",
+    "NameDetailed": "Cooler Master MASTERLIQUID ML240L RGB V2 65.59 CFM Liquid CPU Cooler",
+    "CategoryId": 6,
+    "ManufacturerId": 5
+  },
+  {
+    "Id": 9,
+    "Name": "be quiet! Dark Rock Pro 4",
+    "NameDetailed": "be quiet! Dark Rock Pro 4 50.5 CFM CPU Cooler",
+    "CategoryId": 6,
+    "ManufacturerId": 6
+  },
+  {
+    "Id": 10,
+    "Name": "Corsair iCUE H150i ELITE CAPELLIX XT",
+    "NameDetailed": "Corsair iCUE H150i ELITE CAPELLIX XT 65.57 CFM Liquid CPU Cooler",
+    "CategoryId": 6,
+    "ManufacturerId": 7
+  },
+  {
+    "Id": 11,
+    "Name": "MSI B550 GAMING GEN3",
+    "NameDetailed": "MSI B550 GAMING GEN3 ATX AM4 Motherboard",
+    "CategoryId": 7,
+    "ManufacturerId": 8
+  },
+  {
+    "Id": 12,
+    "Name": "Gigabyte B650 AORUS ELITE AX",
+    "NameDetailed": "Gigabyte B650 AORUS ELITE AX ATX AM5 Motherboard",
+    "CategoryId": 7,
+    "ManufacturerId": 9
+  },
+  {
+    "Id": 13,
+    "Name": "MSI MAG B550 TOMAHAWK",
+    "NameDetailed": "MSI MAG B550 TOMAHAWK ATX AM4 Motherboard",
+    "CategoryId": 7,
+    "ManufacturerId": 8
+  },
+  {
+    "Id": 14,
+    "Name": "Gigabyte Z790 AORUS ELITE AX",
+    "NameDetailed": "Gigabyte Z790 AORUS ELITE AX ATX LGA1700 Motherboard",
+    "CategoryId": 7,
+    "ManufacturerId": 9
+  },
+  {
+    "Id": 15,
+    "Name": "Corsair Vengeance LPX 16 GB",
+    "NameDetailed": "Corsair Vengeance LPX 16 GB (2 x 8 GB) DDR4-3200 CL16 Memory",
+    "CategoryId": 8,
+    "ManufacturerId": 7
+  },
+  {
+    "Id": 16,
+    "Name": "Corsair Vengeance 32 GB",
+    "NameDetailed": "Corsair Vengeance 32 GB (2 x 16 GB) DDR5-5600 CL36 Memory",
+    "CategoryId": 8,
+    "ManufacturerId": 7
+  },
+  {
+    "Id": 17,
+    "Name": "Corsair Vengeance RGB Pro 32 GB",
+    "NameDetailed": "Corsair Vengeance RGB Pro 32 GB (2 x 16 GB) DDR4-3600 CL18 Memory",
+    "CategoryId": 8,
+    "ManufacturerId": 7
+  },
+  {
+    "Id": 18,
+    "Name": "G.Skill Trident Z5 RGB 32 GB",
+    "NameDetailed": "G.Skill Trident Z5 RGB 32 GB (2 x 16 GB) DDR5-6000 CL36 Memory",
+    "CategoryId": 8,
+    "ManufacturerId": 10
+  },
+  {
+    "Id": 19,
+    "Name": "Samsung 980 Pro",
+    "NameDetailed": "Samsung 980 Pro 2 TB M.2-2280 PCIe 4.0 X4 NVME Solid State Drive",
+    "CategoryId": 9,
+    "ManufacturerId": 11
+  },
+  {
+    "Id": 20,
+    "Name": "Seagate Barracuda Compute",
+    "NameDetailed": "Seagate Barracuda Compute 2 TB 3.5\" 7200 RPM Internal Hard Drive",
+    "CategoryId": 9,
+    "ManufacturerId": 12
+  },
+  {
+    "Id": 21,
+    "Name": "Kingston A400",
+    "NameDetailed": "Kingston A400 240 GB 2.5\" Solid State Drive",
+    "CategoryId": 9,
+    "ManufacturerId": 13
+  },
+  {
+    "Id": 22,
+    "Name": "Crucial P3",
+    "NameDetailed": "Crucial P3 4 TB M.2-2280 PCIe 3.0 X4 NVME Solid State Drive",
+    "CategoryId": 9,
+    "ManufacturerId": 14
+  },
+  {
+    "Id": 23,
+    "Name": "MSI GeForce RTX 3060 Ventus 2X 12G",
+    "NameDetailed": "MSI GeForce RTX 3060 Ventus 2X 12G GeForce RTX 3060 12GB 12 GB Video Card",
+    "CategoryId": 10,
+    "ManufacturerId": 8
+  },
+  {
+    "Id": 24,
+    "Name": "Gigabyte WINDFORCE OC",
+    "NameDetailed": "Gigabyte WINDFORCE OC GeForce RTX 4070 12 GB Video Card",
+    "CategoryId": 10,
+    "ManufacturerId": 9
+  },
+  {
+    "Id": 25,
+    "Name": "Asus ROG STRIX GAMING OC",
+    "NameDetailed": "Asus ROG STRIX GAMING OC GeForce RTX 4090 24 GB Video Card",
+    "CategoryId": 10,
+    "ManufacturerId": 15
+  },
+  {
+    "Id": 26,
+    "Name": "MSI RTX 3060 Ventus 3X 12G OC",
+    "NameDetailed": "MSI RTX 3060 Ventus 3X 12G OC GeForce RTX 3060 12GB 12 GB Video Card",
+    "CategoryId": 10,
+    "ManufacturerId": 8
+  },
+  {
+    "Id": 27,
+    "Name": "Corsair RM750e (2023)",
+    "NameDetailed": "Corsair RM750e (2023) 750 W 80+ Gold Certified Fully Modular ATX Power Supply",
+    "CategoryId": 11,
+    "ManufacturerId": 7
+  },
+  {
+    "Id": 28,
+    "Name": "Thermaltake Toughpower GX2",
+    "NameDetailed": "Thermaltake Toughpower GX2 600 W 80+ Gold Certified ATX Power Supply",
+    "CategoryId": 11,
+    "ManufacturerId": 16
+  },
+  {
+    "Id": 29,
+    "Name": "MSI MPG A650GF",
+    "NameDetailed": "MSI MPG A650GF 650 W 80+ Gold Certified Fully Modular ATX Power Supply",
+    "CategoryId": 11,
+    "ManufacturerId": 8
+  },
+  {
+    "Id": 30,
+    "Name": "EVGA 500 W1",
+    "NameDetailed": "EVGA 500 W1 500 W 80+ Certified ATX Power Supply",
+    "CategoryId": 11,
+    "ManufacturerId": 17
+  },
+  {
+    "Id": 31,
+    "Name": "Deepcool CC560",
+    "NameDetailed": "Deepcool CC560 ATX Mid Tower Case",
+    "CategoryId": 12,
+    "ManufacturerId": 18
+  },
+  {
+    "Id": 32,
+    "Name": "NZXT H5 Flow",
+    "NameDetailed": "NZXT H5 Flow ATX Mid Tower Case",
+    "CategoryId": 12,
+    "ManufacturerId": 19
+  },
+  {
+    "Id": 33,
+    "Name": "Lian Li O11 Dynamic EVO",
+    "NameDetailed": "Lian Li O11 Dynamic EVO ATX Mid Tower Case",
+    "CategoryId": 12,
+    "ManufacturerId": 20
+  },
+  {
+    "Id": 34,
+    "Name": "Fractal Design North",
+    "NameDetailed": "Fractal Design North ATX Mid Tower Case",
+    "CategoryId": 12,
+    "ManufacturerId": 21
+  },
+  {
+    "Id": 35,
+    "Name": "HP HyperX Cloud II",
+    "NameDetailed": "HP HyperX Cloud II 7.1 Channel Headset",
+    "CategoryId": 13,
+    "ManufacturerId": 22
+  },
+  {
+    "Id": 36,
+    "Name": "Razer BlackShark V2 X",
+    "NameDetailed": "Razer BlackShark V2 X 7.1 Channel Headset",
+    "CategoryId": 13,
+    "ManufacturerId": 23
+  },
+  {
+    "Id": 37,
+    "Name": "Logitech Pro X",
+    "NameDetailed": "Logitech Pro X 7.1 Channel Headset",
+    "CategoryId": 13,
+    "ManufacturerId": 24
+  },
+  {
+    "Id": 38,
+    "Name": "Razer Kraken Kitty",
+    "NameDetailed": "Razer Kraken Kitty Headset",
+    "CategoryId": 13,
+    "ManufacturerId": 23
+  },
+  {
+    "Id": 39,
+    "Name": "Corsair K60 RGB Pro",
+    "NameDetailed": "Corsair K60 RGB Pro Wired Gaming Keyboard",
+    "CategoryId": 14,
+    "ManufacturerId": 7
+  },
+  {
+    "Id": 40,
+    "Name": "Logitech K120",
+    "NameDetailed": "Logitech K120 Wired Standard Keyboard",
+    "CategoryId": 14,
+    "ManufacturerId": 24
+  },
+  {
+    "Id": 41,
+    "Name": "Razer Huntsman Mini",
+    "NameDetailed": "Razer Huntsman Mini RGB Wired Mini Keyboard",
+    "CategoryId": 14,
+    "ManufacturerId": 23
+  },
+  {
+    "Id": 42,
+    "Name": "Razer BlackWidow V3",
+    "NameDetailed": "Razer BlackWidow V3 RGB Wired Gaming Keyboard",
+    "CategoryId": 14,
+    "ManufacturerId": 23
+  },
+  {
+    "Id": 43,
+    "Name": "Logitech G502 HERO",
+    "NameDetailed": "Logitech G502 HERO Wired Optical Mouse",
+    "CategoryId": 15,
+    "ManufacturerId": 24
+  },
+  {
+    "Id": 44,
+    "Name": "Razer Basilisk V3",
+    "NameDetailed": "Razer Basilisk V3 Wired Optical Mouse",
+    "CategoryId": 15,
+    "ManufacturerId": 23
+  },
+  {
+    "Id": 45,
+    "Name": "Razer DeathAdder Essential",
+    "NameDetailed": "Razer DeathAdder Essential Wired Optical Mouse",
+    "CategoryId": 15,
+    "ManufacturerId": 23
+  },
+  {
+    "Id": 46,
+    "Name": "Razer Viper Mini",
+    "NameDetailed": "Razer Viper Mini Wired Optical Mouse",
+    "CategoryId": 15,
+    "ManufacturerId": 23
+  },
+  {
+    "Id": 47,
+    "Name": "Logitech Z200",
+    "NameDetailed": "Logitech Z200 10 W Speakers",
+    "CategoryId": 16,
+    "ManufacturerId": 24
+  },
+  {
+    "Id": 48,
+    "Name": "Logitech Z906",
+    "NameDetailed": "Logitech Z906 500 W 5.1-Channel Speakers",
+    "CategoryId": 16,
+    "ManufacturerId": 24
+  },
+  {
+    "Id": 49,
+    "Name": "Razer Leviathan V2",
+    "NameDetailed": "Razer Leviathan V2 65 W 2.1-Channel Speakers",
+    "CategoryId": 16,
+    "ManufacturerId": 23
+  },
+  {
+    "Id": 50,
+    "Name": "Creative Labs Creative Stage V2",
+    "NameDetailed": "Creative Labs Creative Stage V2 80 W 2.1-Channel Speakers",
+    "CategoryId": 16,
+    "ManufacturerId": 25
+  },
+  {
+    "Id": 51,
+    "Name": "Logitech BRIO Ultra HD Pro",
+    "NameDetailed": "Logitech BRIO Ultra HD Pro Webcam",
+    "CategoryId": 17,
+    "ManufacturerId": 24
+  },
+  {
+    "Id": 52,
+    "Name": "Razer Kiyo Pro Ultra",
+    "NameDetailed": "Razer Kiyo Pro Ultra Webcam",
+    "CategoryId": 17,
+    "ManufacturerId": 23
+  },
+  {
+    "Id": 53,
+    "Name": "Asus TUF Gaming VG27AQ",
+    "NameDetailed": "Asus TUF Gaming VG27AQ 27.0\" 2560 x 1440 165 Hz Monitor",
+    "CategoryId": 18,
+    "ManufacturerId": 15
+  },
+  {
+    "Id": 54,
+    "Name": "Samsung Odyssey G7",
+    "NameDetailed": "Samsung Odyssey G7 27.0\" 2560 x 1440 240 Hz Curved Monitor",
+    "CategoryId": 18,
+    "ManufacturerId": 11
+  },
+  {
+    "Id": 55,
+    "Name": "AOC C27G2Z",
+    "NameDetailed": "AOC C27G2Z 27.0\" 1920 x 1080 240 Hz Curved Monitor",
+    "CategoryId": 18,
+    "ManufacturerId": 26
+  },
+  {
+    "Id": 56,
+    "Name": "Logitech C270",
+    "NameDetailed": "Logitech C270 Webcam",
+    "CategoryId": 17,
+    "ManufacturerId": 24
+  },
+  {
+    "Id": 57,
+    "Name": "Razer Kiyo",
+    "NameDetailed": "Razer Kiyo Webcam",
+    "CategoryId": 17,
+    "ManufacturerId": 23
+  },
+  {
+    "Id": 58,
+    "Name": "LG UltraGear",
+    "NameDetailed": "LG UltraGear 27.0\" 2560 x 1440 165 Hz Monitor",
+    "CategoryId": 18,
+    "ManufacturerId": 27
+  }
+]
