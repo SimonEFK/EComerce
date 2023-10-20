@@ -1,0 +1,37 @@
+﻿@model ICollection<ProductExtendedModel>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-lg-6">
+        <div class="row flex-column">
+            <div class="col">
+                @foreach (var product in this.Model.Take(12))
+                {
+                    <partial name="_ProductCardPartial" model="@product" />
+                }
+            </div>
+            <div class="col">
+                <nav aria-label="...">
+                    <ul class="pagination">
+                        <li class="page-item disabled">
+                            <span class="page-link">Previous</span>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item active">
+                            <span class="page-link">
+                                2
+                                <span class="sr-only">(current)</span>
+                            </span>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+
+</div>
