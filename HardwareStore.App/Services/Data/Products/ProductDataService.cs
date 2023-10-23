@@ -3,14 +3,15 @@
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using HardwareStore.App.Data;
-    using HardwareStore.App.Models.Product;
+    using HardwareStore.App.Data.Models;
     using Microsoft.EntityFrameworkCore;
-    using System.Net.NetworkInformation;
 
     public class ProductDataService : IProductDataService
     {
         private readonly ApplicationDbContext dbContext;
         private readonly IMapper mapper;
+
+        public int PageSize { get; set; }
 
         public ProductDataService(ApplicationDbContext dbContext, IMapper mapper)
         {
@@ -18,16 +19,45 @@
             this.mapper = mapper;
         }
 
-        public async Task<ICollection<TModel>> GetProducts<TModel>(string category)
+        public async Task<ICollection<TModel>> GetProducts<TModel>(string? category, int pageNumber = 1)
         {
+            var productsQuery = dbContext.Products.AsQueryable();
 
-            var productQuery = dbContext.Products.Where(x => x.Category.Name == category).AsQueryable();
+            if (category is not null)
+            {
+                productsQuery = productsQuery.Where(x => x.Category.Name == category).AsQueryable();
+            }
 
-            var products = await productQuery
+
+            var products = await Pagination(productsQuery, pageNumber)
                 .ProjectTo<TModel>(mapper.ConfigurationProvider)
                 .ToListAsync();
 
             return products;
+        }
+
+        private IQueryable<Product> Pagination(IQueryable<Product> productsQuery, int pageNumber)
+        {
+            var productCount = productsQuery.Count();
+            var itemsPerPage = 12;
+            var pageSize = (int)Math.Ceiling(productCount / (double)itemsPerPage);
+            PageSize = pageSize;
+
+            if (pageNumber > pageSize)
+            {
+                pageNumber = pageSize;
+            }
+            if (pageNumber <= 0)
+            {
+                pageNumber = 1;
+            }
+
+            var skipAmount = (pageNumber - 1) * itemsPerPage;
+            var takeAmount = itemsPerPage;
+
+            return productsQuery
+                            .Skip(skipAmount)
+                            .Take(takeAmount);
         }
     }
 }

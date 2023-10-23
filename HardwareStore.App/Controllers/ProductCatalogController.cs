@@ -1,6 +1,8 @@
 ﻿namespace HardwareStore.App.Controllers
 {
+    using HardwareStore.App.Models;
     using HardwareStore.App.Models.Product;
+    using HardwareStore.App.Models.ProductCatalog;
     using HardwareStore.App.Services.Data.Products;
     using Microsoft.AspNetCore.Mvc;
     [Route("catalog/{action=index}")]
@@ -21,11 +23,21 @@
 
 
         [HttpGet]
-        [Route("{category}")]
-        public async Task<IActionResult> Products(string category)
+        [Route("{category}/{page?}")]
+        public async Task<IActionResult> Products(string? category, int page = 1)
         {
-            var products = await this.productDataService.GetProducts<ProductExtendedModel>(category);
-            return View(products);
+            var products = await this.productDataService.GetProducts<ProductExtendedModel>(category, page);
+            var paginationModel = new PaginationModel
+            {
+                Page = page,
+                PageSize = this.productDataService.PageSize
+            };
+            var catalogModel = new ProductCatalogModel
+            {
+                Products = products,
+                Pagination = paginationModel
+            };
+            return View(catalogModel);
         }
     }
 }
