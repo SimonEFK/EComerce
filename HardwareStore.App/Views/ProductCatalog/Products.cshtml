@@ -2,7 +2,38 @@
 @model ProductCatalogModel
 
 <div class="row">
-    <div class="col-md-2"></div>
+</div>
+<div class="row">
+
+    <div class="col-md-3">
+        <form id="filterForm" method="get" asp-controller="ProductCatalog" asp-action="Products" asp-route-category="@this.TempData["Category"]">
+            @{
+                var selectedM = TempData["selectedSpecs"] as List<int>;
+            }
+            <ul class="list-group">
+                @foreach (var filter in this.Model.ProductFilters.Specifications)
+                {
+                    <li class="list-group-item">
+                        <span>@filter.Name</span>
+                        @foreach (var value in filter.Values)
+                        {
+                            <div class="form-check">
+                                @if (selectedM is not null && selectedM.Contains(value.Id))
+                                {
+                                    <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss" checked>
+                                }
+                                else
+                                {
+                                    <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss">
+                                }
+                                <label class="form-check-label" for="@value.Id">@value.Value</label>
+                            </div>
+                        }
+                    </li>
+                }
+            </ul>
+        </form>
+    </div>
     <div class="col-lg-6">
         <div class="row flex-column">
             <div class="col">
@@ -38,5 +69,16 @@
 
         </div>
     </div>
-
 </div>
+@section Scripts{
+    <script>
+        let filterForm = document.querySelector('#filterForm');
+        filterForm.addEventListener('click', SubmitForm);
+
+        function SubmitForm(event) {
+            if (event.target.type == "checkbox") {
+                filterForm.submit();
+            }
+        };
+    </script>
+}

@@ -3,6 +3,7 @@
     using AutoMapper;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Product;
+    using HardwareStore.App.Models.ProductFilter;
 
     public class MappingProfile : Profile
     {
@@ -16,6 +17,10 @@
 
             this.CreateMap<ProductSpecificationValues, ProductSpecifications>().ForMember(x => x.Name, cfg => cfg.MapFrom(c => c.SpecificationValue.Specification.Name))
                 .ForMember(x => x.Value, cfg => cfg.MapFrom(x => x.SpecificationValue.Value));
+
+
+            this.CreateMap<Specification, SpecificationFilterOption>();
+            this.CreateMap<SpecificationValue, SpecificationValueOption>();
 
         }
     }
