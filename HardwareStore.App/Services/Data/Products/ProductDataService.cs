@@ -32,7 +32,6 @@
             {
                 productsQuery = productsQuery.Where(x => x.NameDetailed.Contains(searchString) || x.Name.Contains(searchString)).AsQueryable();
             }
-
             if (selectedSpecsIds.Count > 0)
             {
                 productsQuery = productsQuery
@@ -40,7 +39,6 @@
                         .Any(specification => selectedSpecsIds
                         .Contains(specification.SpecificationValueId)));
             }
-
 
             var products = await Pagination(productsQuery, pageNumber)
                 .ProjectTo<TModel>(mapper.ConfigurationProvider)

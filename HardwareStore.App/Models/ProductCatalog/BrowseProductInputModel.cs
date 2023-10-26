@@ -12,7 +12,7 @@
 
         [BindProperty(Name = "s")]
 
-        public string SearchString { get; set; }
+        public string? SearchString { get; set; }
 
         [BindProperty(Name = "ss")]
         public HashSet<int> SpecificationIds { get; set; } = new HashSet<int>();

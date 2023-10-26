@@ -21,7 +21,6 @@
 
         public IActionResult Index()
         {
-            ;
             return View();
         }
         public async Task<IActionResult> TestSpecificationService(string category)
@@ -31,20 +30,27 @@
         }
 
         [HttpGet]
-        [Route("{category}/{page?}")]
+        [Route("{category?}/{page?}")]
         public async Task<IActionResult> Products(BrowseProductInputModel model)
         {
             var products = await this.productDataService.GetProducts<ProductExtendedModel>(model.SpecificationIds, model.SearchString, model.Category, model.Page);
-            var specFilters = await this.productFilterService.GenerateSpecificationOptions(model.Category);
+            var filterModel = new FilterModel();
+            if (model.Category is not null)
+            {
+                var specFilters = await this.productFilterService.GenerateSpecificationOptions(model.Category);
+                var category = TempData["Category"] = model.Category;
+                filterModel.Specifications = specFilters;
 
+            }
+            if (model.SpecificationIds.Count > 0)
+            {
+                TempData["selectedSpecs"] = model.SpecificationIds.ToList();
+
+            }
             var paginationModel = new PaginationModel
             {
                 Page = model.Page,
                 PageSize = this.productDataService.PageSize
-            };
-            var filterModel = new FilterModel
-            {
-                Specifications = specFilters
             };
             var catalogModel = new ProductCatalogModel
             {
@@ -53,8 +59,6 @@
                 ProductFilters = filterModel
             };
 
-            var category = TempData["Category"] = model.Category;
-            TempData["selectedSpecs"] = model.SpecificationIds.ToList();
             return View(catalogModel);
         }
     }

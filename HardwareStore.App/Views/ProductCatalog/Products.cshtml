@@ -1,7 +1,11 @@
 ﻿@using HardwareStore.App.Models.ProductCatalog;
 @model ProductCatalogModel
 
-<div class="row">
+<div class="row mb-5 justify-content-center">
+    <div class="col-lg-6 d-flex gap-3">
+        <input id="searchInput" class="form-control" placeholder="Search..." />
+        <button id="searchSubmitBtn" class="btn btn-info">Search</button>
+    </div>
 </div>
 <div class="row">
 
@@ -80,5 +84,17 @@
                 filterForm.submit();
             }
         };
+
+        let searchSubmitBtn = document.querySelector('#searchSubmitBtn');
+        searchSubmitBtn.addEventListener('click', (event) => {
+            let searchInputElement = document.querySelector('#searchInput');
+            let value = searchInputElement.value;
+            let formAction = filterForm.getAttribute('action');
+            console.log(formAction);
+            console.log(value);
+
+            let url = `https://localhost:7082/catalog/Products/?s=${value}`;
+            window.location.href = url;
+        })
     </script>
 }
