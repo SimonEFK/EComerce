@@ -7,7 +7,7 @@
         [FromRoute]
         public string Category { get; set; }
 
-        [FromRoute]
+        [FromQuery]
         public int Page { get; set; } = 1;
 
         [BindProperty(Name = "s")]

@@ -30,7 +30,7 @@
         }
 
         [HttpGet]
-        [Route("{category?}/{page?}")]
+        [Route("{category?}")]
         public async Task<IActionResult> Products(BrowseProductInputModel model)
         {
             var products = await this.productDataService.GetProducts<ProductExtendedModel>(model.SpecificationIds, model.SearchString, model.Category, model.Page);
