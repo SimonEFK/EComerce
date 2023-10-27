@@ -5,8 +5,6 @@
     using HardwareStore.App.Models.Product;
     using HardwareStore.App.Models.ProductCatalog;
     using HardwareStore.App.Models.ProductFilter;
-    using HardwareStore.App.Services.Data;
-    using HardwareStore.App.Services.Data.Products;
     using HardwareStore.App.Services.ProductCatalog;
     using Microsoft.AspNetCore.Mvc;
     [Route("Catalog")]
@@ -36,6 +34,11 @@
                 model.SearchString,
                 model.SortOrder,
                 model.Page);
+
+            if (products.Count == 0)
+            {
+                return RedirectToAction(nameof(Index));
+            }
 
             var filterModel = new FilterModel()
             {
@@ -78,7 +81,12 @@
         [Route("/ComponentDetail/{id}")]
         public async Task<IActionResult> ComponentDetail([FromRoute] int id)
         {
+
             var product = await productCatalogService.GetProductById<ProductDetailedModel>(id);
+            if (product is null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
             return View(product);
         }
     }
