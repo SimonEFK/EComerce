@@ -19,6 +19,10 @@
                 .ForMember(x => x.Value, cfg => cfg.MapFrom(x => x.SpecificationValue.Value));
 
 
+            this.CreateMap<Product, ProductDetailedModel>()
+                .ForMember(product => product.ImagesUrls,
+                config => config.MapFrom(source => source.Images.Select(y => y.FilePath ?? y.Url).ToList()));
+
             this.CreateMap<Specification, SpecificationFilterOption>();
             this.CreateMap<SpecificationValue, SpecificationValueOption>();
 

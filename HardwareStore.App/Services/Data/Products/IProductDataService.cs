@@ -10,6 +10,7 @@
             string? searchString,
             string sortOrder = "newest",
             int pageNumber = 1);
+        Task<TModel?> GetProductById<TModel>(int id);
 
         public int PageSize { get; set; }
     }

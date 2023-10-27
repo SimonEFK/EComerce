@@ -7,7 +7,7 @@
     using HardwareStore.App.Services;
     using HardwareStore.App.Services.Data.Products;
     using Microsoft.AspNetCore.Mvc;
-    [Route("catalog/{action=index}")]
+    [Route("/catalog")]
     public class ProductCatalogController : Controller
     {
         private IProductDataService productDataService;
@@ -65,6 +65,14 @@
             }
 
             return View(catalogModel);
+        }
+
+        [HttpGet]
+        [Route("/{action}")]
+        public async Task<IActionResult> ComponentDetail(int id)
+        {
+            var product = await productDataService.GetProductById<ProductDetailedModel>(id);
+            return View(product);
         }
     }
 }

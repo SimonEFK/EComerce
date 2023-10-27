@@ -1,0 +1,83 @@
+﻿@model ProductDetailedModel
+<div class="product-title-container mb-3">
+    <h1 class="product-title p-lg-3">
+        @Model.NameDetailed
+    </h1>
+    <a href="/catalog/@this.Model.CategoryName">@this.Model.CategoryName</a>
+</div>
+<div class="row m-0">
+    <div class="product-specs col-md-5">
+        <span>Specifications</span>
+        <table class="table table-striped ">
+
+            <tbody>
+                @foreach (var item in this.Model.Specifications.OrderBy(x => x.Name).DistinctBy(x => x.Name))
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@string.Join(", ",this.Model.Specifications.Where(x=>x.Name==item.Name).Select(x=>x.Value))</td>
+                    </tr>
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4 me-2">
+        <div class="product-img-display">
+            <div class="product-img-display-container">
+                <img id="displayImg" src="~/@this.Model.ImagesUrls.FirstOrDefault()" />
+            </div>
+        </div>
+        @if (this.Model.ImagesUrls.Count > 1)
+        {
+            <hr />
+            <div class="product-gallery">
+                <div class="product-img-list" id="imgList">
+                    <ul>
+                        @foreach (var image in this.Model.ImagesUrls)
+                        {
+                            <li class="product-gallery-img-container">
+                                <img src="~/@image">
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+        }
+
+        <div class="row">
+            <div class="col">
+                <div class="extra-info-container">
+                    <p class="product-price">50.00</p>
+                    <div class="btn-container">
+                        <button type="submit" form="addToCartFrom" data-cartformsubmit data-product-Id="@this.Model.Id" class="btn btn-info">Add To Cart</button>
+                        <button class="btn btn-success">Add To Favorites</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        let imgList = document.querySelector('#imgList');
+        let displayImg = document.querySelector('#displayImg')
+        let imgContainers = document.querySelectorAll(".product-gallery-img-container");
+        imgList.addEventListener('click', ChangeImage);
+
+        function ChangeImage(event) {
+            if (event.target instanceof HTMLImageElement) {
+                let selectedImg = event.target.getAttribute("src");
+                displayImg.setAttribute("src", selectedImg);
+                imgContainers.forEach((element) => element.classList.remove('active'));
+                let selectedContainer = event.target.closest('.product-gallery-img-container');
+                selectedContainer.classList.add("active");
+            }
+        }
+
+    </script>
+}

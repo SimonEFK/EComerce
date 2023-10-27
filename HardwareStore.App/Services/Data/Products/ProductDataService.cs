@@ -20,6 +20,12 @@
             this.mapper = mapper;
         }
 
+        public async Task<TModel?> GetProductById<TModel>(int id)
+        {
+            var product = await dbContext.Products.Where(p => p.Id == id).ProjectTo<TModel>(mapper.ConfigurationProvider).FirstOrDefaultAsync();
+
+            return product;
+        }
         public async Task<ICollection<TModel>> GetProducts<TModel>(
             ICollection<int> selectedSpecsIds,
             string? category,
