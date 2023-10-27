@@ -1,27 +1,28 @@
 ﻿namespace HardwareStore.App.Controllers
 {
     using HardwareStore.App.Models;
+    using HardwareStore.App.Models.Category;
     using HardwareStore.App.Models.Product;
     using HardwareStore.App.Models.ProductCatalog;
     using HardwareStore.App.Models.ProductFilter;
-    using HardwareStore.App.Services;
+    using HardwareStore.App.Services.Data;
     using HardwareStore.App.Services.Data.Products;
+    using HardwareStore.App.Services.ProductCatalog;
     using Microsoft.AspNetCore.Mvc;
-    [Route("/catalog")]
+    [Route("Catalog")]
     public class ProductCatalogController : Controller
     {
-        private IProductDataService productDataService;
-        private IProductFilterService productFilterService;
+        private IProductCatalogService productCatalogService;
 
-        public ProductCatalogController(IProductDataService productDataService, IProductFilterService productFilterService)
+        public ProductCatalogController(IProductCatalogService productCatalogService)
         {
-            this.productDataService = productDataService;
-            this.productFilterService = productFilterService;
+            this.productCatalogService = productCatalogService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var categories = await productCatalogService.GetCategories<CategoryModel>();
+            return View(categories);
         }
 
 
@@ -29,16 +30,22 @@
         [Route("{category?}")]
         public async Task<IActionResult> Products(BrowseProductInputModel model)
         {
-            var products = await this.productDataService.GetProducts<ProductExtendedModel>(model.SpecificationIds, model.Category, model.SearchString, model.SortOrder, model.Page);
+            var products = await this.productCatalogService.GetProducts<ProductExtendedModel>(
+                model.SpecificationIds,
+                model.Category,
+                model.SearchString,
+                model.SortOrder,
+                model.Page);
 
-            var filterModel = new FilterModel();
+            var filterModel = new FilterModel()
+            {
+                SortOrder = productCatalogService.GenerateSortOrderOptions()
+            };
 
-            filterModel.SortOrder.Add("newest");
-            filterModel.SortOrder.Add("oldest");
             TempData["sortOrder"] = model.SortOrder;
             if (model.Category is not null)
             {
-                var specFilters = await this.productFilterService.GenerateSpecificationOptions(model.Category);
+                var specFilters = await this.productCatalogService.GenerateSpecificationOptions(model.Category);
                 var category = TempData["Category"] = model.Category;
                 filterModel.Specifications = specFilters;
 
@@ -51,7 +58,7 @@
             var paginationModel = new PaginationModel
             {
                 Page = model.Page,
-                PageSize = this.productDataService.PageSize
+                PageSize = this.productCatalogService.PageSize
             };
             var catalogModel = new ProductCatalogModel
             {
@@ -68,10 +75,10 @@
         }
 
         [HttpGet]
-        [Route("/{action}")]
-        public async Task<IActionResult> ComponentDetail(int id)
+        [Route("/ComponentDetail/{id}")]
+        public async Task<IActionResult> ComponentDetail([FromRoute] int id)
         {
-            var product = await productDataService.GetProductById<ProductDetailedModel>(id);
+            var product = await productCatalogService.GetProductById<ProductDetailedModel>(id);
             return View(product);
         }
     }

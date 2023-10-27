@@ -17,6 +17,15 @@
             this.mapper = mapper;
         }
 
+        public ICollection<string> GenerateSortOrderOptions()
+        {
+            var sortOrderOptions = new List<string>
+            {
+                "newest",
+                "oldest"
+            };
+            return sortOrderOptions;
+        }
         public async Task<ICollection<SpecificationFilterOption>> GenerateSpecificationOptions(string category)
         {
             ;

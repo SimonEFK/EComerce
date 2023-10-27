@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using HardwareStore.App.Data.Models;
+    using HardwareStore.App.Models.Category;
     using HardwareStore.App.Models.Product;
     using HardwareStore.App.Models.ProductFilter;
 
@@ -25,6 +26,8 @@
 
             this.CreateMap<Specification, SpecificationFilterOption>();
             this.CreateMap<SpecificationValue, SpecificationValueOption>();
+
+            this.CreateMap<Category, CategoryModel>().ForMember(x => x.Image, cfg => cfg.MapFrom(source => source.FilePath ?? source.Url));
 
         }
     }
