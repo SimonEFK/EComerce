@@ -17,5 +17,9 @@
         [BindProperty(Name = "ss")]
         public HashSet<int> SpecificationIds { get; set; } = new HashSet<int>();
 
+        [BindProperty(Name = "so")]
+
+        public string SortOrder { get; set; } = "newest";
+
     }
 }

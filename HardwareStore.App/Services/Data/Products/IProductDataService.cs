@@ -5,7 +5,11 @@
 
     public interface IProductDataService
     {
-        Task<ICollection<TModel>> GetProducts<TModel>(ICollection<int> selectedSpecificationsIds, string? category, string? searchString, int pageNumber = 1);
+        Task<ICollection<TModel>> GetProducts<TModel>(ICollection<int> selectedSpecificationsIds,
+            string? category,
+            string? searchString,
+            string sortOrder = "newest",
+            int pageNumber = 1);
 
         public int PageSize { get; set; }
     }

@@ -20,7 +20,12 @@
             this.mapper = mapper;
         }
 
-        public async Task<ICollection<TModel>> GetProducts<TModel>(ICollection<int> selectedSpecsIds, string? searchString, string? category, int pageNumber = 1)
+        public async Task<ICollection<TModel>> GetProducts<TModel>(
+            ICollection<int> selectedSpecsIds,
+            string? category,
+            string? searchString,
+            string sortOrder = "newest",
+            int pageNumber = 1)
         {
             var productsQuery = dbContext.Products.AsQueryable();
 
@@ -40,11 +45,32 @@
                         .Contains(specification.SpecificationValueId)));
             }
 
-            var products = await Pagination(productsQuery, pageNumber)
+            productsQuery = OrderQuery(productsQuery, sortOrder);
+            productsQuery = Pagination(productsQuery, pageNumber);
+
+            var products = await productsQuery
                 .ProjectTo<TModel>(mapper.ConfigurationProvider)
                 .ToListAsync();
 
             return products;
+        }
+
+        private static IQueryable<Product> OrderQuery(IQueryable<Product> productsQuery, string sortOrder)
+        {
+            switch (sortOrder)
+            {
+                case "newest":
+                    productsQuery = productsQuery.OrderBy(x => x.Id).AsQueryable();
+                    break;
+                case "oldest":
+                    productsQuery = productsQuery.OrderByDescending(x => x.Id).AsQueryable();
+                    break;
+                default:
+                    productsQuery = productsQuery.OrderBy(x => x.Id).AsQueryable();
+                    break;
+            }
+            return productsQuery;
+
         }
 
         private IQueryable<Product> Pagination(IQueryable<Product> productsQuery, int pageNumber)

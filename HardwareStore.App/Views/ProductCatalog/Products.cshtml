@@ -3,17 +3,34 @@
 
 <div class="row mb-5 justify-content-center">
     <div class="col-lg-6 d-flex gap-3">
-        <input id="searchInput" class="form-control" placeholder="Search..." />
+        <input id="searchInput" class="form-control" value="@TempData["SearchString"]" placeholder="Search..." />
         <button id="searchSubmitBtn" class="btn btn-info">Search</button>
     </div>
 </div>
 <div class="row">
 
     <div class="col-md-3">
+        <select id="sortProductsSelectMenu" class="form-select" aria-label="Default select example">
+            @foreach (var item in this.Model.ProductFilters.SortOrder)
+            {
+                if (item == TempData["sortOrder"].ToString())
+                {
+                    <option selected value="@item">@item</option>
+
+                }
+                else
+                {
+                    <option value="@item">@item</option>
+                }
+            }
+        </select>
         <form id="filterForm" method="get" asp-controller="ProductCatalog" asp-action="Products" asp-route-category="@this.TempData["Category"]">
             @{
                 var selectedM = TempData["selectedSpecs"] as List<int>;
             }
+            <input id="sortOrderHidden" type="hidden" name="so" value="newest" />
+            <input id="searchInputHidden" type="hidden" name="s" />
+            <input id="pageNumber" type="hidden" name="page" />
             <ul class="list-group">
                 @foreach (var filter in this.Model.ProductFilters.Specifications)
                 {
@@ -77,24 +94,43 @@
 @section Scripts{
     <script>
         let filterForm = document.querySelector('#filterForm');
-        filterForm.addEventListener('click', SubmitForm);
-
-        function SubmitForm(event) {
+        filterForm.addEventListener('click', (event) => {
             if (event.target.type == "checkbox") {
-                filterForm.submit();
+                SubmitForm();
             }
+        });
+
+        function SubmitForm() {
+            let searchStringInputElement = document.querySelector('#searchInput');
+            let orderSelectInput = document.querySelector('#sortProductsSelectMenu');
+
+
+            console.log(searchStringInputElement.value);
+            console.log(orderSelectInput.value);
+            document.querySelector('#sortOrderHidden').value = orderSelectInput.value;
+            document.querySelector('#searchInputHidden').value = searchStringInputElement.value;
+
+            filterForm.submit();
         };
 
         let searchSubmitBtn = document.querySelector('#searchSubmitBtn');
         searchSubmitBtn.addEventListener('click', (event) => {
-            let searchInputElement = document.querySelector('#searchInput');
-            let value = searchInputElement.value;
-            let formAction = filterForm.getAttribute('action');
-            console.log(formAction);
-            console.log(value);
-
-            let url = `https://localhost:7082/catalog/Products/?s=${value}`;
-            window.location.href = url;
+            SubmitForm();
         })
+
+        let sortProductsSelectMenu = document.querySelector('#sortProductsSelectMenu');
+        sortProductsSelectMenu.addEventListener('change', (event) => {
+            SubmitForm();
+        })
+
+        let pagiantion = document.querySelector('#pagination');
+        pagination.addEventListener('click', (event) => {
+            event.preventDefault();
+            if (event.target.matches('[data-pageNumber]')) {
+                document.querySelector('#pageNumber').value = event.target.dataset.pagenumber;
+                SubmitForm();
+            }
+        })
+
     </script>
 }
