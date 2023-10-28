@@ -1,6 +1,7 @@
 namespace HardwareStore.App
 {
     using HardwareStore.App.Data;
+    using HardwareStore.App.Data.Models;
     using HardwareStore.App.Services;
     using HardwareStore.App.Services.Data;
     using HardwareStore.App.Services.Data.Products;
@@ -20,8 +21,23 @@ namespace HardwareStore.App
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 3;
+                options.SignIn.RequireConfirmedAccount = false;
+            })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
+            });
+
             builder.Services.AddControllersWithViews();
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -29,6 +45,7 @@ namespace HardwareStore.App
             builder.Services.AddTransient<IProductFilterService, ProductFilterService>();
             builder.Services.AddTransient<ICategoryDataService, CategoryDataService>();
             builder.Services.AddTransient<IProductCatalogService, ProductCatalogService>();
+            builder.Services.AddTransient<ICartService, CartService>();
 
 
             var app = builder.Build();
