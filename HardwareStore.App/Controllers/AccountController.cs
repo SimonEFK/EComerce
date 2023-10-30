@@ -2,11 +2,11 @@
 {
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Account;
-    using HardwareStore.App.Services;
+    using HardwareStore.App.Services;    
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    
+
 
     [Authorize]
     public class AccountController : Controller

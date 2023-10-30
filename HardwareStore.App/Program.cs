@@ -3,9 +3,9 @@ namespace HardwareStore.App
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Services;
+    using HardwareStore.App.Services.Catalog;
     using HardwareStore.App.Services.Data;
-    using HardwareStore.App.Services.Data.Products;
-    using HardwareStore.App.Services.ProductCatalog;
+    using HardwareStore.App.Services.Data.Products;   
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
@@ -42,10 +42,10 @@ namespace HardwareStore.App
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddTransient<IProductDataService, ProductDataService>();
-            builder.Services.AddTransient<IProductFilterService, ProductFilterService>();
-            builder.Services.AddTransient<ICategoryDataService, CategoryDataService>();
-            builder.Services.AddTransient<IProductCatalogService, ProductCatalogService>();
+            builder.Services.AddTransient<IGenerateProductFilterOptionService, GenerateProductFilterOptionService>();
+            builder.Services.AddTransient<ICategoryDataService, CategoryDataService>();            
             builder.Services.AddTransient<ICartService, CartService>();
+            builder.Services.AddTransient<ICatalogService, CatalogService>();
 
 
             var app = builder.Build();

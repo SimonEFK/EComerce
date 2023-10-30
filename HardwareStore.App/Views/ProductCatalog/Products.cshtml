@@ -26,7 +26,9 @@
         </select>
         <form id="filterForm" method="get" asp-controller="ProductCatalog" asp-action="Products" asp-route-category="@this.TempData["Category"]">
             @{
-                var selectedM = TempData["selectedSpecs"] as List<int>;
+                var selectedSpecificationIds = TempData["selectedSpecs"] as List<int>;
+                var selectedManufacturerIds = TempData["selectedManufacturers"] as List<int>;
+
             }
             <input id="sortOrderHidden" type="hidden" name="so" value="newest" />
             <input id="searchInputHidden" type="hidden" name="s" />
@@ -39,7 +41,7 @@
                         @foreach (var value in filter.Values)
                         {
                             <div class="form-check">
-                                @if (selectedM is not null && selectedM.Contains(value.Id))
+                                @if (selectedSpecificationIds is not null && selectedSpecificationIds.Contains(value.Id))
                                 {
                                     <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss" checked>
                                 }
@@ -52,6 +54,25 @@
                         }
                     </li>
                 }
+                <li class="list-group-item">
+                    <span>Manufacturers</span>
+                    @foreach (var manufacturer in Model.ProductFilters.Manufacturers)
+                    {
+                        var inputid = $"M{manufacturer.Item1}";
+                        <div class="form-check">
+                            @if (selectedManufacturerIds is not null && selectedManufacturerIds.Contains(manufacturer.Item2))
+                            {
+                                <input class="form-check-input" type="checkbox" value="@manufacturer.Item2" id="@inputid" name="m" checked>
+                            }
+                            else
+                            {
+                                <input class="form-check-input" type="checkbox" value="@manufacturer.Item2" id=@inputid name="m">
+                            }
+                            <label class="form-check-label" for=@inputid>@manufacturer.Item1</label>
+                        </div>
+                    }
+                </li>
+
             </ul>
         </form>
     </div>
