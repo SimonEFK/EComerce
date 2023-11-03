@@ -1,8 +1,9 @@
 ﻿namespace HardwareStore.App.Controllers
 {
+    using AutoMapper;
+    using HardwareStore.App.Data;
     using HardwareStore.App.Models;
     using HardwareStore.App.Models.Category;
-    using HardwareStore.App.Models.Product;
     using HardwareStore.App.Models.ProductCatalog;
     using HardwareStore.App.Models.ProductFilter;
     using HardwareStore.App.Services;
@@ -10,6 +11,7 @@
     using HardwareStore.App.Services.Data;
     using HardwareStore.App.Services.Data.Products;
     using Microsoft.AspNetCore.Mvc;
+
     [Route("Catalog")]
     public class ProductCatalogController : Controller
     {
@@ -18,12 +20,12 @@
         private ICategoryDataService categoryDataService;
         private IProductDataService productDataService;
 
-        public ProductCatalogController(ICatalogService productCatalogService, IGenerateProductFilterOptionService generateProductFilterOptionService, ICategoryDataService categoryDataService, IProductDataService productDataService)
+
+        public ProductCatalogController(ICatalogService productCatalogService, IGenerateProductFilterOptionService generateProductFilterOptionService, ICategoryDataService categoryDataService)
         {
             this.productCatalogService = productCatalogService;
             this.generateProductFilterOptionService = generateProductFilterOptionService;
             this.categoryDataService = categoryDataService;
-            this.productDataService = productDataService;
         }
 
         public async Task<IActionResult> Index()
@@ -100,7 +102,7 @@
         public async Task<IActionResult> ComponentDetail([FromRoute] int id)
         {
 
-            var product = await productDataService.GetProductById<ProductDetailedModel>(id);
+            var product = await productCatalogService.GetProductById(id);
             if (product is null)
             {
                 return RedirectToAction(nameof(Index));

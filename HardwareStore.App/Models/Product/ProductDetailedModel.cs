@@ -10,7 +10,7 @@
 
         public string CategoryName { get; set; }
 
-        public ICollection<string> ImagesUrls { get; set; } = new HashSet<string>();
+        public ICollection<string> Images { get; set; } = new HashSet<string>();
 
         public ICollection<ProductSpecifications> Specifications { get; set; } = new List<ProductSpecifications>();
     }

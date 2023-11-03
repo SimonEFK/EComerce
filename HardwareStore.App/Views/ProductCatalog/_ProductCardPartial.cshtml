@@ -6,11 +6,11 @@
             <img class="catalog-product-img" src="/@this.Model.ImageUrl" alt="product img">
         </div>
         <ul class="catalog-product-specs list-group">
-            @foreach (var item in this.Model.Specifications.DistinctBy(x => x.Name))
+            @foreach (var item in this.Model.Specifications)
             {
                 <li class="list-group-item">
                     <span class="fw-bold">@item.Name:</span>
-                    <span>@item.Value</span>
+                    <span>@string.Join(",",item.Values)</span>
                 </li>
             }
         </ul>

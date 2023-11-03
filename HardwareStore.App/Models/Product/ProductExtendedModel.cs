@@ -10,7 +10,7 @@
 
         public string ImageUrl { get; set; }
 
-        public ICollection<ProductSpecifications> Specifications { get; set; } = new List<ProductSpecifications>();
+        public IEnumerable<ProductSpecifications> Specifications { get; set; } = new HashSet<ProductSpecifications>();
         
     }
 }

@@ -11,11 +11,11 @@
         <table class="table table-striped ">
 
             <tbody>
-                @foreach (var item in this.Model.Specifications.OrderBy(x => x.Name).DistinctBy(x => x.Name))
+                @foreach (var item in this.Model.Specifications.OrderBy(x => x.Name))
                 {
                     <tr>
                         <td>@item.Name</td>
-                        <td>@string.Join(", ",this.Model.Specifications.Where(x=>x.Name==item.Name).Select(x=>x.Value))</td>
+                        <td>@string.Join(", ",item.Values)</td>
                     </tr>
 
                 }
@@ -26,16 +26,16 @@
     <div class="col-md-4 me-2">
         <div class="product-img-display">
             <div class="product-img-display-container">
-                <img id="displayImg" src="~/@this.Model.ImagesUrls.FirstOrDefault()" />
+                <img id="displayImg" src="~/@this.Model.Images.FirstOrDefault()" />
             </div>
         </div>
-        @if (this.Model.ImagesUrls.Count > 1)
+        @if (this.Model.Images.Count > 1)
         {
             <hr />
             <div class="product-gallery">
                 <div class="product-img-list" id="imgList">
                     <ul>
-                        @foreach (var image in this.Model.ImagesUrls)
+                        @foreach (var image in this.Model.Images)
                         {
                             <li class="product-gallery-img-container">
                                 <img src="~/@image">

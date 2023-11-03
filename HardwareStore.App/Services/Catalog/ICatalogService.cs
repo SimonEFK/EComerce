@@ -1,5 +1,6 @@
 ﻿namespace HardwareStore.App.Services.Catalog
 {
+    using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Product;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -8,6 +9,7 @@
     {
         int PageSize { get; set; }
 
+        Task<ProductDetailedModel> GetProductById(int id);
         Task<ICollection<ProductExtendedModel>> GetProducts(
             string? searchString,
             string? category,

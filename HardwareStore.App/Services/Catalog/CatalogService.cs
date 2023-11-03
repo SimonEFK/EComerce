@@ -39,13 +39,11 @@
             {
                 productsQuery = productsQuery.Where(x => x.NameDetailed.Contains(searchString) || x.Name.Contains(searchString)).AsQueryable();
             }
-
             if (manufacturerIds.Count > 0)
             {
                 productsQuery = productsQuery.Where(x => manufacturerIds.Contains(x.Manufacturer.Id)).AsQueryable();
 
             }
-
             if (selectedSpecsIds.Count > 0)
             {
                 productsQuery = productsQuery
@@ -61,8 +59,29 @@
                 .ProjectTo<ProductExtendedModel>(mapper.ConfigurationProvider)
                 .ToListAsync();
 
+            foreach (var product in products)
+            {
+                product.Specifications = product.Specifications.DistinctBy(x => x.Name).ToList();
+            }
+
             return products;
         }
+
+
+        public async Task<ProductDetailedModel> GetProductById(int id)
+        {
+            var product = await dbContext.Products.Where(p => p.Id == id)
+                .ProjectTo<ProductDetailedModel>(mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync();
+
+            if (product is not null)
+            {
+                product.Specifications = product.Specifications.DistinctBy(x => x.Name).ToList();
+            }
+
+            return product;
+        }
+
 
         private static IQueryable<Product> OrderQuery(IQueryable<Product> productsQuery, string sortOrder)
         {
