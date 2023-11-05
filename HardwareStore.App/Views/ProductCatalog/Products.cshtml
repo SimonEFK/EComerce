@@ -8,9 +8,64 @@
     </div>
 </div>
 <div class="row">
-
     <div class="col-md-3">
-        <select id="sortProductsSelectMenu" class="form-select" aria-label="Default select example">
+        <button class="btn btn-primary w-100 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#FilterMenu" aria-expanded="false" aria-controls="collapseExample">
+            Filters
+        </button>
+        <div class="collapse show" id="FilterMenu">
+            <form id="filterForm" method="get" asp-controller="ProductCatalog" asp-action="Products" asp-route-category="@this.TempData["Category"]">
+                @{
+                    var selectedSpecificationIds = TempData["selectedSpecs"] as List<int>;
+                    var selectedManufacturerIds = TempData["selectedManufacturers"] as List<int>;
+
+                }
+                <input id="sortOrderHidden" type="hidden" name="so" value="newest" />
+                <input id="searchInputHidden" type="hidden" name="s" />
+                <input id="pageNumber" type="hidden" name="page" />
+                <ul class="list-group">
+                    @foreach (var filter in this.Model.ProductFilters.Specifications)
+                    {
+                        <li class="list-group-item">
+                            <span>@filter.Name</span>
+                            @foreach (var value in filter.Values)
+                            {
+                                <div class="form-check">
+                                    @if (selectedSpecificationIds is not null && selectedSpecificationIds.Contains(value.Id))
+                                    {
+                                        <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss" checked>
+                                    }
+                                    else
+                                    {
+                                        <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss">
+                                    }
+                                    <label class="form-check-label" for="@value.Id">@value.Value</label>
+                                </div>
+                            }
+                        </li>
+                    }
+                    <li class="list-group-item">
+                        <span>Manufacturers</span>
+                        @foreach (var manufacturer in Model.ProductFilters.Manufacturers)
+                        {
+                            var inputid = $"M{manufacturer.Item1}";
+                            <div class="form-check">
+                                @if (selectedManufacturerIds is not null && selectedManufacturerIds.Contains(manufacturer.Item2))
+                                {
+                                    <input class="form-check-input" type="checkbox" value="@manufacturer.Item2" id="@inputid" name="m" checked>
+                                }
+                                else
+                                {
+                                    <input class="form-check-input" type="checkbox" value="@manufacturer.Item2" id=@inputid name="m">
+                                }
+                                <label class="form-check-label" for=@inputid>@manufacturer.Item1</label>
+                            </div>
+                        }
+                    </li>
+
+                </ul>
+            </form>
+        </div>
+        <select id="sortProductsSelectMenu" class="form-select w-50">
             @foreach (var item in this.Model.ProductFilters.SortOrder)
             {
                 if (item == TempData["sortOrder"].ToString())
@@ -24,57 +79,7 @@
                 }
             }
         </select>
-        <form id="filterForm" method="get" asp-controller="ProductCatalog" asp-action="Products" asp-route-category="@this.TempData["Category"]">
-            @{
-                var selectedSpecificationIds = TempData["selectedSpecs"] as List<int>;
-                var selectedManufacturerIds = TempData["selectedManufacturers"] as List<int>;
 
-            }
-            <input id="sortOrderHidden" type="hidden" name="so" value="newest" />
-            <input id="searchInputHidden" type="hidden" name="s" />
-            <input id="pageNumber" type="hidden" name="page" />
-            <ul class="list-group">
-                @foreach (var filter in this.Model.ProductFilters.Specifications)
-                {
-                    <li class="list-group-item">
-                        <span>@filter.Name</span>
-                        @foreach (var value in filter.Values)
-                        {
-                            <div class="form-check">
-                                @if (selectedSpecificationIds is not null && selectedSpecificationIds.Contains(value.Id))
-                                {
-                                    <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss" checked>
-                                }
-                                else
-                                {
-                                    <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss">
-                                }
-                                <label class="form-check-label" for="@value.Id">@value.Value</label>
-                            </div>
-                        }
-                    </li>
-                }
-                <li class="list-group-item">
-                    <span>Manufacturers</span>
-                    @foreach (var manufacturer in Model.ProductFilters.Manufacturers)
-                    {
-                        var inputid = $"M{manufacturer.Item1}";
-                        <div class="form-check">
-                            @if (selectedManufacturerIds is not null && selectedManufacturerIds.Contains(manufacturer.Item2))
-                            {
-                                <input class="form-check-input" type="checkbox" value="@manufacturer.Item2" id="@inputid" name="m" checked>
-                            }
-                            else
-                            {
-                                <input class="form-check-input" type="checkbox" value="@manufacturer.Item2" id=@inputid name="m">
-                            }
-                            <label class="form-check-label" for=@inputid>@manufacturer.Item1</label>
-                        </div>
-                    }
-                </li>
-
-            </ul>
-        </form>
     </div>
     <div class="col-lg-6">
         <div class="row flex-column">
@@ -125,9 +130,6 @@
             let searchStringInputElement = document.querySelector('#searchInput');
             let orderSelectInput = document.querySelector('#sortProductsSelectMenu');
 
-
-            console.log(searchStringInputElement.value);
-            console.log(orderSelectInput.value);
             document.querySelector('#sortOrderHidden').value = orderSelectInput.value;
             document.querySelector('#searchInputHidden').value = searchStringInputElement.value;
 
