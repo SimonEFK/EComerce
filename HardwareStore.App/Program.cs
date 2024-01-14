@@ -41,12 +41,13 @@ namespace HardwareStore.App
             builder.Services.AddControllersWithViews();
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddAutoMapper(typeof(MappingProfile));
-            builder.Services.AddTransient<IProductDataService, ProductDataService>();
-            builder.Services.AddTransient<IGenerateProductFilterOptionService, GenerateProductFilterOptionService>();
-            builder.Services.AddTransient<ICategoryDataService, CategoryDataService>();
-            builder.Services.AddTransient<IManufacturerDataService, ManufacturerDataService>();
-            builder.Services.AddTransient<ICartService, CartService>();
-            builder.Services.AddTransient<ICatalogService, CatalogService>();
+            builder.Services.AddScoped<IProductDataService, ProductDataService>();
+            builder.Services.AddScoped<IGenerateProductFilterOptionService, GenerateProductFilterOptionService>();
+            builder.Services.AddScoped<ICategoryDataService, CategoryDataService>();
+            builder.Services.AddScoped<IManufacturerDataService, ManufacturerDataService>();
+            builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddScoped<ICatalogService, CatalogService>();
+            
 
 
             var app = builder.Build();
