@@ -1,0 +1,130 @@
+﻿@using HardwareStore.App.Models.Product;
+@model CreateProductViewModel;
+
+<form method="post" class="col-md-4">
+    <label asp-for="@this.Model.ProductFormModel.Name" class="form-label"></label>
+    <input asp-for="@this.Model.ProductFormModel.Name" class="form-control" />
+
+    <label asp-for="@this.Model.ProductFormModel.NameDetailed" class="form-label"></label>
+    <input asp-for="@this.Model.ProductFormModel.NameDetailed" class="form-control" />
+
+    <select asp-for="@this.Model.ProductFormModel.Category" class="form-select" id="categorySelectInputField">
+        <option value="none">Select Category</option>
+        @foreach (var category in this.Model.CategoryList.OrderBy(x => x.Name))
+        {
+            <option value="@category.Id">@category.Name</option>
+        }
+    </select>
+    <select asp-for="@this.Model.ProductFormModel.Manufacturer" class="form-select">
+        @foreach (var manufacturer in this.Model.ManufacturerList.OrderBy(x => x.Name))
+        {
+            <option value="@manufacturer.Id">@manufacturer.Name</option>
+        }
+    </select>
+    <div class="image-urlInput-container">
+        <h3>Images</h3>
+        <div class="d-flex align-items-center mb-2 position-relative">
+            <input asp-for="@this.Model.ProductFormModel.ImageUrlList" class="form-control" type="text" placeholder="Url" />
+            <button type="button" class="btn-close ms-2 position-absolute top-50 end-0 translate-middle-y"></button>
+        </div>
+        <button class="btn btn-secondary" id="addImgBtn" type="button">Add Images</button>
+    </div>
+    <div>
+        <select class="form-select" id="specs">
+            <option value="none">Select Specification</option>
+        </select>
+        <select class="form-select" id="specValues">
+            <option value="none">Select Value</option>
+        </select>
+
+    </div>
+    <button type="submit">SubmitMeBruh</button>
+</form>
+
+@section Scripts{
+    <script>
+        let categorySelectInputField = document.querySelector("#categorySelectInputField");
+        let specificationSelectInputField = document.querySelector('#specs');
+
+        categorySelectInputField.addEventListener('change', ChangeSpecificationsSelectInputOptions);
+        specificationSelectInputField.addEventListener('change', ChangeSpecificationValueSelectInputOptions)
+
+        async function ChangeSpecificationsSelectInputOptions() {
+
+            let url = `https://localhost:7082/administration/productmanagment/specificationList`;
+            debugger;
+            let selectValue = categorySelectInputField.value;
+            let queryString = `?categoryId=${selectValue}`;
+
+            let respond = await fetch(`${url}${queryString}`)
+            let data = await respond.json();
+
+            let specificationsArray = Array.from(data);
+            let specSelectInputElement = document.querySelector('#specs');
+
+            specSelectInputElement.querySelectorAll('option').forEach(x => x.remove());
+
+            for (let item in specificationsArray) {
+                let option = document.createElement('option');
+                option.value = specificationsArray[item].value;
+                option.textContent = specificationsArray[item].key;
+                specSelectInputElement.appendChild(option);
+            }
+        }
+        async function ChangeSpecificationValueSelectInputOptions() {
+            let url = `https://localhost:7082/administration/productmanagment/specificationvalueList`;
+            debugger;
+            let selectElement = document.querySelector("#specs");
+            let selectedOption = selectElement.options[selectElement.selectedIndex];
+
+            let selectValue = selectedOption.value;
+
+            console.log(selectedOption)
+            let queryString = `?specificationId=${selectValue}`;
+
+            let respond = await fetch(`${url}${queryString}`)
+            let data = await respond.json();
+
+            let specificationValuesArray = Array.from(data);
+            let specValuesSelectInputElement = document.querySelector('#specValues');
+
+            specValuesSelectInputElement.querySelectorAll('option').forEach(x => x.remove());;
+
+
+            for (let item in specificationValuesArray) {
+                let option = document.createElement('option');
+                option.value = specificationValuesArray[item].value;
+                option.textContent = specificationValuesArray[item].key;
+                specValuesSelectInputElement.appendChild(option);
+            }
+        }
+
+
+
+        let imagesUrlInputContainer = document.querySelector('.image-urlInput-container');
+        imagesUrlInputContainer.addEventListener('click', RemoveImageInputField);
+        let imgBtn = document.querySelector('#addImgBtn');
+        imgBtn.addEventListener('click', AddImageInputField);
+        async function AddImageInputField(event) {
+
+            event.preventDefault();
+            let html = `<div class="d-flex align-items-center mb-2 position-relative">
+                            <input name="ProductFormModel.ImageUrlList" class="form-control" type="text" placeholder="Url" />
+                            <button type="button" class="btn-close ms-2 position-absolute top-50 end-0 translate-middle-y"></button>
+                        </div>`;
+            imgBtn.insertAdjacentHTML('beforebegin', html);
+
+
+        };
+        function RemoveImageInputField(event) {
+            if (event.target.matches('.btn-close')) {
+                debugger;
+                let divToRemove = event.target.closest('div.d-flex');
+                imagesUrlInputContainer.removeChild(divToRemove);
+            }
+        };
+
+
+
+    </script>
+}

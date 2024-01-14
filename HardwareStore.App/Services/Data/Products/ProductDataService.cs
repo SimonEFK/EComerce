@@ -4,6 +4,7 @@
     using AutoMapper.QueryableExtensions;
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
+    using HardwareStore.App.Models.Product;
     using Microsoft.EntityFrameworkCore;
     using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -11,7 +12,7 @@
     {
         private readonly ApplicationDbContext dbContext;
         private readonly IMapper mapper;
-        
+
 
         public ProductDataService(ApplicationDbContext dbContext, IMapper mapper)
         {
@@ -25,6 +26,10 @@
 
             return product;
         }
-        
+
+        public void CreateProduct(CreateProductFormModel productFormModel)
+        {
+
+        }
     }
 }

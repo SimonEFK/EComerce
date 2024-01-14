@@ -5,7 +5,7 @@ namespace HardwareStore.App
     using HardwareStore.App.Services;
     using HardwareStore.App.Services.Catalog;
     using HardwareStore.App.Services.Data;
-    using HardwareStore.App.Services.Data.Products;   
+    using HardwareStore.App.Services.Data.Products;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
@@ -43,7 +43,8 @@ namespace HardwareStore.App
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddTransient<IProductDataService, ProductDataService>();
             builder.Services.AddTransient<IGenerateProductFilterOptionService, GenerateProductFilterOptionService>();
-            builder.Services.AddTransient<ICategoryDataService, CategoryDataService>();            
+            builder.Services.AddTransient<ICategoryDataService, CategoryDataService>();
+            builder.Services.AddTransient<IManufacturerDataService, ManufacturerDataService>();
             builder.Services.AddTransient<ICartService, CartService>();
             builder.Services.AddTransient<ICatalogService, CatalogService>();
 
@@ -73,6 +74,9 @@ namespace HardwareStore.App
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.MapControllerRoute(
+                name: "Administration",
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
 
             app.Run();
