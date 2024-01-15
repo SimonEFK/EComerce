@@ -38,8 +38,24 @@
         [HttpPost]
         public async Task<IActionResult> CreateProduct(CreateProductViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                model.CategoryList = _categoryDataService.GetCategoriesAsTupleCollection();
+                model.ManufacturerList = await _manufacturerDataService.GetManufacturersAsTupleCollectionAsync();
+                return View(model);
+            }
+            var productStatus = await _productDataService.CreateProduct(model.ProductFormModel);
+            if (productStatus.IsSucssessfull == false)
+            {
+                foreach (var message in productStatus.Messages)
+                {
+                    ModelState.AddModelError("", message);
 
-            var productId = await _productDataService.CreateProduct(model.ProductFormModel);
+                }
+                model.CategoryList = _categoryDataService.GetCategoriesAsTupleCollection();
+                model.ManufacturerList = await _manufacturerDataService.GetManufacturersAsTupleCollectionAsync();
+                return View(model);
+            }
             return Ok();
         }
         public IActionResult SpecificationList(int categoryId)

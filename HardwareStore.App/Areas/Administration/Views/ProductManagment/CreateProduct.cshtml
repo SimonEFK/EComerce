@@ -66,7 +66,19 @@
         </div>
     </div>
 </form>
-
+<div>
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            <ul>
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+</div>
 
 @section Scripts{
     <script>
@@ -81,9 +93,9 @@
 
             event.preventDefault();
             let html = `<div class="d-flex align-items-center mb-2 position-relative">
-                                                                                                                                                                                                                                                                                            <input name="ProductFormModel.ImageUrlList" class="form-control" required type="text" placeholder="Url" />
-                                                                                                                                                                                                                                                                                    <button type="button" class="btn-close ms-2 position-absolute top-50 end-0 translate-middle-y"></button>
-                                                                                                                                                                                                                                                                                </div>`;
+                                                                                                                                                                                                                                                                                                    <input name="ProductFormModel.ImageUrlList" class="form-control" required type="text" placeholder="Url" />
+                                                                                                                                                                                                                                                                                            <button type="button" class="btn-close ms-2 position-absolute top-50 end-0 translate-middle-y"></button>
+                                                                                                                                                                                                                                                                                        </div>`;
             imgBtn.insertAdjacentHTML('beforebegin', html);
 
 
@@ -119,10 +131,10 @@
             let query = `spec[${key}]=${value}`;
 
             let html = `<div class="d-flex align-items-center gap-2 mb-2 position-relative" data-spec-name-value>
-                                                                                                                                                                                                                                                            <input required readonly value="${key}" class="form-control" aria-invalid="false">
-                                                                                                                                                                                                                                                            <input required required name="ProductFormModel.Specifications[${key}]" value="${value}" class="form-control">
-                                                                                                                                                                                                                                                            <button type="button" class="btn-close position-absolute top-50 end-0 translate-middle-y"></button>
-                                                                                                                                                                                                                                                        </div>`;
+                                                                                                                                                                                                                                                                    <input required readonly value="${key}" class="form-control" aria-invalid="false">
+                                                                                                                                                                                                                                                                    <input required required name="ProductFormModel.Specifications[${key}]" value="${value}" class="form-control">
+                                                                                                                                                                                                                                                                    <button type="button" class="btn-close position-absolute top-50 end-0 translate-middle-y"></button>
+                                                                                                                                                                                                                                                                </div>`;
 
             specContainer.insertAdjacentHTML('afterbegin', html);
             specValueInputElement.value = '';

@@ -17,7 +17,7 @@
                 var path = Path.Combine(directoryPath, $"{fileName}{fileExtension}");
 
                 var imageBytes = await httpClient.GetByteArrayAsync(uri);
-
+               
                 await File.WriteAllBytesAsync(path, imageBytes);
 
             }
