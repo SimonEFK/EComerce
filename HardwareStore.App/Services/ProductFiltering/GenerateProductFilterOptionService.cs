@@ -21,8 +21,8 @@
         {
             var sortOrderOptions = new List<string>
             {
-                "newest",
-                "oldest"
+                "Newest",
+                "Oldest"
             };
             return sortOrderOptions;
         }
