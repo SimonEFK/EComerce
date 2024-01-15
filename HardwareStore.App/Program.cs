@@ -47,7 +47,8 @@ namespace HardwareStore.App
             builder.Services.AddScoped<IManufacturerDataService, ManufacturerDataService>();
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<ICatalogService, CatalogService>();
-            
+            builder.Services.AddScoped<IDownloadImageService, DownloadImageService>();
+
 
 
             var app = builder.Build();

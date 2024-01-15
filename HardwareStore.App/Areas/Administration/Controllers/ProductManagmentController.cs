@@ -30,22 +30,22 @@
             var model = new CreateProductViewModel();
             model.CategoryList = _categoryDataService.GetCategoriesAsTupleCollection();
             model.ManufacturerList = await _manufacturerDataService.GetManufacturersAsTupleCollectionAsync();
-            
+
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult CreateProduct(CreateProductViewModel model)
+        public async Task<IActionResult> CreateProduct(CreateProductViewModel model)
         {
 
-            _productDataService.CreateProduct(model.ProductFormModel);
+            var productId = await _productDataService.CreateProduct(model.ProductFormModel);
             return Ok();
         }
         public IActionResult SpecificationList(int categoryId)
         {
             var specifications = _categoryDataService.GetCategorySpecifications(categoryId).ToList();
-            
+
             return Json(specifications);
         }
 
