@@ -85,16 +85,16 @@
 
         private static IQueryable<Product> OrderQuery(IQueryable<Product> productsQuery, string sortOrder)
         {
-            switch (sortOrder)
+            switch (sortOrder.ToLower())
             {
                 case "newest":
-                    productsQuery = productsQuery.OrderBy(x => x.Id).AsQueryable();
-                    break;
-                case "oldest":
                     productsQuery = productsQuery.OrderByDescending(x => x.Id).AsQueryable();
                     break;
-                default:
+                case "oldest":
                     productsQuery = productsQuery.OrderBy(x => x.Id).AsQueryable();
+                    break;
+                default:
+                    productsQuery = productsQuery.OrderByDescending(x => x.Id).AsQueryable();
                     break;
             }
             return productsQuery;
