@@ -1,0 +1,153 @@
+﻿@using HardwareStore.App.Models.Product;
+@model CreateProductViewModel;
+
+<form method="post" class="col-md-9 mx-md-auto p-3">
+    <div class="row mb-3">
+        <div class="col">
+            <label asp-for="@this.Model.ProductFormModel.Name" class="form-label"></label>
+            <input asp-for="@this.Model.ProductFormModel.Name" placeholder="e.g. AMD Ryzen 7 7800X3D" class="form-control" />
+            <span asp-validation-for="@this.Model.ProductFormModel.Name" class="text-danger"></span>
+
+        </div>
+        <div class="col">
+            <label asp-for="@this.Model.ProductFormModel.NameDetailed" class="form-label"></label>
+            <input asp-for="@this.Model.ProductFormModel.NameDetailed" placeholder="e.g. AMD Ryzen 7 7800X3D 4.2 GHz 8-Core Processor" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <select asp-for="@this.Model.ProductFormModel.CategoryId" class="form-select" id="categorySelectInputField">
+                <option value="none">Select Category</option>
+                @foreach (var category in this.Model.CategoryList.OrderBy(x => x.Name))
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </select>
+        </div>
+        <div class="col">
+
+            <select asp-for="@this.Model.ProductFormModel.ManufacturerId" class="form-select">
+                <option value="none">Select Manufacturer</option>
+                @foreach (var manufacturer in this.Model.ManufacturerList.OrderBy(x => x.Name))
+                {
+                    <option value="@manufacturer.Id">@manufacturer.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="image-urlInput-container">
+        <h3>Images</h3>
+        <div class="d-flex align-items-center mb-2 position-relative">
+            <input required asp-for="@this.Model.ProductFormModel.ImageUrlList" class="form-control" type="text" placeholder="Url" />
+            <button type="button" class="btn-close ms-2 position-absolute top-50 end-0 translate-middle-y"></button>
+        </div>
+        <button class="btn btn-success" id="addImgBtn" type="button">Add Images</button>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h3>Specifications</h3>
+            <div class="row">
+                <div class="d-flex gap-2 mb-2">
+                    <input list="specNamesList" id="specName" class="form-control" placeholder="Specification Name" />
+                    <input id="specValue" type="text" placeholder="Value" class="form-control" />
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-secondary" id="addSpecBtn" type="button">Add</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="specificationsBox col-md-6">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-info w-25 mx-auto" type="submit">Submit</button>
+        </div>
+    </div>
+</form>
+<div>
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            <ul>
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+</div>
+
+@section Scripts{
+    <script>
+        let categorySelectInputField = document.querySelector("#categorySelectInputField");
+        let specificationSelectInputField = document.querySelector('#specs');
+
+        let imagesUrlInputContainer = document.querySelector('.image-urlInput-container');
+        imagesUrlInputContainer.addEventListener('click', RemoveImageInputField);
+        let imgBtn = document.querySelector('#addImgBtn');
+        imgBtn.addEventListener('click', AddImageInputField);
+        async function AddImageInputField(event) {
+
+            event.preventDefault();
+            let html = `<div class="d-flex align-items-center mb-2 position-relative">
+                                                                                                                                                                                                                                                                                                    <input name="ProductFormModel.ImageUrlList" class="form-control" required type="text" placeholder="Url" />
+                                                                                                                                                                                                                                                                                            <button type="button" class="btn-close ms-2 position-absolute top-50 end-0 translate-middle-y"></button>
+                                                                                                                                                                                                                                                                                        </div>`;
+            imgBtn.insertAdjacentHTML('beforebegin', html);
+
+
+        };
+        function RemoveImageInputField(event) {
+            if (event.target.matches('.btn-close')) {
+                debugger;
+                let divToRemove = event.target.closest('div.d-flex');
+                imagesUrlInputContainer.removeChild(divToRemove);
+            }
+        };
+
+
+        let addSpecBtn = document.querySelector('#addSpecBtn');
+        let specContainer = document.querySelector('.specificationsBox');
+        addSpecBtn.addEventListener('click', AddSpecInputField);
+        specContainer.addEventListener('click', RemoveSpecBox);
+        async function AddSpecInputField(event) {
+            event.preventDefault();
+
+            let specValueInputElement = document.querySelector('#specValue');
+            let specValueInput = specValueInputElement.value;
+            let specNameInputElement = document.querySelector('#specName');
+            let specNameInput = specNameInputElement.value;
+            if (!specValueInput || !specNameInput) {
+                return;
+            }
+            debugger
+            let specificationsBox = document.querySelector('.specificationsBox');
+            let key = specNameInput;
+            let value = specValueInput;
+
+            let query = `spec[${key}]=${value}`;
+
+            let html = `<div class="d-flex align-items-center gap-2 mb-2 position-relative" data-spec-name-value>
+                                                                                                                                                                                                                                                                    <input required readonly value="${key}" class="form-control" aria-invalid="false">
+                                                                                                                                                                                                                                                                    <input required required name="ProductFormModel.Specifications[${key}]" value="${value}" class="form-control">
+                                                                                                                                                                                                                                                                    <button type="button" class="btn-close position-absolute top-50 end-0 translate-middle-y"></button>
+                                                                                                                                                                                                                                                                </div>`;
+
+            specContainer.insertAdjacentHTML('afterbegin', html);
+            specValueInputElement.value = '';
+            specNameInputElement.value = '';
+        };
+        function RemoveSpecBox(event) {
+            if (event.target.matches('.btn-close')) {
+                let divToRemove = event.target.closest('[data-spec-name-value]');
+                specContainer.removeChild(divToRemove);
+            }
+        };
+
+
+
+    </script>
+}

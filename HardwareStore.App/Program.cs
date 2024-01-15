@@ -5,7 +5,7 @@ namespace HardwareStore.App
     using HardwareStore.App.Services;
     using HardwareStore.App.Services.Catalog;
     using HardwareStore.App.Services.Data;
-    using HardwareStore.App.Services.Data.Products;   
+    using HardwareStore.App.Services.Data.Products;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
@@ -41,11 +41,14 @@ namespace HardwareStore.App
             builder.Services.AddControllersWithViews();
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddAutoMapper(typeof(MappingProfile));
-            builder.Services.AddTransient<IProductDataService, ProductDataService>();
-            builder.Services.AddTransient<IGenerateProductFilterOptionService, GenerateProductFilterOptionService>();
-            builder.Services.AddTransient<ICategoryDataService, CategoryDataService>();            
-            builder.Services.AddTransient<ICartService, CartService>();
-            builder.Services.AddTransient<ICatalogService, CatalogService>();
+            builder.Services.AddScoped<IProductDataService, ProductDataService>();
+            builder.Services.AddScoped<IGenerateProductFilterOptionService, GenerateProductFilterOptionService>();
+            builder.Services.AddScoped<ICategoryDataService, CategoryDataService>();
+            builder.Services.AddScoped<IManufacturerDataService, ManufacturerDataService>();
+            builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddScoped<ICatalogService, CatalogService>();
+            builder.Services.AddScoped<IDownloadImageService, DownloadImageService>();
+
 
 
             var app = builder.Build();
@@ -73,6 +76,9 @@ namespace HardwareStore.App
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.MapControllerRoute(
+                name: "Administration",
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
 
             app.Run();

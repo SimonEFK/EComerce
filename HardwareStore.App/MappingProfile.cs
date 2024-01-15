@@ -36,6 +36,7 @@
             this.CreateMap<SpecificationValue, SpecificationValueOption>();
 
             this.CreateMap<Category, CategoryModel>().ForMember(x => x.Image, cfg => cfg.MapFrom(source => source.FilePath ?? source.Url));
+            this.CreateMap<Category, Tuple<string, int>>();
 
         }
     }
