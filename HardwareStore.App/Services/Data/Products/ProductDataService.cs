@@ -31,31 +31,65 @@
             return product;
         }
 
-        public async Task<int> CreateProduct(CreateProductFormModel productFormModel)
+        public async Task<ProductCreationStatus> CreateProduct(CreateProductFormModel productFormModel)
         {
-            var product = new Product();
-            product.Name = productFormModel.Name;
-            product.NameDetailed = productFormModel.NameDetailed;
+            var status = new ProductCreationStatus();
 
             var categoryDb = await dbContext.Categories.FirstOrDefaultAsync(x => x.Id == productFormModel.CategoryId);
             var manufacturerDb = await dbContext.Manufacturers.FirstOrDefaultAsync(x => x.Id == productFormModel.ManufacturerId);
 
+            if (categoryDb == null)
+            {
+                status.IsSucssessfull = false;
+                status.Messages.Add("Category Doesn't Exsist");
+            }
+            if (manufacturerDb == null)
+            {
+                status.IsSucssessfull = false;
+                status.Messages.Add("Manufacturer Doesn't Exsist");
+            }
+            if (productFormModel.Specifications.Count < 3)
+            {
+                status.IsSucssessfull = false;
+                status.Messages.Add("Specifications Count too low");
+            }
+            if (!productFormModel.ImageUrlList.Any())
+            {
+                status.IsSucssessfull = false;
+                status.Messages.Add("not enough Images");
+            }
+
+            if (!status.IsSucssessfull)
+            {
+                return status;
+            }
+            var product = new Product();
+            product.Name = productFormModel.Name;
+            product.NameDetailed = productFormModel.NameDetailed;
 
             product.Manufacturer = manufacturerDb;
             product.Category = categoryDb;
 
             foreach (var image in productFormModel.ImageUrlList)
             {
-                var imgExsist = dbContext.Images.Any(img => img.Url == image);
-                if (imgExsist)
-                {
-                    continue;
-                }
+
                 var dir = Path.Combine(env.WebRootPath, "Images");
                 var url = image;
                 var fileName = Guid.NewGuid().ToString();
 
+                bool isValidUrl = Uri.IsWellFormedUriString(url, UriKind.Absolute);
+                if (!isValidUrl)
+                {
+                    status.Messages.Add($" \"{url}\" is Invalid");
+                    continue;
+                }
+
                 var extension = await downloadImageService.DownloadImageAsync(dir, fileName, new Uri(url));
+                if (extension != ".jpg" && extension != ".png")
+                {
+                    status.Messages.Add($"\"{url}\" has invalid extension");
+                    continue;
+                }
                 var imageDb = new Image()
                 {
                     Id = fileName,
@@ -64,6 +98,12 @@
                 };
                 product.Images.Add(imageDb);
 
+            }
+            if (!product.Images.Any())
+            {
+                status.IsSucssessfull = false;
+                status.Messages.Add("Product has no valid Images");
+                return status;
             }
 
             foreach (var item in productFormModel.Specifications)
@@ -123,9 +163,20 @@
 
             }
 
-            dbContext.Products.Add(product);
-            await dbContext.SaveChangesAsync();
-            return product.Id;
+            try
+            {
+                dbContext.Products.Add(product);
+                await dbContext.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                status.IsSucssessfull = false;
+                status.Messages.Add(ex.Message);
+                return status;
+            }
+            status.Id = product.Id;
+            return status;
         }
     }
 }
