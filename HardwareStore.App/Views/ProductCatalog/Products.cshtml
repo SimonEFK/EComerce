@@ -8,7 +8,21 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-lg-3">
+
+        <select id="sortProductsSelectMenu" class="btn btn-primary mb-2 form-select">
+            @foreach (var item in this.Model.ProductFilters.SortOrder)
+            {
+                if (item == TempData["sortOrder"].ToString())
+                {
+                    <option selected value="@item">@item</option>
+                }
+                else
+                {
+                    <option value="@item">@item</option>
+                }
+            }
+        </select>
         <button class="btn btn-primary w-100 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#FilterMenu" aria-expanded="false" aria-controls="collapseExample">
             Filters
         </button>
@@ -65,20 +79,6 @@
                 </ul>
             </form>
         </div>
-        <select id="sortProductsSelectMenu" class="form-select w-50">
-            @foreach (var item in this.Model.ProductFilters.SortOrder)
-            {
-                if (item == TempData["sortOrder"].ToString())
-                {
-                    <option selected value="@item">@item</option>
-
-                }
-                else
-                {
-                    <option value="@item">@item</option>
-                }
-            }
-        </select>
 
     </div>
     <div class="col-lg-6">
