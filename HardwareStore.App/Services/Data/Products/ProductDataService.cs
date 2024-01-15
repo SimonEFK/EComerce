@@ -80,7 +80,7 @@
                 bool isValidUrl = Uri.IsWellFormedUriString(url, UriKind.Absolute);
                 if (!isValidUrl)
                 {
-                    status.Messages.Add($" \"{url}\" is Invalid");
+                    status.Messages.Add($" \"{url}\" is Invalid Url");
                     continue;
                 }
 
