@@ -40,7 +40,7 @@
                     @foreach (var filter in this.Model.ProductFilters.Specifications)
                     {
                         <li class="list-group-item">
-                            <span>@filter.Name</span>
+                            <span class="fw-bold">@filter.Name</span>
                             @foreach (var value in filter.Values)
                             {
                                 <div class="form-check">
@@ -58,7 +58,7 @@
                         </li>
                     }
                     <li class="list-group-item">
-                        <span>Manufacturers</span>
+                        <span class="fw-bold">Manufacturers</span>
                         @foreach (var manufacturer in Model.ProductFilters.Manufacturers)
                         {
                             var inputid = $"M{manufacturer.Item1}";
