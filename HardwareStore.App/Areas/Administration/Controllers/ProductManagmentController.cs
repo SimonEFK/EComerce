@@ -56,20 +56,7 @@
                 model.ManufacturerList = await _manufacturerDataService.GetManufacturersAsTupleCollectionAsync();
                 return View(model);
             }
-            return Ok();
-        }
-        public IActionResult SpecificationList(int categoryId)
-        {
-            var specifications = _categoryDataService.GetCategorySpecifications(categoryId).ToList();
-
-            return Json(specifications);
-        }
-
-        public IActionResult SpecificationValueList(int specificationId)
-        {
-            var specificationValues = _categoryDataService.GetSpecificationValues(specificationId).ToList();
-
-            return Json(specificationValues);
+            return Redirect($"/ComponentDetail/{productStatus.Id}");
         }
     }
 }
