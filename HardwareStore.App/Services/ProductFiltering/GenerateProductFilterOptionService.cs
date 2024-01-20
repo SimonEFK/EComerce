@@ -1,4 +1,4 @@
-﻿namespace HardwareStore.App.Services
+﻿namespace HardwareStore.App.Services.ProductFiltering
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;

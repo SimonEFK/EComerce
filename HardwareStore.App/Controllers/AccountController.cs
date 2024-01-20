@@ -2,7 +2,7 @@
 {
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Account;
-    using HardwareStore.App.Services;    
+    using HardwareStore.App.Services.Cart;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;

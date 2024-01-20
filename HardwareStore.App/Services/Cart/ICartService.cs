@@ -1,4 +1,4 @@
-﻿namespace HardwareStore.App.Services
+﻿namespace HardwareStore.App.Services.Cart
 {
     using HardwareStore.App.Data.Models;
 

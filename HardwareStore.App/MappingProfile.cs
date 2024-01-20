@@ -1,6 +1,7 @@
 ﻿namespace HardwareStore.App
 {
     using AutoMapper;
+    using HardwareStore.App.Areas.Administration.Models;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Category;
     using HardwareStore.App.Models.Product;
@@ -36,6 +37,7 @@
             this.CreateMap<SpecificationValue, SpecificationValueOption>();
 
             this.CreateMap<Category, CategoryModel>().ForMember(x => x.Image, cfg => cfg.MapFrom(source => source.FilePath ?? source.Url));
+            this.CreateMap<Category, CategoryViewModel>().ForMember(x => x.Image, cfg => cfg.MapFrom(source => source.FilePath ?? source.Url));
             this.CreateMap<Category, Tuple<string, int>>();
 
         }

@@ -1,0 +1,7 @@
+﻿@model CategoryFormModel;
+<form method="post" action="/administration/categorymanagment/createcategory">
+    <label class="form-label" asp-for="@this.Model.Name"></label>
+    <input class="form-control" asp-for="@this.Model.Name" />
+    <input class="form-control" asp-for="@this.Model.Image" placeholder="Image URL" />
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>

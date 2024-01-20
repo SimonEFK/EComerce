@@ -1,9 +1,9 @@
-﻿namespace HardwareStore.App.Services
+﻿namespace HardwareStore.App.Services.Cart
 {
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using Microsoft.EntityFrameworkCore;
-    
+
 
     public class CartService : ICartService
     {

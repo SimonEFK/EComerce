@@ -2,9 +2,9 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using HardwareStore.App.Areas.Administration.Models;
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
-    using HardwareStore.App.Models.Product;
     using Microsoft.EntityFrameworkCore;
     using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 

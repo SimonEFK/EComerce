@@ -1,6 +1,6 @@
 ﻿namespace HardwareStore.App.Areas.Administration.Controllers
 {
-    using HardwareStore.App.Models.Product;
+    using HardwareStore.App.Areas.Administration.Models;
     using HardwareStore.App.Services.Data;
     using HardwareStore.App.Services.Data.Products;
     using Microsoft.AspNetCore.Mvc;

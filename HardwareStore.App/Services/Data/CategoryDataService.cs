@@ -2,7 +2,10 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using HardwareStore.App.Areas.Administration.Models;
     using HardwareStore.App.Data;
+    using HardwareStore.App.Data.Models;
+    using HardwareStore.App.Models.Category;
     using Microsoft.EntityFrameworkCore;
 
     public class CategoryDataService : ICategoryDataService
@@ -15,6 +18,21 @@
             this.mapper = mapper;
             this.dbContext = dbContext;
         }
+
+
+        public async Task CreateCategory(CategoryFormModel model)
+        {
+            var newCategory = new Category()
+            {
+                Name = model.Name,
+                Url = model.Image
+            };
+
+            dbContext.Categories.Add(newCategory);
+            await dbContext.SaveChangesAsync();
+
+        }
+
 
         public async Task<ICollection<TModel>> GetCategories<TModel>(bool isEmpty = false)
         {

@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\Administration\**" />
+    <Content Remove="Services\Administration\**" />
+    <EmbeddedResource Remove="Services\Administration\**" />
+    <None Remove="Services\Administration\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
@@ -23,10 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Administration\Models\" />
     <Folder Include="Controllers\" />
     <Folder Include="Data\" />
-    <Folder Include="Services\Administration\" />
     <Folder Include="Views\Shared\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\js\" />

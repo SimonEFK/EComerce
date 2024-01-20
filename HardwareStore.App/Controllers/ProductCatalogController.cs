@@ -6,10 +6,10 @@
     using HardwareStore.App.Models.Category;
     using HardwareStore.App.Models.ProductCatalog;
     using HardwareStore.App.Models.ProductFilter;
-    using HardwareStore.App.Services;
     using HardwareStore.App.Services.Catalog;
     using HardwareStore.App.Services.Data;
     using HardwareStore.App.Services.Data.Products;
+    using HardwareStore.App.Services.ProductFiltering;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("Catalog")]

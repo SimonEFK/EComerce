@@ -3,9 +3,11 @@ namespace HardwareStore.App
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Services;
+    using HardwareStore.App.Services.Cart;
     using HardwareStore.App.Services.Catalog;
     using HardwareStore.App.Services.Data;
     using HardwareStore.App.Services.Data.Products;
+    using HardwareStore.App.Services.ProductFiltering;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 

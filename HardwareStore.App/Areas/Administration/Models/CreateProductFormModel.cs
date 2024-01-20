@@ -1,4 +1,4 @@
-﻿namespace HardwareStore.App.Models.Product
+﻿namespace HardwareStore.App.Areas.Administration.Models
 {
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -9,7 +9,7 @@
         [StringLength(maximumLength: 120, MinimumLength = 6)]
         public string Name { get; set; }
 
-        
+
         [StringLength(maximumLength: 320, MinimumLength = 6)]
         [DisplayName("Name Detailed")]
         public string? NameDetailed { get; set; }
