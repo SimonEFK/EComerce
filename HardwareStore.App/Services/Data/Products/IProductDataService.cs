@@ -6,7 +6,7 @@
 
     public interface IProductDataService
     {
-        Task<ProductCreationStatus> CreateProduct(CreateProductFormModel productFormModel);
+        Task<CreationStatus> CreateProduct(CreateProductFormModel productFormModel);
         Task<TModel?> GetProductById<TModel>(int id);
 
     }

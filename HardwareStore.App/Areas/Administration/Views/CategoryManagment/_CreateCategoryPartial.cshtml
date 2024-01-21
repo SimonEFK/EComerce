@@ -1,7 +1,9 @@
 ﻿@model CategoryFormModel;
 <form method="post" action="/administration/categorymanagment/createcategory">
-    <label class="form-label" asp-for="@this.Model.Name"></label>
-    <input class="form-control" asp-for="@this.Model.Name" />
+    <span class="text-danger" asp-validation-for="@this.Model.Name"></span>
+    <input class="form-control" asp-for="@this.Model.Name" placeholder="Category name" />
+    <span class="text-danger" asp-validation-for="@this.Model.Image"></span>
     <input class="form-control" asp-for="@this.Model.Image" placeholder="Image URL" />
-    <button type="submit" class="btn btn-success">Submit</button>
+    <button id="submitBtn" type="submit" class="btn btn-success">Submit</button>
 </form>
+<partial name="_ValidationScriptsPartial" />

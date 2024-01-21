@@ -1,6 +1,6 @@
 ﻿namespace HardwareStore.App.Services.Data.Products
 {
-    public class ProductCreationStatus
+    public class CreationStatus
     {
         public int? Id { get; set; } = null;
         public bool IsSucssessfull { get; set; } = true;

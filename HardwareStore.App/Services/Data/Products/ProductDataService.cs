@@ -31,9 +31,9 @@
             return product;
         }
 
-        public async Task<ProductCreationStatus> CreateProduct(CreateProductFormModel productFormModel)
+        public async Task<CreationStatus> CreateProduct(CreateProductFormModel productFormModel)
         {
-            var status = new ProductCreationStatus();
+            var status = new CreationStatus();
 
             var categoryDb = await dbContext.Categories.FirstOrDefaultAsync(x => x.Id == productFormModel.CategoryId);
             var manufacturerDb = await dbContext.Manufacturers.FirstOrDefaultAsync(x => x.Id == productFormModel.ManufacturerId);

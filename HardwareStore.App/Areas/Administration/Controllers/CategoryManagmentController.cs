@@ -38,8 +38,20 @@
 
         public async Task<IActionResult> CreateCategory(CategoryFormModel categoryFormModel)
         {
-            await _categoryDataService.CreateCategory(categoryFormModel);
-            return RedirectToAction(nameof(CategoryList));
+            if (!ModelState.IsValid)
+            {
+                return View("CategoryList.cshtml", categoryFormModel);
+            }
+            var status = await _categoryDataService.CreateCategory(categoryFormModel);
+            if (!status.IsSucssessfull)
+            {
+                foreach (var message in status.Messages)
+                {
+                    ModelState.AddModelError("", message);
+                }
+
+            }
+            return Redirect("categorylist");
         }
     }
 }

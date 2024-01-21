@@ -30,6 +30,21 @@
     </div>
 </div>
 <div class="row">
+    <div class="col">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+</div>
+<div class="row">
     <div class="col-md-8 mx-auto d-flex justify-content-end">
         <button id="addCategoryBtn" class="btn btn-success">Add new Category</button>
     </div>
@@ -58,7 +73,15 @@
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
             const form = doc.querySelector('form');
+            const body = document.querySelector('body');
+            const scripts = doc.querySelectorAll('script');
             categoryFormContainer.appendChild(form);
+
+            scripts.forEach(script => {
+                const newScript = document.createElement('script');
+                newScript.src = script.src;
+                document.body.appendChild(newScript);
+            });
         }
 
     </script>

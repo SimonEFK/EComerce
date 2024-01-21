@@ -6,7 +6,9 @@
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Category;
+    using HardwareStore.App.Services.Data.Products;
     using Microsoft.EntityFrameworkCore;
+    using System.Globalization;
 
     public class CategoryDataService : ICategoryDataService
     {
@@ -20,16 +22,30 @@
         }
 
 
-        public async Task CreateCategory(CategoryFormModel model)
+        public async Task<CreationStatus> CreateCategory(CategoryFormModel model)
         {
+            var status = new CreationStatus();
+            var newCategoryName = model.Name.Trim().ToLower();
+            var categoryExsist = dbContext.Categories.Any(x => x.Name.ToLower() == newCategoryName);
+            if (categoryExsist)
+            {
+                status.IsSucssessfull = false;
+                status.Messages.Add($"Category with name {model.Name} already exsist");
+            }
+            if (!status.IsSucssessfull)
+            {
+                return status;
+            }
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo; ;
             var newCategory = new Category()
             {
-                Name = model.Name,
+                Name = textInfo.ToTitleCase(model.Name),
                 Url = model.Image
             };
 
             dbContext.Categories.Add(newCategory);
             await dbContext.SaveChangesAsync();
+            return status;
 
         }
 
