@@ -30,14 +30,17 @@
     </div>
 </div>
 <div class="row">
-    <div class="col">
-        @if (!ViewData.ModelState.IsValid)
+    @{
+        var errMessages = (List<string>)ViewData["ErrorMessages"];
+    }
+    <div class="col-md-8 mx-auto">
+        @if (errMessages != null)
         {
             <div class="alert alert-danger">
-                <ul>
-                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                <ul class="list-unstyled">
+                    @foreach (var error in errMessages)
                     {
-                        <li>@error.ErrorMessage</li>
+                        <li>@error</li>
                     }
                 </ul>
             </div>

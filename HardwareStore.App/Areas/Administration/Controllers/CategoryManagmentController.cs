@@ -45,10 +45,9 @@
             var status = await _categoryDataService.CreateCategory(categoryFormModel);
             if (!status.IsSucssessfull)
             {
-                foreach (var message in status.Messages)
-                {
-                    ModelState.AddModelError("", message);
-                }
+                var categories = await _categoryDataService.GetCategories<CategoryViewModel>();
+                ViewData["ErrorMessages"] = status.Messages;
+                return View("CategoryList", categories);
 
             }
             return Redirect("categorylist");
