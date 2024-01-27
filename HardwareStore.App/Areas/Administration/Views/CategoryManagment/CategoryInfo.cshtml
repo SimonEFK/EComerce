@@ -1,0 +1,15 @@
+﻿@model CategoryInfoModel
+<span>@Model.CategoryId</span>
+<span>@Model.CategoryName</span>
+@foreach (var spec in Model.Specifications)
+{
+    <span>@spec.SpecificationId</span>
+    <span>@spec.Name</span>
+    <span>@spec.InfoLevel</span>
+    <span>@spec.Filter</span>
+    @foreach (var value in spec.Values)
+    {
+        <span>@value.Id</span>
+        <span>@value.Value</span>
+    }
+}

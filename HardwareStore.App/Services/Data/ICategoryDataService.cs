@@ -8,6 +8,7 @@
 
     public interface ICategoryDataService
     {
+        Task<CategoryInfoModel> CategoryInfo(int categoryId);
         Task<CreationStatus> CreateCategory(CategoryFormModel model);
         Task<ICollection<TModel>> GetCategories<TModel>(bool isEmpty = false);
 

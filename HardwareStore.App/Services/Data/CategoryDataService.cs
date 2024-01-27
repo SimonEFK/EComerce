@@ -49,7 +49,6 @@
 
         }
 
-
         public async Task<ICollection<TModel>> GetCategories<TModel>(bool isEmpty = false)
         {
             var categories = dbContext.Categories.AsQueryable();
@@ -83,7 +82,6 @@
             return categoriesResult;
         }
 
-
         public ICollection<KeyValuePair<string, int>> GetCategorySpecifications(int categoryId)
         {
             var specifications = dbContext.Specifications
@@ -101,6 +99,33 @@
                 .ToList();
 
             return specifications;
+        }
+
+        public async Task<CategoryInfoModel> CategoryInfo(int categoryId)
+        {
+            var category = await dbContext.Categories
+                .Where(x => x.Id == categoryId)
+                .Select(x => new CategoryInfoModel
+                {
+                    CategoryId = x.Id,
+                    CategoryName = x.Name,
+                    ImageUrl = x.Url,
+                    ImageFilePath = x.FilePath,
+                    Specifications = x.Specifications.Select(s => new SpecificationInfoModel
+                    {
+                        SpecificationId = s.Id,
+                        Name = s.Name,
+                        InfoLevel = s.InfoLevel,
+                        Filter = s.Filter,
+                        Values = s.Values.Select(v => new SpecificationValueInfoModel
+                        {
+                            Id = v.Id,
+                            Value = v.Value
+                        }).ToList()
+                    }).ToList()
+                }).FirstOrDefaultAsync();
+
+            return category;
         }
     }
 }

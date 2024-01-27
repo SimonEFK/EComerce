@@ -3,6 +3,9 @@
     using HardwareStore.App.Areas.Administration.Models;
     using HardwareStore.App.Services.Data;
     using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
+    using System.Text.Json;
+    using System.Text.Json.Serialization;
 
     [Area("Administration")]
     public class CategoryManagmentController : Controller
@@ -51,6 +54,14 @@
 
             }
             return Redirect("categorylist");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CategoryInfo(int categoryId)
+        {
+            var categoryInfoModel = await _categoryDataService.CategoryInfo(categoryId);
+            var jsonString = JsonConvert.SerializeObject(categoryInfoModel);
+            return View(categoryInfoModel);
         }
     }
 }

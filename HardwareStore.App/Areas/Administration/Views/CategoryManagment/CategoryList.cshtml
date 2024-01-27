@@ -13,14 +13,13 @@
             <tbody>
                 @foreach (var item in this.Model)
                 {
-                    <tr>
-                        <th scope="row">@item.Id</th>
-                        <td>@item.Name</td>
-                        <td>
-                            @item.Image
+                    <tr data-categoryInfo>
+                        <th data-catid="@item.Id" scope="row">@item.Id</th>
+                        <td data-itemName="@item.Name">@item.Name</td>
+                        <td data-item-image="@item.Image" class="text-truncate">
                         </td>
                         <td>
-                            <button class="btn btn-info">Edit</button>
+                            <a href="categoryinfo?categoryId=@item.Id" class="btn btn-outline-info">Edit</a>
                             <button class="btn btn-danger">Delete</button>
                         </td>
                     </tr>
@@ -60,13 +59,23 @@
 @section Scripts{
     <script>
 
+
+
+
+
+
+
         let addCategoryBtn = document.querySelector('#addCategoryBtn');
         let categoryFormContainer = document.querySelector('#categoryFormDiv');
         addCategoryBtn.addEventListener('click', GetForm);
 
         async function GetForm() {
-            categoryFormContainer.innerHTML = '';
 
+            if (categoryFormContainer.querySelector('form')) {
+                return;
+            }
+
+            categoryFormContainer.innerHTML = '';
             let url = `https://localhost:7082/Administration/CategoryManagment/createcategory`;
             let response = await fetch(url, {
                 method: "GET"
@@ -81,11 +90,18 @@
             categoryFormContainer.appendChild(form);
 
             scripts.forEach(script => {
-                const newScript = document.createElement('script');
-                newScript.src = script.src;
-                document.body.appendChild(newScript);
+                if (!document.querySelector('body').querySelector(`script[src="${script.src}"`)) {
+
+                    const newScript = document.createElement('script');
+                    newScript.src = script.src;
+                    document.body.appendChild(newScript);
+
+                }
+
             });
+
         }
+
 
     </script>
 }
