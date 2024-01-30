@@ -10,6 +10,7 @@
     {
         Task<CategoryInfoModel> CategoryInfo(int categoryId);
         Task<CreationStatus> CreateCategory(CategoryFormModel model);
+        Task EditCategory(int id, string name, string url, bool downloadImage = false);
         Task<ICollection<TModel>> GetCategories<TModel>(bool isEmpty = false);
 
         ICollection<(string Name, int Id)> GetCategoriesAsTupleCollection();

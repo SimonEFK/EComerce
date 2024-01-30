@@ -14,11 +14,13 @@
     {
         private ApplicationDbContext dbContext;
         private IMapper mapper;
+        private IDownloadImageService downloadImageService;
 
-        public CategoryDataService(IMapper mapper, ApplicationDbContext dbContext)
+        public CategoryDataService(IMapper mapper, ApplicationDbContext dbContext, IDownloadImageService downloadImageService)
         {
             this.mapper = mapper;
             this.dbContext = dbContext;
+            this.downloadImageService = downloadImageService;
         }
 
 
@@ -36,7 +38,7 @@
             {
                 return status;
             }
-            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo; ;
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             var newCategory = new Category()
             {
                 Name = textInfo.ToTitleCase(model.Name),
@@ -107,7 +109,7 @@
                 .Where(x => x.Id == categoryId)
                 .Select(x => new CategoryInfoModel
                 {
-                    CategoryId = x.Id,
+                    Id = x.Id,
                     CategoryName = x.Name,
                     ImageUrl = x.Url,
                     ImageFilePath = x.FilePath,
@@ -126,6 +128,28 @@
                 }).FirstOrDefaultAsync();
 
             return category;
+        }
+
+        public async Task EditCategory(int id, string name, string url, bool downloadImage = false)
+        {
+            var category = await dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
+            if (category != null)
+            {
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+
+                category.Name = textInfo.ToTitleCase(name.Trim());
+                if (url != null)
+                {
+                    category.Url = url;
+                }
+                //if (downloadImage == true)
+                //{
+                //    //logic
+                //}
+                ////category.Url = url;
+
+                await dbContext.SaveChangesAsync();
+            }
         }
     }
 }

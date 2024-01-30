@@ -1,15 +1,81 @@
-﻿@model CategoryInfoModel
-<span>@Model.CategoryId</span>
-<span>@Model.CategoryName</span>
-@foreach (var spec in Model.Specifications)
-{
-    <span>@spec.SpecificationId</span>
-    <span>@spec.Name</span>
-    <span>@spec.InfoLevel</span>
-    <span>@spec.Filter</span>
-    @foreach (var value in spec.Values)
-    {
-        <span>@value.Id</span>
-        <span>@value.Value</span>
-    }
+﻿@model CategoryInfoViewModel
+<div class="row">
+    <div class="col-sm-4" id="cateInfoDiv">
+        <form method="post" action="/Administration/CategoryManagment/EditCategory/@Model.CategoryInfoModel.Id">
+            <div class="mb-3">
+
+                <div class="d-flex">
+                    <span asp-validation-for="@Model.CategoryInfoModel.CategoryName" class="text-danger"></span>
+                    <input readonly value="@Model.CategoryInfoModel.CategoryName" asp-for="@Model.CategoryFormModel.Name" name="Model.Name" class="form-control" />
+                    <button type="button" class="btn btn-outline-info">Edit</button>
+                </div>
+                <div class="d-flex">
+                    <span asp-validation-for="@Model.CategoryInfoModel.ImageFilePath" class="text-danger"></span>
+                    <input readonly value="@Model.CategoryInfoModel.ImageFilePath" asp-for="@Model.CategoryFormModel.ImageFilePath" name="Model.Image.FilePath" class="form-control" />
+                    <button type="button" class="btn btn-outline-info">Edit</button>
+                </div>
+                <div class="d-flex">
+                    <span asp-validation-for="@Model.CategoryInfoModel.ImageUrl" class="text-danger"></span>
+                    <input readonly value="@Model.CategoryInfoModel.ImageUrl" asp-for="@Model.CategoryFormModel.ImageUrl" name="Model.ImageUrl" class="form-control" />
+                    <button type="button" class="btn btn-outline-info">Edit</button>
+                </div>
+            </div>
+            <button class="btn btn-outline-success">Apply Changes</button>
+        </form>
+
+    </div>
+</div>
+<div class="row">
+    <h3>Specifications</h3>
+    <div class="col-md-4">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Filter</th>
+                    <th scope="col">Info Level</th>
+                    <th scope="col">Manage</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CategoryInfoModel.Specifications)
+                {
+                    <tr>
+                        <th scope="row">@item.SpecificationId</th>
+                        <td>@item.Name</td>
+                        <td>@item.Filter</td>
+                        <td>@item.InfoLevel</td>
+                        <td>
+                            <button class="btn btn-outline-info">Edit</button>
+                        </td>
+                    </tr>
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        let cateInfoDiv = document.querySelector('#cateInfoDiv');
+        debugger;
+        cateInfoDiv.addEventListener('click', ToggleInput);
+
+        console.log('Ayoo')
+
+        function ToggleInput(event) {
+            let target = event.target;
+            if (target.matches('button')) {
+                // event.preventDefault();
+                let input = target.closest('div').querySelector('input');
+                input.toggleAttribute('readonly');
+
+            }
+
+        }
+    </script>
 }

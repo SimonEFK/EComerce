@@ -1,6 +1,7 @@
 ﻿namespace HardwareStore.App.Areas.Administration.Controllers
 {
     using HardwareStore.App.Areas.Administration.Models;
+    using HardwareStore.App.Data.Models;
     using HardwareStore.App.Services.Data;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
@@ -57,11 +58,34 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> CategoryInfo(int categoryId)
+        public async Task<IActionResult> CategoryInfo(int Id)
         {
-            var categoryInfoModel = await _categoryDataService.CategoryInfo(categoryId);
-            var jsonString = JsonConvert.SerializeObject(categoryInfoModel);
-            return View(categoryInfoModel);
+            var categoryInfoModel = await _categoryDataService.CategoryInfo(Id);
+            var categoryFormModel = new CategoryEditModel();
+            var categoryInfoViewModel = new CategoryInfoViewModel
+            {
+                CategoryFormModel = categoryFormModel,
+                CategoryInfoModel = categoryInfoModel
+            };
+            return View(categoryInfoViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCategory(int id, CategoryEditModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var categoryInfoModel = await _categoryDataService.CategoryInfo(id);
+                var categoryFormModel = model;
+                var categoryInfoViewModel = new CategoryInfoViewModel
+                {
+                    CategoryFormModel = categoryFormModel,
+                    CategoryInfoModel = categoryInfoModel
+                };
+                return View(categoryInfoViewModel);
+            }
+            await _categoryDataService.EditCategory(id, model.Name, model.ImageUrl);
+            return Redirect($"/Administration/CategoryManagment/CategoryInfo/{id}");
         }
     }
 }

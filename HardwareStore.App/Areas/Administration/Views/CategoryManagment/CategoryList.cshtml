@@ -19,7 +19,7 @@
                         <td data-item-image="@item.Image" class="text-truncate">
                         </td>
                         <td>
-                            <a href="categoryinfo?categoryId=@item.Id" class="btn btn-outline-info">Edit</a>
+                            <a href="categoryinfo/@item.Id" class="btn btn-outline-info">Edit</a>
                             <button class="btn btn-danger">Delete</button>
                         </td>
                     </tr>
@@ -58,12 +58,6 @@
 
 @section Scripts{
     <script>
-
-
-
-
-
-
 
         let addCategoryBtn = document.querySelector('#addCategoryBtn');
         let categoryFormContainer = document.querySelector('#categoryFormDiv');
