@@ -87,5 +87,29 @@
             await _categoryDataService.EditCategory(id, model.Name, model.ImageUrl);
             return Redirect($"/Administration/CategoryManagment/CategoryInfo/{id}");
         }
+
+        [HttpGet]
+        public IActionResult CreateSpecification()
+        {
+            var model = new SpecificationCreateModel();
+            return PartialView("_CreateSpecificationForm", model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateSpecification(int Id, SpecificationCreateModel model)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return PartialView("_CreateSpecificationForm", model);
+            }
+            var result = await _categoryDataService.CreateSpecification(Id, model);
+
+            if (!result.IsSucssessfull)
+            {
+
+                ;
+            }
+            return Ok();
+        }
     }
 }

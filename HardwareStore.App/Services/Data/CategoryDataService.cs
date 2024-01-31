@@ -151,5 +151,20 @@
                 await dbContext.SaveChangesAsync();
             }
         }
+
+        public async Task<CreationStatus> CreateSpecification(int categoryId, SpecificationCreateModel model)
+        {
+            var status = new CreationStatus();
+            var specification = new Specification()
+            {
+                CategoryId = categoryId,
+                Name = model.Name,
+                InfoLevel = model.InfoLevel,
+                Filter = model.Filter
+            };
+            dbContext.Specifications.Add(specification);
+            await dbContext.SaveChangesAsync();
+            return status;
+        }
     }
 }
