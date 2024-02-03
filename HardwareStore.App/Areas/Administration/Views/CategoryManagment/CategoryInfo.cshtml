@@ -1,28 +1,7 @@
 ﻿@model CategoryInfoViewModel
 <div class="row">
-    <div class="col-sm-4" id="cateInfoDiv">
-        <form method="post" action="/Administration/CategoryManagment/EditCategory/@Model.CategoryInfoModel.Id">
-            <div class="mb-3">
-
-                <div class="d-flex">
-                    <span asp-validation-for="@Model.CategoryInfoModel.CategoryName" class="text-danger"></span>
-                    <input readonly value="@Model.CategoryInfoModel.CategoryName" asp-for="@Model.CategoryFormModel.Name" name="Model.Name" class="form-control" />
-                    <button type="button" class="btn btn-outline-info">Edit</button>
-                </div>
-                <div class="d-flex">
-                    <span asp-validation-for="@Model.CategoryInfoModel.ImageFilePath" class="text-danger"></span>
-                    <input readonly value="@Model.CategoryInfoModel.ImageFilePath" asp-for="@Model.CategoryFormModel.ImageFilePath" name="Model.Image.FilePath" class="form-control" />
-                    <button type="button" class="btn btn-outline-info">Edit</button>
-                </div>
-                <div class="d-flex">
-                    <span asp-validation-for="@Model.CategoryInfoModel.ImageUrl" class="text-danger"></span>
-                    <input readonly value="@Model.CategoryInfoModel.ImageUrl" asp-for="@Model.CategoryFormModel.ImageUrl" name="Model.ImageUrl" class="form-control" />
-                    <button type="button" class="btn btn-outline-info">Edit</button>
-                </div>
-            </div>
-            <button class="btn btn-outline-success">Apply Changes</button>
-        </form>
-
+    <div class="col d-flex justify-content-center align-items-center" id="cateInfoDiv">
+        <partial name="_CategoryEditPartial" model="@Model.CategoryFormModel" />
     </div>
 </div>
 <div class="row">
@@ -63,7 +42,11 @@
     </div>
 </div>
 
-@section Scripts{
+@section Scripts {    
+    <script src="~/js/categoryCrud.js"></script>
+}
+
+@* @section Scripts{
     <partial name="_ValidationScriptsPartial" />
     <script>
 
@@ -74,9 +57,9 @@
 
         async function GetSpecForm(event) {
             const url = `https://localhost:7082/Administration/CategoryManagment/CreateSpecification/`;
-            debugger;
             let response = await fetch(url, { method: "GET" });
             let html = await response.text();
+            specDiv.innerHTML = "";
             specDiv.append(new DOMParser().parseFromString(html, 'text/html').body.firstChild);
 
         }
@@ -99,7 +82,7 @@
 
                     if (response.ok) {
                         location.reload();
-                    } 
+                    }
                     let html = await response.text();
                     specDiv.append(new DOMParser().parseFromString(html, 'text/html').body.firstChild);
                 }
@@ -122,4 +105,4 @@
 
         }
     </script>
-}
+} *@

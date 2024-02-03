@@ -4,15 +4,16 @@
 
     public class CategoryEditModel
     {
+        public int Id { get; set; }
+
         [StringLength(maximumLength: 20, MinimumLength = 3, ErrorMessage = "{0} field must be with length {1} - {2} symbols")]
         [Required]
         public string Name { get; set; }
 
-        //[Required(ErrorMessage = "Category image is required")]
         public string? ImageFilePath { get; set; }
 
+        [RegularExpression(@"^https?:\/\/.*\/.*\.(jpg|jpeg|png|gif|webp|avif)$", ErrorMessage = "Invalid Url Format")]
         public string? ImageUrl { get; set; }
-
 
     }
 }

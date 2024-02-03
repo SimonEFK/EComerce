@@ -14,13 +14,13 @@
     {
         private ApplicationDbContext dbContext;
         private IMapper mapper;
-        private IDownloadImageService downloadImageService;
+        private IUrlValidationService urlValidationService;
 
-        public CategoryDataService(IMapper mapper, ApplicationDbContext dbContext, IDownloadImageService downloadImageService)
+        public CategoryDataService(IMapper mapper, ApplicationDbContext dbContext, IDownloadImageService downloadImageService, IUrlValidationService urlValidationService)
         {
             this.mapper = mapper;
             this.dbContext = dbContext;
-            this.downloadImageService = downloadImageService;
+            this.urlValidationService = urlValidationService;
         }
 
 
@@ -135,18 +135,17 @@
             var category = await dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
             if (category != null)
             {
+                if (category.Name.Equals(name))
+                {
+                    return;
+                }
                 TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
-
                 category.Name = textInfo.ToTitleCase(name.Trim());
+
                 if (url != null)
                 {
                     category.Url = url;
                 }
-                //if (downloadImage == true)
-                //{
-                //    //logic
-                //}
-                ////category.Url = url;
 
                 await dbContext.SaveChangesAsync();
             }

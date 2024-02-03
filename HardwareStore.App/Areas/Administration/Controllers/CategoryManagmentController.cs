@@ -30,6 +30,8 @@
             return View(categories.ToList());
         }
 
+
+
         [HttpGet]
         public IActionResult CreateCategory()
         {
@@ -61,7 +63,13 @@
         public async Task<IActionResult> CategoryInfo(int Id)
         {
             var categoryInfoModel = await _categoryDataService.CategoryInfo(Id);
-            var categoryFormModel = new CategoryEditModel();
+            var categoryFormModel = new CategoryEditModel
+            {
+                Id = categoryInfoModel.Id,
+                Name = categoryInfoModel.CategoryName,
+                ImageFilePath = categoryInfoModel.ImageFilePath,
+                ImageUrl = categoryInfoModel.ImageUrl,
+            };
             var categoryInfoViewModel = new CategoryInfoViewModel
             {
                 CategoryFormModel = categoryFormModel,
@@ -70,23 +78,19 @@
             return View(categoryInfoViewModel);
         }
 
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditCategory(int id, CategoryEditModel model)
         {
             if (!ModelState.IsValid)
             {
-                var categoryInfoModel = await _categoryDataService.CategoryInfo(id);
-                var categoryFormModel = model;
-                var categoryInfoViewModel = new CategoryInfoViewModel
-                {
-                    CategoryFormModel = categoryFormModel,
-                    CategoryInfoModel = categoryInfoModel
-                };
-                return View(categoryInfoViewModel);
+                return PartialView("_CategoryEditPartial", model);
             }
-            await _categoryDataService.EditCategory(id, model.Name, model.ImageUrl);
-            return Redirect($"/Administration/CategoryManagment/CategoryInfo/{id}");
+            await _categoryDataService.EditCategory(model.Id, model.Name, model.ImageUrl);
+            return PartialView("_CategoryEditPartial", model);
         }
+
 
         [HttpGet]
         public IActionResult CreateSpecification()

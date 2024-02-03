@@ -10,6 +10,7 @@ namespace HardwareStore.App
     using HardwareStore.App.Services.ProductFiltering;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+    using NuGet.Common;
 
     public class Program
     {
@@ -39,7 +40,7 @@ namespace HardwareStore.App
                 options.LoginPath = "/Account/Login";
                 options.LogoutPath = "/Account/Logout";
             });
-
+            builder.Services.AddAntiforgery();
             builder.Services.AddControllersWithViews();
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -50,11 +51,8 @@ namespace HardwareStore.App
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<ICatalogService, CatalogService>();
             builder.Services.AddScoped<IDownloadImageService, DownloadImageService>();
-
-
-
+            builder.Services.AddScoped<IUrlValidationService, UrlValidationService>();
             var app = builder.Build();
-
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

@@ -8,6 +8,15 @@
     padding: 0;
 }
 
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+    ul li {
+        list-style-type: none;
+    }
+
 html {
     position: relative;
     min-height: 100%;
@@ -189,4 +198,3 @@ p, h1, h2, h3, h4, h5, h6 {
         object-fit: contain;
         object-position: center;
     }
-
