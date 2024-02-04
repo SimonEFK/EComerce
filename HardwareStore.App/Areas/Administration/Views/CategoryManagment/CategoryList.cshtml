@@ -56,46 +56,6 @@
     </div>
 </div>
 
-@section Scripts{
-    <script>
-
-        let addCategoryBtn = document.querySelector('#addCategoryBtn');
-        let categoryFormContainer = document.querySelector('#categoryFormDiv');
-        addCategoryBtn.addEventListener('click', GetForm);
-
-        async function GetForm() {
-
-            if (categoryFormContainer.querySelector('form')) {
-                return;
-            }
-
-            categoryFormContainer.innerHTML = '';
-            let url = `https://localhost:7082/Administration/CategoryManagment/createcategory`;
-            let response = await fetch(url, {
-                method: "GET"
-            });
-            let html = await response.text();
-
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const form = doc.querySelector('form');
-            const body = document.querySelector('body');
-            const scripts = doc.querySelectorAll('script');
-            categoryFormContainer.appendChild(form);
-
-            scripts.forEach(script => {
-                if (!document.querySelector('body').querySelector(`script[src="${script.src}"`)) {
-
-                    const newScript = document.createElement('script');
-                    newScript.src = script.src;
-                    document.body.appendChild(newScript);
-
-                }
-
-            });
-
-        }
-
-
-    </script>
+@section Scripts {
+    <script src="~/js/categoryCrud.js"></script>
 }
