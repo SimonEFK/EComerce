@@ -3,6 +3,8 @@
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using HardwareStore.App.Areas.Administration.Models;
+    using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Category;
+    using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Specifications;
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Category;
@@ -24,11 +26,12 @@
         }
 
 
-        public async Task<CreationStatus> CreateCategory(CategoryFormModel model)
+        public async Task<CreationStatus> CreateCategory(CategoryCreateModel model)
         {
             var status = new CreationStatus();
             var newCategoryName = model.Name.Trim().ToLower();
             var categoryExsist = dbContext.Categories.Any(x => x.Name.ToLower() == newCategoryName);
+
             if (categoryExsist)
             {
                 status.IsSucssessfull = false;
@@ -51,19 +54,12 @@
 
         }
 
-        public async Task<ICollection<TModel>> GetCategories<TModel>(bool isEmpty = false)
+        public async Task<ICollection<TModel>> GetCategories<TModel>()
         {
-            var categories = dbContext.Categories.AsQueryable();
-
-            if (!isEmpty)
-            {
-                categories.Where(x => x.Products.Any());
-            }
-
-            return await categories
+            var categories = await dbContext.Categories
              .ProjectTo<TModel>(mapper.ConfigurationProvider)
              .ToListAsync();
-
+            return categories;
         }
 
         public ICollection<(string Name, int Id)> GetCategoriesAsTupleCollection()

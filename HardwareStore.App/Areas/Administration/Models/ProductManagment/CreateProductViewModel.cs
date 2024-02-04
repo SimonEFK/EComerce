@@ -1,4 +1,4 @@
-﻿namespace HardwareStore.App.Areas.Administration.Models
+﻿namespace HardwareStore.App.Areas.Administration.Models.ProductManagment
 {
     public class CreateProductViewModel
     {

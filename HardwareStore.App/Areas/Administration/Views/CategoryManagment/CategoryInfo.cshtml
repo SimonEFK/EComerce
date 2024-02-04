@@ -42,67 +42,10 @@
     </div>
 </div>
 
-@section Scripts {    
-    <script src="~/js/categoryCrud.js"></script>
+@section Scripts {
+    <script src="~/js/categoryEdit.js"></script>
+    <script>
+        this.document.addEventListener('onload', CatagoryEdit())
+    </script>
 }
 
-@* @section Scripts{
-    <partial name="_ValidationScriptsPartial" />
-    <script>
-
-        let specDiv = document.querySelector('#specDiv');
-        specDiv.addEventListener('click', SubmitSpecForm);
-        let getFormBtn = document.querySelector('#getFormBtn')
-        getFormBtn.addEventListener('click', GetSpecForm);
-
-        async function GetSpecForm(event) {
-            const url = `https://localhost:7082/Administration/CategoryManagment/CreateSpecification/`;
-            let response = await fetch(url, { method: "GET" });
-            let html = await response.text();
-            specDiv.innerHTML = "";
-            specDiv.append(new DOMParser().parseFromString(html, 'text/html').body.firstChild);
-
-        }
-
-        async function SubmitSpecForm(event) {
-            if (event.target.matches('button#submitBtn')) {
-                event.preventDefault();
-                let form = document.querySelector('#specForm');
-                $.validator.unobtrusive.parse(form);
-
-                if ($(form).valid()) {
-                    specDiv.innerHTML = "";
-                    let categoryId = @Model.CategoryInfoModel.Id;
-                    const url = `https://localhost:7082/Administration/CategoryManagment/CreateSpecification/${categoryId}`
-                    let formData = new FormData(form);
-                    let response = await fetch(url, {
-                        method: "POST",
-                        body: formData
-                    })
-
-                    if (response.ok) {
-                        location.reload();
-                    }
-                    let html = await response.text();
-                    specDiv.append(new DOMParser().parseFromString(html, 'text/html').body.firstChild);
-                }
-                // document.querySelector('input[name="__RequestVerificationToken"]').value;
-                // formData.append("__RequestVerificationToken", token);
-
-            }
-        }
-
-        let cateInfoDiv = document.querySelector('#cateInfoDiv');
-        cateInfoDiv.addEventListener('click', ToggleInput);
-        function ToggleInput(event) {
-            let target = event.target;
-            if (target.matches('button')) {
-                // event.preventDefault();
-                let input = target.closest('div').querySelector('input');
-                input.toggleAttribute('readonly');
-
-            }
-
-        }
-    </script>
-} *@

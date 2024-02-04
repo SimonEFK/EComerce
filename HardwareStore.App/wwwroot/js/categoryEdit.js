@@ -1,5 +1,4 @@
-function CategoryEdit() {
-
+function CatagoryEdit() {
     let div = document.querySelector('#cateInfoDiv');
     let editSubmitBtn = document.querySelector('#cateEditSubmitBtn');
 
@@ -24,7 +23,6 @@ function CategoryEdit() {
 
                     formData.append("RequestVerificationToken", token.value);
                 }
-                debugger;
                 let response = await fetch(url, {
                     method: "POST",
                     body: formData
@@ -45,17 +43,11 @@ function CategoryEdit() {
         }
     }
     function ToggleReadonlyInput(event) {
+
         let target = event.target;
         if (target.matches('button[data-edit]')) {
-
             let input = target.parentElement.querySelector('input');
-            input.toggleAttribute('readonly');
+            input.toggleAttribute('disabled');
         }
     }
 }
-
-let createSubmitBtn = document.querySelector('#addCategoryBtn');
-createSubmitBtn.addEventListener('click', (event) => {
-    event.preventDefault();
-    console.log(event.target);
-});

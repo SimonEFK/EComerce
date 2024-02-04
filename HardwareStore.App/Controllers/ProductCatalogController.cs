@@ -31,7 +31,7 @@
         public async Task<IActionResult> Index()
         {
             var categories = await categoryDataService.GetCategories<CategoryModel>();
-            return View(categories);
+            return View(categories.Where(x => x.ProductsCount > 0).OrderByDescending(x => x.Name).ToList());
         }
 
 

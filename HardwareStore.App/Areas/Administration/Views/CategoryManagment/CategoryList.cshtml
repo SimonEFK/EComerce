@@ -1,5 +1,5 @@
-﻿@model List<CategoryViewModel>
-<div class="row">
+﻿@model CategoryListingViewModel;
+<div class="row mb-3">
     <div class="col-md-8 mx-auto">
         <table class="table">
             <thead class="thead-light">
@@ -11,7 +11,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in this.Model)
+                @foreach (var item in this.Model.Categories)
                 {
                     <tr data-categoryInfo>
                         <th data-catid="@item.Id" scope="row">@item.Id</th>
@@ -26,36 +26,12 @@
                 }
             </tbody>
         </table>
+        <button data-bs-toggle="collapse" data-bs-target="#categoryFormRow" id="addCategoryBtn" class="btn btn-success">Add Category</button>
     </div>
 </div>
-<div class="row">
-    @{
-        var errMessages = (List<string>)ViewData["ErrorMessages"];
-    }
-    <div class="col-md-8 mx-auto">
-        @if (errMessages != null)
-        {
-            <div class="alert alert-danger">
-                <ul class="list-unstyled">
-                    @foreach (var error in errMessages)
-                    {
-                        <li>@error</li>
-                    }
-                </ul>
-            </div>
-        }
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-8 mx-auto d-flex justify-content-end">
-        <button id="addCategoryBtn" class="btn btn-success">Add new Category</button>
-    </div>
-</div>
-<div class="row">
+<div class="collapse row" id="categoryFormRow">
     <div id="categoryFormDiv" class="col-md-8 mx-auto">
+        <partial name="_CreateCategoryPartial" model="@Model.CategoryFormModel" />
     </div>
 </div>
 
-@section Scripts {
-    <script src="~/js/categoryCrud.js"></script>
-}

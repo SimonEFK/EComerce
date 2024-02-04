@@ -1,6 +1,7 @@
 ﻿namespace HardwareStore.App.Areas.Administration.Controllers
 {
-    using HardwareStore.App.Areas.Administration.Models;
+    using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Category;
+    using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Specifications;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Services.Data;
     using Microsoft.AspNetCore.Mvc;
@@ -27,36 +28,13 @@
         public async Task<IActionResult> CategoryList()
         {
             var categories = await _categoryDataService.GetCategories<CategoryViewModel>();
-            return View(categories.ToList());
-        }
-
-
-
-        [HttpGet]
-        public IActionResult CreateCategory()
-        {
-            var categoryFormModel = new CategoryFormModel();
-
-            return PartialView("_CreateCategoryPartial", categoryFormModel);
-        }
-
-        [HttpPost]
-
-        public async Task<IActionResult> CreateCategory(CategoryFormModel categoryFormModel)
-        {
-            if (!ModelState.IsValid)
+            var categoryCreateModel = new CategoryCreateModel();
+            var categoryListViewModel = new CategoryListingViewModel()
             {
-                return View("CategoryList.cshtml", categoryFormModel);
-            }
-            var status = await _categoryDataService.CreateCategory(categoryFormModel);
-            if (!status.IsSucssessfull)
-            {
-                var categories = await _categoryDataService.GetCategories<CategoryViewModel>();
-                ViewData["ErrorMessages"] = status.Messages;
-                return View("CategoryList", categories);
-
-            }
-            return Redirect("categorylist");
+                Categories = categories.ToList(),
+                CategoryFormModel = categoryCreateModel
+            };
+            return View(categoryListViewModel);
         }
 
         [HttpGet]
@@ -81,6 +59,40 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateCategory(CategoryCreateModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var categories = await _categoryDataService.GetCategories<CategoryViewModel>();
+                var categoryListViewModel = new CategoryListingViewModel()
+                {
+                    Categories = categories.ToList(),
+                    CategoryFormModel = model
+                };
+                return View("CategoryList", categoryListViewModel);
+            }
+            var result = await _categoryDataService.CreateCategory(model);
+
+            if (!result.IsSucssessfull)
+            {
+                foreach (var item in result.Messages)
+                {
+                    ModelState.AddModelError("", item);
+                }
+                var categories = await _categoryDataService.GetCategories<CategoryViewModel>();
+                var categoryListViewModel = new CategoryListingViewModel()
+                {
+                    Categories = categories.ToList(),
+                    CategoryFormModel = model
+                };
+                return View("CategoryList", categoryListViewModel);
+            }
+            return Redirect("/Administration/CategoryManagment/CategoryList");
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditCategory(int id, CategoryEditModel model)
         {
             if (!ModelState.IsValid)
@@ -90,7 +102,6 @@
             await _categoryDataService.EditCategory(model.Id, model.Name, model.ImageUrl);
             return PartialView("_CategoryEditPartial", model);
         }
-
 
         [HttpGet]
         public IActionResult CreateSpecification()

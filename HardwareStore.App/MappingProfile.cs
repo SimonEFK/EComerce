@@ -1,7 +1,7 @@
 ﻿namespace HardwareStore.App
 {
     using AutoMapper;
-    using HardwareStore.App.Areas.Administration.Models;
+    using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Category;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Category;
     using HardwareStore.App.Models.Product;
