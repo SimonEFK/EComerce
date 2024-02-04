@@ -1,6 +1,6 @@
 ﻿namespace HardwareStore.App.Services.Data.Products
 {
-    using HardwareStore.App.Areas.Administration.Models;
+    using HardwareStore.App.Areas.Administration.Models.ProductManagment;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 

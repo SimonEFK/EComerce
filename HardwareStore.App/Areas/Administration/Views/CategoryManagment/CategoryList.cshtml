@@ -1,5 +1,5 @@
-﻿@model List<CategoryViewModel>
-<div class="row">
+﻿@model CategoryListingViewModel;
+<div class="row mb-3">
     <div class="col-md-8 mx-auto">
         <table class="table">
             <thead class="thead-light">
@@ -11,7 +11,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in this.Model)
+                @foreach (var item in this.Model.Categories)
                 {
                     <tr data-categoryInfo>
                         <th data-catid="@item.Id" scope="row">@item.Id</th>
@@ -26,76 +26,12 @@
                 }
             </tbody>
         </table>
+        <button data-bs-toggle="collapse" data-bs-target="#categoryFormRow" id="addCategoryBtn" class="btn btn-success">Add Category</button>
     </div>
 </div>
-<div class="row">
-    @{
-        var errMessages = (List<string>)ViewData["ErrorMessages"];
-    }
-    <div class="col-md-8 mx-auto">
-        @if (errMessages != null)
-        {
-            <div class="alert alert-danger">
-                <ul class="list-unstyled">
-                    @foreach (var error in errMessages)
-                    {
-                        <li>@error</li>
-                    }
-                </ul>
-            </div>
-        }
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-8 mx-auto d-flex justify-content-end">
-        <button id="addCategoryBtn" class="btn btn-success">Add new Category</button>
-    </div>
-</div>
-<div class="row">
+<div class="collapse row" id="categoryFormRow">
     <div id="categoryFormDiv" class="col-md-8 mx-auto">
+        <partial name="_CreateCategoryPartial" model="@Model.CategoryFormModel" />
     </div>
 </div>
 
-@section Scripts{
-    <script>
-
-        let addCategoryBtn = document.querySelector('#addCategoryBtn');
-        let categoryFormContainer = document.querySelector('#categoryFormDiv');
-        addCategoryBtn.addEventListener('click', GetForm);
-
-        async function GetForm() {
-
-            if (categoryFormContainer.querySelector('form')) {
-                return;
-            }
-
-            categoryFormContainer.innerHTML = '';
-            let url = `https://localhost:7082/Administration/CategoryManagment/createcategory`;
-            let response = await fetch(url, {
-                method: "GET"
-            });
-            let html = await response.text();
-
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const form = doc.querySelector('form');
-            const body = document.querySelector('body');
-            const scripts = doc.querySelectorAll('script');
-            categoryFormContainer.appendChild(form);
-
-            scripts.forEach(script => {
-                if (!document.querySelector('body').querySelector(`script[src="${script.src}"`)) {
-
-                    const newScript = document.createElement('script');
-                    newScript.src = script.src;
-                    document.body.appendChild(newScript);
-
-                }
-
-            });
-
-        }
-
-
-    </script>
-}

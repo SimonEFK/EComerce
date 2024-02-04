@@ -2,7 +2,7 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
-    using HardwareStore.App.Areas.Administration.Models;
+    using HardwareStore.App.Areas.Administration.Models.ProductManagment;
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using Microsoft.EntityFrameworkCore;
