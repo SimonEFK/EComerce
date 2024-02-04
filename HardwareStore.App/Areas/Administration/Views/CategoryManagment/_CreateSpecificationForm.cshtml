@@ -1,24 +1,24 @@
 ﻿@model SpecificationCreateModel
-<form id="specForm">
+<form id="specForm" class="collapse @ViewData["FormCollapse"]" method="post" action="/Administration/CategoryManagment/CreateSpecification">
+    @Html.AntiForgeryToken()
     <input type="hidden" asp-for="@Model.CategoryId" />
     <div class="form-group">
         <span class="text-danger" asp-validation-for="@Model.Name"></span>
-        <input class="form-control" asp-for="@Model.Name" placeholder="Name" />
+        <div class="input-group">
+            <input class="form-control" asp-for="@Model.Name" placeholder="Name" />
+            <button id="submitBtn" class="btn btn-outline-success">Submit</button>
+        </div>
     </div>
-    <div class="form-group">
-        <div class="form-check form-switch">
+    <div class="form-group d-flex">
+        <div class="form-check-inline form-switch">
             <input asp-for="@Model.Filter" class="form-check-input" type="checkbox" role="switch">
             <label asp-for="@Model.Filter" class="form-check-label">Filter</label>
         </div>
-        <div class="form-check">
-            <input asp-for="@Model.InfoLevel" class="form-check-input" type="radio" value="Essential" checked>
-            <label class="form-check-label">Essential</label>
-        </div>
-        <div class="form-check">
-            <input asp-for="@Model.InfoLevel" class="form-check-input" type="radio" value="None">
-            <label class="form-check-label">None</label>
+        <div class="form-check-inline form-switch">
+            <input asp-for="@Model.Essential" class="form-check-input" type="checkbox" role="switch">
+            <label asp-for="@Model.Essential" class="form-check-label"></label>
         </div>
     </div>
-    <button id="submitBtn" class="btn btn-outline-success">Submit</button>
+    <div class="text-danger col-form-label-sm" asp-validation-summary="ModelOnly"></div>
 </form>
 

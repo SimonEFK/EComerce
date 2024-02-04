@@ -41,17 +41,22 @@
         public async Task<IActionResult> CategoryInfo(int Id)
         {
             var categoryInfoModel = await _categoryDataService.CategoryInfo(Id);
-            var categoryFormModel = new CategoryEditModel
+            var categoryEditModel = new CategoryEditModel
             {
                 Id = categoryInfoModel.Id,
                 Name = categoryInfoModel.CategoryName,
                 ImageFilePath = categoryInfoModel.ImageFilePath,
                 ImageUrl = categoryInfoModel.ImageUrl,
             };
+            var specificationCreateModel = new SpecificationCreateModel
+            {
+                CategoryId = categoryInfoModel.Id,
+            };
             var categoryInfoViewModel = new CategoryInfoViewModel
             {
-                CategoryFormModel = categoryFormModel,
-                CategoryInfoModel = categoryInfoModel
+                CategoryFormModel = categoryEditModel,
+                CategoryInfoModel = categoryInfoModel,
+                SpecificationCreateForm = specificationCreateModel
             };
             return View(categoryInfoViewModel);
         }
@@ -69,6 +74,7 @@
                     Categories = categories.ToList(),
                     CategoryFormModel = model
                 };
+                ViewData["FormCollapse"] = "show";
                 return View("CategoryList", categoryListViewModel);
             }
             var result = await _categoryDataService.CreateCategory(model);
@@ -85,6 +91,7 @@
                     Categories = categories.ToList(),
                     CategoryFormModel = model
                 };
+                ViewData["FormCollapse"] = "show";
                 return View("CategoryList", categoryListViewModel);
             }
             return Redirect("/Administration/CategoryManagment/CategoryList");
@@ -103,28 +110,64 @@
             return PartialView("_CategoryEditPartial", model);
         }
 
-        [HttpGet]
-        public IActionResult CreateSpecification()
-        {
-            var model = new SpecificationCreateModel();
-            return PartialView("_CreateSpecificationForm", model);
-        }
+
         [HttpPost]
-        public async Task<IActionResult> CreateSpecification(int Id, SpecificationCreateModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateSpecification(SpecificationCreateModel model)
         {
 
             if (!ModelState.IsValid)
             {
-                return PartialView("_CreateSpecificationForm", model);
+                var categoryInfoModel = await _categoryDataService.CategoryInfo(model.CategoryId);
+                var categoryEditModel = new CategoryEditModel
+                {
+                    Id = categoryInfoModel.Id,
+                    Name = categoryInfoModel.CategoryName,
+                    ImageFilePath = categoryInfoModel.ImageFilePath,
+                    ImageUrl = categoryInfoModel.ImageUrl,
+                };
+                var specificationCreateModel = new SpecificationCreateModel
+                {
+                    CategoryId = categoryInfoModel.Id,
+                };
+                var categoryInfoViewModel = new CategoryInfoViewModel
+                {
+                    CategoryFormModel = categoryEditModel,
+                    CategoryInfoModel = categoryInfoModel
+                };
+                ViewData["FormCollapse"] = "show";
+                return View("CategoryInfo", categoryInfoViewModel);
             }
-            var result = await _categoryDataService.CreateSpecification(Id, model);
+            var result = await _categoryDataService.CreateSpecification(model);
 
             if (!result.IsSucssessfull)
             {
-
-                ;
+                foreach (var item in result.Messages)
+                {
+                    ModelState.AddModelError("", item);
+                }
+                var categoryInfoModel = await _categoryDataService.CategoryInfo(model.CategoryId);
+                var categoryEditModel = new CategoryEditModel
+                {
+                    Id = categoryInfoModel.Id,
+                    Name = categoryInfoModel.CategoryName,
+                    ImageFilePath = categoryInfoModel.ImageFilePath,
+                    ImageUrl = categoryInfoModel.ImageUrl,
+                };
+                var specificationCreateModel = new SpecificationCreateModel
+                {
+                    CategoryId = categoryInfoModel.Id,
+                };
+                var categoryInfoViewModel = new CategoryInfoViewModel
+                {
+                    CategoryFormModel = categoryEditModel,
+                    CategoryInfoModel = categoryInfoModel,
+                    SpecificationCreateForm = specificationCreateModel
+                };
+                ViewData["FormCollapse"] = "show";
+                return View("CategoryInfo", categoryInfoViewModel);
             }
-            return Ok();
+            return Redirect($"/Administration/CategoryManagment/CategoryInfo/{model.CategoryId}");
         }
     }
 }
