@@ -147,14 +147,32 @@
             }
         }
 
-        public async Task<CreationStatus> CreateSpecification(int categoryId, SpecificationCreateModel model)
+        public async Task<CreationStatus> CreateSpecification(SpecificationCreateModel model)
         {
             var status = new CreationStatus();
+
+            var categoryExists = dbContext.Categories.FirstOrDefault(x => x.Id == model.CategoryId);
+            if (categoryExists == null)
+            {
+                status.Messages.Add("Invalid Category");
+                status.IsSucssessfull = false;
+            }
+            var specificationExsist = dbContext.Specifications.FirstOrDefault(x => x.CategoryId == categoryExists.Id && x.Name.ToLower() == model.Name.ToLower());
+            if (specificationExsist != null)
+            {
+                status.Messages.Add($"Specification {model.Name} already exsist in Category \"{categoryExists.Name}\"");
+                status.IsSucssessfull = false;
+            }
+            if (!status.IsSucssessfull)
+            {
+                return status;
+            }
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
             var specification = new Specification()
             {
-                CategoryId = categoryId,
-                Name = model.Name,
-                InfoLevel = model.InfoLevel,
+                CategoryId = categoryExists.Id,
+                Name = textInfo.ToTitleCase(model.Name),
+                InfoLevel = model.Essential == true ? "Essential" : "None",
                 Filter = model.Filter
             };
             dbContext.Specifications.Add(specification);

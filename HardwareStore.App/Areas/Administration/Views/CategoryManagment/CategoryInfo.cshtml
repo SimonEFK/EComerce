@@ -1,8 +1,6 @@
 ﻿@model CategoryInfoViewModel
-<div class="row">
-    <div class="col d-flex justify-content-center align-items-center" id="cateInfoDiv">
-        <partial name="_CategoryEditPartial" model="@Model.CategoryFormModel" />
-    </div>
+<div class="row justify-content-center" id="cateInfoDiv">
+    <partial name="_CategoryEditPartial" model="@Model.CategoryFormModel" />
 </div>
 <div class="row">
     <h3>Specifications</h3>
@@ -31,14 +29,14 @@
                     </tr>
 
                 }
-
             </tbody>
         </table>
     </div>
 </div>
 <div class="row">
     <div class="col-md-4" id="specDiv">
-        <button id="getFormBtn" class="btn btn-outline-primary">Add</button>
+        <button data-bs-toggle="collapse" data-bs-target="#specForm" data-bs- id="getFormBtn" class="btn btn-outline-primary">Add</button>
+        <partial name="_CreateSpecificationForm" model="@Model.SpecificationCreateForm" />
     </div>
 </div>
 
