@@ -1,6 +1,6 @@
 ﻿@model CategoryInfoViewModel
 <div class="row justify-content-center" id="cateInfoDiv">
-    <partial name="_CategoryEditPartial" model="@Model.CategoryFormModel" />
+    <partial name="_CategoryEditFormPartial" model="@Model.CategoryFormModel" />
 </div>
 <div class="row">
     <h3>Specifications</h3>
@@ -24,7 +24,7 @@
                         <td>@item.Filter</td>
                         <td>@item.InfoLevel</td>
                         <td>
-                            <button class="btn btn-outline-info">Edit</button>
+                            <a href="/Administration/CategoryManagment/SpecificationInfo/@item.SpecificationId" class="btn btn-outline-info">Edit</a>
                         </td>
                     </tr>
 
@@ -36,7 +36,7 @@
 <div class="row">
     <div class="col-md-4" id="specDiv">
         <button data-bs-toggle="collapse" data-bs-target="#specForm" data-bs- id="getFormBtn" class="btn btn-outline-primary">Add</button>
-        <partial name="_CreateSpecificationForm" model="@Model.SpecificationCreateForm" />
+        <partial name="_SpecificationCreateFormPartial" model="@Model.SpecificationCreateForm" />
     </div>
 </div>
 

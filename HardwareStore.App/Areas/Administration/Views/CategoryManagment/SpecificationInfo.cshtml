@@ -1,0 +1,35 @@
+﻿@model SpecificationInfoViewModel
+<div class="container m-0">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <partial name="_SpecificationEditFormPartial" model="@Model.EditFormModel" />
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <h3 class="text-center">Values</h3>
+        <div class="col-md-6">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Value</th>
+                        <th scope="col">Manage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Values)
+                    {
+                        <tr>
+                            <th scope="row">@item.Id</th>
+                            <td>@item.Value</td>
+                            <td>
+                                <a class="btn btn-outline-info">Edit</a>
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
