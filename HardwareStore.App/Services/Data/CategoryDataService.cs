@@ -108,6 +108,21 @@
             return status;
         }
 
+        public async Task<CreationStatus> EditSpecification(SpecificationEditModel model)
+        {
+            var creationStatus = new CreationStatus();
+            var specification = await dbContext.Specifications.FirstOrDefaultAsync(x => x.Id == model.Id);
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+            if (specification != null)
+            {
+                specification.Name = textInfo.ToTitleCase(model.Name);
+                specification.Filter = model.Filter;
+                specification.InfoLevel = model.Essential == true ? "Essential" : "None";
+
+            }
+            await dbContext.SaveChangesAsync();
+            return creationStatus;
+        }
 
         public async Task<ICollection<TModel>> GetCategories<TModel>()
         {
@@ -162,5 +177,25 @@
             return category;
         }
 
+        public async Task<SpecificationInfoModel> SpecificationInfo(int specificationId)
+        {
+            var specificationInfo = await dbContext.Specifications
+                .Where(x => x.Id == specificationId)
+                .Select(x => new SpecificationInfoModel
+                {
+                    SpecificationId = x.Id,
+                    Name = x.Name,
+                    InfoLevel = x.InfoLevel,
+                    Filter = x.Filter,
+                    Values = x.Values.Select(x => new SpecificationValueInfoModel
+                    {
+                        Id = x.Id,
+                        Value = x.Value
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
+
+            return specificationInfo;
+        }
     }
 }
