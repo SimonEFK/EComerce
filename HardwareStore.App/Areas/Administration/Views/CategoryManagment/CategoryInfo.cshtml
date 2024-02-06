@@ -1,45 +1,46 @@
 ﻿@model CategoryInfoViewModel
-<div class="row justify-content-center" id="cateInfoDiv">
-    <partial name="_CategoryEditFormPartial" model="@Model.CategoryFormModel" />
-</div>
-<div class="row">
-    <h3>Specifications</h3>
-    <div class="col-md-4">
-        <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Filter</th>
-                    <th scope="col">Info Level</th>
-                    <th scope="col">Manage</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.CategoryInfoModel.Specifications)
-                {
+<div class="container">
+    <div class="row justify-content-center" id="cateInfoDiv">
+        <partial name="_CategoryEditFormPartial" model="@Model.CategoryFormModel" />
+    </div>
+    <div class="row justify-content-center">
+        <h3 class="text-center">Specifications</h3>
+        <div class="col-md-6">
+            <table class="table table-sm">
+                <thead>
                     <tr>
-                        <th scope="row">@item.SpecificationId</th>
-                        <td>@item.Name</td>
-                        <td>@item.Filter</td>
-                        <td>@item.InfoLevel</td>
-                        <td>
-                            <a href="/Administration/CategoryManagment/SpecificationInfo/@item.SpecificationId" class="btn btn-outline-info">Edit</a>
-                        </td>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Filter</th>
+                        <th scope="col">Info Level</th>
+                        <th scope="col">Manage</th>
                     </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CategoryInfoModel.Specifications)
+                    {
+                        <tr>
+                            <th scope="row">@item.SpecificationId</th>
+                            <td>@item.Name</td>
+                            <td>@item.Filter</td>
+                            <td>@item.InfoLevel</td>
+                            <td>
+                                <a href="/Administration/CategoryManagment/SpecificationInfo/@item.SpecificationId" class="btn btn-outline-info">Edit</a>
+                            </td>
+                        </tr>
 
-                }
-            </tbody>
-        </table>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6" id="specDiv">
+            <button data-bs-toggle="collapse" data-bs-target="#specForm" data-bs- id="getFormBtn" class="btn btn-outline-primary">Add</button>
+            <partial name="_SpecificationCreateFormPartial" model="@Model.SpecificationCreateForm" />
+        </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-4" id="specDiv">
-        <button data-bs-toggle="collapse" data-bs-target="#specForm" data-bs- id="getFormBtn" class="btn btn-outline-primary">Add</button>
-        <partial name="_SpecificationCreateFormPartial" model="@Model.SpecificationCreateForm" />
-    </div>
-</div>
-
 @section Scripts {
     <script src="~/js/categoryEdit.js"></script>
     <script>
