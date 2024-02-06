@@ -17,7 +17,5 @@
 
         ICollection<(string Name, int Id)> GetCategoriesAsTupleCollection();
 
-        ICollection<KeyValuePair<string, int>> GetCategorySpecifications(int categoryId);
-        ICollection<KeyValuePair<string, int>> GetSpecificationValues(int specificationId);
     }
 }
