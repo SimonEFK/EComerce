@@ -12,6 +12,7 @@
         Task<CategoryInfoModel> CategoryInfo(int categoryId);
         Task<CreationStatus> CreateCategory(CategoryCreateModel model);
         Task<CreationStatus> CreateSpecification(SpecificationCreateModel model);
+        Task<CreationStatus> CreateSpecificationValue(SpecificationValueCreateModel model);
         Task EditCategory(int id, string name, string url, bool downloadImage = false);
         Task<CreationStatus> EditSpecification(SpecificationEditModel model);
         Task<ICollection<TModel>> GetCategories<TModel>();

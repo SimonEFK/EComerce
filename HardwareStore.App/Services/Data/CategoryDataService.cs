@@ -124,6 +124,31 @@
             return creationStatus;
         }
 
+        public async Task<CreationStatus> CreateSpecificationValue(SpecificationValueCreateModel model)
+        {
+            var specification = await dbContext.Specifications.Include(x => x.Values).Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == model.SpecificationId);
+
+            var creationStatus = new CreationStatus();
+            if (specification != null)
+            {
+                if (specification.Values.Any(x => x.Value.ToLower() == model.Value.ToLower()))
+                {
+                    creationStatus.Messages
+                        .Add($"Value:\"{model.Value}\" already exsist in specification {specification.Category.Name}-\"{specification.Name}\"");
+                    creationStatus.IsSucssessfull = false;
+                    return creationStatus;
+                }
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                var newValue = new SpecificationValue
+                {
+                    Value = textInfo.ToTitleCase(model.Value)
+                };
+                specification.Values.Add(newValue);
+                await dbContext.SaveChangesAsync();
+            }
+            return creationStatus;
+        }
+
         public async Task<ICollection<TModel>> GetCategories<TModel>()
         {
             var categories = await dbContext.Categories

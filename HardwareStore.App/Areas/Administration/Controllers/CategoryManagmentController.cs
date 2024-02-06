@@ -70,10 +70,15 @@
                 Essential = specificationInfo.InfoLevel == "Essential" ? true : false
 
             };
+            var valueForm = new SpecificationValueCreateModel()
+            {
+                SpecificationId = specificationInfo.SpecificationId,
+            };
             var specificationViewModel = new SpecificationInfoViewModel
             {
                 EditFormModel = editForm,
-                Values = specificationInfo.Values.OrderBy(x => x.Value).ToList()
+                Values = specificationInfo.Values.OrderBy(x => x.Value).ToList(),
+                ValueCreateFormModel = valueForm
             };
             return View(specificationViewModel);
         }
@@ -180,6 +185,44 @@
             }
             var result = await _categoryDataService.EditSpecification(specificationEditModel);
             return Redirect($"/Administration/CategoryManagment/SpecificationInfo/{specificationEditModel.Id}");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateSpecificationValue(SpecificationValueCreateModel valueCreateFormModel)
+        {
+            var specificationInfo = await _categoryDataService.SpecificationInfo(valueCreateFormModel.SpecificationId);
+            var editForm = new SpecificationEditModel
+            {
+                Id = specificationInfo.SpecificationId,
+                Name = specificationInfo.Name,
+                Filter = specificationInfo.Filter,
+                Essential = specificationInfo.InfoLevel == "Essential" ? true : false
+
+            };
+            var valueForm = valueCreateFormModel;
+            var specificationViewModel = new SpecificationInfoViewModel
+            {
+                EditFormModel = editForm,
+                Values = specificationInfo.Values.OrderBy(x => x.Value).ToList(),
+                ValueCreateFormModel = valueCreateFormModel,
+            };
+
+            if (!ModelState.IsValid)
+            {
+                return View("SpecificationInfo", specificationViewModel);
+            }
+            var result = await _categoryDataService.CreateSpecificationValue(valueCreateFormModel);
+            if (result.IsSucssessfull == false)
+            {
+                foreach (var message in result.Messages)
+                {
+                    ModelState.AddModelError("", message);
+                    return View("SpecificationInfo", specificationViewModel);
+                }
+            }
+
+            return Redirect($"/Administration/CategoryManagment/SpecificationInfo/{specificationInfo.SpecificationId}");
         }
     }
 }

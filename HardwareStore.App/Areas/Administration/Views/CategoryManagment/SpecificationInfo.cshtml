@@ -32,4 +32,21 @@
             </table>
         </div>
     </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6" id="specDiv">
+            <button data-bs-toggle="collapse" data-bs-target="#valueForm" class="btn btn-outline-primary">Add</button>
+            <form id="valueForm" method="post" action="/Administration/CategoryManagment/CreateSpecificationValue">
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <span class="text-danger form-label" asp-validation-for="@Model.ValueCreateFormModel.Value"></span>
+                    <div class="input-group">
+                        <input type="hidden" asp-for="@Model.ValueCreateFormModel.SpecificationId" />
+                        <input class="form-control" asp-for="@Model.ValueCreateFormModel.Value" placeholder="Value" />
+                        <button class="btn btn-outline-success">Submit</button>
+                    </div>
+                </div>
+                <div class="text-danger col-form-label-sm" asp-validation-summary="ModelOnly"></div>
+            </form>
+        </div>
+    </div>
 </div>
