@@ -8,7 +8,7 @@
     <div class="row justify-content-center">
         <h3 class="text-center">Values</h3>
         <div class="col-md-6">
-            <table class="table table-sm">
+            <table class="table table-sm" id="valueTable">
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
@@ -23,7 +23,7 @@
                             <th scope="row">@item.Id</th>
                             <td>@item.Value</td>
                             <td>
-                                <a class="btn btn-outline-info">Edit</a>
+                                <a data-custom-editInput data-valueId="@item.Id" data-value="@item.Value" class="btn btn-outline-info">Edit</a>
                             </td>
                         </tr>
 
@@ -32,16 +32,32 @@
             </table>
         </div>
     </div>
+    <div class="row justify-content-center mb-3" id="editFormRow">
+        <div class="col-md-6">
+            <form id="editValueForm" method="post" action="/Administration/CategoryManagment/EditSpecificationValue">
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <span class="text-danger form-label" asp-validation-for="@Model.ValueEditFormModel.Value"></span>
+                    <div class="input-group">
+                        <input type="hidden" asp-for="@Model.ValueEditFormModel.SpecificationId" />
+                        <input type="hidden" asp-for="@Model.ValueEditFormModel.ValueId" />
+                        <input class="form-control" asp-for="@Model.ValueEditFormModel.Value" placeholder="Edit Value" />
+                        <button class="btn btn-outline-info">Edit</button>
+                    </div>
+                </div>
+                <div class="text-danger col-form-label-sm" asp-validation-summary="ModelOnly"></div>
+            </form>
+        </div>
+    </div>
     <div class="row justify-content-center">
         <div class="col-md-6" id="specDiv">
-            <button data-bs-toggle="collapse" data-bs-target="#valueForm" class="btn btn-outline-primary">Add</button>
             <form id="valueForm" method="post" action="/Administration/CategoryManagment/CreateSpecificationValue">
                 @Html.AntiForgeryToken()
                 <div class="form-group">
                     <span class="text-danger form-label" asp-validation-for="@Model.ValueCreateFormModel.Value"></span>
                     <div class="input-group">
                         <input type="hidden" asp-for="@Model.ValueCreateFormModel.SpecificationId" />
-                        <input class="form-control" asp-for="@Model.ValueCreateFormModel.Value" placeholder="Value" />
+                        <input class="form-control" asp-for="@Model.ValueCreateFormModel.Value" placeholder="Add new Value" />
                         <button class="btn btn-outline-success">Submit</button>
                     </div>
                 </div>
@@ -49,4 +65,26 @@
             </form>
         </div>
     </div>
-</div>
+
+    @section Scripts {
+        <script>
+            let table = this.document.querySelector('#valueTable');
+            let edidValueForm = this.document.querySelector('#editValueForm');
+            table.addEventListener('click', PopulateEditForm);
+
+            function PopulateEditForm(event) {
+                let target = event.target;
+                if (target.matches("a[data-custom-editInput]")) {
+
+                    let valueId = target.dataset["valueid"];
+                    let value = target.dataset["value"];
+
+                    let editFormInputValueElement = editValueForm.querySelector('#ValueEditFormModel_Value');
+                    let editFormInputValueIdElement = edidValueForm.querySelector('#ValueEditFormModel_ValueId');
+
+                    editFormInputValueElement.value = value;
+                    editFormInputValueIdElement.value = valueId;
+                }
+            };
+        </script>
+    }

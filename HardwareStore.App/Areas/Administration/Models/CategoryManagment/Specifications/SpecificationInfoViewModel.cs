@@ -6,6 +6,8 @@
 
         public SpecificationValueCreateModel ValueCreateFormModel { get; set; }
 
+        public SpecificationValueEditModel ValueEditFormModel { get; set; }
+
         public List<SpecificationValueInfoModel> Values { get; set; }
     }
 }

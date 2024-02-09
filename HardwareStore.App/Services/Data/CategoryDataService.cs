@@ -28,6 +28,7 @@
 
         public async Task<CreationStatus> CreateCategory(CategoryCreateModel model)
         {
+            
             var status = new CreationStatus();
             var newCategoryName = model.Name.Trim().ToLower();
             var categoryExsist = dbContext.Categories.Any(x => x.Name.ToLower() == newCategoryName);
@@ -147,6 +148,18 @@
                 await dbContext.SaveChangesAsync();
             }
             return creationStatus;
+        }
+
+        public async Task<CreationStatus> EditSpecificationValue(SpecificationValueEditModel model)
+        {
+            var status = new CreationStatus();
+            var specificationValue = await dbContext.Specifications
+                .Where(x => x.Id == model.SpecificationId)
+                .Select(x => x.Values.FirstOrDefault(x => x.Id == model.ValueId)).FirstOrDefaultAsync();
+
+            specificationValue.Value = model.Value;
+            await dbContext.SaveChangesAsync();
+            return status;
         }
 
         public async Task<ICollection<TModel>> GetCategories<TModel>()

@@ -3,7 +3,6 @@
     using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Category;
     using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Specifications;
     using HardwareStore.App.Services.Data;
-    using Microsoft.AspNetCore.Components.Forms;
     using Microsoft.AspNetCore.Mvc;
 
     [Area("Administration")]
@@ -74,9 +73,14 @@
             {
                 SpecificationId = specificationInfo.SpecificationId,
             };
+            var valueEditForm = new SpecificationValueEditModel
+            {
+                SpecificationId = specificationInfo.SpecificationId
+            };
             var specificationViewModel = new SpecificationInfoViewModel
             {
                 EditFormModel = editForm,
+                ValueEditFormModel = valueEditForm,
                 Values = specificationInfo.Values.OrderBy(x => x.Value).ToList(),
                 ValueCreateFormModel = valueForm
             };
@@ -223,6 +227,23 @@
             }
 
             return Redirect($"/Administration/CategoryManagment/SpecificationInfo/{specificationInfo.SpecificationId}");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public async Task<IActionResult> EditSpecificationValue(SpecificationValueEditModel valueEditFormModel)
+        {
+            if (!ModelState.IsValid)
+            {
+
+            }
+            var result = await _categoryDataService.EditSpecificationValue(valueEditFormModel);
+            if (!result.IsSucssessfull)
+            {
+
+            }
+            return Redirect($"/Administration/CategoryManagment/SpecificationInfo/{valueEditFormModel.SpecificationId}");
         }
     }
 }

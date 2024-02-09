@@ -15,6 +15,7 @@
         Task<CreationStatus> CreateSpecificationValue(SpecificationValueCreateModel model);
         Task EditCategory(int id, string name, string url, bool downloadImage = false);
         Task<CreationStatus> EditSpecification(SpecificationEditModel model);
+        Task<CreationStatus> EditSpecificationValue(SpecificationValueEditModel model);
         Task<ICollection<TModel>> GetCategories<TModel>();
 
         ICollection<(string Name, int Id)> GetCategoriesAsTupleCollection();
