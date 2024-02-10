@@ -10,7 +10,8 @@
 
         public int SpecificationId { get; set; }
 
-        [StringLength(maximumLength: 100, MinimumLength = 3, ErrorMessage = "{0} must be {2}-{1} characters long")]
+        [StringLength(maximumLength: 100, MinimumLength = 1, ErrorMessage = "{0} must be {2}-{1} characters long")]
+        [Required]
         public string Value { get; set; }
     }
 }

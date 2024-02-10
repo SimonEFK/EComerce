@@ -25,13 +25,13 @@
 <div class="col-md-2">
     @{
         var src = string.Empty;
-        if (Model.ImageFilePath == null)
+        if (Model.ImageUrl == null)
         {
-            src = @Model.ImageUrl;
+            src = $"/@{Model.ImageFilePath}";
         }
         else
         {
-            src = $"/{Model.ImageFilePath}";
+            src = Model.ImageUrl;
         }
     }
     <img class="img-fluid" src="@src" />
