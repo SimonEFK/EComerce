@@ -2,6 +2,9 @@
 {
     public class SpecificationInfoModel
     {
+
+        public int? CategoryId { get; set; }
+
         public int SpecificationId { get; set; }
 
         public string Name { get; set; }

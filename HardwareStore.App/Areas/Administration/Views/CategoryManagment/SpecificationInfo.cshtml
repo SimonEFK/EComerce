@@ -40,12 +40,12 @@
                     <span class="text-danger form-label" asp-validation-for="@Model.ValueEditFormModel.Value"></span>
                     <div class="input-group">
                         <input type="hidden" asp-for="@Model.ValueEditFormModel.SpecificationId" />
+                        <input type="hidden" asp-for="@Model.ValueEditFormModel.CategoryId" />
                         <input type="hidden" asp-for="@Model.ValueEditFormModel.ValueId" />
                         <input class="form-control" asp-for="@Model.ValueEditFormModel.Value" placeholder="Edit Value" />
                         <button class="btn btn-outline-info">Edit</button>
                     </div>
-                </div>
-                <div class="text-danger col-form-label-sm" asp-validation-summary="ModelOnly"></div>
+                </div>                
             </form>
         </div>
     </div>
@@ -57,11 +57,11 @@
                     <span class="text-danger form-label" asp-validation-for="@Model.ValueCreateFormModel.Value"></span>
                     <div class="input-group">
                         <input type="hidden" asp-for="@Model.ValueCreateFormModel.SpecificationId" />
+                        <input type="hidden" asp-for="@Model.ValueCreateFormModel.CategoryId" />
                         <input class="form-control" asp-for="@Model.ValueCreateFormModel.Value" placeholder="Add new Value" />
                         <button class="btn btn-outline-success">Submit</button>
                     </div>
-                </div>
-                <div class="text-danger col-form-label-sm" asp-validation-summary="ModelOnly"></div>
+                </div>                
             </form>
         </div>
     </div>

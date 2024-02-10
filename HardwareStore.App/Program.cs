@@ -50,8 +50,7 @@ namespace HardwareStore.App
             builder.Services.AddScoped<IManufacturerDataService, ManufacturerDataService>();
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<ICatalogService, CatalogService>();
-            builder.Services.AddScoped<IDownloadImageService, DownloadImageService>();
-            builder.Services.AddScoped<IUrlValidationService, UrlValidationService>();
+            builder.Services.AddScoped<IDownloadImageService, DownloadImageService>();            
             var app = builder.Build();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

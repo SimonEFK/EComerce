@@ -10,6 +10,7 @@ function CatagoryEdit() {
         let target = event.target;
         if (event.target.matches('#cateEditSubmitBtn')) {
 
+            debugger;
             let form = div.querySelector('form');
             $.validator.unobtrusive.parse(form);
 

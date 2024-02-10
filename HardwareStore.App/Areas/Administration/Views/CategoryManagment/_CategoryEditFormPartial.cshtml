@@ -1,5 +1,5 @@
 ﻿@model CategoryEditModel
-<form method="post" action="/Administration/CategoryManagment/EditCategory/@Model.Id" class="col-md-4 me-3">
+<form method="post" action="/Administration/CategoryManagment/EditCategory" class="col-md-4 me-3">
     @Html.AntiForgeryToken()
     <input type="hidden" asp-for="@Model.Id" />
     <input type="hidden" asp-for="@Model.ImageFilePath" />
@@ -19,7 +19,7 @@
             </div>
         </div>
     </div>
-    <div asp-validation-summary="All" class="text-danger col-form-label-sm"></div>
+    <div asp-validation-summary="ModelOnly" class="text-danger col-form-label-sm"></div>
     <button id="cateEditSubmitBtn" class="btn btn-outline-success mt-1">Apply Changes</button>
 </form>
 <div class="col-md-2">

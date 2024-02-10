@@ -2,164 +2,216 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
-    using HardwareStore.App.Areas.Administration.Models;
     using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Category;
     using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Specifications;
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
-    using HardwareStore.App.Models.Category;
-    using HardwareStore.App.Services.Data.Products;
     using Microsoft.EntityFrameworkCore;
-    using System.Globalization;
+    using static Constants;
 
     public class CategoryDataService : ICategoryDataService
     {
         private ApplicationDbContext dbContext;
         private IMapper mapper;
-        private IUrlValidationService urlValidationService;
 
-        public CategoryDataService(IMapper mapper, ApplicationDbContext dbContext, IDownloadImageService downloadImageService, IUrlValidationService urlValidationService)
+
+        public CategoryDataService(IMapper mapper, ApplicationDbContext dbContext, IDownloadImageService downloadImageService)
         {
             this.mapper = mapper;
             this.dbContext = dbContext;
-            this.urlValidationService = urlValidationService;
+
         }
 
-
-        public async Task<CreationStatus> CreateCategory(CategoryCreateModel model)
+        public async Task<ServiceResult> CreateCategory(CategoryCreateModel model)
         {
-            
-            var status = new CreationStatus();
-            var newCategoryName = model.Name.Trim().ToLower();
-            var categoryExsist = dbContext.Categories.Any(x => x.Name.ToLower() == newCategoryName);
 
-            if (categoryExsist)
+            var serviceResult = new ServiceResult();
+            var newCategoryName = model.Name.Trim();
+
+            var categoryExsist = dbContext.Categories.ToList().FirstOrDefault(x => string.Equals(x.Name, newCategoryName, StringComparison.OrdinalIgnoreCase));
+
+            if (categoryExsist != null)
             {
-                status.IsSucssessfull = false;
-                status.Messages.Add($"Category with name {model.Name} already exsist");
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryExsist, categoryExsist.Name));
+                return serviceResult;
             }
-            if (!status.IsSucssessfull)
-            {
-                return status;
-            }
-            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+
             var newCategory = new Category()
             {
-                Name = textInfo.ToTitleCase(model.Name),
+                Name = newCategoryName.ToTitleCase(),
                 Url = model.Image
             };
 
             dbContext.Categories.Add(newCategory);
-            await dbContext.SaveChangesAsync();
-            return status;
+            var result = await dbContext.SaveChangesAsync();
+            return serviceResult;
 
         }
 
-        public async Task EditCategory(int id, string name, string url, bool downloadImage = false)
+        public async Task<ServiceResult> EditCategory(CategoryEditModel model)
         {
-            var category = await dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
-            if (category != null)
+            var serviceResult = new ServiceResult();
+            var category = await dbContext.Categories.FirstOrDefaultAsync(x => x.Id == model.Id);
+            if (category == null)
             {
-                if (category.Name.Equals(name))
-                {
-                    return;
-                }
-                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
-                category.Name = textInfo.ToTitleCase(name.Trim());
-
-                if (url != null)
-                {
-                    category.Url = url;
-                }
-
-                await dbContext.SaveChangesAsync();
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryDosentExsist, model.Name));
+                return serviceResult;
             }
+            var categoryExist = dbContext.Categories
+                .Where(x => x.Id != category.Id).ToList()
+                .Any(x => string.Equals(x.Name, model.Name, StringComparison.OrdinalIgnoreCase));
+            if (categoryExist)
+            {
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryExsist, model.Name));
+                return serviceResult;
+            }
+
+            category.Name = model.Name.ToTitleCase();
+            category.FilePath = model.ImageFilePath;
+            category.Url = model.ImageUrl;
+
+
+            await dbContext.SaveChangesAsync();
+
+            return serviceResult;
         }
 
-        public async Task<CreationStatus> CreateSpecification(SpecificationCreateModel model)
+        public async Task<ServiceResult> CreateSpecification(SpecificationCreateModel model)
         {
-            var status = new CreationStatus();
+            var serviceResult = new ServiceResult();
 
-            var categoryExists = dbContext.Categories.FirstOrDefault(x => x.Id == model.CategoryId);
+            var categoryExists = await dbContext.Categories.Include(x => x.Specifications).FirstOrDefaultAsync(x => x.Id == model.CategoryId);
             if (categoryExists == null)
             {
-                status.Messages.Add("Invalid Category");
-                status.IsSucssessfull = false;
+                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryDosentExsist));
+                serviceResult.Success = false;
+                return serviceResult;
             }
-            var specificationExsist = dbContext.Specifications.FirstOrDefault(x => x.CategoryId == categoryExists.Id && x.Name.ToLower() == model.Name.ToLower());
+
+            var specificationExsist = categoryExists.Specifications
+                .FirstOrDefault(x => String.Equals(x.Name, model.Name, StringComparison.OrdinalIgnoreCase));
+
             if (specificationExsist != null)
             {
-                status.Messages.Add($"Specification {model.Name} already exsist in Category \"{categoryExists.Name}\"");
-                status.IsSucssessfull = false;
+                serviceResult.ErrorMessage
+                    .Add(string.Format(ErrorMessages.SpecificationExsist, specificationExsist.Name, categoryExists.Name));
+                serviceResult.Success = false;
+                return serviceResult;
             }
-            if (!status.IsSucssessfull)
-            {
-                return status;
-            }
-            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+
             var specification = new Specification()
             {
                 CategoryId = categoryExists.Id,
-                Name = textInfo.ToTitleCase(model.Name),
+                Name = model.Name.ToTitleCase(),
                 InfoLevel = model.Essential == true ? "Essential" : "None",
                 Filter = model.Filter
             };
             dbContext.Specifications.Add(specification);
             await dbContext.SaveChangesAsync();
-            return status;
+            return serviceResult;
         }
 
-        public async Task<CreationStatus> EditSpecification(SpecificationEditModel model)
+        public async Task<ServiceResult> EditSpecification(SpecificationEditModel model)
         {
-            var creationStatus = new CreationStatus();
-            var specification = await dbContext.Specifications.FirstOrDefaultAsync(x => x.Id == model.Id);
-            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
-            if (specification != null)
+            var serviceResult = new ServiceResult();
+            var category = await dbContext.Categories.Include(x => x.Specifications).FirstOrDefaultAsync(x => x.Id == model.CategoryId);
+            if (category == null)
             {
-                specification.Name = textInfo.ToTitleCase(model.Name);
-                specification.Filter = model.Filter;
-                specification.InfoLevel = model.Essential == true ? "Essential" : "None";
-
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryDosentExsist));
+                return serviceResult;
             }
-            await dbContext.SaveChangesAsync();
-            return creationStatus;
-        }
-
-        public async Task<CreationStatus> CreateSpecificationValue(SpecificationValueCreateModel model)
-        {
-            var specification = await dbContext.Specifications.Include(x => x.Values).Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == model.SpecificationId);
-
-            var creationStatus = new CreationStatus();
-            if (specification != null)
+            var specification = category.Specifications.FirstOrDefault(x => x.Id == model.Id);
+            var specificationExsist = category.Specifications.Where(x => x.Id != specification.Id).Any(x => String.Equals(x.Name, model.Name, StringComparison.OrdinalIgnoreCase));
+            if (specificationExsist)
             {
-                if (specification.Values.Any(x => x.Value.ToLower() == model.Value.ToLower()))
-                {
-                    creationStatus.Messages
-                        .Add($"Value:\"{model.Value}\" already exsist in specification {specification.Category.Name}-\"{specification.Name}\"");
-                    creationStatus.IsSucssessfull = false;
-                    return creationStatus;
-                }
-                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
-                var newValue = new SpecificationValue
-                {
-                    Value = textInfo.ToTitleCase(model.Value)
-                };
-                specification.Values.Add(newValue);
-                await dbContext.SaveChangesAsync();
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.SpecificationExsist, model.Name, category.Name));
+                return serviceResult;
             }
-            return creationStatus;
+
+            specification.Name = model.Name.ToTitleCase();
+            specification.Filter = model.Filter;
+            specification.InfoLevel = model.Essential == true ? "Essential" : "None";
+
+            await dbContext.SaveChangesAsync();
+            return serviceResult;
         }
 
-        public async Task<CreationStatus> EditSpecificationValue(SpecificationValueEditModel model)
+        public async Task<ServiceResult> CreateSpecificationValue(SpecificationValueCreateModel model)
         {
-            var status = new CreationStatus();
-            var specificationValue = await dbContext.Specifications
-                .Where(x => x.Id == model.SpecificationId)
-                .Select(x => x.Values.FirstOrDefault(x => x.Id == model.ValueId)).FirstOrDefaultAsync();
+            var serviceResult = new ServiceResult();
+            var category = await dbContext.Categories.Include(x => x.Specifications).ThenInclude(x => x.Values).FirstOrDefaultAsync(x => x.Id == model.CategoryId);
 
-            specificationValue.Value = model.Value;
+            if (category == null)
+            {
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryDosentExsist));
+                return serviceResult;
+            }
+            var specification = category.Specifications.FirstOrDefault(x => x.Id == model.SpecificationId);
+            if (specification == null)
+            {
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage.Add(ErrorMessages.SpecificationDoesentExsist);
+                return serviceResult;
+            }
+            var valueExsist = specification.Values.FirstOrDefault(x => String.Equals(x.Value, model.Value, StringComparison.OrdinalIgnoreCase));
+            if (valueExsist != null)
+            {
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.SpecificationValueExsist, category.Name, specification.Name, model.Value));
+                return serviceResult;
+            }
+
+            var newValue = new SpecificationValue
+            {
+                Value = model.Value.ToTitleCase()
+            };
+            specification.Values.Add(newValue);
             await dbContext.SaveChangesAsync();
-            return status;
+
+            return serviceResult;
+        }
+
+        public async Task<ServiceResult> EditSpecificationValue(SpecificationValueEditModel model)
+        {
+            var serviceResult = new ServiceResult();
+            var category = await dbContext.Categories.Include(x => x.Specifications).ThenInclude(x => x.Values).FirstOrDefaultAsync(x => x.Id == model.CategoryId);
+
+            if (category == null)
+            {
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryDosentExsist));
+                return serviceResult;
+            }
+            var specification = category.Specifications.FirstOrDefault(x => x.Id == model.SpecificationId);
+            if (specification == null)
+            {
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage.Add(ErrorMessages.SpecificationDoesentExsist);
+                return serviceResult;
+            }
+            var value = specification.Values.FirstOrDefault(x => x.Id == model.ValueId);
+            if (value == null)
+            {
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage.Add("Invalid Value Id");
+                return serviceResult;
+            }
+            var valueExsist = specification.Values.Where(x => x.Id != value.Id).Any(x => string.Equals(x.Value, model.Value, StringComparison.OrdinalIgnoreCase));
+            if (valueExsist)
+            {
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.SpecificationValueExsist, category.Name, specification.Name, model.Value.ToTitleCase()));
+                return serviceResult;
+            }
+            value.Value = model.Value.ToTitleCase();
+            await dbContext.SaveChangesAsync();
+            return serviceResult;
         }
 
         public async Task<ICollection<TModel>> GetCategories<TModel>()
@@ -221,10 +273,11 @@
                 .Where(x => x.Id == specificationId)
                 .Select(x => new SpecificationInfoModel
                 {
-                    SpecificationId = x.Id,
+                    SpecificationId = x.Id,                    
                     Name = x.Name,
                     InfoLevel = x.InfoLevel,
                     Filter = x.Filter,
+                    CategoryId = x.CategoryId,
                     Values = x.Values.Select(x => new SpecificationValueInfoModel
                     {
                         Id = x.Id,

@@ -10,12 +10,12 @@
     public interface ICategoryDataService
     {
         Task<CategoryInfoModel> CategoryInfo(int categoryId);
-        Task<CreationStatus> CreateCategory(CategoryCreateModel model);
-        Task<CreationStatus> CreateSpecification(SpecificationCreateModel model);
-        Task<CreationStatus> CreateSpecificationValue(SpecificationValueCreateModel model);
-        Task EditCategory(int id, string name, string url, bool downloadImage = false);
-        Task<CreationStatus> EditSpecification(SpecificationEditModel model);
-        Task<CreationStatus> EditSpecificationValue(SpecificationValueEditModel model);
+        Task<ServiceResult> CreateCategory(CategoryCreateModel model);
+        Task<ServiceResult> CreateSpecification(SpecificationCreateModel model);
+        Task<ServiceResult> CreateSpecificationValue(SpecificationValueCreateModel model);
+        Task<ServiceResult> EditCategory(CategoryEditModel categoryEditModel);
+        Task<ServiceResult> EditSpecification(SpecificationEditModel model);
+        Task<ServiceResult> EditSpecificationValue(SpecificationValueEditModel model);
         Task<ICollection<TModel>> GetCategories<TModel>();
 
         ICollection<(string Name, int Id)> GetCategoriesAsTupleCollection();

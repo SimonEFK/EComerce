@@ -13,5 +13,7 @@
         public bool Filter { get; set; }
 
         public bool Essential { get; set; }
+
+        public int? CategoryId { get; set; }
     }
 }

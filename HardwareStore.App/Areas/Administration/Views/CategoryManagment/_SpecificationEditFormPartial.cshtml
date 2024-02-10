@@ -5,6 +5,7 @@
         <span class="text-danger" asp-validation-for="@Model.Name"></span>
         <div class="input-group">
             <input class="form-control" asp-for="@Model.Name" placeholder="Name" />
+            <input type="hidden" asp-for="@Model.CategoryId"/>
             <button class="btn btn-outline-success">Submit</button>
         </div>
     </div>

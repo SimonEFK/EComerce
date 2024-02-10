@@ -4,6 +4,8 @@
 
     public class SpecificationValueEditModel
     {
+        public int? CategoryId { get; set; }
+
         public int ValueId { get; set; }
 
         public int SpecificationId { get; set; }

@@ -66,16 +66,19 @@
                 Id = specificationInfo.SpecificationId,
                 Name = specificationInfo.Name,
                 Filter = specificationInfo.Filter,
-                Essential = specificationInfo.InfoLevel == "Essential" ? true : false
+                Essential = specificationInfo.InfoLevel == "Essential" ? true : false,
+                CategoryId = specificationInfo.CategoryId,
 
             };
             var valueForm = new SpecificationValueCreateModel()
             {
+                CategoryId = specificationInfo.CategoryId,
                 SpecificationId = specificationInfo.SpecificationId,
             };
             var valueEditForm = new SpecificationValueEditModel
             {
-                SpecificationId = specificationInfo.SpecificationId
+                SpecificationId = specificationInfo.SpecificationId,
+                CategoryId = specificationInfo.CategoryId
             };
             var specificationViewModel = new SpecificationInfoViewModel
             {
@@ -91,28 +94,33 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateCategory(CategoryCreateModel categoryCreateModel)
         {
-            var categories = await _categoryDataService.GetCategories<CategoryViewModel>();
-            var categoryListViewModel = new CategoryListingViewModel()
-            {
-                Categories = categories.ToList(),
-                CategoryFormModel = categoryCreateModel
-            };
 
             if (!ModelState.IsValid)
             {
                 ViewData["FormCollapse"] = "show";
+                var categories = await _categoryDataService.GetCategories<CategoryViewModel>();
+                var categoryListViewModel = new CategoryListingViewModel()
+                {
+                    Categories = categories.ToList(),
+                    CategoryFormModel = categoryCreateModel
+                };
                 return View("CategoryList", categoryListViewModel);
             }
             var result = await _categoryDataService.CreateCategory(categoryCreateModel);
 
-            if (!result.IsSucssessfull)
+            if (!result.Success)
             {
-                foreach (var item in result.Messages)
+                foreach (var item in result.ErrorMessage)
                 {
                     ModelState.AddModelError("", item);
                 }
-
                 ViewData["FormCollapse"] = "show";
+                var categories = await _categoryDataService.GetCategories<CategoryViewModel>();
+                var categoryListViewModel = new CategoryListingViewModel()
+                {
+                    Categories = categories.ToList(),
+                    CategoryFormModel = categoryCreateModel
+                };
                 return View("CategoryList", categoryListViewModel);
             }
             return Redirect("/Administration/CategoryManagment/CategoryList");
@@ -120,13 +128,22 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditCategory(int id, CategoryEditModel categoryEditModel)
+        public async Task<IActionResult> EditCategory(CategoryEditModel categoryEditModel)
         {
             if (!ModelState.IsValid)
             {
                 return PartialView("_CategoryEditFormPartial", categoryEditModel);
             }
-            await _categoryDataService.EditCategory(categoryEditModel.Id, categoryEditModel.Name, categoryEditModel.ImageUrl);
+            var result = await _categoryDataService.EditCategory(categoryEditModel);
+            if (!result.Success)
+            {
+                foreach (var message in result.ErrorMessage)
+                {
+                    ModelState.AddModelError("", message);
+
+                }
+                return PartialView("_CategoryEditFormPartial", categoryEditModel);
+            }
             return PartialView("_CategoryEditFormPartial", categoryEditModel);
         }
 
@@ -142,10 +159,6 @@
                 ImageFilePath = categoryInfoModel.ImageFilePath,
                 ImageUrl = categoryInfoModel.ImageUrl,
             };
-            var specificationModel = new SpecificationCreateModel
-            {
-                CategoryId = categoryInfoModel.Id,
-            };
             var categoryInfoViewModel = new CategoryInfoViewModel
             {
                 CategoryFormModel = categoryEditModel,
@@ -160,13 +173,12 @@
             }
             var result = await _categoryDataService.CreateSpecification(specificationCreateModel);
 
-            if (!result.IsSucssessfull)
+            if (!result.Success)
             {
-                foreach (var item in result.Messages)
+                foreach (var item in result.ErrorMessage)
                 {
                     ModelState.AddModelError("", item);
                 }
-
                 ViewData["FormCollapse"] = "show";
                 return View("CategoryInfo", categoryInfoViewModel);
             }
@@ -188,6 +200,15 @@
                 return View("SpecificationInfo", specificationViewModel);
             }
             var result = await _categoryDataService.EditSpecification(specificationEditModel);
+            if (!result.Success)
+            {
+                foreach (var message in result.ErrorMessage)
+                {
+                    ModelState.AddModelError("", message);
+                }
+                return View("SpecificationInfo", specificationViewModel);
+
+            }
             return Redirect($"/Administration/CategoryManagment/SpecificationInfo/{specificationEditModel.Id}");
         }
 
@@ -217,9 +238,9 @@
                 return View("SpecificationInfo", specificationViewModel);
             }
             var result = await _categoryDataService.CreateSpecificationValue(valueCreateFormModel);
-            if (result.IsSucssessfull == false)
+            if (result.Success == false)
             {
-                foreach (var message in result.Messages)
+                foreach (var message in result.ErrorMessage)
                 {
                     ModelState.AddModelError("", message);
                     return View("SpecificationInfo", specificationViewModel);
@@ -234,14 +255,45 @@
 
         public async Task<IActionResult> EditSpecificationValue(SpecificationValueEditModel valueEditFormModel)
         {
+            var specificationInfo = await _categoryDataService.SpecificationInfo(valueEditFormModel.SpecificationId);
+            var editForm = new SpecificationEditModel
+            {
+                Id = specificationInfo.SpecificationId,
+                Name = specificationInfo.Name,
+                Filter = specificationInfo.Filter,
+                Essential = specificationInfo.InfoLevel == "Essential" ? true : false,
+                CategoryId = specificationInfo.CategoryId,
+
+            };
+            var valueForm = new SpecificationValueCreateModel()
+            {
+                CategoryId = specificationInfo.CategoryId,
+                SpecificationId = specificationInfo.SpecificationId,
+            };
+            var valueEditForm = new SpecificationValueEditModel
+            {
+                SpecificationId = specificationInfo.SpecificationId
+            };
+            var specificationViewModel = new SpecificationInfoViewModel
+            {
+                EditFormModel = editForm,
+                ValueEditFormModel = valueEditForm,
+                Values = specificationInfo.Values.OrderBy(x => x.Value).ToList(),
+                ValueCreateFormModel = valueForm
+            };
+
             if (!ModelState.IsValid)
             {
-
+                return View("SpcificationInfo", specificationViewModel);
             }
             var result = await _categoryDataService.EditSpecificationValue(valueEditFormModel);
-            if (!result.IsSucssessfull)
+            if (!result.Success)
             {
-
+                foreach (var message in result.ErrorMessage)
+                {
+                    ModelState.AddModelError("", message);
+                }
+                return View("SpecificationInfo", specificationViewModel);
             }
             return Redirect($"/Administration/CategoryManagment/SpecificationInfo/{valueEditFormModel.SpecificationId}");
         }
