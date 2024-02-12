@@ -9,7 +9,7 @@
         public string ManufacturerName { get; set; }
 
         public string ImageUrl { get; set; }
-
+        
         public IEnumerable<ProductSpecifications> Specifications { get; set; } = new HashSet<ProductSpecifications>();
         
     }

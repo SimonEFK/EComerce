@@ -31,79 +31,61 @@
             return product;
         }
 
-        public async Task<CreationStatus> CreateProduct(CreateProductFormModel productFormModel)
+        public async Task<ServiceResult> CreateProduct(CreateProductFormModel productFormModel)
         {
-            var status = new CreationStatus();
+            var serviceResult = new ServiceResult();
 
             var categoryDb = await dbContext.Categories.FirstOrDefaultAsync(x => x.Id == productFormModel.CategoryId);
             var manufacturerDb = await dbContext.Manufacturers.FirstOrDefaultAsync(x => x.Id == productFormModel.ManufacturerId);
 
             if (categoryDb == null)
             {
-                status.IsSucssessfull = false;
-                status.Messages.Add("Category Doesn't Exsist");
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage.Add("Category Doesn't Exsist");
+                return serviceResult;
             }
             if (manufacturerDb == null)
             {
-                status.IsSucssessfull = false;
-                status.Messages.Add("Manufacturer Doesn't Exsist");
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage.Add("Manufacturer Doesn't Exsist");
+                return serviceResult;
             }
             if (productFormModel.Specifications.Count < 3)
             {
-                status.IsSucssessfull = false;
-                status.Messages.Add("Specifications Count too low");
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage.Add("Add Atleast 3 Specifications");
+                return serviceResult;
             }
-            if (!productFormModel.ImageUrlList.Any())
+            if (!productFormModel.ImageArray.Any())
             {
-                status.IsSucssessfull = false;
-                status.Messages.Add("not enough Images");
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage.Add("Add Atleast 1 Image");
+                return serviceResult;
             }
 
-            if (!status.IsSucssessfull)
-            {
-                return status;
-            }
             var product = new Product();
-            product.Name = productFormModel.Name;
+            product.Name = productFormModel.Name.Trim();
             product.NameDetailed = productFormModel.NameDetailed;
-
             product.Manufacturer = manufacturerDb;
             product.Category = categoryDb;
 
-            foreach (var image in productFormModel.ImageUrlList)
+            foreach (var image in productFormModel.ImageArray)
             {
 
                 var dir = Path.Combine(env.WebRootPath, "Images");
                 var url = image;
                 var fileName = Guid.NewGuid().ToString();
 
-                bool isValidUrl = Uri.IsWellFormedUriString(url, UriKind.Absolute);
-                if (!isValidUrl)
-                {
-                    status.Messages.Add($" \"{url}\" is Invalid Url");
-                    continue;
-                }
+                //var extension = await downloadImageService.DownloadImageAsync(dir, fileName, new Uri(url));
 
-                var extension = await downloadImageService.DownloadImageAsync(dir, fileName, new Uri(url));
-                if (extension != ".jpg" && extension != ".png")
-                {
-                    status.Messages.Add($"\"{url}\" has invalid extension");
-                    continue;
-                }
                 var imageDb = new Image()
                 {
                     Id = fileName,
                     Url = image,
-                    FilePath = $@"Images/{fileName}{extension}"
+                    //FilePath = $@"Images/{fileName}{extension}"
                 };
                 product.Images.Add(imageDb);
 
-            }
-            if (!product.Images.Any())
-            {
-                status.IsSucssessfull = false;
-                status.Messages.Add("Product has no valid Images");
-                return status;
             }
 
             foreach (var item in productFormModel.Specifications)
@@ -163,20 +145,10 @@
 
             }
 
-            try
-            {
-                dbContext.Products.Add(product);
-                await dbContext.SaveChangesAsync();
+            dbContext.Products.Add(product);
+            await dbContext.SaveChangesAsync();
 
-            }
-            catch (Exception ex)
-            {
-                status.IsSucssessfull = false;
-                status.Messages.Add(ex.Message);
-                return status;
-            }
-            status.Id = product.Id;
-            return status;
+            return serviceResult;
         }
     }
 }

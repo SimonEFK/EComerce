@@ -3,14 +3,16 @@
     <h3 class="text-center catalog-product-title"><a asp-action="ComponentDetail" asp-route-id="@this.Model.Id">@this.Model.Name</a></h3>
     <div class="catalog-product-content">
         <div class="catalog-product-img-container">
-            <img class="catalog-product-img" src="/@this.Model.ImageUrl" alt="product img">
+
+
+            <img class="catalog-product-img" src="/@Model.ImageUrl" alt="product img">
         </div>
         <ul class="catalog-product-specs list-group">
             @foreach (var item in this.Model.Specifications)
             {
                 <li class="list-group-item">
                     <span class="fw-bold">@item.Name:</span>
-                    <span>@string.Join(",",item.Values)</span>
+                    <span>@string.Join(",", item.Values)</span>
                 </li>
             }
         </ul>

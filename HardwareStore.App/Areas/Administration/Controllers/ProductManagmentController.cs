@@ -36,27 +36,27 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct(CreateProductViewModel model)
+        public async Task<IActionResult> CreateProduct(CreateProductViewModel createProductViewModel)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid == false)
             {
-                model.CategoryList = _categoryDataService.GetCategoriesAsTupleCollection();
-                model.ManufacturerList = await _manufacturerDataService.GetManufacturersAsTupleCollectionAsync();
-                return View(model);
+                createProductViewModel.CategoryList = _categoryDataService.GetCategoriesAsTupleCollection();
+                createProductViewModel.ManufacturerList = await _manufacturerDataService.GetManufacturersAsTupleCollectionAsync();
+                return View(createProductViewModel);
             }
-            var productStatus = await _productDataService.CreateProduct(model.ProductFormModel);
-            if (productStatus.IsSucssessfull == false)
+            var productStatus = await _productDataService.CreateProduct(createProductViewModel.ProductFormModel);
+            if (productStatus.Success == false)
             {
-                foreach (var message in productStatus.Messages)
+                foreach (var message in productStatus.ErrorMessage)
                 {
                     ModelState.AddModelError("", message);
 
                 }
-                model.CategoryList = _categoryDataService.GetCategoriesAsTupleCollection();
-                model.ManufacturerList = await _manufacturerDataService.GetManufacturersAsTupleCollectionAsync();
-                return View(model);
+                createProductViewModel.CategoryList = _categoryDataService.GetCategoriesAsTupleCollection();
+                createProductViewModel.ManufacturerList = await _manufacturerDataService.GetManufacturersAsTupleCollectionAsync();
+                return View(createProductViewModel);
             }
-            return Redirect($"/ComponentDetail/{productStatus.Id}");
+            return Redirect($"/Catalog");
         }
     }
 }
