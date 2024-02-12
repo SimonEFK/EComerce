@@ -170,7 +170,7 @@
             var newValue = new SpecificationValue
             {
                 Value = model.Value.ToTitleCase(),
-                Metric = model.Metric.ToTitleCase()
+                Metric = model.Metric
             };
             specification.Values.Add(newValue);
             await dbContext.SaveChangesAsync();
@@ -211,7 +211,7 @@
                 return serviceResult;
             }
             value.Value = model.Value.ToTitleCase();
-            value.Metric = model.Metric.ToTitleCase();
+            value.Metric = model.Metric;
             await dbContext.SaveChangesAsync();
             return serviceResult;
         }
