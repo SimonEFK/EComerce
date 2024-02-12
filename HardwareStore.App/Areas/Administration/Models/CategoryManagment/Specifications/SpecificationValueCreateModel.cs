@@ -12,5 +12,8 @@
         [Required]
         public string Value { get; set; }
 
+        [StringLength(maximumLength: 20, MinimumLength = 1)]
+        public string Metric { get; set; }
+
     }
 }

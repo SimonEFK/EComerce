@@ -169,7 +169,8 @@
 
             var newValue = new SpecificationValue
             {
-                Value = model.Value.ToTitleCase()
+                Value = model.Value.ToTitleCase(),
+                Metric = model.Metric.ToTitleCase()
             };
             specification.Values.Add(newValue);
             await dbContext.SaveChangesAsync();
@@ -210,6 +211,7 @@
                 return serviceResult;
             }
             value.Value = model.Value.ToTitleCase();
+            value.Metric = model.Metric.ToTitleCase();
             await dbContext.SaveChangesAsync();
             return serviceResult;
         }
@@ -273,7 +275,7 @@
                 .Where(x => x.Id == specificationId)
                 .Select(x => new SpecificationInfoModel
                 {
-                    SpecificationId = x.Id,                    
+                    SpecificationId = x.Id,
                     Name = x.Name,
                     InfoLevel = x.InfoLevel,
                     Filter = x.Filter,
@@ -281,7 +283,8 @@
                     Values = x.Values.Select(x => new SpecificationValueInfoModel
                     {
                         Id = x.Id,
-                        Value = x.Value
+                        Value = x.Value,
+                        Metric = x.Metric
                     }).ToList()
                 })
                 .FirstOrDefaultAsync();
