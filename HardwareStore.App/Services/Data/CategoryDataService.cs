@@ -218,10 +218,10 @@
 
         public async Task<ICollection<TModel>> GetCategories<TModel>()
         {
-            var categories = await dbContext.Categories
-             .ProjectTo<TModel>(mapper.ConfigurationProvider)
-             .ToListAsync();
-            return categories;
+            var categories = dbContext.Categories.AsQueryable();
+            
+            return await categories.ProjectTo<TModel>(mapper.ConfigurationProvider)
+            .ToListAsync();
         }
 
         public ICollection<(string Name, int Id)> GetCategoriesAsTupleCollection()

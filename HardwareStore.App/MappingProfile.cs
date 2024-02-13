@@ -11,6 +11,10 @@
     {
         public MappingProfile()
         {
+            this.CreateMap<Product, ProductSimplifiedModel>().ForMember(product => product.Image,
+                config => config.MapFrom(source => source.Images.FirstOrDefault().FilePath ??
+                source.Images.FirstOrDefault().Url))
+                ;
             this.CreateMap<Product, ProductExtendedModel>()
                 .ForMember(product => product.ImageUrl,
                 config => config.MapFrom(source => source.Images.FirstOrDefault().FilePath ??

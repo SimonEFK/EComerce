@@ -1,10 +1,35 @@
-﻿@{
+﻿@model HomeIndexViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <a asp-controller="ProductCatalog" asp-action="Index">Catalog</a>
-    <a href="administration/admin">Admin Panel</a>
+<section class="hero-section-container">
+    <p>YOLODSADSADSADSADSADSADSADSA</p>
+    <p>YOLODSADSADSADSADSADSADSADSA</p>
+    <p>YOLODSADSADSADSADSADSADSADSA</p>
+    <p>YOLODSADSADSADSADSADSADSADSA</p>
+    <a href="/catalog" class="btn btn-outline-dark">Catalog</a>
+</section>
+<h3 class="bg-primary text-white text-center">Latest</h3>
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model.Products)
+        {
+            <div class="col-sm-4">
+                <div class="product-home-card d-flex flex-column justify-content-between p-1">
+                    <div class="product-home-card-image-container">
+                        <a href="/ComponentDetail/@item.Id"><img src="@item.Image" /></a>
+                    </div>
+                    <div class="product-home-card-content">
+                        <p class="text-break text-center m-0"><a href="/ComponentDetail/@item.Id">@item.Name</a></p>
+                        <div class="input-group">
+                            <button class="btn btn-primary ms-auto">Buy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+
 </div>

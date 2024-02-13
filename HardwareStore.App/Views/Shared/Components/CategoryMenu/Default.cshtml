@@ -1,0 +1,8 @@
+﻿@using HardwareStore.App.Models.Category
+@model ICollection<CategoryModel>;
+<ul class="list-group">
+    @foreach (var item in Model)
+    {
+        <li class="list-group-item"><a href="/Catalog/@item.Name">@item.Name</a></li>
+    }
+</ul>

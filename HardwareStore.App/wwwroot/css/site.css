@@ -198,3 +198,26 @@ p, h1, h2, h3, h4, h5, h6 {
         object-fit: contain;
         object-position: center;
     }
+
+
+.product-home-card {
+    /*width: 250px;*/
+}
+
+.product-home-card-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+}
+
+.product-home-card-image-container {
+    height: 150px;
+}
+
+.hero-section-container {
+    background-image: url(/Images/Layout/OIG3.R.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

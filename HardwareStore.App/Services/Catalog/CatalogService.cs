@@ -82,6 +82,12 @@
             return product;
         }
 
+        public async Task<List<ProductSimplifiedModel>> GetRandom(int count = 4)
+        {
+            
+            var products = await dbContext.Products.OrderBy(x => Guid.NewGuid()).Take(count).ProjectTo<ProductSimplifiedModel>(mapper.ConfigurationProvider).ToListAsync();
+            return products;
+        }
 
         private static IQueryable<Product> OrderQuery(IQueryable<Product> productsQuery, string sortOrder)
         {
