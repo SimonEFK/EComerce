@@ -1,8 +1,17 @@
 ﻿@using HardwareStore.App.Models.Category
 @model ICollection<CategoryModel>;
+
+@{
+    var route = this.Context.GetRouteData()?.Values.FirstOrDefault(x => x.Key == "category").Value;
+}
 <ul class="list-group">
     @foreach (var item in Model)
     {
-        <li class="list-group-item"><a href="/Catalog/@item.Name">@item.Name</a></li>
+        if (route != null && item.Name.ToLower() == route.ToString().ToLower())
+        {
+            <li class="list-group-item active"><a class="text-light link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/Catalog/@item.Name">@item.Name</a></li>
+            continue;
+        }
+        <li class="list-group-item"><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/Catalog/@item.Name">@item.Name</a></li>
     }
 </ul>
