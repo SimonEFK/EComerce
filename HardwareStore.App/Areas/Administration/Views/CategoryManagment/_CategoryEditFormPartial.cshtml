@@ -1,4 +1,4 @@
-﻿@model CategoryEditModel
+﻿@model CategoryEditInputModel
 <form method="post" action="/Administration/CategoryManagment/EditCategory/@Model.Id" class="col-md-4 me-3">
     @Html.AntiForgeryToken()
     <input type="hidden" asp-for="@Model.Id" />

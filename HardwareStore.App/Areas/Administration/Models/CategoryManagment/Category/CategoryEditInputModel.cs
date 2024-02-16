@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class CategoryEditModel
+    public class CategoryEditInputModel
     {
         public int Id { get; set; }
 

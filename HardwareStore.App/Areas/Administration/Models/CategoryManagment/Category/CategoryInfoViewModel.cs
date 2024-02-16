@@ -4,9 +4,9 @@
 
     public class CategoryInfoViewModel
     {
-        public CategoryEditModel CategoryEditModel { get; set; }
+        public CategoryEditInputModel CategoryEditModel { get; set; }
 
-        public SpecificationCreateModel SpecificationCreateForm { get; set; }
+        public SpecificationCreateInputModel SpecificationCreateForm { get; set; }
 
         public CategoryInfoModel CategoryInfoModel { get; set; }
     }

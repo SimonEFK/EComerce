@@ -2,11 +2,11 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class SpecificationValueEditModel
+    public class SpecificationValueCreateInputModel
     {
-        public int? CategoryId { get; set; }
-
         public int ValueId { get; set; }
+
+        public int? CategoryId { get; set; }
 
         public int SpecificationId { get; set; }
 
@@ -15,6 +15,6 @@
         public string Value { get; set; }
 
         [StringLength(maximumLength: 20, MinimumLength = 1)]
-        public string Metric { get; set; }
+        public string? Metric { get; set; }
     }
 }

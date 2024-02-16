@@ -2,11 +2,11 @@
 {
     public class SpecificationInfoViewModel
     {
-        public SpecificationEditModel EditFormModel { get; set; }
+        public SpecificationCreateInputModel SpecificationCreateInputModel { get; set; }
 
-        public SpecificationValueCreateModel ValueCreateFormModel { get; set; }
+        public SpecificationValueCreateInputModel ValueCreateFormModel { get; set; }
 
-        public SpecificationValueEditModel ValueEditFormModel { get; set; }
+        public SpecificationValueCreateInputModel ValueEditFormModel { get; set; }
 
         public List<SpecificationValueInfoModel> Values { get; set; }
     }

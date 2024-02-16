@@ -1,4 +1,4 @@
-﻿@model SpecificationCreateModel
+﻿@model SpecificationCreateInputModel
 <form id="specForm" class="collapse @ViewData["FormCollapse"]" method="post" action="/Administration/CategoryManagment/CreateSpecification">
     @Html.AntiForgeryToken()
     <input type="hidden" asp-for="@Model.CategoryId" />

@@ -79,11 +79,12 @@
             return serviceResult;
         }
 
-        public async Task<ServiceResult> CreateSpecification(SpecificationCreateModel model)
+        public async Task<ServiceResult> CreateSpecification(int categoryId, string name, bool isFilter = false, bool isEssential = false)
         {
             var serviceResult = new ServiceResult();
 
-            var categoryExists = await dbContext.Categories.Include(x => x.Specifications).FirstOrDefaultAsync(x => x.Id == model.CategoryId);
+            var categoryExists = await dbContext.Categories
+                .Include(x => x.Specifications).FirstOrDefaultAsync(x => x.Id == categoryId);
             if (categoryExists == null)
             {
                 serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryDosentExsist));
@@ -92,7 +93,7 @@
             }
 
             var specificationExsist = categoryExists.Specifications
-                .FirstOrDefault(x => String.Equals(x.Name, model.Name, StringComparison.OrdinalIgnoreCase));
+                .FirstOrDefault(x => String.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
 
             if (specificationExsist != null)
             {
@@ -105,46 +106,47 @@
             var specification = new Specification()
             {
                 CategoryId = categoryExists.Id,
-                Name = model.Name.ToTitleCase(),
-                InfoLevel = model.Essential == true ? "Essential" : "None",
-                Filter = model.Filter
+                Name = name.ToTitleCase(),
+                InfoLevel = isEssential == true ? "Essential" : "None",
+                Filter = isFilter
             };
             dbContext.Specifications.Add(specification);
             await dbContext.SaveChangesAsync();
             return serviceResult;
         }
 
-        public async Task<ServiceResult> EditSpecification(SpecificationEditModel model)
+        public async Task<ServiceResult> EditSpecification(
+            int categoryId, int id, string name, bool isFilter = false, bool isEssential = false)
         {
             var serviceResult = new ServiceResult();
-            var category = await dbContext.Categories.Include(x => x.Specifications).FirstOrDefaultAsync(x => x.Id == model.CategoryId);
+            var category = await dbContext.Categories.Include(x => x.Specifications).FirstOrDefaultAsync(x => x.Id == categoryId);
             if (category == null)
             {
                 serviceResult.Success = false;
                 serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryDosentExsist));
                 return serviceResult;
             }
-            var specification = category.Specifications.FirstOrDefault(x => x.Id == model.Id);
-            var specificationExsist = category.Specifications.Where(x => x.Id != specification.Id).Any(x => String.Equals(x.Name, model.Name, StringComparison.OrdinalIgnoreCase));
+            var specification = category.Specifications.FirstOrDefault(x => x.Id == id);
+            var specificationExsist = category.Specifications.Where(x => x.Id != specification.Id).Any(x => String.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
             if (specificationExsist)
             {
                 serviceResult.Success = false;
-                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.SpecificationExsist, model.Name, category.Name));
+                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.SpecificationExsist, name, category.Name));
                 return serviceResult;
             }
 
-            specification.Name = model.Name.ToTitleCase();
-            specification.Filter = model.Filter;
-            specification.InfoLevel = model.Essential == true ? "Essential" : "None";
+            specification.Name = name.ToTitleCase();
+            specification.Filter = isFilter;
+            specification.InfoLevel = isEssential == true ? "Essential" : "None";
 
             await dbContext.SaveChangesAsync();
             return serviceResult;
         }
 
-        public async Task<ServiceResult> CreateSpecificationValue(SpecificationValueCreateModel model)
+        public async Task<ServiceResult> CreateSpecificationValue(int categoryId, int specificationId, string value, string? metric)
         {
             var serviceResult = new ServiceResult();
-            var category = await dbContext.Categories.Include(x => x.Specifications).ThenInclude(x => x.Values).FirstOrDefaultAsync(x => x.Id == model.CategoryId);
+            var category = await dbContext.Categories.Include(x => x.Specifications).ThenInclude(x => x.Values).FirstOrDefaultAsync(x => x.Id == categoryId);
 
             if (category == null)
             {
@@ -152,25 +154,25 @@
                 serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryDosentExsist));
                 return serviceResult;
             }
-            var specification = category.Specifications.FirstOrDefault(x => x.Id == model.SpecificationId);
+            var specification = category.Specifications.FirstOrDefault(x => x.Id == specificationId);
             if (specification == null)
             {
                 serviceResult.Success = false;
                 serviceResult.ErrorMessage.Add(ErrorMessages.SpecificationDoesentExsist);
                 return serviceResult;
             }
-            var valueExsist = specification.Values.FirstOrDefault(x => String.Equals(x.Value, model.Value, StringComparison.OrdinalIgnoreCase));
+            var valueExsist = specification.Values.FirstOrDefault(x => String.Equals(x.Value, value, StringComparison.OrdinalIgnoreCase));
             if (valueExsist != null)
             {
                 serviceResult.Success = false;
-                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.SpecificationValueExsist, category.Name, specification.Name, model.Value));
+                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.SpecificationValueExsist, category.Name, specification.Name, value));
                 return serviceResult;
             }
 
             var newValue = new SpecificationValue
             {
-                Value = model.Value.ToTitleCase(),
-                Metric = model.Metric
+                Value = value.ToTitleCase(),
+                Metric = metric
             };
             specification.Values.Add(newValue);
             await dbContext.SaveChangesAsync();
@@ -178,10 +180,10 @@
             return serviceResult;
         }
 
-        public async Task<ServiceResult> EditSpecificationValue(SpecificationValueEditModel model)
+        public async Task<ServiceResult> EditSpecificationValue(int categoryId, int specificationId, int valueId, string newValue, string? metric)
         {
             var serviceResult = new ServiceResult();
-            var category = await dbContext.Categories.Include(x => x.Specifications).ThenInclude(x => x.Values).FirstOrDefaultAsync(x => x.Id == model.CategoryId);
+            var category = await dbContext.Categories.Include(x => x.Specifications).ThenInclude(x => x.Values).FirstOrDefaultAsync(x => x.Id == categoryId);
 
             if (category == null)
             {
@@ -189,29 +191,29 @@
                 serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryDosentExsist));
                 return serviceResult;
             }
-            var specification = category.Specifications.FirstOrDefault(x => x.Id == model.SpecificationId);
+            var specification = category.Specifications.FirstOrDefault(x => x.Id == specificationId);
             if (specification == null)
             {
                 serviceResult.Success = false;
                 serviceResult.ErrorMessage.Add(ErrorMessages.SpecificationDoesentExsist);
                 return serviceResult;
             }
-            var value = specification.Values.FirstOrDefault(x => x.Id == model.ValueId);
+            var value = specification.Values.FirstOrDefault(x => x.Id == valueId);
             if (value == null)
             {
                 serviceResult.Success = false;
                 serviceResult.ErrorMessage.Add("Invalid Value Id");
                 return serviceResult;
             }
-            var valueExsist = specification.Values.Where(x => x.Id != value.Id).Any(x => string.Equals(x.Value, model.Value, StringComparison.OrdinalIgnoreCase));
+            var valueExsist = specification.Values.Where(x => x.Id != value.Id).Any(x => string.Equals(x.Value, newValue, StringComparison.OrdinalIgnoreCase));
             if (valueExsist)
             {
                 serviceResult.Success = false;
-                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.SpecificationValueExsist, category.Name, specification.Name, model.Value.ToTitleCase()));
+                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.SpecificationValueExsist, category.Name, specification.Name, newValue.ToTitleCase()));
                 return serviceResult;
             }
-            value.Value = model.Value.ToTitleCase();
-            value.Metric = model.Metric;
+            value.Value = newValue.ToTitleCase();
+            value.Metric = metric;
             await dbContext.SaveChangesAsync();
             return serviceResult;
         }
@@ -286,8 +288,7 @@
                         Value = x.Value,
                         Metric = x.Metric
                     }).ToList()
-                })
-                .FirstOrDefaultAsync();
+                }).FirstOrDefaultAsync();
 
             return specificationInfo;
         }
