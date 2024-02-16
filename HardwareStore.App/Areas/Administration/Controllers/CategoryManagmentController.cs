@@ -14,21 +14,15 @@
         {
             _categoryDataService = categoryDataService;
         }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> CategoryList()
+                
+        public async Task<IActionResult> Index()
         {
             var categories = await _categoryDataService.GetCategories<CategoryViewModel>();
-            var categoryCreateModel = new CategoryCreateModel();
+            var createCategoryInputModel = new CreateCategoryInputModel();
             var categoryListViewModel = new CategoryListingViewModel()
             {
                 Categories = categories.ToList(),
-                CategoryFormModel = categoryCreateModel
+                CreateCategoryInputModel = createCategoryInputModel
             };
             return View(categoryListViewModel);
         }
@@ -92,7 +86,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateCategory(CategoryCreateModel categoryCreateModel)
+        public async Task<IActionResult> CreateCategory(CreateCategoryInputModel createCategoryInputModel)
         {
 
             if (!ModelState.IsValid)
@@ -102,11 +96,11 @@
                 var categoryListViewModel = new CategoryListingViewModel()
                 {
                     Categories = categories.ToList(),
-                    CategoryFormModel = categoryCreateModel
+                    CreateCategoryInputModel = createCategoryInputModel
                 };
                 return View("CategoryList", categoryListViewModel);
             }
-            var result = await _categoryDataService.CreateCategory(categoryCreateModel);
+            var result = await _categoryDataService.CreateCategory(createCategoryInputModel.Name,createCategoryInputModel.Image);
 
             if (!result.Success)
             {
@@ -119,11 +113,11 @@
                 var categoryListViewModel = new CategoryListingViewModel()
                 {
                     Categories = categories.ToList(),
-                    CategoryFormModel = categoryCreateModel
+                    CreateCategoryInputModel = createCategoryInputModel
                 };
                 return View("CategoryList", categoryListViewModel);
             }
-            return Redirect("/Administration/CategoryManagment/CategoryList");
+            return Redirect("/Administration/CategoryManagment");
         }
 
         [HttpPost]

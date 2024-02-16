@@ -10,7 +10,7 @@
     public interface ICategoryDataService
     {
         Task<CategoryInfoModel> CategoryInfo(int categoryId);
-        Task<ServiceResult> CreateCategory(CategoryCreateModel model);
+        Task<ServiceResult> CreateCategory(string name, string ImageUrl);
         Task<ServiceResult> CreateSpecification(SpecificationCreateModel model);
         Task<ServiceResult> CreateSpecificationValue(SpecificationValueCreateModel model);
         Task<ServiceResult> EditCategory(CategoryEditModel categoryEditModel);

@@ -22,11 +22,11 @@
 
         }
 
-        public async Task<ServiceResult> CreateCategory(CategoryCreateModel model)
+        public async Task<ServiceResult> CreateCategory(string name , string imageUrl)
         {
 
             var serviceResult = new ServiceResult();
-            var newCategoryName = model.Name.Trim();
+            var newCategoryName = name.Trim();
 
             var categoryExsist = dbContext.Categories.ToList().FirstOrDefault(x => string.Equals(x.Name, newCategoryName, StringComparison.OrdinalIgnoreCase));
 
@@ -40,7 +40,7 @@
             var newCategory = new Category()
             {
                 Name = newCategoryName.ToTitleCase(),
-                Url = model.Image
+                Url = imageUrl
             };
 
             dbContext.Categories.Add(newCategory);

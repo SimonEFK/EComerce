@@ -19,7 +19,7 @@
                         <td data-item-image="@item.Image" class="text-truncate">
                         </td>
                         <td>
-                            <a href="categoryinfo/@item.Id" class="btn btn-outline-info">Edit</a>
+                            <a href="/Administration/CategoryManagment/CategoryInfo/@item.Id" class="btn btn-outline-info">Edit</a>
                             <button class="btn btn-danger">Delete</button>
                         </td>
                     </tr>
@@ -31,7 +31,7 @@
 </div>
 <div class="collapse @ViewData["FormCollapse"] row" id="categoryFormRow">
     <div id="categoryFormDiv" class="col-md-8 mx-auto">
-        <partial name="_CategoryCreateFormPartial" model="@Model.CategoryFormModel" />
+        <partial name="_CategoryCreateFormPartial" model="@Model.CreateCategoryInputModel" />
     </div>
 </div>
 

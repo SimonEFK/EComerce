@@ -2,8 +2,8 @@
 {
     public class CategoryListingViewModel
     {
-        public List<CategoryViewModel> Categories { get; set; }
+        public List<CategoryViewModel> Categories { get; set; } = new List<CategoryViewModel>();
 
-        public CategoryCreateModel CategoryFormModel { get; set; }
+        public CreateCategoryInputModel CreateCategoryInputModel { get; set; }
     }
 }
