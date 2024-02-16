@@ -4,7 +4,7 @@
 
     public class CategoryInfoViewModel
     {
-        public CategoryEditModel CategoryFormModel { get; set; }
+        public CategoryEditModel CategoryEditModel { get; set; }
 
         public SpecificationCreateModel SpecificationCreateForm { get; set; }
 

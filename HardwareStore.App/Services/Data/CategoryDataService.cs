@@ -22,7 +22,7 @@
 
         }
 
-        public async Task<ServiceResult> CreateCategory(string name , string imageUrl)
+        public async Task<ServiceResult> CreateCategory(string name, string imageUrl)
         {
 
             var serviceResult = new ServiceResult();
@@ -49,29 +49,29 @@
 
         }
 
-        public async Task<ServiceResult> EditCategory(CategoryEditModel model)
+        public async Task<ServiceResult> EditCategory(int id, string name, string imageUrl, string imageFilePath)
         {
             var serviceResult = new ServiceResult();
-            var category = await dbContext.Categories.FirstOrDefaultAsync(x => x.Id == model.Id);
+            var category = await dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
             if (category == null)
             {
                 serviceResult.Success = false;
-                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryDosentExsist, model.Name));
+                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryDosentExsist, name));
                 return serviceResult;
             }
             var categoryExist = dbContext.Categories
                 .Where(x => x.Id != category.Id).ToList()
-                .Any(x => string.Equals(x.Name, model.Name, StringComparison.OrdinalIgnoreCase));
+                .Any(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
             if (categoryExist)
             {
                 serviceResult.Success = false;
-                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryExsist, model.Name));
+                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryExsist, name));
                 return serviceResult;
             }
 
-            category.Name = model.Name.ToTitleCase();
-            category.FilePath = model.ImageFilePath;
-            category.Url = model.ImageUrl;
+            category.Name = name.ToTitleCase();
+            category.FilePath = imageFilePath;
+            category.Url = imageUrl;
 
 
             await dbContext.SaveChangesAsync();
@@ -219,7 +219,7 @@
         public async Task<ICollection<TModel>> GetCategories<TModel>()
         {
             var categories = dbContext.Categories.AsQueryable();
-            
+
             return await categories.ProjectTo<TModel>(mapper.ConfigurationProvider)
             .ToListAsync();
         }

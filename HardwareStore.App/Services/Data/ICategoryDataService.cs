@@ -13,7 +13,7 @@
         Task<ServiceResult> CreateCategory(string name, string ImageUrl);
         Task<ServiceResult> CreateSpecification(SpecificationCreateModel model);
         Task<ServiceResult> CreateSpecificationValue(SpecificationValueCreateModel model);
-        Task<ServiceResult> EditCategory(CategoryEditModel categoryEditModel);
+        Task<ServiceResult> EditCategory(int id, string name, string imageUrl, string imageFilePath);
         Task<ServiceResult> EditSpecification(SpecificationEditModel model);
         Task<ServiceResult> EditSpecificationValue(SpecificationValueEditModel model);
         Task<ICollection<TModel>> GetCategories<TModel>();

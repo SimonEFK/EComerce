@@ -14,7 +14,7 @@
         {
             _categoryDataService = categoryDataService;
         }
-                
+
         public async Task<IActionResult> Index()
         {
             var categories = await _categoryDataService.GetCategories<CategoryViewModel>();
@@ -44,7 +44,7 @@
             };
             var categoryInfoViewModel = new CategoryInfoViewModel
             {
-                CategoryFormModel = categoryEditModel,
+                CategoryEditModel = categoryEditModel,
                 CategoryInfoModel = categoryInfoModel,
                 SpecificationCreateForm = specificationCreateModel
             };
@@ -100,7 +100,7 @@
                 };
                 return View("CategoryList", categoryListViewModel);
             }
-            var result = await _categoryDataService.CreateCategory(createCategoryInputModel.Name,createCategoryInputModel.Image);
+            var result = await _categoryDataService.CreateCategory(createCategoryInputModel.Name, createCategoryInputModel.Image);
 
             if (!result.Success)
             {
@@ -126,9 +126,25 @@
         {
             if (!ModelState.IsValid)
             {
-                return PartialView("_CategoryEditFormPartial", categoryEditModel);
+                var categoryInfoModel = await _categoryDataService.CategoryInfo(categoryEditModel.Id);
+                var specificationCreateModel = new SpecificationCreateModel
+                {
+                    CategoryId = categoryInfoModel.Id,
+                };
+                var categoryInfoViewModel = new CategoryInfoViewModel
+                {
+                    CategoryEditModel = categoryEditModel,
+                    CategoryInfoModel = categoryInfoModel,
+                    SpecificationCreateForm = specificationCreateModel
+                };
+                return View("CategoryInfo", categoryInfoViewModel);
             }
-            var result = await _categoryDataService.EditCategory(categoryEditModel);
+            var result = await _categoryDataService.EditCategory(
+                categoryEditModel.Id,
+                categoryEditModel.Name,
+                categoryEditModel.ImageUrl,
+                categoryEditModel.ImageFilePath);
+
             if (!result.Success)
             {
                 foreach (var message in result.ErrorMessage)
@@ -136,9 +152,20 @@
                     ModelState.AddModelError("", message);
 
                 }
-                return PartialView("_CategoryEditFormPartial", categoryEditModel);
+                var categoryInfoModel = await _categoryDataService.CategoryInfo(categoryEditModel.Id);
+                var specificationCreateModel = new SpecificationCreateModel
+                {
+                    CategoryId = categoryInfoModel.Id,
+                };
+                var categoryInfoViewModel = new CategoryInfoViewModel
+                {
+                    CategoryEditModel = categoryEditModel,
+                    CategoryInfoModel = categoryInfoModel,
+                    SpecificationCreateForm = specificationCreateModel
+                };
+                return View(categoryInfoViewModel);
             }
-            return PartialView("_CategoryEditFormPartial", categoryEditModel);
+            return Redirect($"/Administration/CategoryManagment/CategoryInfo/{categoryEditModel.Id}");
         }
 
         [HttpPost]
@@ -155,7 +182,7 @@
             };
             var categoryInfoViewModel = new CategoryInfoViewModel
             {
-                CategoryFormModel = categoryEditModel,
+                CategoryEditModel = categoryEditModel,
                 CategoryInfoModel = categoryInfoModel,
                 SpecificationCreateForm = specificationCreateModel
             };

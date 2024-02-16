@@ -1,7 +1,7 @@
 ﻿@model CategoryInfoViewModel
 <div class="container">
     <div class="row justify-content-center" id="cateInfoDiv">
-        <partial name="_CategoryEditFormPartial" model="@Model.CategoryFormModel" />
+        <partial name="_CategoryEditFormPartial" model="@Model.CategoryEditModel" />
     </div>
     <div class="row justify-content-center">
         <h3 class="text-center">Specifications</h3>
@@ -41,10 +41,4 @@
         </div>
     </div>
 </div>
-@section Scripts {
-    <script src="~/js/categoryEdit.js"></script>
-    <script>
-        this.document.addEventListener('onload', CatagoryEdit())
-    </script>
-}
 
