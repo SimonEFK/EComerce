@@ -21,12 +21,15 @@
         </nav>
 
         <div class="container-fluid ">
-            <button data-bs-toggle="collapse" data-bs-target="#menu" class="btn btn-outline-primary">Categories</button>
+            <button data-bs-toggle="collapse" data-bs-target="#menu" class="btn btn-outline-primary navbar-toggler">
+                <span>Categories</span>
+            </button>
+
             <div class="z-3 col-12 col-lg-3 position-absolute collapse" id="menu">
                 @await Component.InvokeAsync("CategoryMenu")
             </div>
         </div>
-        <a href="/catalog" class="btn btn-outline-dark">Catalog</a>
+        @* <a href="/catalog" class="btn btn-outline-dark">Catalog</a> *@
     </header>
     <div class="container-fluid">
         <main role="main" class="pb-3">
