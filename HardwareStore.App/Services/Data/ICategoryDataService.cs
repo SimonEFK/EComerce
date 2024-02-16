@@ -18,7 +18,7 @@
         Task<ServiceResult> EditSpecificationValue(SpecificationValueEditModel model);
         Task<ICollection<TModel>> GetCategories<TModel>();
 
-        ICollection<(string Name, int Id)> GetCategoriesAsTupleCollection();
+        Task<ICollection<(string Name, int Id)>> GetCategoriesAsTupleCollectionAsync();
         Task<SpecificationInfoModel> SpecificationInfo(int specificationId);
     }
 }

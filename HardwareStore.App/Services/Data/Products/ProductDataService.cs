@@ -2,11 +2,10 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
-    using HardwareStore.App.Areas.Administration.Models.ProductManagment;
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
+    using HardwareStore.App.Services.Models;
     using Microsoft.EntityFrameworkCore;
-    using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
     public class ProductDataService : IProductDataService
     {
@@ -31,12 +30,12 @@
             return product;
         }
 
-        public async Task<ServiceResult> CreateProduct(CreateProductFormModel productFormModel)
+        public async Task<ServiceResult> CreateProduct(CreateProductDTO createProductDTO)
         {
             var serviceResult = new ServiceResult();
 
-            var categoryDb = await dbContext.Categories.FirstOrDefaultAsync(x => x.Id == productFormModel.CategoryId);
-            var manufacturerDb = await dbContext.Manufacturers.FirstOrDefaultAsync(x => x.Id == productFormModel.ManufacturerId);
+            var categoryDb = await dbContext.Categories.FirstOrDefaultAsync(x => x.Id == createProductDTO.CategoryId);
+            var manufacturerDb = await dbContext.Manufacturers.FirstOrDefaultAsync(x => x.Id == createProductDTO.ManufacturerId);
 
             if (categoryDb == null)
             {
@@ -50,13 +49,13 @@
                 serviceResult.ErrorMessage.Add("Manufacturer Doesn't Exsist");
                 return serviceResult;
             }
-            if (productFormModel.Specifications.Count < 3)
+            if (createProductDTO.Specifications.Count < 3)
             {
                 serviceResult.Success = false;
                 serviceResult.ErrorMessage.Add("Add Atleast 3 Specifications");
                 return serviceResult;
             }
-            if (!productFormModel.ImageArray.Any())
+            if (!createProductDTO.ImageUrls.Any())
             {
                 serviceResult.Success = false;
                 serviceResult.ErrorMessage.Add("Add Atleast 1 Image");
@@ -64,12 +63,12 @@
             }
 
             var product = new Product();
-            product.Name = productFormModel.Name.Trim();
-            product.NameDetailed = productFormModel.NameDetailed;
+            product.Name = createProductDTO.Name.Trim();
+            product.NameDetailed = createProductDTO.NameDetailed;
             product.Manufacturer = manufacturerDb;
             product.Category = categoryDb;
 
-            foreach (var image in productFormModel.ImageArray)
+            foreach (var image in createProductDTO.ImageUrls)
             {
 
                 var dir = Path.Combine(env.WebRootPath, "Images");
@@ -88,7 +87,7 @@
 
             }
 
-            foreach (var item in productFormModel.Specifications)
+            foreach (var item in createProductDTO.Specifications)
             {
                 var specificationKey = item.Key;
 

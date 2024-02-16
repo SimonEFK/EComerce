@@ -224,14 +224,14 @@
             .ToListAsync();
         }
 
-        public ICollection<(string Name, int Id)> GetCategoriesAsTupleCollection()
+        public async Task<ICollection<(string Name, int Id)>> GetCategoriesAsTupleCollectionAsync()
         {
 
-            var categoriesQuery = dbContext.Categories.Select(x => new
+            var categoriesQuery = await dbContext.Categories.Select(x => new
             {
                 Name = x.Name,
                 Id = x.Id,
-            }).ToList();
+            }).ToListAsync();
             var categoriesResult = new List<(string Name, int Id)>();
 
             foreach (var category in categoriesQuery)

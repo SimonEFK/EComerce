@@ -77,7 +77,7 @@ namespace HardwareStore.App
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapControllerRoute(
                 name: "Administration",
-                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
             app.MapRazorPages();
 
             app.Run();

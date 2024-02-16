@@ -5,7 +5,7 @@
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
-    public class CreateProductFormModel
+    public class CreateProductInputModel
     {
         [Required]
         [StringLength(maximumLength: 60, MinimumLength = 6, ErrorMessage = "{0} field must be {2}-{1} characters long")]
@@ -25,6 +25,10 @@
 
         [Required(ErrorMessage = "Product image is required")]
         [CollectionRegex(@"^https?:\/\/.*\/.*\.(jpg|jpeg|png|gif|webp|avif)$", ErrorMessage = "Invalid Url Format")]
-        public string[] ImageArray { get; set; }
+        public HashSet<string> ImageUrls { get; set; } = new HashSet<string>();
+
+        public ICollection<(string Name, int Id)> CategoryList { get; set; } = new List<(string Name, int Id)>();
+
+        public ICollection<(string Name, int Id)> ManufacturerList { get; set; } = new List<(string Name, int Id)>();
     }
 }

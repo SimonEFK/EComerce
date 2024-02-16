@@ -2,10 +2,12 @@
 {
     using AutoMapper;
     using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Category;
+    using HardwareStore.App.Areas.Administration.Models.ProductManagment;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Category;
     using HardwareStore.App.Models.Product;
     using HardwareStore.App.Models.ProductFilter;
+    using HardwareStore.App.Services.Models;
 
     public class MappingProfile : Profile
     {
@@ -13,8 +15,7 @@
         {
             this.CreateMap<Product, ProductSimplifiedModel>().ForMember(product => product.Image,
                 config => config.MapFrom(source => source.Images.FirstOrDefault().FilePath ??
-                source.Images.FirstOrDefault().Url))
-                ;
+                source.Images.FirstOrDefault().Url));
             this.CreateMap<Product, ProductExtendedModel>()
                 .ForMember(product => product.ImageUrl,
                 config => config.MapFrom(source => source.Images.FirstOrDefault().FilePath ??
@@ -39,10 +40,11 @@
 
             this.CreateMap<Specification, SpecificationFilterOption>();
             this.CreateMap<SpecificationValue, SpecificationValueOption>();
-
             this.CreateMap<Category, CategoryModel>().ForMember(x => x.Image, cfg => cfg.MapFrom(source => source.FilePath ?? source.Url));
             this.CreateMap<Category, CategoryViewModel>().ForMember(x => x.Image, cfg => cfg.MapFrom(source => source.FilePath ?? source.Url));
             this.CreateMap<Category, Tuple<string, int>>();
+
+            this.CreateMap<CreateProductInputModel, CreateProductDTO>();
 
         }
     }
