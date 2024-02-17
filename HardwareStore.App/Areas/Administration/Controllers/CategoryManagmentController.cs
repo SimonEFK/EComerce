@@ -3,9 +3,12 @@
     using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Category;
     using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Specifications;
     using HardwareStore.App.Services.Data;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [Area("Administration")]
+    [Authorize(Roles = "Admin")]
+
     public class CategoryManagmentController : Controller
     {
         private readonly ICategoryDataService _categoryDataService;

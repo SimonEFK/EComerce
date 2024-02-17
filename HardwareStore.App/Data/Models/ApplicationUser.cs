@@ -10,8 +10,8 @@
             ProductReviews = new HashSet<ProductReview>();
 
         }
-
         public ICollection<ProductReview> ProductReviews { get; set; }
+        
         public Cart Cart { get; set; }
 
     }

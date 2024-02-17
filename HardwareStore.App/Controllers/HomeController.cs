@@ -22,7 +22,7 @@
 
         public async Task<IActionResult> Index()
         {
-            var products = await catalogService.GetRandom(6);
+            var products = await catalogService.GetRandom(8);
             var categories = await categoryDataService.GetCategories<CategoryModel>();
             var homeIndexViewModel = new HomeIndexViewModel
             {

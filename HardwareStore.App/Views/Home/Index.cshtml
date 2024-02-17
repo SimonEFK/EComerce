@@ -3,33 +3,37 @@
     ViewData["Title"] = "Home Page";
 }
 
-<section class="hero-section-container">
-    <p>YOLODSADSADSADSADSADSADSADSA</p>
-    <p>YOLODSADSADSADSADSADSADSADSA</p>
-    <p>YOLODSADSADSADSADSADSADSADSA</p>
-    <p>YOLODSADSADSADSADSADSADSADSA</p>
-    <a href="/catalog" class="btn btn-outline-dark">Catalog</a>
-</section>
-<h3 class="bg-primary text-white text-center">Latest</h3>
-<div class="container">
+
+<section class="hero-section-container container-fluid">
     <div class="row">
-        @foreach (var item in Model.Products)
-        {
-            <div class="col-sm-4">
-                <div class="product-home-card d-flex flex-column justify-content-between p-1">
-                    <div class="product-home-card-image-container">
-                        <a href="/ComponentDetail/@item.Id"><img src="@item.Image" /></a>
-                    </div>
-                    <div class="product-home-card-content">
-                        <p class="text-break text-center m-0"><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/ComponentDetail/@item.Id">@item.Name</a></p>
-                        <div class="input-group">
-                            <button class="btn btn-primary ms-auto">Buy</button>
+        <div class="col text-light text-center">
+            <p class="h1">Hardware<span>STORE</span></p>
+            <a class="fs-1 text" href="/Catalog">Catalog</a>
+        </div>
+    </div>
+</section>
+<div class="container-fluid">
+    <h3 class="bg-primary text-white text-center">Latest</h3>
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model.Products)
+            {
+                <div class="col-md-3">
+                    <div class="product-home-card d-flex flex-column justify-content-between p-1">
+                        <div class="product-home-card-image-container">
+                            <a href="/ComponentDetail/@item.Id"><img src="@item.Image" /></a>
+                        </div>
+                        <div class="product-home-card-content">
+                            <p class="text-break text-center m-0"><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/ComponentDetail/@item.Id">@item.Name</a></p>
+                            <div class="input-group">
+                                <a class="btn btn-primary ms-auto" asp-controller="Cart" asp-action="AddItemToCart" asp-route-productId="@item.Id">Buy</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-        }
+            }
+        </div>
+
     </div>
-
 </div>

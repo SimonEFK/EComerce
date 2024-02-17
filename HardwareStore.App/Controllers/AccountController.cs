@@ -54,7 +54,7 @@
             if (result.Succeeded)
             {
                 TempData["RegisterMessage"] = "Account Created Succssesfully";
-                await cartService.CreateCart(user);
+                await cartService.CreateCartAsync(user);
                 return RedirectToAction(nameof(Login));
             }
             foreach (var error in result.Errors)
@@ -105,8 +105,9 @@
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
+            var result = this.User.Identity.IsAuthenticated;
             await signInManager.SignOutAsync();
-            return RedirectToAction(nameof(Login));
+            return Redirect("/Account/Login");
         }
     }
 }

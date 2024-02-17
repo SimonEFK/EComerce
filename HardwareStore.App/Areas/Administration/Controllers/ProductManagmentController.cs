@@ -5,10 +5,13 @@
     using HardwareStore.App.Services.Data;
     using HardwareStore.App.Services.Data.Products;
     using HardwareStore.App.Services.Models;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
 
     [Area("Administration")]
+    [Authorize(Roles = "Admin")]
+
     public class ProductManagmentController : Controller
     {
         private ICategoryDataService _categoryDataService;
