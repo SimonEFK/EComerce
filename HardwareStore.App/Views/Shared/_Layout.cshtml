@@ -42,6 +42,18 @@
 
     <main role="main" class="pb-3">
         @RenderBody()
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <i class="bi bi-cart"></i>
+                    <strong class="me-auto">Shopping Cart</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Item:<span class="toast-message text-success"></span>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer class="border-top footer text-muted">
