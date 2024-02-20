@@ -3,9 +3,9 @@
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Cart;
     using HardwareStore.App.Services.Cart;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.CodeAnalysis;
 
     //[Authorize]
     public class CartController : Controller
@@ -28,15 +28,6 @@
             return View(cartViewModel);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> AddItemToCart(int productId)
-        //{
-        //    var user = await _userManager.GetUserAsync(this.HttpContext.User);
-        //    var userCart = await _cartService.GetUserCartAsync(user);
-        //    await _cartService.AddProductToCartAsync(userCart, productId);
-        //    return Redirect("/");
-        //}
-
         [HttpPost]
         public async Task<IActionResult> AddItemToCart(int productId)
         {
@@ -48,6 +39,15 @@
             return Ok();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> RemoveItem(int Id)
+        {
+            var user = await _userManager.GetUserAsync(this.HttpContext.User);
+
+            await _cartService.RemoveItem(user, Id);
+
+            return RedirectToAction(nameof(Index), "Cart");
+        }
 
 
     }

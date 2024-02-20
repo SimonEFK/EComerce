@@ -12,5 +12,6 @@
         Task CreateCartAsync(ApplicationUser applicationUser);    
         
         Task<ICollection<CartProductModel>> GetUserCartProductsAsync(ApplicationUser applicationUser);
+        Task RemoveItem(ApplicationUser applicationUser, int productId);
     }
 }

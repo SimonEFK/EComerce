@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="row flex-column">
+            <div class="row flex-column" id="cartItemsRow">
                 @foreach (var item in Model.CartProducts)
                 {
                     <div class="col d-flex">
@@ -15,8 +15,10 @@
                         </div>
                         <div class="col">
                             <ul class="list-group">
-                                <li class="list-group-item">
+                                <li class="list-group-item d-flex justify-content-between">
                                     <p>@item.Name</p>
+                                    @* <i class="bi bi-x-lg" data-removeItemFromCart="@item.Name" data-productId="@item.Id"></i> *@
+                                    <a href="Cart/RemoveItem/@item.Id"><i class="bi bi-x-lg text-danger" data-removeItemFromCart="@item.Name" data-productId="@item.Id"></i></a>
                                 </li>
                                 <li class="list-group-item">
                                     <p>@item.Amount</p>
@@ -29,3 +31,20 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script>
+        // let productsCartRow = document.querySelector('#cartItemsRow');
+        // productsCartRow.addEventListener('click', RemoveItem);
+
+        // async function RemoveItem(event) {
+        //     let target = event.target;
+
+        //     if (target.matches('[data-removeItemFromCart]')) {
+        //         let productName = target.dataset.removeitemfromcart;
+        //         let productId = target.dataset.productid;
+        //         console.log(productId)
+        //         console.log(productName)
+        //     }
+        // }
+    </script>
+}

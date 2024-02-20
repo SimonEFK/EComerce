@@ -78,6 +78,25 @@
                 .FirstOrDefaultAsync(x => x.ApplicationUserId == applicationUser.Id);
         }
 
+        public async Task RemoveItem(ApplicationUser applicationUser, int productId)
+        {
+            var product = data.Products.FirstOrDefault(x => x.Id == productId);
+            var userCart = await GetUserCartAsync(applicationUser);
+            if (product == null)
+            {
+                throw new ArgumentNullException($"Product Id: {productId} is Invalid");
+            }
+            var productCartEntry = await data.CartProducts
+                .FirstOrDefaultAsync(x => x.CartId == userCart.Id && x.ProductId == productId);
+            if (productCartEntry != null)
+            {
+                data.CartProducts.Remove(productCartEntry);
+                await data.SaveChangesAsync();
+
+            }
+
+        }
+
         public async Task<ICollection<CartProductModel>> GetUserCartProductsAsync(ApplicationUser applicationUser)
         {
             var cart = await data.Carts.FirstOrDefaultAsync(x => x.ApplicationUserId == applicationUser.Id);
