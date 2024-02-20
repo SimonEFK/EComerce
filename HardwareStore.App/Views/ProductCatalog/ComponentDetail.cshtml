@@ -49,10 +49,11 @@
 
         <div class="row">
             <div class="col">
-                <div class="extra-info-container">
+                <div class="extra-info-container" id="productInfoContainer">
                     <p class="product-price">50.00</p>
                     <div class="btn-container">
-                        <button type="submit" form="addToCartFrom" data-cartformsubmit data-product-Id="@this.Model.Id" class="btn btn-info">Add To Cart</button>
+                        <button class="btn btn-primary ms-auto" data-addProductToCart="@Model.NameDetailed" data-productId="@Model.Id">Buy</button>
+
                         <button class="btn btn-success">Add To Favorites</button>
                     </div>
                 </div>
@@ -64,6 +65,9 @@
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
     <script>
+
+        let productContainer = document.querySelector('#productInfoContainer');
+        productContainer.addEventListener('click', AddProductToCart);
         let imgList = document.querySelector('#imgList');
         let displayImg = document.querySelector('#displayImg')
         let imgContainers = document.querySelectorAll(".product-gallery-img-container");

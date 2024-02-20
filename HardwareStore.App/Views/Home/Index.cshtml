@@ -26,7 +26,7 @@
                         <div class="product-home-card-content">
                             <p class="text-break text-center m-0"><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/ComponentDetail/@item.Id">@item.Name</a></p>
                             <div class="input-group">
-                                <button class="btn btn-primary ms-auto" data-addProductToCart data-productId="@item.Id">Buy</button>
+                                <button class="btn btn-primary ms-auto" data-addProductToCart="@item.Name" data-productId="@item.Id">Buy</button>
                             </div>
                         </div>
                     </div>
@@ -43,32 +43,6 @@
 @section Scripts {
     <script>
         let productRow = document.querySelector('#productLatestRow');
-        productRow.addEventListener('click', AddProductToCart);
-        async function AddProductToCart(event) {
-            let target = event.target;
-            if (target.matches("[data-addProductToCart]")) {
-
-                let Id = Number(target.dataset.productid);
-
-                const formData = new FormData();
-                formData.append('productId', Id);
-
-                let url = "/Cart/AddItemToCart";
-
-                let response = await fetch(url, {
-                    method: "POST",
-                    body: formData
-                });
-
-                if (response.ok) {                    
-                    let productName = target.closest(".product-home-card-content").querySelector('p').textContent;                    
-                    let toast = new bootstrap.Toast('.toast');
-                    let toastMessageSpan = document.querySelector('.toast-message');
-                    toastMessageSpan.textContent = `${productName} added to cart`;
-                    toast.show();
-                    let parser = new DOMParser();
-                }
-            }
-        }
+        productRow.addEventListener('click', AddProductToCart);        
     </script>
 }

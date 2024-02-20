@@ -81,7 +81,7 @@
 
     </div>
     <div class="col-lg-6 ms-lg-3">
-        <div class="row flex-column">
+        <div class="row flex-column" id="productsRow">
             <div class="col">
                 @foreach (var product in this.Model.Products)
                 {
@@ -118,6 +118,10 @@
 </div>
 @section Scripts {
     <script>
+
+        let productsRow = document.querySelector('#productsRow');
+        productsRow.addEventListener('click', AddProductToCart);
+
         let filterForm = document.querySelector('#filterForm');
         filterForm.addEventListener('click', (event) => {
             if (event.target.type == "checkbox") {
