@@ -7,9 +7,10 @@
 
     public interface ICartService
     {
-        Task AddProductToCartAsync(Cart cart, int productId);
-        Task CreateCartAsync(ApplicationUser applicationUser);
-        Task<Cart> GetUserCartAsync(ApplicationUser applicationUser);
+        Task AddProductToCartAsync(ApplicationUser user, int productId);
+
+        Task CreateCartAsync(ApplicationUser applicationUser);    
+        
         Task<ICollection<CartProductModel>> GetUserCartProductsAsync(ApplicationUser applicationUser);
     }
 }

@@ -82,10 +82,10 @@
             return product;
         }
 
-        public async Task<List<ProductSimplifiedModel>> GetRandom(int count = 4)
+        public async Task<List<ProductSimplifiedModel>> GetLatestProductsAsync(int count = 4)
         {
-            
-            var products = await dbContext.Products.OrderBy(x => Guid.NewGuid()).Take(count).ProjectTo<ProductSimplifiedModel>(mapper.ConfigurationProvider).ToListAsync();
+
+            var products = await dbContext.Products.OrderByDescending(x => x.Id).Take(count).ProjectTo<ProductSimplifiedModel>(mapper.ConfigurationProvider).ToListAsync();
             return products;
         }
 

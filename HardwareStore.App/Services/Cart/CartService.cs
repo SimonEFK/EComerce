@@ -36,15 +36,16 @@
 
         }
 
-        public async Task AddProductToCartAsync(Cart cart, int productId)
+        public async Task AddProductToCartAsync(ApplicationUser user, int productId)
         {
             var product = data.Products.FirstOrDefault(x => x.Id == productId);
+            var userCart = await GetUserCartAsync(user);
             if (product == null)
             {
                 throw new ArgumentNullException($"Product Id: {productId} is Invalid");
             }
             var productCartEntry = await data.CartProducts
-                .FirstOrDefaultAsync(x => x.CartId == cart.Id && x.ProductId == productId);
+                .FirstOrDefaultAsync(x => x.CartId == userCart.Id && x.ProductId == productId);
             if (productCartEntry != null)
             {
                 productCartEntry.Amount++;
@@ -53,15 +54,15 @@
             {
                 productCartEntry = new CartProduct()
                 {
-                    CartId = cart.Id,
+                    CartId = userCart.Id,
                     ProductId = productId
                 };
-                cart.Products.Add(productCartEntry);
+                userCart.Products.Add(productCartEntry);
             }
             await data.SaveChangesAsync();
         }
 
-        public async Task<Cart> GetUserCartAsync(ApplicationUser applicationUser)
+        private async Task<Cart> GetUserCartAsync(ApplicationUser applicationUser)
         {
             var userCart = await UserCartExsistAsync(applicationUser);
             if (userCart == null)
@@ -89,7 +90,7 @@
                 Image = x.Product.Images.FirstOrDefault().FilePath ?? x.Product.Images.FirstOrDefault().Url
             }).ToListAsync();
 
-            
+
             return cartProducts;
         }
     }

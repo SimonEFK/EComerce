@@ -15,7 +15,7 @@
 <div class="container-fluid">
     <h3 class="bg-primary text-white text-center">Latest</h3>
     <div class="container">
-        <div class="row">
+        <div class="row" id="productLatestRow">
             @foreach (var item in Model.Products)
             {
                 <div class="col-md-3">
@@ -26,7 +26,7 @@
                         <div class="product-home-card-content">
                             <p class="text-break text-center m-0"><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/ComponentDetail/@item.Id">@item.Name</a></p>
                             <div class="input-group">
-                                <a class="btn btn-primary ms-auto" asp-controller="Cart" asp-action="AddItemToCart" asp-route-productId="@item.Id">Buy</a>
+                                <button class="btn btn-primary ms-auto" data-addProductToCart data-productId="@item.Id">Buy</button>
                             </div>
                         </div>
                     </div>
@@ -36,4 +36,37 @@
         </div>
 
     </div>
+
 </div>
+
+
+@section Scripts {
+    <script>
+        let productRow = document.querySelector('#productLatestRow');
+        productRow.addEventListener('click', AddProductToCart);
+        async function AddProductToCart(event) {
+            let target = event.target;
+            if (target.matches("[data-addProductToCart]")) {
+
+
+
+                let Id = Number(target.dataset.productid);
+
+                const formData = new FormData();
+                formData.append('productId', Id);
+
+                let url = "/Cart/AddItemToCart";
+
+                let response = await fetch(url, {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (response.ok) {
+
+                    let parser = new DOMParser();                                        
+                }
+            }
+        }
+    </script>
+}

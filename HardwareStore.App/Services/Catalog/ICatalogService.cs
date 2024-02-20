@@ -17,6 +17,6 @@
             ICollection<int> selectedSpecsIds,
             string sortOrder = "newest",
             int pageNumber = 1);
-        Task<List<ProductSimplifiedModel>> GetRandom(int count = 4);
+        Task<List<ProductSimplifiedModel>> GetLatestProductsAsync(int count = 4);
     }
 }

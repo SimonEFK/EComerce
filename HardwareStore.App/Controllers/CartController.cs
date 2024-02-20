@@ -7,7 +7,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    [Authorize]
+    //[Authorize]
     public class CartController : Controller
     {
         private readonly ICartService _cartService;
@@ -28,12 +28,24 @@
             return View(cartViewModel);
         }
 
+        //[HttpGet]
+        //public async Task<IActionResult> AddItemToCart(int productId)
+        //{
+        //    var user = await _userManager.GetUserAsync(this.HttpContext.User);
+        //    var userCart = await _cartService.GetUserCartAsync(user);
+        //    await _cartService.AddProductToCartAsync(userCart, productId);
+        //    return Redirect("/");
+        //}
+
+        [HttpPost]
         public async Task<IActionResult> AddItemToCart(int productId)
         {
+
             var user = await _userManager.GetUserAsync(this.HttpContext.User);
-            var userCart = await _cartService.GetUserCartAsync(user);
-            await _cartService.AddProductToCartAsync(userCart, productId);
-            return Redirect("/");
+
+            await _cartService.AddProductToCartAsync(user, productId);
+
+            return Ok();
         }
 
 
