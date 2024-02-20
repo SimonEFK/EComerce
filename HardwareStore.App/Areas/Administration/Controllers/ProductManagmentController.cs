@@ -10,7 +10,7 @@
     using Newtonsoft.Json;
 
     [Area("Administration")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "admin")]
 
     public class ProductManagmentController : Controller
     {

@@ -7,7 +7,7 @@
     using Microsoft.AspNetCore.Mvc;
 
     [Area("Administration")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "admin")]
 
     public class CategoryManagmentController : Controller
     {

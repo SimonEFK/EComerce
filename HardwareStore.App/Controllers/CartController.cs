@@ -3,11 +3,12 @@
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Cart;
     using HardwareStore.App.Services.Cart;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.CodeAnalysis;
 
-    //[Authorize]
+    [Authorize]
     public class CartController : Controller
     {
         private readonly ICartService _cartService;
@@ -33,7 +34,7 @@
         {
 
             var user = await _userManager.GetUserAsync(this.HttpContext.User);
-
+            var result = this.User.IsInRole("admin");
             await _cartService.AddProductToCartAsync(user, productId);
 
             return Ok();

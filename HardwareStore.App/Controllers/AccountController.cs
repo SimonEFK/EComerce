@@ -102,10 +102,9 @@
 
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Logout()
-        {
-            var result = this.User.Identity.IsAuthenticated;
+        {            
             await signInManager.SignOutAsync();
             return Redirect("/Account/Login");
         }
