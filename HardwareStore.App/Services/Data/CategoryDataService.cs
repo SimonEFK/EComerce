@@ -2,10 +2,10 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
-    using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Category;
     using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Specifications;
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
+    using HardwareStore.App.Services.Models;
     using Microsoft.EntityFrameworkCore;
     using static Constants;
 
@@ -244,17 +244,17 @@
             return categoriesResult;
         }
 
-        public async Task<CategoryInfoModel> CategoryInfo(int categoryId)
+        public async Task<CategoryOutputModel> CategoryInfo(int categoryId)
         {
             var category = await dbContext.Categories
                 .Where(x => x.Id == categoryId)
-                .Select(x => new CategoryInfoModel
+                .Select(x => new CategoryOutputModel
                 {
                     Id = x.Id,
                     CategoryName = x.Name,
                     ImageUrl = x.Url,
                     ImageFilePath = x.FilePath,
-                    Specifications = x.Specifications.Select(s => new SpecificationInfoModel
+                    Specifications = x.Specifications.Select(s => new SpecificationOutputModel
                     {
                         SpecificationId = s.Id,
                         Name = s.Name,
@@ -271,11 +271,11 @@
             return category;
         }
 
-        public async Task<SpecificationInfoModel> SpecificationInfo(int specificationId)
+        public async Task<SpecificationOutputModel> SpecificationInfo(int specificationId)
         {
             var specificationInfo = await dbContext.Specifications
                 .Where(x => x.Id == specificationId)
-                .Select(x => new SpecificationInfoModel
+                .Select(x => new SpecificationOutputModel
                 {
                     SpecificationId = x.Id,
                     Name = x.Name,

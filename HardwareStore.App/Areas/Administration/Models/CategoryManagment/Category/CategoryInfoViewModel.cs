@@ -1,6 +1,7 @@
 ﻿namespace HardwareStore.App.Areas.Administration.Models.CategoryManagment.Category
 {
     using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Specifications;
+    using HardwareStore.App.Services.Models;
 
     public class CategoryInfoViewModel
     {
@@ -8,6 +9,6 @@
 
         public SpecificationCreateInputModel SpecificationCreateForm { get; set; }
 
-        public CategoryInfoModel CategoryInfoModel { get; set; }
+        public CategoryOutputModel CategoryInfoModel { get; set; }
     }
 }

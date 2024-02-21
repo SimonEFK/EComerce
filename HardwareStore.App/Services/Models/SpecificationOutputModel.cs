@@ -1,6 +1,8 @@
-﻿namespace HardwareStore.App.Areas.Administration.Models.CategoryManagment.Specifications
+﻿using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Specifications;
+
+namespace HardwareStore.App.Services.Models
 {
-    public class SpecificationInfoModel
+    public class SpecificationOutputModel
     {
 
         public int? CategoryId { get; set; }

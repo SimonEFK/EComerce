@@ -1,15 +1,14 @@
 ﻿namespace HardwareStore.App.Services.Data
 {
-    using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Category;
-    using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Specifications;
     using HardwareStore.App.Services.Data.Products;
+    using HardwareStore.App.Services.Models;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public interface ICategoryDataService
     {
-        Task<CategoryInfoModel> CategoryInfo(int categoryId);
+        Task<CategoryOutputModel> CategoryInfo(int categoryId);
 
         Task<ServiceResult> CreateCategory(string name, string ImageUrl);
 
@@ -25,6 +24,6 @@
 
         Task<ICollection<(string Name, int Id)>> GetCategoriesAsTupleCollectionAsync();
 
-        Task<SpecificationInfoModel> SpecificationInfo(int specificationId);
+        Task<SpecificationOutputModel> SpecificationInfo(int specificationId);
     }
 }
