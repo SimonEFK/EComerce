@@ -1,6 +1,6 @@
-﻿namespace HardwareStore.App.Areas.Administration.Models.CategoryManagment.Specifications
+﻿namespace HardwareStore.App.Services.Models
 {
-    public class SpecificationValueInfoModel
+    public class SpecificationValueInfoDTO
     {
         public int Id { get; set; }
 

@@ -18,9 +18,8 @@
 
         public string? Url { get; set; }
 
-
-
         public ICollection<Product> Products { get; set; }
+
         public ICollection<Specification> Specifications { get; set; } = new List<Specification>();
 
     }

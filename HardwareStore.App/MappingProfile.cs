@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Category;
+    using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Specifications;
     using HardwareStore.App.Areas.Administration.Models.ProductManagment;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Category;
@@ -45,6 +46,13 @@
             this.CreateMap<Category, Tuple<string, int>>();
 
             this.CreateMap<CreateProductInputModel, CreateProductDTO>();
+
+            this.CreateMap<Category, CategoryInfoDTO>();
+            this.CreateMap<Specification, SpecificationInfoDTO>();
+            this.CreateMap<SpecificationValue, SpecificationValueInfoDTO>();
+            this.CreateMap<CategoryInfoDTO, CategoryEditInputModel>();
+            this.CreateMap<SpecificationInfoDTO, SpecificationCreateInputModel>()
+                .ForMember(m => m.Essential, cfg => cfg.MapFrom(x => x.InfoLevel == "Essential" ? true : false));
 
         }
     }

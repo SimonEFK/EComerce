@@ -244,52 +244,21 @@
             return categoriesResult;
         }
 
-        public async Task<CategoryOutputModel> CategoryInfo(int categoryId)
+        public async Task<CategoryInfoDTO> CategoryInfo(int categoryId)
         {
             var category = await dbContext.Categories
                 .Where(x => x.Id == categoryId)
-                .Select(x => new CategoryOutputModel
-                {
-                    Id = x.Id,
-                    CategoryName = x.Name,
-                    ImageUrl = x.Url,
-                    ImageFilePath = x.FilePath,
-                    Specifications = x.Specifications.Select(s => new SpecificationOutputModel
-                    {
-                        SpecificationId = s.Id,
-                        Name = s.Name,
-                        InfoLevel = s.InfoLevel,
-                        Filter = s.Filter,
-                        Values = s.Values.Select(v => new SpecificationValueInfoModel
-                        {
-                            Id = v.Id,
-                            Value = v.Value
-                        }).ToList()
-                    }).ToList()
-                }).FirstOrDefaultAsync();
-
+                .ProjectTo<CategoryInfoDTO>(mapper.ConfigurationProvider).FirstOrDefaultAsync();
+                
             return category;
         }
 
-        public async Task<SpecificationOutputModel> SpecificationInfo(int specificationId)
+        public async Task<SpecificationInfoDTO> SpecificationInfo(int specificationId)
         {
             var specificationInfo = await dbContext.Specifications
                 .Where(x => x.Id == specificationId)
-                .Select(x => new SpecificationOutputModel
-                {
-                    SpecificationId = x.Id,
-                    Name = x.Name,
-                    InfoLevel = x.InfoLevel,
-                    Filter = x.Filter,
-                    CategoryId = x.CategoryId,
-                    Values = x.Values.Select(x => new SpecificationValueInfoModel
-                    {
-                        Id = x.Id,
-                        Value = x.Value,
-                        Metric = x.Metric
-                    }).ToList()
-                }).FirstOrDefaultAsync();
-
+                .ProjectTo<SpecificationInfoDTO>(mapper.ConfigurationProvider).FirstOrDefaultAsync();
+                
             return specificationInfo;
         }
     }
