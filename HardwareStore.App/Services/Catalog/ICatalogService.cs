@@ -2,6 +2,7 @@
 {
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Product;
+    using HardwareStore.App.Services.Models;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@
         int PageSize { get; set; }
 
         Task<ProductDetailedModel> GetProductById(int id);
-        Task<ICollection<ProductExtendedModel>> GetProducts(
+        Task<CatalogModel> GetProducts(
             string? searchString,
             string? category,
             ICollection<int> manufacturerIds,

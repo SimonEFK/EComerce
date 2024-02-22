@@ -5,22 +5,26 @@
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Product;
+    using HardwareStore.App.Services.Models;
+    using HardwareStore.App.Services.ProductFiltering;
     using Microsoft.EntityFrameworkCore;
 
     public class CatalogService : ICatalogService
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly IGenerateProductFilterOptionService generateProductFilterOptionService;
         private readonly IMapper mapper;
 
-        public CatalogService(ApplicationDbContext dbContext, IMapper mapper)
+        public CatalogService(ApplicationDbContext dbContext, IMapper mapper, IGenerateProductFilterOptionService generateProductFilterOptionService)
         {
             this.dbContext = dbContext;
             this.mapper = mapper;
+            this.generateProductFilterOptionService = generateProductFilterOptionService;
         }
 
         public int PageSize { get; set; }
 
-        public async Task<ICollection<ProductExtendedModel>> GetProducts(
+        public async Task<CatalogModel> GetProducts(
             string? searchString,
             string? category,
             ICollection<int> manufacturerIds,
@@ -31,13 +35,13 @@
 
             var productsQuery = dbContext.Products.AsQueryable();
 
-            if (category is not null)
-            {
-                productsQuery = productsQuery.Where(x => x.Category.Name == category).AsQueryable();
-            }
             if (searchString is not null && searchString.Length >= 3)
             {
                 productsQuery = productsQuery.Where(x => x.NameDetailed.Contains(searchString) || x.Name.Contains(searchString)).AsQueryable();
+            }
+            if (category is not null)
+            {
+                productsQuery = productsQuery.Where(x => x.Category.Name == category).AsQueryable();
             }
             if (manufacturerIds.Count > 0)
             {
@@ -58,19 +62,32 @@
                 }
             }
 
+            var catalogModel = new CatalogModel();
+            catalogModel
+                .SpecificationFilters = await generateProductFilterOptionService
+                .GenerateSpecificationOptions(productsQuery);
+            catalogModel
+                .Manufacturers = generateProductFilterOptionService
+                .GenerateManufacturerOptions(productsQuery);
+            catalogModel.SortOrder = generateProductFilterOptionService.GenerateSortOrderOptions();
+
             productsQuery = OrderQuery(productsQuery, sortOrder);
             productsQuery = Pagination(productsQuery, pageNumber);
+
 
             var products = await productsQuery
                 .ProjectTo<ProductExtendedModel>(mapper.ConfigurationProvider)
                 .ToListAsync();
+
 
             foreach (var product in products)
             {
                 product.Specifications = product.Specifications.DistinctBy(x => x.Name).ToList();
             }
 
-            return products;
+            catalogModel.Products = products;
+
+            return catalogModel;
         }
 
 

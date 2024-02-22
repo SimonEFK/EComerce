@@ -2,7 +2,7 @@
 {
     public class FilterModel
     {
-        public ICollection<SpecificationFilterOption> Specifications { get; set; } = new List<SpecificationFilterOption>();
+        public Dictionary<string, List<SpecificationFilterOption>> Specifications { get; set; } = new Dictionary<string,List<SpecificationFilterOption>>();
 
         public ICollection<Tuple<string, int>> Manufacturers { get; set; } = new List<Tuple<string, int>>();
 

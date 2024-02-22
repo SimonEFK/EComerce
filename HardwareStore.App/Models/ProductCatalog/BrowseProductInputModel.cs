@@ -1,16 +1,18 @@
 ﻿namespace HardwareStore.App.Models.ProductCatalog
 {
     using Microsoft.AspNetCore.Mvc;
+    using System.ComponentModel.DataAnnotations;
 
     public class BrowseProductInputModel
     {
-        [FromRoute]
+
         public string Category { get; set; }
 
         [FromQuery]
         public int Page { get; set; } = 1;
 
         [BindProperty(Name = "s")]
+        [StringLength(maximumLength: 100, MinimumLength = 3)]
         public string? SearchString { get; set; }
 
 

@@ -29,8 +29,8 @@
                             <a href="/Cart">My Cart</a>
                         </li>
                     </ul>
-                    <form class="d-flex me-auto" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <form method="GET" action="/Catalog/Products" class="d-flex me-auto" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search All Products" aria-label="Search" name="s">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                     <partial name="_LoginPartial" />

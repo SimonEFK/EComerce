@@ -1,12 +1,13 @@
 ﻿namespace HardwareStore.App.Services.ProductFiltering
 {
+    using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.ProductFilter;
     using System;
 
     public interface IGenerateProductFilterOptionService
     {
-        ICollection<Tuple<string, int>> GenerateManufacturerOptions(string manufacturer);
+        ICollection<Tuple<string, int>> GenerateManufacturerOptions(IQueryable<Product> productQuery);
         ICollection<string> GenerateSortOrderOptions();
-        Task<ICollection<SpecificationFilterOption>> GenerateSpecificationOptions(string category);
+        Task<Dictionary<string, List<SpecificationFilterOption>>> GenerateSpecificationOptions(IQueryable<Product> productQuery);
     }
 }

@@ -3,7 +3,7 @@
 
 <div class="row mb-5 justify-content-center mt-4">
     <div class="col-lg-6 d-flex gap-3">
-        <input id="searchInput" class="form-control" value="@TempData["SearchString"]" placeholder="Search..." />
+        <input id="searchInput" class="form-control" value="@TempData["SearchString"]" placeholder="Search in @this.TempData["Category"]" />
         <button id="searchSubmitBtn" class="btn btn-info">Search</button>
     </div>
 </div>
@@ -25,7 +25,7 @@
         <button class="btn btn-primary w-100 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#FilterMenu" aria-expanded="false" aria-controls="collapseExample">
             Filters
         </button>
-        <div class="z-2 col-lg-3 col-12 position-absolute collapse show" id="FilterMenu">
+        <div class="overflow-scroll h-50 z-2 col-lg-3 col-12 position-absolute collapse show" id="FilterMenu">
             <form id="filterForm" method="get" asp-controller="ProductCatalog" asp-action="Products" asp-route-category="@this.TempData["Category"]">
                 @{
                     var selectedSpecificationIds = TempData["selectedSpecs"] as List<int>;
@@ -36,25 +36,28 @@
                 <input id="searchInputHidden" type="hidden" name="s" />
                 <input id="pageNumber" type="hidden" name="page" />
                 <ul class="list-group">
-                    @foreach (var filter in this.Model.ProductFilters.Specifications)
+                    @foreach (var category in this.Model.ProductFilters.Specifications)
                     {
-                        <li class="list-group-item">
-                            <span class="fw-bold">@filter.Name</span>
-                            @foreach (var value in filter.Values)
-                            {
-                                <div class="form-check">
-                                    @if (selectedSpecificationIds is not null && selectedSpecificationIds.Contains(value.Id))
-                                    {
-                                        <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss[@filter.Id]" checked>
-                                    }
-                                    else
-                                    {
-                                        <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss[@filter.Id]">
-                                    }
-                                    <label class="form-check-label" for="@value.Id">@value.Value</label>
-                                </div>
-                            }
-                        </li>
+                        @foreach (var specification in category.Value)
+                        {
+                            <li class="list-group-item">
+                                <span class="fw-bold">@specification.Name</span>
+                                @foreach (var value in specification.Values)
+                                {
+                                    <div class="form-check">
+                                        @if (selectedSpecificationIds is not null && selectedSpecificationIds.Contains(value.Id))
+                                        {
+                                            <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss[@category.Key]" checked>
+                                        }
+                                        else
+                                        {
+                                            <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss[@category.Key]">
+                                        }
+                                        <label class="form-check-label" for="@value.Id">@value.Value</label>
+                                    </div>
+                                }
+                            </li>
+                        }
                     }
                     <li class="list-group-item">
                         <span class="fw-bold">Manufacturers</span>
@@ -84,7 +87,7 @@
         <div class="row" id="productsRow">
             @foreach (var product in this.Model.Products)
             {
-                <div class="col-6">
+                <div class="col-lg-6">
                     <partial name="_ProductCardPartial" model="@product" />
                 </div>
             }

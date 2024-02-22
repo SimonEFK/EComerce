@@ -12,7 +12,7 @@
     using HardwareStore.App.Services.ProductFiltering;
     using Microsoft.AspNetCore.Mvc;
 
-    [Route("Catalog")]
+    [Route("/Catalog")]
     public class ProductCatalogController : Controller
     {
         private ICatalogService productCatalogService;
@@ -36,10 +36,11 @@
 
 
         [HttpGet]
-        [Route("{category?}")]
+
+        [Route("Products/{category?}")]
         public async Task<IActionResult> Products(BrowseProductInputModel model)
         {
-            var products = await this.productCatalogService.GetProducts(
+            var catalogModel = await this.productCatalogService.GetProducts(
                 model.SearchString,
                 model.Category,
                 model.ManufacturerIds,
@@ -47,33 +48,22 @@
                 model.SortOrder,
                 model.Page);
 
-            if (products.Count == 0)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            var manufacturers = generateProductFilterOptionService.GenerateManufacturerOptions(model.Category);
-
-            var filterModel = new FilterModel()
-            {
-                SortOrder = generateProductFilterOptionService.GenerateSortOrderOptions(),
-
-            };
 
             TempData["sortOrder"] = model.SortOrder;
             if (model.Category is not null)
             {
-                var specFilters = await this.generateProductFilterOptionService.GenerateSpecificationOptions(model.Category);
                 var category = TempData["Category"] = model.Category;
-                filterModel.Specifications = specFilters;
-                filterModel.Manufacturers = this.generateProductFilterOptionService.GenerateManufacturerOptions(model.Category);
-
             }
+            var filterModel = new FilterModel
+            {
+                Specifications = catalogModel.SpecificationFilters,
+                Manufacturers = catalogModel.Manufacturers,
+                SortOrder = catalogModel.SortOrder
+            };
+
             if (model.SpecificationIds.Count > 0)
             {
-                var ids = model.SpecificationIds.SelectMany(x => x.Value).ToList();
-                TempData["selectedSpecs"] = ids;
-
+                TempData["selectedSpecs"] = model.SpecificationIds.SelectMany(x => x.Value).ToList();
             }
             if (model.ManufacturerIds.Count > 0)
             {
@@ -84,9 +74,9 @@
                 Page = model.Page,
                 PageSize = this.productCatalogService.PageSize
             };
-            var catalogModel = new ProductCatalogModel
+            var catalogViewModel = new ProductCatalogModel
             {
-                Products = products,
+                Products = catalogModel.Products,
                 Pagination = paginationModel,
                 ProductFilters = filterModel
             };
@@ -95,7 +85,7 @@
                 TempData["SearchString"] = model.SearchString;
             }
 
-            return View(catalogModel);
+            return View(catalogViewModel);
         }
 
         [HttpGet]
