@@ -80,41 +80,41 @@
         </div>
 
     </div>
-    <div class="col-lg-6 ms-lg-3">
-        <div class="row flex-column" id="productsRow">
-            <div class="col">
-                @foreach (var product in this.Model.Products)
-                {
+    <div class="col-lg-8 ms-lg-3">
+        <div class="row" id="productsRow">
+            @foreach (var product in this.Model.Products)
+            {
+                <div class="col">
                     <partial name="_ProductCardPartial" model="@product" />
-                }
-            </div>
-            <div class="col">
-                <ul id="pagination" class="pagination justify-content-center">
-
-                    <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-category="@TempData["Catalog"]" asp-route-page="@this.Model.Pagination.PreviousPageNumber" data-pageNumber="@this.Model.Pagination.PreviousPageNumber">Previous</a></li>
-
-                    @for (int i = this.Model.Pagination.Page - 3; i < this.Model.Pagination.Page; i++)
-                    {
-                        if (i > 0)
-                        {
-                            <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-category="@TempData["Catalog"]" asp-route-page="@i" data-pageNumber="@i">@i</a></li>
-                        }
-                    }
-                    <li class="page-item active"><a class="page-link" asp-controller="catalog" asp-route-category="@TempData["Catalog"]" asp-route-page="@this.Model.Pagination.Page" data-pageNumber="@this.Model.Pagination.Page">@this.Model.Pagination.Page</a></li>
-
-                    @for (int i = this.Model.Pagination.Page + 1; i <= this.Model.Pagination.Page + 3; i++)
-                    {
-                        if (i <= this.Model.Pagination.PageSize)
-                        {
-                            <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-category="@TempData["Catalog"]" asp-route-page="@i" data-pageNumber="@i">@i</a></li>
-                        }
-                    }
-                    <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-category="@TempData["Catalog"]" asp-route-page="@this.Model.Pagination.NextPageNumber" data-pageNumber="@this.Model.Pagination.NextPageNumber">Next</a></li>
-                </ul>
-            </div>
+                </div>
+            }
 
         </div>
     </div>
+</div>
+<div class="row justify-content-center">
+    <ul id="pagination" class="pagination justify-content-center col">
+
+        <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-category="@TempData["Catalog"]" asp-route-page="@this.Model.Pagination.PreviousPageNumber" data-pageNumber="@this.Model.Pagination.PreviousPageNumber">Previous</a></li>
+
+        @for (int i = this.Model.Pagination.Page - 3; i < this.Model.Pagination.Page; i++)
+        {
+            if (i > 0)
+            {
+                <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-category="@TempData["Catalog"]" asp-route-page="@i" data-pageNumber="@i">@i</a></li>
+            }
+        }
+        <li class="page-item active"><a class="page-link" asp-controller="catalog" asp-route-category="@TempData["Catalog"]" asp-route-page="@this.Model.Pagination.Page" data-pageNumber="@this.Model.Pagination.Page">@this.Model.Pagination.Page</a></li>
+
+        @for (int i = this.Model.Pagination.Page + 1; i <= this.Model.Pagination.Page + 3; i++)
+        {
+            if (i <= this.Model.Pagination.PageSize)
+            {
+                <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-category="@TempData["Catalog"]" asp-route-page="@i" data-pageNumber="@i">@i</a></li>
+            }
+        }
+        <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-category="@TempData["Catalog"]" asp-route-page="@this.Model.Pagination.NextPageNumber" data-pageNumber="@this.Model.Pagination.NextPageNumber">Next</a></li>
+    </ul>
 </div>
 @section Scripts {
     <script>

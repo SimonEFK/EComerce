@@ -112,6 +112,7 @@
             return productsQuery;
 
         }
+
         private IQueryable<Product> Pagination(IQueryable<Product> productsQuery, int pageNumber)
         {
             var productCount = productsQuery.Count();
