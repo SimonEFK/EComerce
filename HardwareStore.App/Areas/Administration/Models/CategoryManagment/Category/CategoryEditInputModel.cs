@@ -10,10 +10,10 @@
         [Required]
         public string Name { get; set; }
 
-        public string? FilePath { get; set; }
+        public string? ImageFilePath { get; set; }
 
         [RegularExpression(@"^https?:\/\/.*\/.*\.(jpg|jpeg|png|gif|webp|avif)$", ErrorMessage = "Invalid Url Format")]
-        public string? Url { get; set; }
+        public string? ImageUrl { get; set; }
 
     }
 }

@@ -8,7 +8,7 @@
 
     public interface ICategoryDataService
     {
-        Task<CategoryInfoDTO> CategoryInfo(int categoryId);
+        Task<CategoryOutputModel> CategoryInfo(int categoryId);
 
         Task<ServiceResult> CreateCategory(string name, string ImageUrl);
 
@@ -24,6 +24,6 @@
 
         Task<ICollection<(string Name, int Id)>> GetCategoriesAsTupleCollectionAsync();
 
-        Task<SpecificationInfoDTO> SpecificationInfo(int specificationId);
+        Task<SpecificationOutputModel> SpecificationInfo(int specificationId);
     }
 }
