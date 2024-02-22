@@ -14,7 +14,7 @@
             string? searchString,
             string? category,
             ICollection<int> manufacturerIds,
-            ICollection<int> selectedSpecsIds,
+            Dictionary<int,HashSet<int>> selectedSpecsIds,
             string sortOrder = "newest",
             int pageNumber = 1);
         Task<List<ProductSimplifiedModel>> GetLatestProductsAsync(int count = 4);

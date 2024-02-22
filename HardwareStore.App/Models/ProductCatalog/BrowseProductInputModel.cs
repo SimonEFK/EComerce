@@ -11,17 +11,18 @@
         public int Page { get; set; } = 1;
 
         [BindProperty(Name = "s")]
-
         public string? SearchString { get; set; }
 
+
         [BindProperty(Name = "ss")]
-        public HashSet<int> SpecificationIds { get; set; } = new HashSet<int>();
+        public Dictionary<int, HashSet<int>> SpecificationIds { get; set; } = new Dictionary<int, HashSet<int>>();
+
 
         [BindProperty(Name = "m")]
         public HashSet<int> ManufacturerIds { get; set; } = new HashSet<int>();
 
-        [BindProperty(Name = "so")]
 
+        [BindProperty(Name = "so")]
         public string SortOrder { get; set; } = "newest";
 
     }

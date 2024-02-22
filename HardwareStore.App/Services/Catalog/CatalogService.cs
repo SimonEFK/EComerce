@@ -24,7 +24,7 @@
             string? searchString,
             string? category,
             ICollection<int> manufacturerIds,
-            ICollection<int> selectedSpecsIds,
+            Dictionary<int, HashSet<int>> selectedSpecsIds,
             string sortOrder = "newest",
             int pageNumber = 1)
         {
@@ -46,10 +46,16 @@
             }
             if (selectedSpecsIds.Count > 0)
             {
-                productsQuery = productsQuery
-                        .Where(product => product.Specifications
-                        .Any(specification => selectedSpecsIds
-                        .Contains(specification.SpecificationValueId)));
+                foreach (var key in selectedSpecsIds)
+                {
+                    productsQuery = productsQuery
+                            .Where(product => product.Specifications.Any(specification => key.Value
+                            .Contains(specification.SpecificationValueId)));
+                    if (productsQuery.Count() == 0)
+                    {
+                        break;
+                    }
+                }
             }
 
             productsQuery = OrderQuery(productsQuery, sortOrder);

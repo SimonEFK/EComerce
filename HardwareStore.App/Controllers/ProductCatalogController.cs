@@ -71,7 +71,8 @@
             }
             if (model.SpecificationIds.Count > 0)
             {
-                TempData["selectedSpecs"] = model.SpecificationIds.ToList();
+                var ids = model.SpecificationIds.SelectMany(x => x.Value).ToList();
+                TempData["selectedSpecs"] = ids;
 
             }
             if (model.ManufacturerIds.Count > 0)
