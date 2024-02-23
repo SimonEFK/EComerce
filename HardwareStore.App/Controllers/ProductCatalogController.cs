@@ -1,7 +1,5 @@
 ﻿namespace HardwareStore.App.Controllers
 {
-    using AutoMapper;
-    using HardwareStore.App.Data;
     using HardwareStore.App.Models;
     using HardwareStore.App.Models.Category;
     using HardwareStore.App.Models.ProductCatalog;
@@ -20,7 +18,6 @@
         private ICategoryDataService categoryDataService;
         private IProductDataService productDataService;
 
-
         public ProductCatalogController(ICatalogService productCatalogService, IGenerateProductFilterOptionService generateProductFilterOptionService, ICategoryDataService categoryDataService)
         {
             this.productCatalogService = productCatalogService;
@@ -34,7 +31,6 @@
             return View(categories.Where(x => x.ProductsCount > 0).OrderByDescending(x => x.Name).ToList());
         }
 
-
         [HttpGet]
 
         [Route("Products/{category?}")]
@@ -44,7 +40,6 @@
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("Index");
-
             }
 
             var catalogModel = await this.productCatalogService.GetProducts(
@@ -54,7 +49,7 @@
                 model.SpecificationIds,
                 model.SortOrder,
                 model.Page);
-
+            
             TempData["sortOrder"] = model.SortOrder;
             if (model.Category is not null)
             {
@@ -108,6 +103,7 @@
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
+
         }
     }
 }

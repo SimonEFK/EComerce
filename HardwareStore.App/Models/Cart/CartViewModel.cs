@@ -1,7 +1,5 @@
 ﻿namespace HardwareStore.App.Models.Cart
 {
-    using HardwareStore.App.Data.Models;
-    using HardwareStore.App.Models.Product;
     using HardwareStore.App.Services.Models;
 
     public class CartViewModel

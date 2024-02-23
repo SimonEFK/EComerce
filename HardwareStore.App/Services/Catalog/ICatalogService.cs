@@ -1,6 +1,5 @@
 ﻿namespace HardwareStore.App.Services.Catalog
 {
-    using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Product;
     using HardwareStore.App.Services.Models;
     using System.Collections.Generic;

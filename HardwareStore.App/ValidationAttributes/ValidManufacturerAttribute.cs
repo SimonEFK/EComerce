@@ -1,4 +1,4 @@
-﻿namespace HardwareStore.App.Services
+﻿namespace HardwareStore.App.ValidationAttributes
 {
     using HardwareStore.App.Services.Data;
     using System.ComponentModel.DataAnnotations;
@@ -16,7 +16,7 @@
                     .GetResult()
                     .Select(x => x.Id).ToList();
 
-                if (manufacturerIds.Any(x=> !manufacturers.Contains(x)))
+                if (manufacturerIds.Any(x => !manufacturers.Contains(x)))
                 {
                     return new ValidationResult("Invalid Manufacturer");
                 }

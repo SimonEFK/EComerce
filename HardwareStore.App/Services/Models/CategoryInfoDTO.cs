@@ -1,7 +1,5 @@
 ﻿namespace HardwareStore.App.Services.Models
 {
-    using System.ComponentModel.DataAnnotations;
-
     public class CategoryInfoDTO
     {
         public int Id { get; set; }

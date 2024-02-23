@@ -1,6 +1,5 @@
 ﻿namespace HardwareStore.App.Areas.Administration.Models.ProductManagment
 {
-    using DataAnnotationsExtensions;
     using HardwareStore.App.Services;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;

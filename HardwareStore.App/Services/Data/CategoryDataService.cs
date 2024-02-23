@@ -2,7 +2,6 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
-    using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Specifications;
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Services.Models;
@@ -260,6 +259,13 @@
                 .ProjectTo<SpecificationInfoDTO>(mapper.ConfigurationProvider).FirstOrDefaultAsync();
 
             return specificationInfo;
+        }
+
+        public async Task<ICollection<int>> ValidSpecificationValuesIds()
+        {
+            var result = await dbContext.SpecificationValues.Select(x => x.Id).ToListAsync();
+
+            return result;
         }
     }
 }

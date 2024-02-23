@@ -1,7 +1,6 @@
 ﻿namespace HardwareStore.App.Models.ProductCatalog
 {
-    using DataAnnotationsExtensions;
-    using HardwareStore.App.Services;
+    using HardwareStore.App.ValidationAttributes;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -20,6 +19,7 @@
 
 
         [BindProperty(Name = "ss")]
+        [ValidSpecificationValue]
         public Dictionary<int, HashSet<int>> SpecificationIds { get; set; } = new Dictionary<int, HashSet<int>>();
 
 
@@ -29,6 +29,7 @@
 
 
         [BindProperty(Name = "so")]
+        [ValidSortOrder]
         public string SortOrder { get; set; } = "newest";
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

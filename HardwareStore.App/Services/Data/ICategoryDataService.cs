@@ -1,8 +1,6 @@
 ﻿namespace HardwareStore.App.Services.Data
 {
-    using HardwareStore.App.Services.Data.Products;
     using HardwareStore.App.Services.Models;
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -25,5 +23,6 @@
         Task<ICollection<(string Name, int Id)>> GetCategoriesAsTupleCollectionAsync();
 
         Task<SpecificationInfoDTO> SpecificationInfo(int specificationId);
+        Task<ICollection<int>> ValidSpecificationValuesIds();
     }
 }

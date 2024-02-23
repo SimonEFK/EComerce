@@ -1,7 +1,5 @@
 ﻿namespace HardwareStore.App.Data.Models
 {
-    using System.ComponentModel.DataAnnotations.Schema;
-
     public class Product
     {
         public Product()

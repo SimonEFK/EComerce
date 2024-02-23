@@ -10,7 +10,6 @@ namespace HardwareStore.App
     using HardwareStore.App.Services.ProductFiltering;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
-    using NuGet.Common;
 
     public class Program
     {

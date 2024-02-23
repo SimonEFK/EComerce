@@ -7,7 +7,6 @@
     using HardwareStore.App.Services.Models;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Newtonsoft.Json;
 
     [Area("Administration")]
     [Authorize(Roles = "admin")]

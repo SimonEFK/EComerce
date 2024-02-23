@@ -1,8 +1,7 @@
-﻿namespace HardwareStore.App.Services
+﻿namespace HardwareStore.App.ValidationAttributes
 {
     using HardwareStore.App.Services.Data;
     using System.ComponentModel.DataAnnotations;
-    using System.Text.RegularExpressions;
 
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
     public class ValidCategoryAttribute : ValidationAttribute

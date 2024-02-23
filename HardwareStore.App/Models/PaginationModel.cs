@@ -1,7 +1,5 @@
 ﻿namespace HardwareStore.App.Models
 {
-    using HardwareStore.App.Data.Models;
-
     public class PaginationModel
     {
         public int Page { get; set; }
