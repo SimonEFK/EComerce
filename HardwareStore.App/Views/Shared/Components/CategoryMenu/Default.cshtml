@@ -9,20 +9,10 @@
     {
         if (route != null && item.Name.ToLower() == route.ToString().ToLower())
         {
-            <li class="dropdown-item active"><a class="text-light link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/Catalog/@item.Name">@item.Name</a></li>
+            <li class="dropdown-item active"><a class="text-light link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/Catalog/Products/@item.Name">@item.Name</a></li>
             continue;
         }
-        <li class="dropdown-item"><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/Catalog/@item.Name">@item.Name</a></li>
+        <li class="dropdown-item"><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/Catalog/Products/@item.Name">@item.Name</a></li>
     }
 </ul>
 
-
-@* <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Categories
-</a>
-<ul class="dropdown-menu">
-    <li><a class="dropdown-item" href="#">Action</a></li>
-    <li><a class="dropdown-item" href="#">Another action</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="#">Something else here</a></li>
-</ul> *@
