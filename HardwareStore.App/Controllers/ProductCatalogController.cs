@@ -40,6 +40,13 @@
         [Route("Products/{category?}")]
         public async Task<IActionResult> Products(BrowseProductInputModel model)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+
+            }
+
             var catalogModel = await this.productCatalogService.GetProducts(
                 model.SearchString,
                 model.Category,
@@ -48,12 +55,12 @@
                 model.SortOrder,
                 model.Page);
 
-
             TempData["sortOrder"] = model.SortOrder;
             if (model.Category is not null)
             {
                 var category = TempData["Category"] = model.Category;
             }
+
             var filterModel = new FilterModel
             {
                 Specifications = catalogModel.SpecificationFilters,
@@ -69,6 +76,7 @@
             {
                 TempData["selectedManufacturers"] = model.ManufacturerIds.ToList();
             }
+
             var paginationModel = new PaginationModel
             {
                 Page = model.Page,
@@ -80,6 +88,7 @@
                 Pagination = paginationModel,
                 ProductFilters = filterModel
             };
+
             if (model.SearchString is not null)
             {
                 TempData["SearchString"] = model.SearchString;
