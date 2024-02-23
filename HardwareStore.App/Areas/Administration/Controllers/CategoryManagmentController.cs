@@ -1,5 +1,6 @@
 ﻿namespace HardwareStore.App.Areas.Administration.Controllers
 {
+    using AutoMapper;
     using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Category;
     using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Specifications;
     using HardwareStore.App.Services.Data;
@@ -12,10 +13,12 @@
     public class CategoryManagmentController : Controller
     {
         private readonly ICategoryDataService _categoryDataService;
+        private readonly IMapper mapper;
 
-        public CategoryManagmentController(ICategoryDataService categoryDataService)
+        public CategoryManagmentController(ICategoryDataService categoryDataService, IMapper mapper)
         {
             _categoryDataService = categoryDataService;
+            this.mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
@@ -34,13 +37,7 @@
         public async Task<IActionResult> CategoryInfo(int Id)
         {
             var categoryInfoModel = await _categoryDataService.CategoryInfo(Id);
-            var categoryEditModel = new CategoryEditInputModel
-            {
-                Id = categoryInfoModel.Id,
-                Name = categoryInfoModel.CategoryName,
-                ImageFilePath = categoryInfoModel.ImageFilePath,
-                ImageUrl = categoryInfoModel.ImageUrl,
-            };
+            var categoryEditModel = mapper.Map<CategoryEditInputModel>(categoryInfoModel);
             var specificationCreateModel = new SpecificationCreateInputModel
             {
                 CategoryId = categoryInfoModel.Id,
@@ -58,23 +55,15 @@
         public async Task<IActionResult> SpecificationInfo(int id)
         {
             var specificationInfo = await _categoryDataService.SpecificationInfo(id);
-            var editForm = new SpecificationCreateInputModel
-            {
-                Name = specificationInfo.Name,
-                Filter = specificationInfo.Filter,
-                Essential = specificationInfo.InfoLevel == "Essential" ? true : false,
-                CategoryId = specificationInfo.CategoryId,
-                Id = specificationInfo.SpecificationId
-
-            };
+            var editForm = mapper.Map<SpecificationCreateInputModel>(specificationInfo);
             var valueForm = new SpecificationValueCreateInputModel()
             {
                 CategoryId = specificationInfo.CategoryId,
-                SpecificationId = specificationInfo.SpecificationId,
+                SpecificationId = specificationInfo.Id,
             };
             var valueEditForm = new SpecificationValueCreateInputModel
             {
-                SpecificationId = specificationInfo.SpecificationId,
+                SpecificationId = specificationInfo.Id,
                 CategoryId = specificationInfo.CategoryId
             };
             var specificationViewModel = new SpecificationInfoViewModel
@@ -145,8 +134,8 @@
             var result = await _categoryDataService.EditCategory(
                 categoryEditModel.Id,
                 categoryEditModel.Name,
-                categoryEditModel.ImageUrl,
-                categoryEditModel.ImageFilePath);
+                categoryEditModel.Url,
+                categoryEditModel.FilePath);
 
             if (!result.Success)
             {
@@ -179,13 +168,7 @@
             if (!ModelState.IsValid)
             {
                 var categoryInfoModel = await _categoryDataService.CategoryInfo(specificationCreateModel.CategoryId ?? 0);
-                var categoryEditModel = new CategoryEditInputModel
-                {
-                    Id = categoryInfoModel.Id,
-                    Name = categoryInfoModel.CategoryName,
-                    ImageFilePath = categoryInfoModel.ImageFilePath,
-                    ImageUrl = categoryInfoModel.ImageUrl
-                };
+                var categoryEditModel = mapper.Map<CategoryEditInputModel>(categoryInfoModel);
                 var categoryInfoViewModel = new CategoryInfoViewModel
                 {
                     CategoryEditModel = categoryEditModel,
@@ -205,13 +188,7 @@
                 }
                 ViewData["FormCollapse"] = "show";
                 var categoryInfoModel = await _categoryDataService.CategoryInfo(specificationCreateModel.CategoryId ?? 0);
-                var categoryEditModel = new CategoryEditInputModel
-                {
-                    Id = categoryInfoModel.Id,
-                    Name = categoryInfoModel.CategoryName,
-                    ImageFilePath = categoryInfoModel.ImageFilePath,
-                    ImageUrl = categoryInfoModel.ImageUrl
-                };
+                var categoryEditModel = mapper.Map<CategoryEditInputModel>(categoryInfoModel);
                 var categoryInfoViewModel = new CategoryInfoViewModel
                 {
                     CategoryEditModel = categoryEditModel,
@@ -267,14 +244,7 @@
 
             if (!ModelState.IsValid)
             {
-                var valueEditModel = new SpecificationCreateInputModel
-                {
-                    Id = specificationInfo.SpecificationId,
-                    Name = specificationInfo.Name,
-                    Filter = specificationInfo.Filter,
-                    Essential = specificationInfo.InfoLevel == "Essential" ? true : false
-
-                };
+                var valueEditModel = mapper.Map<SpecificationCreateInputModel>(specificationInfo);
                 var valueCreateModel = ValueCreateFormModel;
                 var specificationViewModel = new SpecificationInfoViewModel
                 {
@@ -287,14 +257,7 @@
             var result = await _categoryDataService.CreateSpecificationValue(ValueCreateFormModel.CategoryId ?? 0, ValueCreateFormModel.SpecificationId, ValueCreateFormModel.Value, ValueCreateFormModel.Metric);
             if (result.Success == false)
             {
-                var valueEditModel = new SpecificationCreateInputModel
-                {
-                    Id = specificationInfo.SpecificationId,
-                    Name = specificationInfo.Name,
-                    Filter = specificationInfo.Filter,
-                    Essential = specificationInfo.InfoLevel == "Essential" ? true : false
-
-                };
+                var valueEditModel = mapper.Map<SpecificationCreateInputModel>(specificationInfo);
                 var valueCreateModel = ValueCreateFormModel;
                 var specificationViewModel = new SpecificationInfoViewModel
                 {
@@ -309,7 +272,7 @@
                 }
             }
 
-            return Redirect($"/Administration/CategoryManagment/SpecificationInfo/{specificationInfo.SpecificationId}");
+            return Redirect($"/Administration/CategoryManagment/SpecificationInfo/{specificationInfo.Id}");
         }
 
         [HttpPost]
@@ -320,23 +283,16 @@
             var specificationInfo = await _categoryDataService.SpecificationInfo(ValueEditFormModel.SpecificationId);
             if (!ModelState.IsValid)
             {
-                var editForm = new SpecificationCreateInputModel
-                {
-                    Id = specificationInfo.SpecificationId,
-                    Name = specificationInfo.Name,
-                    Filter = specificationInfo.Filter,
-                    Essential = specificationInfo.InfoLevel == "Essential" ? true : false,
-                    CategoryId = specificationInfo.CategoryId,
+                var editForm = mapper.Map<SpecificationCreateInputModel>(specificationInfo);
 
-                };
                 var valueForm = new SpecificationValueCreateInputModel()
                 {
                     CategoryId = specificationInfo.CategoryId,
-                    SpecificationId = specificationInfo.SpecificationId,
+                    SpecificationId = specificationInfo.Id,
                 };
                 var valueEditForm = new SpecificationValueCreateInputModel
                 {
-                    SpecificationId = specificationInfo.SpecificationId
+                    SpecificationId = specificationInfo.Id
                 };
                 var specificationViewModel = new SpecificationInfoViewModel
                 {
@@ -351,23 +307,15 @@
             if (!result.Success)
             {
 
-                var editForm = new SpecificationCreateInputModel
-                {
-                    Id = specificationInfo.SpecificationId,
-                    Name = specificationInfo.Name,
-                    Filter = specificationInfo.Filter,
-                    Essential = specificationInfo.InfoLevel == "Essential" ? true : false,
-                    CategoryId = specificationInfo.CategoryId,
-
-                };
+                var editForm = mapper.Map<SpecificationCreateInputModel>(specificationInfo);
                 var valueForm = new SpecificationValueCreateInputModel()
                 {
                     CategoryId = specificationInfo.CategoryId,
-                    SpecificationId = specificationInfo.SpecificationId,
+                    SpecificationId = specificationInfo.Id,
                 };
                 var valueEditForm = new SpecificationValueCreateInputModel
                 {
-                    SpecificationId = specificationInfo.SpecificationId
+                    SpecificationId = specificationInfo.Id
                 };
                 var specificationViewModel = new SpecificationInfoViewModel
                 {

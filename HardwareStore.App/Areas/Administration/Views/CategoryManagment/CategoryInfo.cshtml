@@ -20,12 +20,12 @@
                     @foreach (var item in Model.CategoryInfoModel.Specifications)
                     {
                         <tr>
-                            <th scope="row">@item.SpecificationId</th>
+                            <th scope="row">@item.Id</th>
                             <td>@item.Name</td>
                             <td>@item.Filter</td>
                             <td>@item.InfoLevel</td>
                             <td>
-                                <a href="/Administration/CategoryManagment/SpecificationInfo/@item.SpecificationId" class="btn btn-outline-info">Edit</a>
+                                <a href="/Administration/CategoryManagment/SpecificationInfo/@item.Id" class="btn btn-outline-info">Edit</a>
                             </td>
                         </tr>
 

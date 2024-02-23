@@ -9,6 +9,6 @@
 
         public SpecificationCreateInputModel SpecificationCreateForm { get; set; }
 
-        public CategoryOutputModel CategoryInfoModel { get; set; }
+        public CategoryInfoDTO CategoryInfoModel { get; set; }
     }
 }

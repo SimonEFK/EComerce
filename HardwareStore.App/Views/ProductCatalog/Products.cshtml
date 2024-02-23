@@ -47,11 +47,11 @@
                                     <div class="form-check">
                                         @if (selectedSpecificationIds is not null && selectedSpecificationIds.Contains(value.Id))
                                         {
-                                            <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss[@category.Key]" checked>
+                                            <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss[@specification.Id]" checked>
                                         }
                                         else
                                         {
-                                            <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss[@category.Key]">
+                                            <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss[@specification.Id]">
                                         }
                                         <label class="form-check-label" for="@value.Id">@value.Value</label>
                                     </div>
