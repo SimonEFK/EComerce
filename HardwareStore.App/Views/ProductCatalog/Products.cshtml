@@ -47,11 +47,14 @@
                                     <div class="form-check">
                                         @if (selectedSpecificationIds is not null && selectedSpecificationIds.Contains(value.Id))
                                         {
+                                            <span class="text-primary">(@value.ProductsCount)</span>
                                             <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss[@specification.Id]" checked>
                                         }
                                         else
                                         {
+                                            <span class="text-primary">(@value.ProductsCount)</span>
                                             <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss[@specification.Id]">
+
                                         }
                                         <label class="form-check-label" for="@value.Id">@value.Value</label>
                                     </div>
@@ -68,10 +71,14 @@
                                 @if (selectedManufacturerIds is not null && selectedManufacturerIds.Contains(manufacturer.Item2))
                                 {
                                     <input class="form-check-input" type="checkbox" value="@manufacturer.Item2" id="@inputid" name="m" checked>
+                                    <span class="text-primary">(@manufacturer.Item3)</span>
+
                                 }
                                 else
                                 {
                                     <input class="form-check-input" type="checkbox" value="@manufacturer.Item2" id=@inputid name="m">
+                                    <span class="text-primary">(@manufacturer.Item3)</span>
+
                                 }
                                 <label class="form-check-label" for=@inputid>@manufacturer.Item1</label>
                             </div>

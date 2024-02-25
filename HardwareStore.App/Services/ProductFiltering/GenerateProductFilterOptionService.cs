@@ -37,11 +37,11 @@
                 .ProjectTo<SpecificationFilterOption>(mapper.ConfigurationProvider)
                 .ToListAsync();
             var specDictionary = specifications.GroupBy(x => x.CategoryName).ToDictionary(group => group.Key, group => group.ToList());
-            
+
             return specDictionary;
 
         }
-        public ICollection<Tuple<string, int>> GenerateManufacturerOptions(IQueryable<Product> productQuery)
+        public ICollection<Tuple<string, int,int>> GenerateManufacturerOptions(IQueryable<Product> productQuery)
         {
             var categories = productQuery.Select(x => x.CategoryId).ToHashSet<int>();
 
@@ -49,7 +49,7 @@
                 .Select(x => x.Manufacturer)
                 .ToList()
                 .DistinctBy(x => x.Id)
-                .Select(x => new Tuple<string, int>(x.Name, x.Id)).ToList();
+                .Select(x => new Tuple<string, int, int>(x.Name, x.Id,x.Products.Count)).ToList();
 
             return manufacturers;
 

@@ -9,7 +9,7 @@
 
         public Dictionary<string, List<SpecificationFilterOption>> SpecificationFilters { get; set; } = new Dictionary<string, List<SpecificationFilterOption>>();
 
-        public ICollection<Tuple<string, int>> Manufacturers { get; set; } = new List<Tuple<string, int>>();
+        public ICollection<Tuple<string, int, int>> Manufacturers { get; set; } = new List<Tuple<string, int, int>>();
 
         public ICollection<string> SortOrder { get; set; } = new List<string>();
     }

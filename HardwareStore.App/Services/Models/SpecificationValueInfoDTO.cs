@@ -7,5 +7,6 @@
         public string Value { get; set; }
 
         public string? Metric { get; set; }
+        
     }
 }
