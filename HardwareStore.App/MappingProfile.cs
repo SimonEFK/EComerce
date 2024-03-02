@@ -52,6 +52,7 @@
             this.CreateMap<CategoryInfoDTO, CategoryEditInputModel>();
             this.CreateMap<SpecificationInfoDTO, SpecificationCreateInputModel>()
                 .ForMember(m => m.Essential, cfg => cfg.MapFrom(x => x.InfoLevel == "Essential" ? true : false));
+            this.CreateMap<ProductReview,ProductReviewDTO>();
         }
     }
 }

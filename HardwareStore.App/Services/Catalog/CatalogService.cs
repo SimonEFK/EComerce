@@ -26,7 +26,7 @@
 
         public async Task<CatalogModel> GetProducts(
             string? searchString,
-            string? category,
+            int? category,
             ICollection<int> manufacturerIds,
             Dictionary<int, HashSet<int>> selectedSpecsIds,
             string sortOrder = "newest",
@@ -41,7 +41,7 @@
             }
             if (category is not null)
             {
-                productsQuery = productsQuery.Where(x => x.Category.Name == category).AsQueryable();
+                productsQuery = productsQuery.Where(x => x.Category.Id == category).AsQueryable();
             }
             if (manufacturerIds.Count > 0)
             {
@@ -67,7 +67,7 @@
                 .SpecificationFilters = await generateProductFilterOptionService
                 .GenerateSpecificationOptions(productsQuery);
             catalogModel
-                .Manufacturers = generateProductFilterOptionService
+                .Manufacturers = await generateProductFilterOptionService
                 .GenerateManufacturerOptions(productsQuery);
             catalogModel.SortOrder = generateProductFilterOptionService.GenerateSortOrderOptions();
 

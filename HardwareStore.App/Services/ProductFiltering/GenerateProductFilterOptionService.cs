@@ -41,17 +41,19 @@
             return specDictionary;
 
         }
-        public ICollection<Tuple<string, int,int>> GenerateManufacturerOptions(IQueryable<Product> productQuery)
+        public async Task<ICollection<Tuple<string, int, int>>> GenerateManufacturerOptions(IQueryable<Product> productQuery)
         {
             var categories = productQuery.Select(x => x.CategoryId).ToHashSet<int>();
 
-            var manufacturers = dbContext.Products.Where(x => categories.Contains((int)x.CategoryId))
+            var manufacturers = await dbContext.Products.Where(x => categories.Contains((int)x.CategoryId))
                 .Select(x => x.Manufacturer)
-                .ToList()
-                .DistinctBy(x => x.Id)
-                .Select(x => new Tuple<string, int, int>(x.Name, x.Id,x.Products.Count)).ToList();
+                .Select(x => new Tuple<string, int, int>(x.Name, x.Id, x.Products.Count))
+                .ToListAsync();
 
-            return manufacturers;
+
+
+
+            return manufacturers.DistinctBy(x => x.Item2).ToList();
 
         }
     }

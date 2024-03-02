@@ -4,10 +4,12 @@
     using HardwareStore.App.Models.Category;
     using HardwareStore.App.Models.ProductCatalog;
     using HardwareStore.App.Models.ProductFilter;
+    using HardwareStore.App.Models.Review;
     using HardwareStore.App.Services.Catalog;
     using HardwareStore.App.Services.Data;
     using HardwareStore.App.Services.Data.Products;
     using HardwareStore.App.Services.ProductFiltering;
+    using HardwareStore.App.Services.ProductReview;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("/Catalog")]
@@ -17,12 +19,14 @@
         private IGenerateProductFilterOptionService generateProductFilterOptionService;
         private ICategoryDataService categoryDataService;
         private IProductDataService productDataService;
+        private IProductReviewService reviewService;
 
-        public ProductCatalogController(ICatalogService productCatalogService, IGenerateProductFilterOptionService generateProductFilterOptionService, ICategoryDataService categoryDataService)
+        public ProductCatalogController(ICatalogService productCatalogService, IGenerateProductFilterOptionService generateProductFilterOptionService, ICategoryDataService categoryDataService, IProductReviewService reviewService)
         {
             this.productCatalogService = productCatalogService;
             this.generateProductFilterOptionService = generateProductFilterOptionService;
             this.categoryDataService = categoryDataService;
+            this.reviewService = reviewService;
         }
 
         public async Task<IActionResult> Index()
@@ -49,7 +53,7 @@
                 model.SpecificationIds,
                 model.SortOrder,
                 model.Page);
-            
+
             TempData["sortOrder"] = model.SortOrder;
             if (model.Category is not null)
             {
@@ -98,11 +102,20 @@
         {
 
             var product = await productCatalogService.GetProductById(id);
+
+            await reviewService.GetProductReview(id);
+
             if (product is null)
             {
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+
+            var viewModel = new ComponentDetailViewModel
+            {
+                Product = product,
+                ReviewInputModel = new ReviewInputModel { ProductId = id }
+            };
+            return View(viewModel);
 
         }
     }

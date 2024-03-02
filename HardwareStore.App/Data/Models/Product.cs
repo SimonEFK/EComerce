@@ -28,9 +28,7 @@
         public ICollection<PartNumber> PartNumbers { get; set; }
 
         public ICollection<Image> Images { get; set; }
-
-        //public ICollection<ProductSpecificationValues> Specifications { get; set; }
-
+        
         public ICollection<ProductReview> ProductReviews { get; set; }
 
         public ICollection<CartProduct> Carts { get; set; }

@@ -7,10 +7,10 @@
             @for (int i = 0; i < Model.Count; i++)
             {
                 <div class="category-box">
-                    <a href="Catalog/Products/@this.Model[i].Name">
+                    <a href="Catalog/Products/@this.Model[i].Id">
                         <span>@this.Model[i].Name</span>
                     </a>
-                    <a href="Catalog/Products/@this.Model[i].Name">
+                    <a href="Catalog/Products/@this.Model[i].Id">
                         <img src="@this.Model[i].Image" />
                     </a>
                 </div>

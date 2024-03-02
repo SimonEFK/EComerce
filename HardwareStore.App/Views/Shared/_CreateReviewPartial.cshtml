@@ -1,0 +1,8 @@
+﻿@using HardwareStore.App.Models.Review
+@model ReviewInputModel
+
+<form id="reviewForm" method="post">    
+    <input type="hidden" asp-for="@Model.ProductId" />
+    <textarea asp-for="@Model.Content" class="form-control"></textarea>
+    <button class="btn btn-outline-primary" id="submitReviewBtn" type="submit">Submit</button>    
+</form>

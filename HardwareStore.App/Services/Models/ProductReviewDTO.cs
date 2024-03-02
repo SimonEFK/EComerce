@@ -1,17 +1,15 @@
-﻿namespace HardwareStore.App.Data.Models
+﻿namespace HardwareStore.App.Services.Models
 {
-    public class ProductReview
+    using HardwareStore.App.Data.Models;
+
+    public class ProductReviewDTO
     {
         public int Id { get; set; }
 
         public string ApplicationUserId { get; set; }
 
-        public ApplicationUser ApplicationUser { get; set; }
-
         public int ProductId { get; set; }
-
-        public Product Product { get; set; }
-
+        
         public string Review { get; set; }
 
         public int? Rating { get; set; }
@@ -19,5 +17,6 @@
         public DateTime CreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }
+
     }
 }

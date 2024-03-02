@@ -1,9 +1,10 @@
-﻿@model ProductDetailedModel
+﻿@using HardwareStore.App.Models.ProductCatalog
+@model ComponentDetailViewModel
 <div class="product-title-container mb-3">
     <h1 class="product-title p-lg-3">
-        @Model.NameDetailed
+        @Model.Product.NameDetailed
     </h1>
-    <a href="/Catalog/Products/@this.Model.CategoryName">@this.Model.CategoryName</a>
+    <a href="/Catalog/Products/@this.Model.Product">@this.Model.Product.CategoryName</a>
 </div>
 <div class="row m-0">
     <div class="product-specs col-md-5">
@@ -11,11 +12,11 @@
         <table class="table table-striped ">
 
             <tbody>
-                @foreach (var item in this.Model.Specifications.OrderBy(x => x.Name))
+                @foreach (var item in this.Model.Product.Specifications.OrderBy(x => x.Name))
                 {
                     <tr>
                         <td>@item.Name</td>
-                        <td>@string.Join(", ",item.Values)</td>
+                        <td>@string.Join(", ", item.Values)</td>
                     </tr>
 
                 }
@@ -26,16 +27,16 @@
     <div class="col-md-4 me-2">
         <div class="product-img-display">
             <div class="product-img-display-container">
-                <img id="displayImg" src="@this.Model.Images.FirstOrDefault()" />
+                <img id="displayImg" src="@this.Model.Product.Images.FirstOrDefault()" />
             </div>
         </div>
-        @if (this.Model.Images.Count > 1)
+        @if (this.Model.Product.Images.Count > 1)
         {
             <hr />
             <div class="product-gallery">
                 <div class="product-img-list" id="imgList">
-                    <ul>
-                        @foreach (var image in this.Model.Images)
+                    <ul class="d-flex justify-content-between">
+                        @foreach (var image in this.Model.Product.Images)
                         {
                             <li class="product-gallery-img-container">
                                 <img src="@image">
@@ -52,7 +53,7 @@
                 <div class="extra-info-container" id="productInfoContainer">
                     <p class="product-price">50.00</p>
                     <div class="btn-container">
-                        <button class="btn btn-primary ms-auto" data-addProductToCart="@Model.NameDetailed" data-productId="@Model.Id">Buy</button>
+                        <button class="btn btn-primary ms-auto" data-addProductToCart="@Model.Product.NameDetailed" data-productId="@Model.Product.Id">Buy</button>
 
                         <button class="btn btn-success">Add To Favorites</button>
                     </div>
@@ -62,16 +63,50 @@
 
     </div>
 </div>
-@section Scripts{
+<div class="row">
+    <div class="col-lg-4">
+        <partial name="_CreateReviewPartial" model="@Model.ReviewInputModel" />
+    </div>
+</div>
+@section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
+
+        
+        let submitReviewBtn = document.querySelector('#submitReviewBtn');
+        submitReviewBtn.addEventListener('click', SubmitReviewForm);
+        async function SubmitReviewForm(event) {
+
+            event.preventDefault();
+            let reviewForm = document.querySelector('#reviewForm');
+            let data = new FormData(reviewForm);
+            const jsonObject = {};
+
+            data.forEach((value, key) => {
+                jsonObject[key] = value;
+            });
+
+            let reviewApiUrl = `/api/ReviewApi`;
+            let response = await fetch(reviewApiUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(jsonObject)
+            })
+        };
+
+
 
         let productContainer = document.querySelector('#productInfoContainer');
         productContainer.addEventListener('click', AddProductToCart);
         let imgList = document.querySelector('#imgList');
         let displayImg = document.querySelector('#displayImg')
         let imgContainers = document.querySelectorAll(".product-gallery-img-container");
-        imgList.addEventListener('click', ChangeImage);
+        if (imgList) {
+            imgList.addEventListener('click', ChangeImage);
+
+        }
 
         function ChangeImage(event) {
             if (event.target instanceof HTMLImageElement) {

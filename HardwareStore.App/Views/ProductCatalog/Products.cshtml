@@ -3,7 +3,7 @@
 
 <div class="row mb-5 justify-content-center mt-4">
     <div class="col-lg-6 d-flex gap-3">
-        <input id="searchInput" class="form-control" value="@TempData["SearchString"]" placeholder="Search in @this.TempData["Category"]" />
+        <input id="searchInput" class="form-control" value="@TempData["SearchString"]" placeholder="Search..." />
         <button id="searchSubmitBtn" class="btn btn-info">Search</button>
     </div>
 </div>
@@ -70,14 +70,14 @@
                             <div class="form-check">
                                 @if (selectedManufacturerIds is not null && selectedManufacturerIds.Contains(manufacturer.Item2))
                                 {
-                                    <input class="form-check-input" type="checkbox" value="@manufacturer.Item2" id="@inputid" name="m" checked>
                                     <span class="text-primary">(@manufacturer.Item3)</span>
+                                    <input class="form-check-input" type="checkbox" value="@manufacturer.Item2" id="@inputid" name="m" checked>
 
                                 }
                                 else
                                 {
-                                    <input class="form-check-input" type="checkbox" value="@manufacturer.Item2" id=@inputid name="m">
                                     <span class="text-primary">(@manufacturer.Item3)</span>
+                                    <input class="form-check-input" type="checkbox" value="@manufacturer.Item2" id=@inputid name="m">
 
                                 }
                                 <label class="form-check-label" for=@inputid>@manufacturer.Item1</label>

@@ -6,7 +6,7 @@
 
     public interface IGenerateProductFilterOptionService
     {
-        ICollection<Tuple<string, int,int>> GenerateManufacturerOptions(IQueryable<Product> productQuery);
+        Task<ICollection<Tuple<string, int,int>>> GenerateManufacturerOptions(IQueryable<Product> productQuery);
         ICollection<string> GenerateSortOrderOptions();
         Task<Dictionary<string, List<SpecificationFilterOption>>> GenerateSpecificationOptions(IQueryable<Product> productQuery);
     }

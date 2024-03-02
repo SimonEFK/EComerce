@@ -9,7 +9,7 @@
 
         protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
         {
-            var category = value as string;
+            var category = value as int?;
             if (category == null)
             {
                 return ValidationResult.Success;
@@ -20,9 +20,9 @@
                 .GetCategoriesAsTupleCollectionAsync()
                 .GetAwaiter()
                 .GetResult()
-                .Select(x => x.Name.ToLower()).ToList();
+                .Select(x => x.Id).ToList();
 
-            if (!categories.Contains(category.ToLower()))
+            if (!categories.Contains((int)category))
             {
                 return new ValidationResult("Invalid Category");
             }

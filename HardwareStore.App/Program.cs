@@ -8,6 +8,7 @@ namespace HardwareStore.App
     using HardwareStore.App.Services.Data;
     using HardwareStore.App.Services.Data.Products;
     using HardwareStore.App.Services.ProductFiltering;
+    using HardwareStore.App.Services.ProductReview;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
@@ -50,6 +51,7 @@ namespace HardwareStore.App
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<ICatalogService, CatalogService>();
             builder.Services.AddScoped<IDownloadImageService, DownloadImageService>();            
+            builder.Services.AddScoped<IProductReviewService, ProductReviewService>();
             var app = builder.Build();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

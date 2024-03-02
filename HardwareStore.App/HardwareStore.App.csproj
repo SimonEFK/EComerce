@@ -9,9 +9,13 @@
 
   <ItemGroup>
     <Compile Remove="Services\Administration\**" />
+    <Compile Remove="ViewComponents\**" />
     <Content Remove="Services\Administration\**" />
+    <Content Remove="ViewComponents\**" />
     <EmbeddedResource Remove="Services\Administration\**" />
+    <EmbeddedResource Remove="ViewComponents\**" />
     <None Remove="Services\Administration\**" />
+    <None Remove="ViewComponents\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,7 +37,7 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="ViewComponents\" />
+    <Folder Include="Views\Review\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\lib\bootstrap\" />
     <Folder Include="wwwroot\lib\bootstrap\dist\js\" />

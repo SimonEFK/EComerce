@@ -8,7 +8,7 @@
     public class BrowseProductInputModel : IValidatableObject
     {
         [ValidCategory]
-        public string? Category { get; set; }
+        public int? Category { get; set; }
 
         [FromQuery]        
         public int Page { get; set; } = 1;

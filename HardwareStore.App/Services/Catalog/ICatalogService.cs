@@ -12,7 +12,7 @@
         Task<ProductDetailedModel> GetProductById(int id);
         Task<CatalogModel> GetProducts(
             string? searchString,
-            string? category,
+            int? category,
             ICollection<int> manufacturerIds,
             Dictionary<int,HashSet<int>> selectedSpecsIds,
             string sortOrder = "newest",
