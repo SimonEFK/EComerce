@@ -2,7 +2,10 @@
 @model ComponentDetailViewModel
 <div class="product-title-container mb-3">
     <h1 class="product-title p-lg-3">
-        @Model.Product.NameDetailed
+        @{
+            var name = this.Model.Product.NameDetailed ?? this.Model.Product.Name;
+            @name
+        }
     </h1>
     <a href="/Catalog/Products/@this.Model.Product">@this.Model.Product.CategoryName</a>
 </div>
@@ -72,7 +75,7 @@
     <partial name="_ValidationScriptsPartial" />
     <script>
 
-        
+
         let submitReviewBtn = document.querySelector('#submitReviewBtn');
         submitReviewBtn.addEventListener('click', SubmitReviewForm);
         async function SubmitReviewForm(event) {
