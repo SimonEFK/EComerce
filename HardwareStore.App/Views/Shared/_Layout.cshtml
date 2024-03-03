@@ -18,7 +18,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Categories
@@ -26,7 +26,7 @@
                             @await Component.InvokeAsync("CategoryMenu")
                         </li>
                         <li>
-                            <a href="/Cart">My Cart</a>
+                            <a class="nav-link" href="/Cart">My Cart</a>
                         </li>
                     </ul>
                     <form method="GET" action="/Catalog/Products" class="d-flex me-auto" role="search">
