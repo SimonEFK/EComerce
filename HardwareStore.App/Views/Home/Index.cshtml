@@ -24,6 +24,11 @@
             {
                 <div class="col-md-3">
                     <div class="product-home-card d-flex flex-column justify-content-between p-1">
+                        @if (item.ProductReviewsRatingAvg > 0)
+                        {
+                            <partial name="_ProductStarRatingPartial" model="@item.ProductReviewsRatingAvg" />
+                        }
+
                         <div class="product-home-card-image-container">
                             <a href="/ComponentDetail/@item.Id"><img src="@item.Image" /></a>
                         </div>

@@ -10,6 +10,12 @@
     <a href="/Catalog/Products/@this.Model.Product">@this.Model.Product.CategoryName</a>
 </div>
 <div class="row m-0">
+    @if (Model.Product.ProductReviewsRatingAvg > 0)
+    {
+        <partial name="_ProductStarRatingPartial" model="@Model.Product.ProductReviewsRatingAvg" />
+
+    }
+
     <div class="product-specs col-md-5">
         <span>Specifications</span>
         <table class="table table-striped ">

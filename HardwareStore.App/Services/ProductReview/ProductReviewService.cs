@@ -5,7 +5,6 @@
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Services.Models;
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Microsoft.EntityFrameworkCore;
 
     public class ProductReviewService : IProductReviewService

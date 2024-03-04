@@ -16,7 +16,9 @@
         {
             this.CreateMap<Product, ProductSimplifiedModel>().ForMember(product => product.Image,
                 config => config.MapFrom(source => source.Images.FirstOrDefault().FilePath ??
-                source.Images.FirstOrDefault().Url));
+                source.Images.FirstOrDefault().Url))
+                .ForMember(product => product.ProductReviewsRatingAvg, config => config.MapFrom(p => p.ProductReviews.Average(r => r.Rating))); ;
+                
             this.CreateMap<Product, ProductExtendedModel>()
                 .ForMember(product => product.ImageUrl,
                 config => config.MapFrom(source => source.Images.FirstOrDefault().FilePath ??
@@ -27,7 +29,8 @@
                     Values = product.Specifications
                         .Where(y => y.SpecificationValue.Specification.Name == productSpecValue.SpecificationValue.Specification.Name)
                         .Select(c => c.SpecificationValue.Value)
-                }).ToList()));
+                }).ToList()))
+                .ForMember(product=>product.ProductReviewsRatingAvg, config=> config.MapFrom(p=>p.ProductReviews.Average(r=>r.Rating)));
 
             this.CreateMap<Product, ProductDetailedModel>()
                 .ForMember(product => product.Images,
@@ -37,7 +40,7 @@
                     Values = product.Specifications
                         .Where(y => y.SpecificationValue.Specification.Name == productSpecValue.SpecificationValue.Specification.Name)
                         .Select(c => c.SpecificationValue.Value)
-                }).ToList())); ;
+                }).ToList())).ForMember(product => product.ProductReviewsRatingAvg, config => config.MapFrom(p => p.ProductReviews.Average(r => r.Rating)));
 
             this.CreateMap<Specification, SpecificationFilterOption>();
             this.CreateMap<SpecificationValue, SpecificationValueOption>();

@@ -9,5 +9,8 @@
         public string Image { get; set; }
 
         public int CategoryId { get; set; }
+
+        public double ProductReviewsRatingAvg { get; set; }
+
     }
 }

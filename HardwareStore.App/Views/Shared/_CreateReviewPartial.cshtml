@@ -3,6 +3,13 @@
 
 <form id="reviewForm" method="post">    
     <input type="hidden" asp-for="@Model.ProductId" />
+    <select asp-for="@Model.Rating">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
     <textarea asp-for="@Model.Content" class="form-control"></textarea>
     <button class="btn btn-outline-primary" id="submitReviewBtn" type="submit">Submit</button>    
 </form>

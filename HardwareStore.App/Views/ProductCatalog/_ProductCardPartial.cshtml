@@ -1,9 +1,14 @@
 ﻿@model ProductExtendedModel
 <div class="catalog-product-card">
-    <h3 class="text-center catalog-product-title"><a asp-action="ComponentDetail" asp-route-id="@this.Model.Id"><span title="@this.Model.NameDetailed" class="text-nowrap">@this.Model.Name</span></a></h3>    
+    <div class="d-flex flex-column">
+        <h3 class="text-center catalog-product-title"><a asp-action="ComponentDetail" asp-route-id="@this.Model.Id"><span title="@this.Model.NameDetailed" class="text-nowrap">@this.Model.Name</span></a></h3>
+        @if (Model.ProductReviewsRatingAvg > 0)
+        {
+            <partial name="_ProductStarRatingPartial" model="@Model.ProductReviewsRatingAvg" />
+        }
+    </div>
     <div class="catalog-product-content">
         <div class="catalog-product-img-container">
-
             <a asp-action="ComponentDetail" asp-route-id="@this.Model.Id"><img class="catalog-product-img" src="@Model.ImageUrl" alt="product img"></a>
         </div>
         <ul class="catalog-product-specs list-group">
