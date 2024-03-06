@@ -122,6 +122,12 @@
                 case "oldest":
                     productsQuery = productsQuery.OrderBy(x => x.Id).AsQueryable();
                     break;
+                case "rating asc":
+                    productsQuery = productsQuery.OrderBy(x => x.ProductReviews.Average(x => x.Rating));
+                    break;
+                case "rating dec":
+                    productsQuery = productsQuery.OrderByDescending(x => x.ProductReviews.Average(x => x.Rating));
+                    break;
                 default:
                     productsQuery = productsQuery.OrderByDescending(x => x.Id).AsQueryable();
                     break;

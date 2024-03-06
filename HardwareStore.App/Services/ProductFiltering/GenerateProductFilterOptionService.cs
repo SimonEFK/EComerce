@@ -24,7 +24,9 @@
             var sortOrderOptions = new List<string>
             {
                 "Newest",
-                "Oldest"
+                "Oldest",
+                "Rating ASC",
+                "Rating DESC"
             };
             return sortOrderOptions;
         }
