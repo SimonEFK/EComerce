@@ -8,8 +8,7 @@
     {
         public ProductDetailedModel Product { get; set; }
 
-        public List<ProductReviewDTO> ProductReviews { get; set; } = new List<ProductReviewDTO>();
-
-        public ReviewInputModel ReviewInputModel { get; set; }
+        public ProductReviewViewModel ProductReviewViewModel { get; set; }
+        
     }
 }

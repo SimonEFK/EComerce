@@ -4,7 +4,7 @@
     <h1 class="product-title p-lg-3">
         @{
             var name = this.Model.Product.NameDetailed ?? this.Model.Product.Name;
-            @name
+                @name
         }
     </h1>
     <a href="/Catalog/Products/@this.Model.Product">@this.Model.Product.CategoryName</a>
@@ -72,10 +72,8 @@
 
     </div>
 </div>
-<div class="row">
-    <div class="col-lg-4">
-        <partial name="_CreateReviewPartial" model="@Model.ReviewInputModel" />
-    </div>
+<div class="row flex-column" id="productReviewsRow">
+    <partial name="_ProductReviewsPartial" model="@Model.ProductReviewViewModel" />
 </div>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
@@ -103,6 +101,11 @@
                 },
                 body: JSON.stringify(jsonObject)
             })
+            if (response.ok) {
+                var productId = @Model.Product.Id;
+                var reviewsUrl = `/Review/ProductReviews?productId=${productId}`;                
+                $('#productReviewsRow').load(reviewsUrl);
+            }
         };
 
 

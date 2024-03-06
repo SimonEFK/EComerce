@@ -35,9 +35,11 @@
             dbContext.ProductReviews.Add(review);
             await dbContext.SaveChangesAsync();
         }
-        public async Task GetProductReview(int productId)
+        public async Task<List<ProductReviewDTO>> GetProductReviews(int productId)
         {
             var result = await dbContext.ProductReviews.Where(x => x.ProductId == productId).ProjectTo<ProductReviewDTO>(mapper.ConfigurationProvider).ToListAsync();
+
+            return result;
         }
     }
 }

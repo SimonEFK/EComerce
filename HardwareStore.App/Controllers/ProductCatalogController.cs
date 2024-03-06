@@ -103,7 +103,7 @@
 
             var product = await productCatalogService.GetProductById(id);
 
-            await reviewService.GetProductReview(id);
+            var productReviews = await reviewService.GetProductReviews(id);
 
             if (product is null)
             {
@@ -113,7 +113,11 @@
             var viewModel = new ComponentDetailViewModel
             {
                 Product = product,
-                ReviewInputModel = new ReviewInputModel { ProductId = id }
+                ProductReviewViewModel = new ProductReviewViewModel 
+                {
+                    ReviewInputModel = new ReviewInputModel { ProductId = id },
+                    ProductReviews = productReviews
+                }
             };
             return View(viewModel);
 

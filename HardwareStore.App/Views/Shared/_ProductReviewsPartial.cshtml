@@ -1,0 +1,32 @@
+﻿@using HardwareStore.App.Models.ProductCatalog
+@using System.Security.Claims
+@model ProductReviewViewModel
+
+
+@{
+    var userId = this.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+    var userHasReview = this.Model.ProductReviews.Any(x => x.ApplicationUserId == userId);
+}
+@if (this.User.Identity.IsAuthenticated && !userHasReview)
+{
+    <div class="col-lg-4">
+        <partial name="_CreateReviewPartial" model="@Model.ReviewInputModel" />
+    </div>
+}
+<div class="col-lg-5">
+    @foreach (var review in Model.ProductReviews.OrderByDescending(x => x.CreatedOn))
+    {
+        <div class="product-review-wrap mb-3">
+            <div class="product-review-header d-flex justify-content-between bg-body-secondary p-2">
+                <p class="m-0 fs-6">@review.ApplicationUserId</p>
+                <div class="d-flex flex-column">
+                    <p class="m-0 fs-6">@review.CreatedOn.ToLocalTime().ToShortDateString()</p>
+                    <partial name="_ProductStarRatingPartial" model="(double)review.Rating" />
+                </div>
+            </div>
+            <div class="product-review-body bg-dark-subtle p-2">
+                <p class="m-0">@review.Review</p>
+            </div>
+        </div>
+    }
+</div>
