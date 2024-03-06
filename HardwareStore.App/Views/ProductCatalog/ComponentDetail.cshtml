@@ -4,7 +4,7 @@
     <h1 class="product-title p-lg-3">
         @{
             var name = this.Model.Product.NameDetailed ?? this.Model.Product.Name;
-                @name
+            @name
         }
     </h1>
     <a href="/Catalog/Products/@this.Model.Product">@this.Model.Product.CategoryName</a>
@@ -81,7 +81,10 @@
 
 
         let submitReviewBtn = document.querySelector('#submitReviewBtn');
-        submitReviewBtn.addEventListener('click', SubmitReviewForm);
+        if (submitReviewBtn) {
+            submitReviewBtn.addEventListener('click', SubmitReviewForm);
+
+        }
         async function SubmitReviewForm(event) {
 
             event.preventDefault();
@@ -103,7 +106,7 @@
             })
             if (response.ok) {
                 var productId = @Model.Product.Id;
-                var reviewsUrl = `/Review/ProductReviews?productId=${productId}`;                
+                var reviewsUrl = `/Review/ProductReviews?productId=${productId}`;
                 $('#productReviewsRow').load(reviewsUrl);
             }
         };
