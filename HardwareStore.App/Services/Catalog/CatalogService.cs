@@ -125,7 +125,7 @@
                 case "rating asc":
                     productsQuery = productsQuery.OrderBy(x => x.ProductReviews.Average(x => x.Rating));
                     break;
-                case "rating dec":
+                case "rating desc":
                     productsQuery = productsQuery.OrderByDescending(x => x.ProductReviews.Average(x => x.Rating));
                     break;
                 default:
