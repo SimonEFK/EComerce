@@ -54,7 +54,7 @@
                 model.SortOrder,
                 model.Page);
 
-            TempData["sortOrder"] = model.SortOrder;
+            ViewData["sortOrder"] = model.SortOrder;
             if (model.Category is not null)
             {
                 var category = TempData["Category"] = model.Category;
@@ -69,11 +69,11 @@
 
             if (model.SpecificationIds.Count > 0)
             {
-                TempData["selectedSpecs"] = model.SpecificationIds.SelectMany(x => x.Value).ToList();
+                ViewData["selectedSpecs"] = model.SpecificationIds.SelectMany(x => x.Value).ToList();
             }
             if (model.ManufacturerIds.Count > 0)
             {
-                TempData["selectedManufacturers"] = model.ManufacturerIds.ToList();
+                ViewData["selectedManufacturers"] = model.ManufacturerIds.ToList();
             }
 
             var paginationModel = new PaginationModel
@@ -90,7 +90,7 @@
 
             if (model.SearchString is not null)
             {
-                TempData["SearchString"] = model.SearchString;
+                ViewData["SearchString"] = model.SearchString;
             }
 
             return View(catalogViewModel);

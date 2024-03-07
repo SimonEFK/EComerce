@@ -3,7 +3,7 @@
 
 <div class="row mb-5 justify-content-center mt-4">
     <div class="col-lg-6 d-flex gap-3">
-        <input id="searchInput" class="form-control" value="@TempData["SearchString"]" placeholder="Search..." />
+        <input id="searchInput" class="form-control" value="@ViewData["SearchString"]" placeholder="Search..." />
         <button id="searchSubmitBtn" class="btn btn-info">Search</button>
     </div>
 </div>
@@ -12,7 +12,7 @@
         <select id="sortProductsSelectMenu" class="btn btn-primary mb-2 form-select">
             @foreach (var item in this.Model.ProductFilters.SortOrder)
             {
-                if (item == TempData["sortOrder"].ToString())
+                if (item == ViewData["sortOrder"]?.ToString())
                 {
                     <option selected value="@item">@item</option>
                 }
@@ -28,8 +28,8 @@
         <div class="overflow-scroll h-50 z-2 col-lg-3 col-12 position-absolute collapse show" id="FilterMenu">
             <form id="filterForm" method="get" asp-controller="ProductCatalog" asp-action="Products" asp-route-category="@this.TempData["Category"]">
                 @{
-                    var selectedSpecificationIds = TempData["selectedSpecs"] as List<int>;
-                    var selectedManufacturerIds = TempData["selectedManufacturers"] as List<int>;
+                    var selectedSpecificationIds = ViewData["selectedSpecs"] as List<int>;
+                    var selectedManufacturerIds = ViewData["selectedManufacturers"] as List<int>;
 
                 }
                 <input id="sortOrderHidden" type="hidden" name="so" value="newest" />

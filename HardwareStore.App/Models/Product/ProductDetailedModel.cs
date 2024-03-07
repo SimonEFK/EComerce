@@ -12,6 +12,8 @@
 
         public string CategoryName { get; set; }
 
+        public int CategoryId { get; set; }
+
         public double ProductReviewsRatingAvg { get; set; }
 
         public ICollection<string> Images { get; set; } = new HashSet<string>();
