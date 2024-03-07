@@ -79,25 +79,29 @@
 
             event.preventDefault();
             let reviewForm = document.querySelector('#reviewForm');
-            let data = new FormData(reviewForm);
-            const jsonObject = {};
+            debugger;
+            $('#reviewForm').validate();
+            if ($('#reviewForm').valid()) {
 
-            data.forEach((value, key) => {
-                jsonObject[key] = value;
-            });
-
-            let reviewApiUrl = `/api/ReviewApi`;
-            let response = await fetch(reviewApiUrl, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(jsonObject)
-            })
-            if (response.ok) {
-                var productId = @Model.Product.Id;
-                var reviewsUrl = `/Review/ProductReviews?productId=${productId}`;
-                $('#productReviewsRow').load(reviewsUrl);
+                let data = new FormData(reviewForm);
+                const jsonObject = {};
+                data.forEach((value, key) => {
+                    jsonObject[key] = value;
+                });
+                debugger;
+                let reviewApiUrl = `/api/ReviewApi`;
+                let response = await fetch(reviewApiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(jsonObject)
+                })
+                if (response.ok) {
+                    var productId = @Model.Product.Id;
+                    var reviewsUrl = `/Review/ProductReviews?productId=${productId}`;
+                    $('#productReviewsRow').load(reviewsUrl);
+                }
             }
         };
         let productContainer = document.querySelector('#productInfoContainer');

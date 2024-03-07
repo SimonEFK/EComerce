@@ -52,6 +52,7 @@ namespace HardwareStore.App
             builder.Services.AddScoped<ICatalogService, CatalogService>();
             builder.Services.AddScoped<IDownloadImageService, DownloadImageService>();            
             builder.Services.AddScoped<IProductReviewService, ProductReviewService>();
+            builder.Services.AddScoped<IValidatorService, ValidatorService>();
             var app = builder.Build();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -77,7 +78,7 @@ namespace HardwareStore.App
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapControllerRoute(
-                name: "Administration",
+                name: "defaultArea",
                 pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
             app.MapRazorPages();
 

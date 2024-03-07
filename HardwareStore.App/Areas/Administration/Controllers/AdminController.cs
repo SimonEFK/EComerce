@@ -4,7 +4,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    [Area("Administration")]
+    [Area("administration")]
     [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
