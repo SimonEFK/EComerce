@@ -2,6 +2,7 @@
 {
     using HardwareStore.App.Models;
     using HardwareStore.App.Models.Category;
+    using HardwareStore.App.Services;
     using HardwareStore.App.Services.Catalog;
     using HardwareStore.App.Services.Data;
     using Microsoft.AspNetCore.Mvc;
@@ -12,16 +13,19 @@
         private readonly ILogger<HomeController> _logger;
         private readonly ICatalogService catalogService;
         private readonly ICategoryDataService categoryDataService;
+        
 
         public HomeController(ILogger<HomeController> logger, ICatalogService catalogService, ICategoryDataService categoryDataService)
         {
             _logger = logger;
             this.catalogService = catalogService;
             this.categoryDataService = categoryDataService;
+            
         }
 
         public async Task<IActionResult> Index()
         {
+                        
             var products = await catalogService.GetLatestProductsAsync(8);
             var categories = await categoryDataService.GetCategories<CategoryModel>();
             var homeIndexViewModel = new HomeIndexViewModel
