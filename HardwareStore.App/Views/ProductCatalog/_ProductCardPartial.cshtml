@@ -21,7 +21,10 @@
             }
         </ul>
     </div>
-    <div class="btn-group">
+    <div class="btn-group align-items-center">
+
         <button class="btn btn-primary ms-auto" data-addProductToCart="@Model.Name" data-productId="@Model.Id">Buy</button>
+        <span class="fw-bold text-success ms-auto me-auto">@Model.Price$</span>
+
     </div>
 </div>

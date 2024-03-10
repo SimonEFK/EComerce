@@ -13,19 +13,20 @@
         private readonly ILogger<HomeController> _logger;
         private readonly ICatalogService catalogService;
         private readonly ICategoryDataService categoryDataService;
-        
+        private readonly IProductDiscountService productDiscountService;
 
-        public HomeController(ILogger<HomeController> logger, ICatalogService catalogService, ICategoryDataService categoryDataService)
+
+        public HomeController(ILogger<HomeController> logger, ICatalogService catalogService, ICategoryDataService categoryDataService, IProductDiscountService productDiscountService)
         {
             _logger = logger;
             this.catalogService = catalogService;
             this.categoryDataService = categoryDataService;
-            
+            this.productDiscountService = productDiscountService;
         }
 
         public async Task<IActionResult> Index()
         {
-                        
+            //var result = productDiscountService.GetProductPrice(10).DecreaseByPercentage(10);
             var products = await catalogService.GetLatestProductsAsync(8);
             var categories = await categoryDataService.GetCategories<CategoryModel>();
             var homeIndexViewModel = new HomeIndexViewModel

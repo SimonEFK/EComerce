@@ -12,6 +12,8 @@
 
         public string ImageUrl { get; set; }
 
+        public decimal ? Price { get; set; }
+
         public double ProductReviewsRatingAvg { get; set; }
 
         public IEnumerable<ProductSpecifications> Specifications { get; set; } = new HashSet<ProductSpecifications>();

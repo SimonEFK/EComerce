@@ -54,6 +54,7 @@ namespace HardwareStore.App
             builder.Services.AddScoped<IProductReviewService, ProductReviewService>();
             builder.Services.AddScoped<IValidatorService, ValidatorService>();
             builder.Services.AddScoped<IPriceManagerService, PriceManagerService>();            
+            builder.Services.AddScoped<IProductDiscountService, ProductDiscountService>();
             var app = builder.Build();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

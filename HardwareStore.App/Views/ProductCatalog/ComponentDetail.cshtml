@@ -56,9 +56,10 @@
             <div class="col">
                 <div class="extra-info-container" id="productInfoContainer">
                     <p class="product-price">50.00</p>
-                    <div class="btn-container">
+                    <div class="btn-container align-items-center">
                         <button class="btn btn-primary ms-auto" data-addProductToCart="@Model.Product.NameDetailed" data-productId="@Model.Product.Id">Buy</button>
-                        <button class="btn btn-success">Add To Favorites</button>
+                        <span class="fw-bold text-success ms-auto me-auto">@Model.Product.Price$</span>
+                        
                     </div>
                 </div>
             </div>

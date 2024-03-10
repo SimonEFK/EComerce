@@ -4,8 +4,7 @@
 
     public interface IPriceManagerService
     {
-        decimal? Price { get; }
-
+      
         Task DecreasePrice(int productId, decimal amount);
         Task DecreasePrice(HashSet<int> productIds, decimal amount);
         Task DecreasePriceByPercentage(int productId, int percentage);

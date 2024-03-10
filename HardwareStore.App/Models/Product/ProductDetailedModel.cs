@@ -14,6 +14,9 @@
 
         public int CategoryId { get; set; }
 
+        public decimal? Price { get; set; }
+
+
         public double ProductReviewsRatingAvg { get; set; }
 
         public ICollection<string> Images { get; set; } = new HashSet<string>();
