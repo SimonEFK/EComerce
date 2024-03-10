@@ -128,6 +128,12 @@
                 case "rating desc":
                     productsQuery = productsQuery.OrderByDescending(x => x.ProductReviews.Average(x => x.Rating));
                     break;
+                case "price asc":
+                    productsQuery = productsQuery.OrderBy(x => x.Price).ThenBy(x => x.Name);
+                    break;
+                case "price desc":
+                    productsQuery = productsQuery.OrderByDescending(x => x.Price).ThenBy(x => x.Name);
+                    break;
                 default:
                     productsQuery = productsQuery.OrderByDescending(x => x.Id).AsQueryable();
                     break;

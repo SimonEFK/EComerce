@@ -26,7 +26,9 @@
                 "Newest",
                 "Oldest",
                 "Rating ASC",
-                "Rating DESC"
+                "Rating DESC",
+                "Price ASC",
+                "Price DESC"
             };
             return sortOrderOptions;
         }
