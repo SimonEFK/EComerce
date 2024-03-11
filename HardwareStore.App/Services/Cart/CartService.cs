@@ -105,7 +105,8 @@
                 Id = x.ProductId,
                 Name = x.Product.Name,
                 CategoryId = x.Product.CategoryId,
-                Image = x.Product.Images.FirstOrDefault().FilePath ?? x.Product.Images.FirstOrDefault().Url
+                Image = x.Product.Images.FirstOrDefault().FilePath ?? x.Product.Images.FirstOrDefault().Url,
+                Price = x.Product.Price
             }).ToListAsync();
 
 

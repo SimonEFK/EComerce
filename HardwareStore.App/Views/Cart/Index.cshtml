@@ -16,12 +16,12 @@
                         <div class="col">
                             <ul class="list-group">
                                 <li class="list-group-item d-flex justify-content-between">
-                                    <p>@item.Name</p>
-                                    @* <i class="bi bi-x-lg" data-removeItemFromCart="@item.Name" data-productId="@item.Id"></i> *@
+                                    <p class="m-0">@item.Name</p>
                                     <a href="Cart/RemoveItem/@item.Id"><i class="bi bi-x-lg text-danger" data-removeItemFromCart="@item.Name" data-productId="@item.Id"></i></a>
                                 </li>
                                 <li class="list-group-item">
-                                    <p>@item.Amount</p>
+                                    <p class="m-0">@item.Amount</p>
+                                    <p class="m-0">@item.Price</p>
                                 </li>
                             </ul>
                         </div>
@@ -30,21 +30,15 @@
             </div>
         </div>
     </div>
+    <div class="row justify-content-end">
+        <div class="col-4">
+            <p>Total Price: <span class="fw-bold fs-5 text-color-success">@Model.CartProducts.Sum(x => x.Price * x.Amount)</span></p>
+            <button type="button" class="btn btn-outline-success">Checkout</button>
+        </div>
+    </div>
 </div>
 @section Scripts {
     <script>
-        // let productsCartRow = document.querySelector('#cartItemsRow');
-        // productsCartRow.addEventListener('click', RemoveItem);
 
-        // async function RemoveItem(event) {
-        //     let target = event.target;
-
-        //     if (target.matches('[data-removeItemFromCart]')) {
-        //         let productName = target.dataset.removeitemfromcart;
-        //         let productId = target.dataset.productid;
-        //         console.log(productId)
-        //         console.log(productName)
-        //     }
-        // }
     </script>
 }
