@@ -3,7 +3,7 @@
     using AutoMapper;
     using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Category;
     using HardwareStore.App.Areas.Administration.Models.CategoryManagment.Specifications;
-    using HardwareStore.App.Services.Data;
+    using HardwareStore.App.Services.Data.Category;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 

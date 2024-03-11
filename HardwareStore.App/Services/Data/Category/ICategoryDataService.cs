@@ -1,6 +1,5 @@
-﻿namespace HardwareStore.App.Services.Data
+﻿namespace HardwareStore.App.Services.Data.Category
 {
-    using HardwareStore.App.Services.Models;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 

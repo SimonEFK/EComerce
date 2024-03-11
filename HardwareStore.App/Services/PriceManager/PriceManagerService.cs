@@ -1,4 +1,4 @@
-﻿namespace HardwareStore.App.Services
+﻿namespace HardwareStore.App.Services.PriceManager
 {
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;

@@ -26,7 +26,7 @@
             Filters
         </button>
         <div class="overflow-scroll h-50 z-2 col-lg-3 col-12 position-absolute collapse show" id="FilterMenu">
-            <form id="filterForm" method="get" asp-controller="ProductCatalog" asp-action="Products" asp-route-category="@this.TempData["Category"]">
+            <form id="filterForm" method="get" asp-controller="ProductCatalog" asp-action="Products" asp-route-category="@this.ViewData["Category"]">
                 @{
                     var selectedSpecificationIds = ViewData["selectedSpecs"] as List<int>;
                     var selectedManufacturerIds = ViewData["selectedManufacturers"] as List<int>;
@@ -105,25 +105,25 @@
 <div class="row justify-content-center">
     <ul id="pagination" class="pagination justify-content-center col">
 
-        <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-category="@TempData["Catalog"]" asp-route-page="@this.Model.Pagination.PreviousPageNumber" data-pageNumber="@this.Model.Pagination.PreviousPageNumber">Previous</a></li>
+        <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-page="@this.Model.Pagination.PreviousPageNumber" data-pageNumber="@this.Model.Pagination.PreviousPageNumber">Previous</a></li>
 
         @for (int i = this.Model.Pagination.Page - 3; i < this.Model.Pagination.Page; i++)
         {
             if (i > 0)
             {
-                <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-category="@TempData["Catalog"]" asp-route-page="@i" data-pageNumber="@i">@i</a></li>
+                <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-page="@i" data-pageNumber="@i">@i</a></li>
             }
         }
-        <li class="page-item active"><a class="page-link" asp-controller="catalog" asp-route-category="@TempData["Catalog"]" asp-route-page="@this.Model.Pagination.Page" data-pageNumber="@this.Model.Pagination.Page">@this.Model.Pagination.Page</a></li>
+        <li class="page-item active"><a class="page-link" asp-controller="catalog" asp-route-page="@this.Model.Pagination.Page" data-pageNumber="@this.Model.Pagination.Page">@this.Model.Pagination.Page</a></li>
 
         @for (int i = this.Model.Pagination.Page + 1; i <= this.Model.Pagination.Page + 3; i++)
         {
             if (i <= this.Model.Pagination.PageSize)
             {
-                <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-category="@TempData["Catalog"]" asp-route-page="@i" data-pageNumber="@i">@i</a></li>
+                <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-page="@i" data-pageNumber="@i">@i</a></li>
             }
         }
-        <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-category="@TempData["Catalog"]" asp-route-page="@this.Model.Pagination.NextPageNumber" data-pageNumber="@this.Model.Pagination.NextPageNumber">Next</a></li>
+        <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-page="@this.Model.Pagination.NextPageNumber" data-pageNumber="@this.Model.Pagination.NextPageNumber">Next</a></li>
     </ul>
 </div>
 @section Scripts {

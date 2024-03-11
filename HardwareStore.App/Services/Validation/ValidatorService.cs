@@ -1,4 +1,4 @@
-﻿namespace HardwareStore.App.Services
+﻿namespace HardwareStore.App.Services.Validation
 {
     using HardwareStore.App.Data;
     using Microsoft.EntityFrameworkCore;

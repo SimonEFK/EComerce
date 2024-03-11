@@ -1,6 +1,6 @@
 ﻿namespace HardwareStore.App.ValidationAttributes
 {
-    using HardwareStore.App.Services;
+    using HardwareStore.App.Services.Validation;
     using System.ComponentModel.DataAnnotations;
 
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
@@ -12,8 +12,9 @@
             var productId = value as int? ?? 0;
 
             var service = validationContext.GetService<IValidatorService>();
+            
+            var isValid = Task.Run(async () => await service.IsProductValid(productId)).GetAwaiter().GetResult();
 
-            var isValid = service.IsProductValid(productId).GetAwaiter().GetResult();
             if (!isValid)
             {
                 return new ValidationResult($"Invalid Product Id:{productId}");
@@ -22,5 +23,5 @@
             return ValidationResult.Success;
         }
     }
-    
+
 }

@@ -1,4 +1,4 @@
-﻿namespace HardwareStore.App.Services.Models
+﻿namespace HardwareStore.App.Services.ProductReview
 {
     using HardwareStore.App.Data.Models;
 
@@ -9,7 +9,7 @@
         public string ApplicationUserId { get; set; }
 
         public int ProductId { get; set; }
-        
+
         public string Review { get; set; }
 
         public int? Rating { get; set; }

@@ -1,10 +1,10 @@
-﻿namespace HardwareStore.App.Services.Data
+﻿namespace HardwareStore.App.Services.Data.Category
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
-    using HardwareStore.App.Services.Models;
+    using HardwareStore.App.Services.DownloadImage;
     using Microsoft.EntityFrameworkCore;
     using static Constants;
 
@@ -92,7 +92,7 @@
             }
 
             var specificationExsist = categoryExists.Specifications
-                .FirstOrDefault(x => String.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
+                .FirstOrDefault(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
 
             if (specificationExsist != null)
             {
@@ -126,7 +126,7 @@
                 return serviceResult;
             }
             var specification = category.Specifications.FirstOrDefault(x => x.Id == id);
-            var specificationExsist = category.Specifications.Where(x => x.Id != specification.Id).Any(x => String.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
+            var specificationExsist = category.Specifications.Where(x => x.Id != specification.Id).Any(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
             if (specificationExsist)
             {
                 serviceResult.Success = false;
@@ -160,7 +160,7 @@
                 serviceResult.ErrorMessage.Add(ErrorMessages.SpecificationDoesentExsist);
                 return serviceResult;
             }
-            var valueExsist = specification.Values.FirstOrDefault(x => String.Equals(x.Value, value, StringComparison.OrdinalIgnoreCase));
+            var valueExsist = specification.Values.FirstOrDefault(x => string.Equals(x.Value, value, StringComparison.OrdinalIgnoreCase));
             if (valueExsist != null)
             {
                 serviceResult.Success = false;
@@ -230,14 +230,14 @@
 
             var categoriesQuery = await dbContext.Categories.Select(x => new
             {
-                Name = x.Name,
-                Id = x.Id,
+                x.Name,
+                x.Id,
             }).ToListAsync();
             var categoriesResult = new List<(string Name, int Id)>();
 
             foreach (var category in categoriesQuery)
             {
-                categoriesResult.Add((Name: category.Name, Id: category.Id));
+                categoriesResult.Add((category.Name, category.Id));
             }
 
             return categoriesResult;

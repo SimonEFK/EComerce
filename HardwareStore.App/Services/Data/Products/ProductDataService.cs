@@ -4,7 +4,7 @@
     using AutoMapper.QueryableExtensions;
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
-    using HardwareStore.App.Services.Models;
+    using HardwareStore.App.Services.DownloadImage;
     using Microsoft.EntityFrameworkCore;
 
     public class ProductDataService : IProductDataService

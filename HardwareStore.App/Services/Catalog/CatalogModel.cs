@@ -1,4 +1,4 @@
-﻿namespace HardwareStore.App.Services.Models
+﻿namespace HardwareStore.App.Services.Catalog
 {
     using HardwareStore.App.Models.Product;
     using HardwareStore.App.Models.ProductFilter;
@@ -12,5 +12,7 @@
         public ICollection<Tuple<string, int, int>> Manufacturers { get; set; } = new List<Tuple<string, int, int>>();
 
         public ICollection<string> SortOrder { get; set; } = new List<string>();
+
+        public int PageSize { get; set; }
     }
 }

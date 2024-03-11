@@ -1,4 +1,4 @@
-﻿namespace HardwareStore.App.Services
+﻿namespace HardwareStore.App.Services.ProductDiscount
 {
     using HardwareStore.App.Data;
 

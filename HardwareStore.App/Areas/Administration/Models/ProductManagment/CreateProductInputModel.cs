@@ -1,6 +1,7 @@
 ﻿namespace HardwareStore.App.Areas.Administration.Models.ProductManagment
 {
     using HardwareStore.App.Services;
+    using HardwareStore.App.ValidationAttributes;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 

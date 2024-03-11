@@ -6,7 +6,7 @@
     using HardwareStore.App.Models.ProductFilter;
     using HardwareStore.App.Models.Review;
     using HardwareStore.App.Services.Catalog;
-    using HardwareStore.App.Services.Data;
+    using HardwareStore.App.Services.Data.Category;
     using HardwareStore.App.Services.Data.Products;
     using HardwareStore.App.Services.ProductFiltering;
     using HardwareStore.App.Services.ProductReview;
@@ -16,17 +16,19 @@
     public class ProductCatalogController : Controller
     {
         private ICatalogService productCatalogService;
+        private ICatalogService catalogService;
         private IGenerateProductFilterOptionService generateProductFilterOptionService;
         private ICategoryDataService categoryDataService;
         private IProductDataService productDataService;
         private IProductReviewService reviewService;
 
-        public ProductCatalogController(ICatalogService productCatalogService, IGenerateProductFilterOptionService generateProductFilterOptionService, ICategoryDataService categoryDataService, IProductReviewService reviewService)
+        public ProductCatalogController(ICatalogService productCatalogService, IGenerateProductFilterOptionService generateProductFilterOptionService, ICategoryDataService categoryDataService, IProductReviewService reviewService, ICatalogService catalogService)
         {
             this.productCatalogService = productCatalogService;
             this.generateProductFilterOptionService = generateProductFilterOptionService;
             this.categoryDataService = categoryDataService;
             this.reviewService = reviewService;
+            this.catalogService = catalogService;
         }
 
         public async Task<IActionResult> Index()
@@ -46,18 +48,22 @@
                 return RedirectToAction("Index");
             }
 
-            var catalogModel = await this.productCatalogService.GetProducts(
-                model.SearchString,
-                model.Category,
-                model.ManufacturerIds,
-                model.SpecificationIds,
-                model.SortOrder,
-                model.Page);
+
+            var catalogModel = await catalogService
+                .GetProducts(model.SearchString)
+                .ByCategory(model.Category)
+                .ByManufacturer(model.ManufacturerIds)
+                .FilterBySpecification(model.SpecificationIds)
+                .Order(model.SortOrder)
+                .Pagination(model.Page)
+                .ToCatalogModel();
+
+            
 
             ViewData["sortOrder"] = model.SortOrder;
             if (model.Category is not null)
             {
-                var category = TempData["Category"] = model.Category;
+                var category = ViewData["Category"] = model.Category;
             }
 
             var filterModel = new FilterModel
@@ -79,7 +85,7 @@
             var paginationModel = new PaginationModel
             {
                 Page = model.Page,
-                PageSize = this.productCatalogService.PageSize
+                PageSize = catalogModel.PageSize
             };
             var catalogViewModel = new ProductCatalogModel
             {
@@ -113,7 +119,7 @@
             var viewModel = new ComponentDetailViewModel
             {
                 Product = product,
-                ProductReviewViewModel = new ProductReviewViewModel 
+                ProductReviewViewModel = new ProductReviewViewModel
                 {
                     ReviewInputModel = new ReviewInputModel { ProductId = id },
                     ProductReviews = productReviews

@@ -8,7 +8,9 @@
     using HardwareStore.App.Models.Category;
     using HardwareStore.App.Models.Product;
     using HardwareStore.App.Models.ProductFilter;
-    using HardwareStore.App.Services.Models;
+    using HardwareStore.App.Services.Data.Category;
+    using HardwareStore.App.Services.Data.Products;
+    using HardwareStore.App.Services.ProductReview;
 
     public class MappingProfile : Profile
     {

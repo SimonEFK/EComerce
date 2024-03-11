@@ -2,9 +2,9 @@
 {
     using HardwareStore.App.Models;
     using HardwareStore.App.Models.Category;
-    using HardwareStore.App.Services;
     using HardwareStore.App.Services.Catalog;
-    using HardwareStore.App.Services.Data;
+    using HardwareStore.App.Services.Data.Category;
+    using HardwareStore.App.Services.ProductDiscount;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
 
@@ -26,7 +26,7 @@
 
         public async Task<IActionResult> Index()
         {
-            //var result = productDiscountService.GetProductPrice(10).DecreaseByPercentage(10);
+            
             var products = await catalogService.GetLatestProductsAsync(8);
             var categories = await categoryDataService.GetCategories<CategoryModel>();
             var homeIndexViewModel = new HomeIndexViewModel

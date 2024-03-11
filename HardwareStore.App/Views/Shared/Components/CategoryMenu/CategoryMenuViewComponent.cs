@@ -1,7 +1,7 @@
 ﻿namespace HardwareStore.App.Views.Shared.Components.CategoryMenu
 {
     using HardwareStore.App.Models.Category;
-    using HardwareStore.App.Services.Data;
+    using HardwareStore.App.Services.Data.Category;
     using Microsoft.AspNetCore.Mvc;
 
     public class CategoryMenuViewComponent : ViewComponent

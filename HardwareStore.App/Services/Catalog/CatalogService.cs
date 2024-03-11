@@ -5,91 +5,41 @@
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Product;
-    using HardwareStore.App.Services.Models;
     using HardwareStore.App.Services.ProductFiltering;
     using Microsoft.EntityFrameworkCore;
+    using System.Drawing.Printing;
 
     public class CatalogService : ICatalogService
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly IGenerateProductFilterOptionService generateProductFilterOptionService;
         private readonly IMapper mapper;
+        private readonly IGenerateProductFilterOptionService filterOptionsService;
+
+
+        private IQueryable<Product> products;
+        private int pageSize;
+        private CatalogModel catalogModel;
 
         public CatalogService(ApplicationDbContext dbContext, IMapper mapper, IGenerateProductFilterOptionService generateProductFilterOptionService)
         {
             this.dbContext = dbContext;
             this.mapper = mapper;
-            this.generateProductFilterOptionService = generateProductFilterOptionService;
+            this.products = dbContext.Products.AsQueryable();
+            this.filterOptionsService = generateProductFilterOptionService;
+            this.catalogModel = new CatalogModel();
         }
 
-        public int PageSize { get; set; }
-
-        public async Task<CatalogModel> GetProducts(
-            string? searchString,
-            int? category,
-            ICollection<int> manufacturerIds,
-            Dictionary<int, HashSet<int>> selectedSpecsIds,
-            string sortOrder = "newest",
-            int pageNumber = 1)
+        public ICatalogService GetProducts(string? searchstring)
         {
+            if (searchstring != null)
+            {
 
-            var productsQuery = dbContext.Products.AsQueryable();
-
-            if (searchString is not null && searchString.Length >= 3)
-            {
-                productsQuery = productsQuery.Where(x => x.NameDetailed.Contains(searchString) || x.Name.Contains(searchString)).AsQueryable();
-            }
-            if (category is not null)
-            {
-                productsQuery = productsQuery.Where(x => x.Category.Id == category).AsQueryable();
-            }
-            if (manufacturerIds.Count > 0)
-            {
-                productsQuery = productsQuery.Where(x => manufacturerIds.Contains(x.Manufacturer.Id)).AsQueryable();
-
-            }
-            if (selectedSpecsIds.Count > 0)
-            {
-                foreach (var key in selectedSpecsIds)
-                {
-                    productsQuery = productsQuery
-                            .Where(product => product.Specifications.Any(specification => key.Value
-                            .Contains(specification.SpecificationValueId)));
-                    if (productsQuery.Count() == 0)
-                    {
-                        break;
-                    }
-                }
+                this.products = dbContext.Products
+                    .Where(x => x.NameDetailed.Contains(searchstring) || x.Name.Contains(searchstring)).AsQueryable();
             }
 
-            var catalogModel = new CatalogModel();
-            catalogModel
-                .SpecificationFilters = await generateProductFilterOptionService
-                .GenerateSpecificationOptions(productsQuery);
-            catalogModel
-                .Manufacturers = await generateProductFilterOptionService
-                .GenerateManufacturerOptions(productsQuery);
-            catalogModel.SortOrder = generateProductFilterOptionService.GenerateSortOrderOptions();
-
-            productsQuery = OrderQuery(productsQuery, sortOrder);
-            productsQuery = Pagination(productsQuery, pageNumber);
-
-
-            var products = await productsQuery
-                .ProjectTo<ProductExtendedModel>(mapper.ConfigurationProvider)
-                .ToListAsync();
-
-
-            foreach (var product in products)
-            {
-                product.Specifications = product.Specifications.DistinctBy(x => x.Name).ToList();
-            }
-
-            catalogModel.Products = products;
-
-            return catalogModel;
+            return this;
         }
-
 
         public async Task<ProductDetailedModel> GetProductById(int id)
         {
@@ -107,51 +57,94 @@
 
         public async Task<List<ProductSimplifiedModel>> GetLatestProductsAsync(int count = 4)
         {
-
-            var products = await dbContext.Products.OrderByDescending(x => x.Id).Take(count).ProjectTo<ProductSimplifiedModel>(mapper.ConfigurationProvider).ToListAsync();
+            var products = await dbContext.Products.OrderByDescending(x => x.Id)
+                .Take(count)
+                .ProjectTo<ProductSimplifiedModel>(mapper.ConfigurationProvider)
+                .ToListAsync();
             return products;
         }
 
-        private static IQueryable<Product> OrderQuery(IQueryable<Product> productsQuery, string sortOrder)
+        public ICatalogService ByCategory(int? categoryId)
+        {
+            if (categoryId != null)
+            {
+                this.products = products.Where(x => x.CategoryId == categoryId).AsQueryable();
+
+            }
+            return this;
+        }
+
+        public ICatalogService ByManufacturer(IEnumerable<int> manufacturerIds)
+        {
+            if (manufacturerIds.Any())
+            {
+                this.products = products
+                    .Where(x => manufacturerIds
+                    .Contains(x.Manufacturer.Id))
+                    .AsQueryable();
+
+            }
+            return this;
+        }
+
+        public ICatalogService FilterBySpecification(Dictionary<int, HashSet<int>> selectedSpecsIds)
+        {
+            if (selectedSpecsIds.Any())
+            {
+                foreach (var key in selectedSpecsIds)
+                {
+                    this.products = products
+                            .Where(product => product.Specifications.Any(specification => key.Value
+                            .Contains(specification.SpecificationValueId)));
+                    if (products.Count() == 0)
+                    {
+                        break;
+                    }
+                }
+
+            }
+            return this;
+        }
+
+        public ICatalogService Order(string sortOrder)
         {
             switch (sortOrder.ToLower())
             {
                 case "newest":
-                    productsQuery = productsQuery.OrderByDescending(x => x.Id).AsQueryable();
+                    this.products = products.OrderByDescending(x => x.Id).AsQueryable();
                     break;
                 case "oldest":
-                    productsQuery = productsQuery.OrderBy(x => x.Id).AsQueryable();
+                    this.products = products.OrderBy(x => x.Id).AsQueryable();
                     break;
                 case "rating asc":
-                    productsQuery = productsQuery.OrderBy(x => x.ProductReviews.Average(x => x.Rating));
+                    this.products = products.OrderBy(x => x.ProductReviews.Average(x => x.Rating));
                     break;
                 case "rating desc":
-                    productsQuery = productsQuery.OrderByDescending(x => x.ProductReviews.Average(x => x.Rating));
+                    this.products = products.OrderByDescending(x => x.ProductReviews.Average(x => x.Rating));
                     break;
                 case "price asc":
-                    productsQuery = productsQuery.OrderBy(x => x.Price).ThenBy(x => x.Name);
+                    this.products = products.OrderBy(x => x.Price).ThenBy(x => x.Name);
                     break;
                 case "price desc":
-                    productsQuery = productsQuery.OrderByDescending(x => x.Price).ThenBy(x => x.Name);
+                    this.products = products.OrderByDescending(x => x.Price).ThenBy(x => x.Name);
                     break;
                 default:
-                    productsQuery = productsQuery.OrderByDescending(x => x.Id).AsQueryable();
+                    this.products = products.OrderByDescending(x => x.Id).AsQueryable();
                     break;
             }
-            return productsQuery;
-
+            return this;
         }
 
-        private IQueryable<Product> Pagination(IQueryable<Product> productsQuery, int pageNumber)
+        public ICatalogService Pagination(int pageNumber, int itemsPerPage = 12)
         {
-            var productCount = productsQuery.Count();
-            var itemsPerPage = 12;
-            var pageSize = (int)Math.Ceiling(productCount / (double)itemsPerPage);
-            PageSize = pageSize;
+            var productCount = this.products.Count();
 
-            if (pageNumber > pageSize)
+            this.pageSize = (int)Math.Ceiling(productCount / (double)itemsPerPage);
+
+
+            if (pageNumber > this.pageSize)
             {
-                pageNumber = pageSize;
+                pageNumber = this.pageSize;
             }
             if (pageNumber <= 0)
             {
@@ -161,9 +154,39 @@
             var skipAmount = (pageNumber - 1) * itemsPerPage;
             var takeAmount = itemsPerPage;
 
-            return productsQuery
-                            .Skip(skipAmount)
-                            .Take(takeAmount);
+            this.catalogModel
+                .SpecificationFilters = Task.Run(async () => await filterOptionsService.GenerateSpecificationOptions(this.products)).GetAwaiter().GetResult();
+
+            this.catalogModel
+                .Manufacturers = Task.Run(async () => await filterOptionsService.GenerateManufacturerOptions(this.products)).GetAwaiter().GetResult();
+            this.catalogModel.SortOrder = filterOptionsService.GenerateSortOrderOptions();
+
+
+            this.products = this.products.Skip(skipAmount).Take(takeAmount);
+
+            return this;
         }
+
+        public async Task<CatalogModel> ToCatalogModel()
+        {
+            var model = new CatalogModel();
+
+            var products = await this.products
+                .ProjectTo<ProductExtendedModel>(mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            foreach (var product in products)
+            {
+                product.Specifications = product.Specifications.DistinctBy(x => x.Name).ToList();
+            }
+
+            model.Products = products;
+            model.PageSize = this.pageSize;
+            model.SortOrder = this.catalogModel.SortOrder;
+            model.SpecificationFilters = this.catalogModel.SpecificationFilters;
+            model.Manufacturers = this.catalogModel.Manufacturers;
+            return model;
+        }
+
     }
 }

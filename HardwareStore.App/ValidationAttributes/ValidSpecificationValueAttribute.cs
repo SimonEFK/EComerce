@@ -1,6 +1,6 @@
 ﻿namespace HardwareStore.App.ValidationAttributes
 {
-    using HardwareStore.App.Services.Data;
+    using HardwareStore.App.Services.Data.Category;
     using System.ComponentModel.DataAnnotations;
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
     public class ValidSpecificationValueAttribute : ValidationAttribute

@@ -1,7 +1,7 @@
 ﻿namespace HardwareStore.App.Models.ProductCatalog
 {
     using HardwareStore.App.Models.Review;
-    using HardwareStore.App.Services.Models;
+    using HardwareStore.App.Services.ProductReview;
 
     public class ProductReviewViewModel
     {

@@ -1,6 +1,5 @@
 ﻿namespace HardwareStore.App.Services.Data.Products
 {
-    using HardwareStore.App.Services.Models;
     using System.Threading.Tasks;
 
     public interface IProductDataService

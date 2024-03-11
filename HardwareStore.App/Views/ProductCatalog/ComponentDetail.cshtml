@@ -4,7 +4,7 @@
     <h1 class="product-title p-lg-3">
         @{
             var name = this.Model.Product.NameDetailed ?? this.Model.Product.Name;
-            @name
+                @name
         }
     </h1>
     <a href="/Catalog/Products/@this.Model.Product.CategoryId">@this.Model.Product.CategoryName</a>
@@ -79,22 +79,22 @@
         async function SubmitReviewForm(event) {
 
             event.preventDefault();
-            let reviewForm = document.querySelector('#reviewForm');
-            debugger;
+            
             $('#reviewForm').validate();
             if ($('#reviewForm').valid()) {
-
+                let reviewForm = document.querySelector('#reviewForm');
                 let data = new FormData(reviewForm);
+                var token = $('[name=__RequestVerificationToken]').val();
                 const jsonObject = {};
                 data.forEach((value, key) => {
                     jsonObject[key] = value;
-                });
-                debugger;
+                });                
                 let reviewApiUrl = `/api/ReviewApi`;
                 let response = await fetch(reviewApiUrl, {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": token
                     },
                     body: JSON.stringify(jsonObject)
                 })

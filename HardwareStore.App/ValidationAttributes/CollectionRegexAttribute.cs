@@ -1,4 +1,4 @@
-﻿namespace HardwareStore.App.Services
+﻿namespace HardwareStore.App.ValidationAttributes
 {
     using System.ComponentModel.DataAnnotations;
     using System.Text.RegularExpressions;

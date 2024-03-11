@@ -1,4 +1,4 @@
-﻿namespace HardwareStore.App.Services.Models
+﻿namespace HardwareStore.App.Services.Data.Products
 {
     public class CreateProductDTO
     {

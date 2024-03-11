@@ -1,4 +1,4 @@
-﻿namespace HardwareStore.App.Services.Models
+﻿namespace HardwareStore.App.Services.Data.Category
 {
     public class SpecificationValueInfoDTO
     {
@@ -7,6 +7,6 @@
         public string Value { get; set; }
 
         public string? Metric { get; set; }
-        
+
     }
 }

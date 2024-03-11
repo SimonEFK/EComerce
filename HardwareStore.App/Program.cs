@@ -2,13 +2,17 @@ namespace HardwareStore.App
 {
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
-    using HardwareStore.App.Services;
     using HardwareStore.App.Services.Cart;
     using HardwareStore.App.Services.Catalog;
     using HardwareStore.App.Services.Data;
+    using HardwareStore.App.Services.Data.Category;
     using HardwareStore.App.Services.Data.Products;
+    using HardwareStore.App.Services.DownloadImage;
+    using HardwareStore.App.Services.PriceManager;
+    using HardwareStore.App.Services.ProductDiscount;
     using HardwareStore.App.Services.ProductFiltering;
     using HardwareStore.App.Services.ProductReview;
+    using HardwareStore.App.Services.Validation;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
@@ -40,7 +44,7 @@ namespace HardwareStore.App
                 options.LoginPath = "/Account/Login";
                 options.LogoutPath = "/Account/Logout";
             });
-            builder.Services.AddAntiforgery();
+            builder.Services.AddAntiforgery(options => options.HeaderName = "X-CSRF-TOKEN");
             builder.Services.AddControllersWithViews();
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -49,11 +53,11 @@ namespace HardwareStore.App
             builder.Services.AddScoped<ICategoryDataService, CategoryDataService>();
             builder.Services.AddScoped<IManufacturerDataService, ManufacturerDataService>();
             builder.Services.AddScoped<ICartService, CartService>();
-            builder.Services.AddScoped<ICatalogService, CatalogService>();
-            builder.Services.AddScoped<IDownloadImageService, DownloadImageService>();            
+            builder.Services.AddScoped<ICatalogService, CatalogService>();            
+            builder.Services.AddScoped<IDownloadImageService, DownloadImageService>();
             builder.Services.AddScoped<IProductReviewService, ProductReviewService>();
             builder.Services.AddScoped<IValidatorService, ValidatorService>();
-            builder.Services.AddScoped<IPriceManagerService, PriceManagerService>();            
+            builder.Services.AddScoped<IPriceManagerService, PriceManagerService>();
             builder.Services.AddScoped<IProductDiscountService, ProductDiscountService>();
             var app = builder.Build();
             // Configure the HTTP request pipeline.
@@ -81,7 +85,7 @@ namespace HardwareStore.App
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapControllerRoute(
                 name: "defaultArea",
-                pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
+                pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");            
             app.MapRazorPages();
 
             app.Run();
