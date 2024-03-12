@@ -3,23 +3,20 @@
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using HardwareStore.App.Data;
-    using HardwareStore.App.Data.Models;
-    using HardwareStore.App.Services.DownloadImage;
+    using HardwareStore.App.Data.Models;    
     using Microsoft.EntityFrameworkCore;
 
     public class ProductDataService : IProductDataService
     {
-        private readonly ApplicationDbContext dbContext;
-        private readonly IDownloadImageService downloadImageService;
+        private readonly ApplicationDbContext dbContext;      
         private readonly IMapper mapper;
         private readonly IWebHostEnvironment env;
 
 
-        public ProductDataService(ApplicationDbContext dbContext, IMapper mapper, IDownloadImageService downloadImageService, IWebHostEnvironment env)
+        public ProductDataService(ApplicationDbContext dbContext, IMapper mapper,  IWebHostEnvironment env)
         {
             this.dbContext = dbContext;
-            this.mapper = mapper;
-            this.downloadImageService = downloadImageService;
+            this.mapper = mapper;            
             this.env = env;
         }
 
@@ -73,18 +70,13 @@
 
                 var dir = Path.Combine(env.WebRootPath, "Images");
                 var url = image;
-                var fileName = Guid.NewGuid().ToString();
-
-                //var extension = await downloadImageService.DownloadImageAsync(dir, fileName, new Uri(url));
-
+                var fileName = Guid.NewGuid().ToString();               
                 var imageDb = new Image()
                 {
                     Id = fileName,
-                    Url = image,
-                    //FilePath = $@"Images/{fileName}{extension}"
+                    Url = image,                    
                 };
                 product.Images.Add(imageDb);
-
             }
 
             foreach (var item in createProductDTO.Specifications)

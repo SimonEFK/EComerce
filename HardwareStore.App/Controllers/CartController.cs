@@ -33,7 +33,7 @@
         {
 
             var user = await _userManager.GetUserAsync(this.HttpContext.User);
-            var result = this.User.IsInRole("admin");
+            
             await _cartService.AddProductToCartAsync(user, productId);
 
             return Ok();

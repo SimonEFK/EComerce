@@ -13,15 +13,12 @@
         private readonly ILogger<HomeController> _logger;
         private readonly ICatalogService catalogService;
         private readonly ICategoryDataService categoryDataService;
-        private readonly IProductDiscountService productDiscountService;
-
-
-        public HomeController(ILogger<HomeController> logger, ICatalogService catalogService, ICategoryDataService categoryDataService, IProductDiscountService productDiscountService)
+        
+        public HomeController(ILogger<HomeController> logger, ICatalogService catalogService, ICategoryDataService categoryDataService)
         {
             _logger = logger;
             this.catalogService = catalogService;
-            this.categoryDataService = categoryDataService;
-            this.productDiscountService = productDiscountService;
+            this.categoryDataService = categoryDataService;           
         }
 
         public async Task<IActionResult> Index()

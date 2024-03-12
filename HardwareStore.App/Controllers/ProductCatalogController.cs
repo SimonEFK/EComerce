@@ -7,8 +7,6 @@
     using HardwareStore.App.Models.Review;
     using HardwareStore.App.Services.Catalog;
     using HardwareStore.App.Services.Data.Category;
-    using HardwareStore.App.Services.Data.Products;
-    using HardwareStore.App.Services.ProductFiltering;
     using HardwareStore.App.Services.ProductReview;
     using Microsoft.AspNetCore.Mvc;
 
@@ -16,29 +14,25 @@
     public class ProductCatalogController : Controller
     {
         private ICatalogService productCatalogService;
-        private ICatalogService catalogService;
-        private IGenerateProductFilterOptionService generateProductFilterOptionService;
-        private ICategoryDataService categoryDataService;
-        private IProductDataService productDataService;
         private IProductReviewService reviewService;
+        private ICategoryDataService categoryDataService;
 
-        public ProductCatalogController(ICatalogService productCatalogService, IGenerateProductFilterOptionService generateProductFilterOptionService, ICategoryDataService categoryDataService, IProductReviewService reviewService, ICatalogService catalogService)
+        public ProductCatalogController(ICatalogService productCatalogService, IProductReviewService reviewService, ICategoryDataService categoryDataService)
         {
             this.productCatalogService = productCatalogService;
-            this.generateProductFilterOptionService = generateProductFilterOptionService;
-            this.categoryDataService = categoryDataService;
             this.reviewService = reviewService;
-            this.catalogService = catalogService;
+            this.categoryDataService = categoryDataService;
         }
 
         public async Task<IActionResult> Index()
         {
             var categories = await categoryDataService.GetCategories<CategoryModel>();
-            return View(categories.Where(x => x.ProductsCount > 0).OrderByDescending(x => x.Name).ToList());
+            return View(categories.Where(x => x.ProductsCount > 0)
+                .OrderByDescending(x => x.Name)
+                .ToList());
         }
 
         [HttpGet]
-
         [Route("Products/{category?}")]
         public async Task<IActionResult> Products(BrowseProductInputModel model)
         {
@@ -48,8 +42,7 @@
                 return RedirectToAction("Index");
             }
 
-
-            var catalogModel = await catalogService
+            var catalogModel = await productCatalogService
                 .GetProducts(model.SearchString)
                 .ByCategory(model.Category)
                 .ByManufacturer(model.ManufacturerIds)
@@ -58,21 +51,15 @@
                 .Pagination(model.Page)
                 .ToCatalogModel();
 
-            
-
             ViewData["sortOrder"] = model.SortOrder;
             if (model.Category is not null)
             {
                 var category = ViewData["Category"] = model.Category;
             }
-
-            var filterModel = new FilterModel
+            if (model.SearchString is not null)
             {
-                Specifications = catalogModel.SpecificationFilters,
-                Manufacturers = catalogModel.Manufacturers,
-                SortOrder = catalogModel.SortOrder
-            };
-
+                ViewData["SearchString"] = model.SearchString;
+            }
             if (model.SpecificationIds.Count > 0)
             {
                 ViewData["selectedSpecs"] = model.SpecificationIds.SelectMany(x => x.Value).ToList();
@@ -82,6 +69,12 @@
                 ViewData["selectedManufacturers"] = model.ManufacturerIds.ToList();
             }
 
+            var filterModel = new FilterModel
+            {
+                Specifications = catalogModel.SpecificationFilters,
+                Manufacturers = catalogModel.Manufacturers,
+                SortOrder = catalogModel.SortOrder
+            };           
             var paginationModel = new PaginationModel
             {
                 Page = model.Page,
@@ -94,11 +87,6 @@
                 ProductFilters = filterModel
             };
 
-            if (model.SearchString is not null)
-            {
-                ViewData["SearchString"] = model.SearchString;
-            }
-
             return View(catalogViewModel);
         }
 
@@ -108,14 +96,12 @@
         {
 
             var product = await productCatalogService.GetProductById(id);
-
-            var productReviews = await reviewService.GetProductReviews(id);
-
             if (product is null)
             {
                 return RedirectToAction(nameof(Index));
             }
 
+            var productReviews = await reviewService.GetProductReviews(id);
             var viewModel = new ComponentDetailViewModel
             {
                 Product = product,
@@ -126,7 +112,6 @@
                 }
             };
             return View(viewModel);
-
         }
     }
 }

@@ -7,7 +7,6 @@
     using HardwareStore.App.Models.Product;
     using HardwareStore.App.Services.ProductFiltering;
     using Microsoft.EntityFrameworkCore;
-    using System.Drawing.Printing;
 
     public class CatalogService : ICatalogService
     {

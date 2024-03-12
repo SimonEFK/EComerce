@@ -63,7 +63,6 @@
             }
             ViewBag.Message = "Failed to Create Account";
 
-
             return View(model);
         }
 
@@ -73,6 +72,7 @@
         {
             var loginModel = new UserLoginFormModel();
             ViewBag.Message = TempData["RegisterMessage"];
+
             return View(loginModel);
         }
 
@@ -87,7 +87,6 @@
             }
 
             var user = await userManager.FindByEmailAsync(loginModel.Email);
-
             if (user is not null)
             {
                 var result = await signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
@@ -98,14 +97,15 @@
             }
 
             ViewBag.Message = "Unssecssesful Login";
-            return View(loginModel);
 
+            return View(loginModel);
         }
 
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
+
             return Redirect("/Account/Login");
         }
     }
