@@ -60,39 +60,33 @@
 
         </div>
     </div>
-
-
-
-    <h3 class="bg-primary text-white text-center">Latest</h3>
-    <div class="container">
-        <div class="row" id="productLatestRow">
-            @foreach (var item in Model.Products)
-            {
-                <div class="col-md-3 my-2">
-                    <div class="product-home-card d-flex flex-column justify-content-between p-1">
-                        @* @if (item.ProductReviewsRatingAvg > 0) *@
-                        @* { *@
-                            <partial name="_ProductStarRatingPartial" model="@item.ProductReviewsRatingAvg" />
-                        @* } *@
-
-                        <div class="product-home-card-image-container">
-                            <a href="/ComponentDetail/@item.Id"><img src="@item.Image" /></a>
-                        </div>
-                        <div class="product-home-card-content">
-                            <p class="text-break text-center m-0"><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/ComponentDetail/@item.Id">@item.Name</a></p>
-                            <div class="input-group align-items-center">
-                                <span class="fw-bold text-success ms-auto me-auto">@item.Price$</span>
-                                <button class="btn btn-primary" data-addProductToCart="@item.Name" data-productId="@item.Id">Buy</button>
+    <div class="row justify-content-center">
+        <h3 class="bg-primary text-white text-center">Latest</h3>
+        <div class="col-md-8 my-3">
+            <div class="row" id="productLatestRow">
+                @foreach (var item in Model.Products)
+                {
+                    <div class="col-md-3 col-sm-6 hvr-grow">
+                        <div class="product-home-card d-flex flex-column justify-content-between p-1">                            
+                            <partial name="_ProductStarRatingPartial" model="@item.ProductReviewsRatingAvg" />                            
+                            <div class="product-home-card-image-container">
+                                <a href="/ComponentDetail/@item.Id"><img src="@item.Image" /></a>
+                            </div>
+                            <div class="product-home-card-content">
+                                <p class="text-break text-center m-0"><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/ComponentDetail/@item.Id">@item.Name</a></p>
+                                <div class="input-group align-items-center justify-content-end">
+                                    <span class="me-2 fw-bold text-success">@item.Price$</span>
+                                    <button class="btn btn-primary" data-addProductToCart="@item.Name" data-productId="@item.Id">Buy</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
+            </div>
 
-            }
         </div>
-
     </div>
-
+    
 </div>
 
 
