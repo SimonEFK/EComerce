@@ -1,74 +1,91 @@
 ﻿@using HardwareStore.App.Models.ProductCatalog
 @model ComponentDetailViewModel
-<div class="product-title-container mb-3">
-    <h1 class="product-title p-lg-3">
-        @{
-            var name = this.Model.Product.NameDetailed ?? this.Model.Product.Name;
+<div class="container-fluid p-0">    
+    <div class="product-title-container mb-3">
+        <h1 class="product-title p-lg-3">
+            @{
+                var name = this.Model.Product.NameDetailed ?? this.Model.Product.Name;
                 @name
-        }
-    </h1>
-    <a href="/Catalog/Products/@this.Model.Product.CategoryId">@this.Model.Product.CategoryName</a>
-</div>
-<div class="row m-0">
-    @if (Model.Product.ProductReviewsRatingAvg > 0)
-    {
-        <partial name="_ProductStarRatingPartial" model="@Model.Product.ProductReviewsRatingAvg" />
-    }
-    <div class="product-specs col-md-5">
-        <span>Specifications</span>
-        <table class="table table-striped ">
-
-            <tbody>
-                @foreach (var item in this.Model.Product.Specifications.OrderBy(x => x.Name))
-                {
-                    <tr>
-                        <td>@item.Name</td>
-                        <td>@string.Join(", ", item.Values)</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+            }
+        </h1>
+        <a href="/Catalog/Products/@this.Model.Product.CategoryId">@this.Model.Product.CategoryName</a>
     </div>
-    <div class="col-md-4 me-2">
-        <div class="product-img-display">
-            <div class="product-img-display-container">
-                <img id="displayImg" src="@this.Model.Product.Images.FirstOrDefault()" />
-            </div>
-        </div>
-        @if (this.Model.Product.Images.Count > 1)
-        {
-            <hr />
-            <div class="product-gallery">
-                <div class="product-img-list" id="imgList">
-                    <ul class="d-flex justify-content-between">
-                        @foreach (var image in this.Model.Product.Images)
-                        {
-                            <li class="product-gallery-img-container">
-                                <img src="@image">
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
 
-        }
-        <div class="row">
-            <div class="col">
-                <div class="extra-info-container" id="productInfoContainer">
-                    <p class="product-price">50.00</p>
-                    <div class="btn-container align-items-center">
-                        <button class="btn btn-primary ms-auto" data-addProductToCart="@Model.Product.NameDetailed" data-productId="@Model.Product.Id">Buy</button>
-                        <span class="fw-bold text-success ms-auto me-auto">@Model.Product.Price$</span>
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="row m-0">                
+                <div class="col-md-5 me-2 order-md-1">
+                    <div class="product-img-display">
+                        <div class="product-img-display-container">
+                            <img id="displayImg" src="@this.Model.Product.Images.FirstOrDefault()" />
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-3">
+                                @if (Model.Product.ProductReviewsRatingAvg > 0)
+                                {
+                                    <partial name="_ProductStarRatingPartial" model="@Model.Product.ProductReviewsRatingAvg" />
+                                }
+                            </div>
+                        </div>
                         
                     </div>
+                    @if (this.Model.Product.Images.Count > 1)
+                    {
+                        <hr />
+                        <div class="product-gallery">
+                            <div class="product-img-list" id="imgList">
+                                <ul class="d-flex justify-content-between">
+                                    @foreach (var image in this.Model.Product.Images)
+                                    {
+                                        <li class="product-gallery-img-container">
+                                            <img src="@image">
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+
+                    }
+                    <div class="row justify-content-end">
+                        <div class="col-4">
+                            <div class="extra-info-container" id="productInfoContainer">                                
+                                <div class="btn-container align-items-center">
+                                    <button class="btn btn-primary btn-lg ms-auto" data-addProductToCart="@Model.Product.NameDetailed" data-productId="@Model.Product.Id">Buy</button>
+                                    <span class="fw-bold text-success ms-auto me-auto">@Model.Product.Price$</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <div class="col-md-5">
+                    <div class="product-specs">
+                        <span>Specifications</span>
+                        <table class="table table-striped ">
+
+                            <tbody>
+                                @foreach (var item in this.Model.Product.Specifications.OrderBy(x => x.Name))
+                                {
+                                    <tr>
+                                        <td>@item.Name</td>
+                                        <td>@string.Join(", ", item.Values)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row flex-column" id="productReviewsRow">
+                <p>Reviews</p>
+                <partial name="_ProductReviewsPartial" model="@Model.ProductReviewViewModel" />
             </div>
         </div>
     </div>
+        
 </div>
-<div class="row flex-column" id="productReviewsRow">
-    <partial name="_ProductReviewsPartial" model="@Model.ProductReviewViewModel" />
-</div>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
@@ -79,7 +96,7 @@
         async function SubmitReviewForm(event) {
 
             event.preventDefault();
-            
+
             $('#reviewForm').validate();
             if ($('#reviewForm').valid()) {
                 let reviewForm = document.querySelector('#reviewForm');
@@ -88,7 +105,7 @@
                 const jsonObject = {};
                 data.forEach((value, key) => {
                     jsonObject[key] = value;
-                });                
+                });
                 let reviewApiUrl = `/api/ReviewApi`;
                 let response = await fetch(reviewApiUrl, {
                     method: "POST",

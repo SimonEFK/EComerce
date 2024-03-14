@@ -3,31 +3,29 @@
 
 <div class="container">
     <div class="row justify-content-center mt-3">
-        <div class="col-md-6">
-            <div class="row flex-column" id="cartItemsRow">
-                @foreach (var item in Model.CartProducts)
-                {
-                    <div class="col d-flex">
-                        <div class="col">
-                            <div class="product-home-card-image-container">
-                                <img src="@item.Image" />
-                            </div>
-                        </div>
-                        <div class="col">
-                            <ul class="list-group">
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <p class="m-0">@item.Name</p>
-                                    <a href="Cart/RemoveItem/@item.Id"><i class="bi bi-x-lg text-danger" data-removeItemFromCart="@item.Name" data-productId="@item.Id"></i></a>
-                                </li>
-                                <li class="list-group-item">
-                                    <p class="m-0">@item.Amount</p>
-                                    <p class="m-0">@item.Price</p>
-                                </li>
-                            </ul>
+        <div class="col" id="cartItemsRow">
+            @foreach (var item in Model.CartProducts)
+            {
+                <div class="row">
+                    <div class="col">
+                        <div class="product-home-card-image-container">
+                            <img src="@item.Image" />
                         </div>
                     </div>
-                }
-            </div>
+                    <div class="col">
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex flex-grow-1 justify-content-between">
+                                <p class="m-0">@item.Name</p>
+                                <a href="Cart/RemoveItem/@item.Id"><i class="bi bi-x-lg text-danger" data-removeItemFromCart="@item.Name" data-productId="@item.Id"></i></a>
+                            </li>
+                            <li class="list-group-item flex-grow-1">
+                                <p class="m-0">@item.Amount</p>
+                                <p class="m-0">@item.Price</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            }
         </div>
     </div>
     <div class="row justify-content-end">
