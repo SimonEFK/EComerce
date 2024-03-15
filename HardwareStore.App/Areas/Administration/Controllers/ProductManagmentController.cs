@@ -9,7 +9,7 @@
     using Microsoft.AspNetCore.Mvc;
 
     [Area("administration")]
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")]
 
     public class ProductManagmentController : Controller
     {

@@ -2,76 +2,80 @@
 @using HardwareStore.App.Areas.Administration.Models;
 @model CreateProductInputModel;
 
-<form method="post" class="col-md-9 mx-md-auto p-3">
-    <div class="row mb-3">
-        <div class="col-md-6">
-            <label asp-for="@this.Model.Name" class="form-label"></label>
-            <input asp-for="@this.Model.Name" placeholder="e.g. AMD Ryzen 7 7800X3D" class="form-control" />
-            <span asp-validation-for="@this.Model.Name" class="text-danger"></span>
-        </div>
-        <div class="col-md-6">
-            <label asp-for="@this.Model.NameDetailed" class="form-label"></label>
-            <input asp-for="@this.Model.NameDetailed" placeholder="e.g. AMD Ryzen 7 7800X3D 4.2 GHz 8-Core Processor" class="form-control" />
-            <span asp-validation-for="@this.Model.NameDetailed" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <select asp-for="@this.Model.CategoryId" class="form-select" id="categorySelectInputField">
-                <option>Select Category</option>
-                @foreach (var category in this.Model.CategoryList.OrderBy(x => x.Name))
-                {
-                    <option value="@category.Id">@category.Name</option>
-                }
-            </select>
-            <span class="text-danger" asp-validation-for="@this.Model.CategoryId"></span>
-        </div>
-        <div class="col-md-6">
-            <select asp-for="@this.Model.ManufacturerId" class="form-select">
-                <option>Select Manufacturer</option>
-                @foreach (var manufacturer in this.Model.ManufacturerList.OrderBy(x => x.Name))
-                {
-                    <option value="@manufacturer.Id">@manufacturer.Name</option>
-                }
-            </select>
-            <span class="text-danger" asp-validation-for="@this.Model.ManufacturerId"></span>
-
-        </div>
-    </div>
-
-    <div class="image-urlInput-container">
-        <h3>Images</h3>
-        <span class="text-danger d-block form-label" asp-validation-for="@Model.ImageUrls"></span>
-        <div class="col-12 imageInputRow mb-1">
-            <div class="input-group">
-                <input asp-for="@this.Model.ImageUrls" class="form-control" placeholder="Url" />
-                <button type="button" class="btn-close ms-2 position-absolute top-50 end-0 translate-middle-y"></button>
-            </div>
-        </div>
-        <button class="btn btn-success" id="addImgBtn" type="button">Add Images</button>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h3>Specifications</h3>
-            <div class="row">
-                <div class="d-flex gap-2 mb-2">
-                    <input list="specNamesList" id="specName" class="form-control" placeholder="Specification Name" />
-                    <input id="specValue" type="text" placeholder="Value" class="form-control" />
+<div class="row justify-content-center align-content-center">
+    <div class="col">
+        <form method="post">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label asp-for="@this.Model.Name" class="form-label"></label>
+                    <input asp-for="@this.Model.Name" placeholder="e.g. AMD Ryzen 7 7800X3D" class="form-control" />
+                    <span asp-validation-for="@this.Model.Name" class="text-danger"></span>
                 </div>
-                <div class="col-md-4">
-                    <button class="btn btn-secondary" id="addSpecBtn" type="button">Add</button>
+                <div class="col-md-6">
+                    <label asp-for="@this.Model.NameDetailed" class="form-label"></label>
+                    <input asp-for="@this.Model.NameDetailed" placeholder="e.g. AMD Ryzen 7 7800X3D 4.2 GHz 8-Core Processor" class="form-control" />
+                    <span asp-validation-for="@this.Model.NameDetailed" class="text-danger"></span>
                 </div>
             </div>
             <div class="row">
-                <div class="specificationsBox col-md-6">
+                <div class="col-md-6">
+                    <select asp-for="@this.Model.CategoryId" class="form-select" id="categorySelectInputField">
+                        <option>Select Category</option>
+                        @foreach (var category in this.Model.CategoryList.OrderBy(x => x.Name))
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    </select>
+                    <span class="text-danger" asp-validation-for="@this.Model.CategoryId"></span>
+                </div>
+                <div class="col-md-6">
+                    <select asp-for="@this.Model.ManufacturerId" class="form-select">
+                        <option>Select Manufacturer</option>
+                        @foreach (var manufacturer in this.Model.ManufacturerList.OrderBy(x => x.Name))
+                        {
+                            <option value="@manufacturer.Id">@manufacturer.Name</option>
+                        }
+                    </select>
+                    <span class="text-danger" asp-validation-for="@this.Model.ManufacturerId"></span>
+
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <button class="btn btn-info w-25 mx-auto" type="submit">Submit</button>
-        </div>
+            <div class="image-urlInput-container">
+                <h3>Images</h3>
+                <span class="text-danger d-block form-label" asp-validation-for="@Model.ImageUrls"></span>
+                <div class="col-12 imageInputRow mb-1">
+                    <div class="input-group">
+                        <input asp-for="@this.Model.ImageUrls" class="form-control" placeholder="Url" />
+                        <button type="button" class="btn-close ms-2 position-absolute top-50 end-0 translate-middle-y"></button>
+                    </div>
+                </div>
+                <button class="btn btn-success" id="addImgBtn" type="button">Add Images</button>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h3>Specifications</h3>
+                    <div class="row">
+                        <div class="d-flex gap-2 mb-2">
+                            <input list="specNamesList" id="specName" class="form-control" placeholder="Specification Name" />
+                            <input id="specValue" type="text" placeholder="Value" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-secondary" id="addSpecBtn" type="button">Add</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="specificationsBox col-md-6">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="btn btn-info w-25 mx-auto" type="submit">Submit</button>
+                </div>
+            </div>
+        </form>
+
     </div>
-</form>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

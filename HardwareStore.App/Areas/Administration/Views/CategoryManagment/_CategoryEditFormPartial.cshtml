@@ -1,38 +1,40 @@
 ﻿@model CategoryEditInputModel
-<form method="post" action="/Administration/CategoryManagment/EditCategory/@Model.Id" class="col-md-4 me-3">
-    @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="@Model.Id" />
-    <input type="hidden" asp-for="@Model.FilePath" />
-    <div class="mb-2">
-        <div class="form-group mb-2">
-            <span asp-validation-for="@Model.Name" class="text-danger"></span>
-            <div class="input-group">
-                <input  asp-for="@Model.Name" placeholder="Name" class="form-control" />
-                <button data-edit type="button" class="btn btn-outline-info">Edit</button>
+<div class="col-8 d-flex justify-content-center align-items-center">
+    <form class="flex-grow-1" method="post" action="/Administration/CategoryManagment/EditCategory/@Model.Id">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="@Model.Id" />
+        <input type="hidden" asp-for="@Model.FilePath" />
+        <div class="mb-2">
+            <div class="form-group mb-2">
+                <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                <div class="input-group">
+                    <input asp-for="@Model.Name" placeholder="Name" class="form-control" />
+                    <button data-edit type="button" class="btn btn-outline-info">Edit</button>
+                </div>
+            </div>
+            <div class="form-group mb-2">
+                <span asp-validation-for="@Model.Url" class="text-danger"></span>
+                <div class="input-group">
+                    <input value="@Model.Url" asp-for="@Model.Url" class="form-control" placeholder="Add Url to Change category Image" />
+                    <button data-edit type="button" class="btn btn-outline-info">Edit</button>
+                </div>
             </div>
         </div>
-        <div class="form-group mb-2">
-            <span asp-validation-for="@Model.Url" class="text-danger"></span>
-            <div class="input-group">
-                <input value="@Model.Url" asp-for="@Model.Url" class="form-control" placeholder="Add Url to Change category Image" />
-                <button data-edit type="button" class="btn btn-outline-info">Edit</button>
-            </div>
-        </div>
-    </div>
-    <div asp-validation-summary="ModelOnly" class="text-danger col-form-label-sm"></div>
-    <button id="cateEditSubmitBtn" class="btn btn-outline-success mt-1">Apply Changes</button>
-</form>
-<div class="col-md-2">
+        <div asp-validation-summary="ModelOnly" class="text-danger col-form-label-sm"></div>
+        <button id="cateEditSubmitBtn" class="btn btn-outline-success mt-1">Apply Changes</button>
+    </form>
+</div>
+<div class="col-4">
     @{
         var src = string.Empty;
         if (Model.Url == null)
         {
-            src = $"{Model.FilePath}";
+            src = $"/{Model.FilePath}";
         }
         else
         {
             src = Model.Url;
         }
     }
-    <img class="img-fluid" src="@src" />
+    <img class="d-block w-100" src="@src" />
 </div>

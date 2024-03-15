@@ -1,97 +1,97 @@
 ﻿@model SpecificationInfoViewModel
-<div class="container m-0">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <partial name="_SpecificationEditFormPartial" model="@Model.SpecificationCreateInputModel" />
-        </div>
+
+<div class="row justify-content-center">
+    <div class="col">
+        <partial name="_SpecificationEditFormPartial" model="@Model.SpecificationCreateInputModel" />
     </div>
-    <div class="row justify-content-center">
-        <h3 class="text-center">Values</h3>
-        <div class="col-md-6">
-            <table class="table table-sm" id="valueTable">
-                <thead>
+</div>
+<div class="row justify-content-center">
+    <h3 class="text-center">Values</h3>
+    <div class="col">
+        <table class="table table-sm" id="valueTable">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Value</th>
+                    <th scope="col">Metric</th>
+                    <th scope="col">Manage</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Values)
+                {
                     <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Value</th>
-                        <th scope="col">Metric</th>
-                        <th scope="col">Manage</th>
+                        <th scope="row">@item.Id</th>
+                        <td>@item.Value</td>
+                        <td>@item.Metric</td>
+                        <td>
+                            <a data-custom-editInput data-valueId="@item.Id" data-value="@item.Value" data-metric="@item.Metric" class="btn btn-outline-info">Edit</a>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Values)
-                    {
-                        <tr>
-                            <th scope="row">@item.Id</th>
-                            <td>@item.Value</td>
-                            <td>@item.Metric</td>
-                            <td>
-                                <a data-custom-editInput data-valueId="@item.Id" data-value="@item.Value" data-metric="@item.Metric" class="btn btn-outline-info">Edit</a>
-                            </td>
-                        </tr>
 
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="row justify-content-center mb-3" id="editFormRow">
-        <div class="col-md-6">
-            <form id="editValueForm" method="post" action="/Administration/CategoryManagment/EditSpecificationValue/@Model.ValueCreateFormModel.ValueId">
-                @Html.AntiForgeryToken()
-                <div class="form-group">
-                    <span class="text-danger form-label" asp-validation-for="@Model.ValueEditFormModel.Value"></span>
-                    <div class="input-group">
-                        <input type="hidden" asp-for="@Model.ValueEditFormModel.SpecificationId" />
-                        <input type="hidden" asp-for="@Model.ValueEditFormModel.CategoryId" />
-                        <input type="hidden" asp-for="@Model.ValueEditFormModel.ValueId" />
-                        <input class="form-control" asp-for="@Model.ValueEditFormModel.Value" placeholder="Edit Value" />
-                        <input class="form-control" asp-for="@Model.ValueEditFormModel.Metric" placeholder="Metric" />
-                        <button class="btn btn-outline-info">Edit</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-md-6" id="specDiv">
-            <form id="valueForm" method="post" action="/Administration/CategoryManagment/CreateSpecificationValue">
-                @Html.AntiForgeryToken()
-                <div class="form-group">
-                    <span class="text-danger form-label" asp-validation-for="@Model.ValueCreateFormModel.Value"></span>
-                    <div class="input-group">
-                        <input type="hidden" asp-for="@Model.ValueCreateFormModel.SpecificationId" />
-                        <input type="hidden" asp-for="@Model.ValueCreateFormModel.CategoryId" />
-                        <input class="form-control" asp-for="@Model.ValueCreateFormModel.Value" placeholder="Add new Value" />
-                        <input class="form-control" asp-for="@Model.ValueCreateFormModel.Metric" placeholder="Metric" />
-                        <button class="btn btn-outline-success">Submit</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    @section Scripts {
-        <script>
-            let table = this.document.querySelector('#valueTable');
-            let edidValueForm = this.document.querySelector('#editValueForm');
-            table.addEventListener('click', PopulateEditForm);
-
-            function PopulateEditForm(event) {
-                let target = event.target;
-                if (target.matches("a[data-custom-editInput]")) {
-
-                    let valueId = target.dataset["valueid"];
-                    let value = target.dataset["value"];
-                    let metric = target.dataset["metric"];
-
-                    let editFormInputValueElement = editValueForm.querySelector('#ValueEditFormModel_Value');
-                    let editFormInputMetricElement = editValueForm.querySelector('#ValueEditFormModel_Metric');
-                    let editFormInputValueIdElement = edidValueForm.querySelector('#ValueEditFormModel_ValueId');
-
-                    editFormInputMetricElement.value = metric;
-                    editFormInputValueElement.value = value;
-                    editFormInputValueIdElement.value = valueId;
                 }
-            };
-        </script>
-    }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row justify-content-center mb-3" id="editFormRow">
+    <div class="col">
+        <form id="editValueForm" method="post" action="/Administration/CategoryManagment/EditSpecificationValue/@Model.ValueCreateFormModel.ValueId">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <span class="text-danger form-label" asp-validation-for="@Model.ValueEditFormModel.Value"></span>
+                <div class="input-group">
+                    <input type="hidden" asp-for="@Model.ValueEditFormModel.SpecificationId" />
+                    <input type="hidden" asp-for="@Model.ValueEditFormModel.CategoryId" />
+                    <input type="hidden" asp-for="@Model.ValueEditFormModel.ValueId" />
+                    <input class="form-control" asp-for="@Model.ValueEditFormModel.Value" placeholder="Edit Value" />
+                    <input class="form-control" asp-for="@Model.ValueEditFormModel.Metric" placeholder="Metric" />
+                    <button class="btn btn-outline-info">Edit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col" id="specDiv">
+        <form id="valueForm" method="post" action="/Administration/CategoryManagment/CreateSpecificationValue">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <span class="text-danger form-label" asp-validation-for="@Model.ValueCreateFormModel.Value"></span>
+                <div class="input-group">
+                    <input type="hidden" asp-for="@Model.ValueCreateFormModel.SpecificationId" />
+                    <input type="hidden" asp-for="@Model.ValueCreateFormModel.CategoryId" />
+                    <input class="form-control" asp-for="@Model.ValueCreateFormModel.Value" placeholder="Add new Value" />
+                    <input class="form-control" asp-for="@Model.ValueCreateFormModel.Metric" placeholder="Metric" />
+                    <button class="btn btn-outline-success">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let table = this.document.querySelector('#valueTable');
+        let edidValueForm = this.document.querySelector('#editValueForm');
+        table.addEventListener('click', PopulateEditForm);
+
+        function PopulateEditForm(event) {
+            let target = event.target;
+            if (target.matches("a[data-custom-editInput]")) {
+
+                let valueId = target.dataset["valueid"];
+                let value = target.dataset["value"];
+                let metric = target.dataset["metric"];
+
+                let editFormInputValueElement = editValueForm.querySelector('#ValueEditFormModel_Value');
+                let editFormInputMetricElement = editValueForm.querySelector('#ValueEditFormModel_Metric');
+                let editFormInputValueIdElement = edidValueForm.querySelector('#ValueEditFormModel_ValueId');
+
+                editFormInputMetricElement.value = metric;
+                editFormInputValueElement.value = value;
+                editFormInputValueIdElement.value = valueId;
+            }
+        };
+    </script>
+}

@@ -1,6 +1,6 @@
 ﻿@model CategoryListingViewModel;
 <div class="row mb-3">
-    <div class="col-md-8 mx-auto">
+    <div class="col">
         <table class="table">
             <thead class="thead-light">
                 <tr>
@@ -30,7 +30,7 @@
     </div>
 </div>
 <div class="collapse @ViewData["FormCollapse"] row" id="categoryFormRow">
-    <div id="categoryFormDiv" class="col-md-8 mx-auto">
+    <div id="categoryFormDiv" class="col">
         <partial name="_CategoryCreateFormPartial" model="@Model.CreateCategoryInputModel" />
     </div>
 </div>
