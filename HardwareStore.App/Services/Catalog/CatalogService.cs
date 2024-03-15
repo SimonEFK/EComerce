@@ -36,7 +36,6 @@
                 this.products = dbContext.Products
                     .Where(x => x.NameDetailed.Contains(searchstring) || x.Name.Contains(searchstring)).AsQueryable();
             }
-
             return this;
         }
 
@@ -185,6 +184,12 @@
             model.SpecificationFilters = this.catalogModel.SpecificationFilters;
             model.Manufacturers = this.catalogModel.Manufacturers;
             return model;
+        }
+
+        public async Task<List<T>> ToList<T>() where T : class
+        {
+            var products = await this.products.ProjectTo<T>(mapper.ConfigurationProvider).ToListAsync();
+            return products;
         }
 
     }

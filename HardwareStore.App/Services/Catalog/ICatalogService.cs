@@ -15,5 +15,6 @@
         ICatalogService Order(string sortOrder);
         ICatalogService Pagination(int pageNumber, int itemsPerPage = 12);
         Task<CatalogModel> ToCatalogModel();
+        Task<List<T>> ToList<T>() where T : class;
     }
 }

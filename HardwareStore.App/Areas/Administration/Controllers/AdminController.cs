@@ -15,7 +15,7 @@
             _roleManager = roleManager;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {           
             return Redirect("/Administration/ProductManagment");
         }

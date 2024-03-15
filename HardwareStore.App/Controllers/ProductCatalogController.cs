@@ -2,6 +2,7 @@
 {
     using HardwareStore.App.Models;
     using HardwareStore.App.Models.Category;
+    using HardwareStore.App.Models.Product;
     using HardwareStore.App.Models.ProductCatalog;
     using HardwareStore.App.Models.ProductFilter;
     using HardwareStore.App.Models.Review;
@@ -112,6 +113,15 @@
                 }
             };
             return View(viewModel);
+        }
+
+        [HttpGet]
+        [Route("/SearchProductsPartial")]
+        public async Task<IActionResult> SearchProductsPartial(string searchString)
+        {
+            
+            var products = await productCatalogService.GetProducts(searchString).ToList<ProductSimplifiedModel>();
+            return PartialView("_SearchProductsPartial",products);
         }
     }
 }
