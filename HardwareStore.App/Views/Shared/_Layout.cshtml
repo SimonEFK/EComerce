@@ -25,15 +25,39 @@
                             </a>
                             @await Component.InvokeAsync("CategoryMenu")
                         </li>
-                        <li>
-                            <a class="nav-link" href="/Cart">My Cart</a>
-                        </li>
+
                     </ul>
-                    <form method="GET" action="/Catalog/Products" class="d-flex me-auto" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search All Products" aria-label="Search" name="s">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+                    <div class="col-6">
+                        <form method="GET" action="/Catalog/Products" class="d-flex me-auto" role="search">
+                            <input class="form-control me-2" type="search" placeholder="Search All Products" aria-label="Search" name="s">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </div>
+                    
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                            <li>
+                                <a title="My Cart" class="nav-link" href="/Cart"><i class="bi bi-cart-fill"></i></a>
+
+                            </li>
+                            <li>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-person-circle"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Action</a></li>
+                                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+
+                            </li>
+                        </ul>
+                    }
                     <partial name="_LoginPartial" />
+                   
                 </div>
             </div>
         </nav>
@@ -41,7 +65,7 @@
     </header>
 
     <main role="main" class="pb-3">
-        @RenderBody()       
+        @RenderBody()
         <div class="toast-container position-fixed bottom-0 end-0 p-3">
             <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
