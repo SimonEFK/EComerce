@@ -1,13 +1,15 @@
 ﻿namespace HardwareStore.App.Areas.Administration.Models.ProductManagment
 {
-    using HardwareStore.App.Services;
-    using HardwareStore.App.ValidationAttributes;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
+    using HardwareStore.App.Services.Data.Products;
+    using HardwareStore.App.ValidationAttributes;
 
-    public class CreateProductInputModel 
-        
+    public class EditProductInputModel
     {
+
+        public int Id { get; set; }
+
         [Required]
         [StringLength(maximumLength: 60, MinimumLength = 6, ErrorMessage = "{0} field must be {2}-{1} characters long")]
         public string Name { get; set; }
@@ -21,17 +23,15 @@
 
         [ValidManufacturer(ErrorMessage = "Invalid Manufacturer")]
         public int ManufacturerId { get; set; }
-        
-        public HashSet<int> Specifications { get; set; } = new HashSet<int>();
 
-        [Required(ErrorMessage = "Product image is required")]
-        [CollectionRegex(@"^https?:\/\/.*\/.*\.(jpg|jpeg|png|gif|webp|avif)$", ErrorMessage = "Invalid Url Format")]
-        public HashSet<string> ImageUrls { get; set; } = new HashSet<string>();
+        public List<ProductSpecificationEdit> Specifications { get; set; } = new List<ProductSpecificationEdit>();
+
+        //[Required(ErrorMessage = "Product image is required")]
+        //[CollectionRegex(@"^https?:\/\/.*\/.*\.(jpg|jpeg|png|gif|webp|avif)$", ErrorMessage = "Invalid Url Format")]
+        //public HashSet<string> ImageUrls { get; set; } = new HashSet<string>();
 
         public ICollection<(string Name, int Id)> CategoryList { get; set; } = new List<(string Name, int Id)>();
 
         public ICollection<(string Name, int Id)> ManufacturerList { get; set; } = new List<(string Name, int Id)>();
-
-        
     }
 }

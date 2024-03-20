@@ -1,7 +1,4 @@
-﻿@using HardwareStore.App.Models.Product;
-@using HardwareStore.App.Areas.Administration.Models;
-@model CreateProductInputModel;
-
+﻿@model EditProductInputModel;
 <div class="row justify-content-center align-content-center">
     <div class="col">
         <form method="post">
@@ -40,18 +37,7 @@
 
                 </div>
             </div>
-            <div class="image-urlInput-container">
-                <h3>Images</h3>
-                <span class="text-danger d-block form-label" asp-validation-for="@Model.ImageUrls"></span>
-                <div class="col-12 imageInputRow mb-1">
-                    <div class="input-group">
-                        <input asp-for="@this.Model.ImageUrls" class="form-control" placeholder="Url" value="@string.Empty" />
-                        <button type="button" class="btn-close ms-2 position-absolute top-50 end-0 translate-middle-y"></button>
-                    </div>
-                    
-                </div>
-                <button class="btn btn-success" id="addImgBtn" type="button">Add Images</button>
-            </div>
+
             <div class="row">
                 <div class="col">
                     <h3>Specifications</h3>
@@ -66,17 +52,30 @@
                             <select id="specValuesSelectMenu" class="form-select">
                                 <option>Select Value</option>
                             </select>
-                            
+
                         </div>
                     </div>
                     <button id="addSpecBtn" type="button" class="btn btn-success">Add</button>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="specificationsBox">
-                                
+                                @foreach (var specification in Model.Specifications)
+                                {
+                                    <div class="row">
+                                        <div class="col-auto">
+                                            <input disabled class="form-control" placeholder="@specification.SpecificationName" />
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="input-group flex-nowrap">
+                                                <input disabled class="form-control" placeholder="@specification.ValueName" />
+                                                <a href="/Administration/ProductManagment/RemoveSpecification/@Model.Id?valueId=@specification.ValueId" class="btn btn-outline-danger">Remove</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
                 <div class="row">
@@ -88,24 +87,25 @@
 
     </div>
 </div>
-
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
     <script>
         let categoryInfo = {};
+        
         window.addEventListener('load', UpdateSpecificationValues)
-
+        
         let categorySelectInputField = document.querySelector("#categorySelectInputField");
 
         let specificationsSelectMenu = document.querySelector('#specificationsSelectMenu');
         let specValuesSelectMenu = document.querySelector("#specValuesSelectMenu");
 
+        
         categorySelectInputField.addEventListener("input", UpdateSpecificationValues);
-        categorySelectInputField.addEventListener("load", UpdateSpecificationValues);
         specificationsSelectMenu.addEventListener("input", UpdateValues);
 
 
         async function UpdateSpecificationValues(event) {
+
+            debugger;
             let value = categorySelectInputField.value;
             let response = await fetch(`/administration/categorymanagment/categoryinfojson?categoryId=${value}`);
             categoryInfo = await response.json();
@@ -142,37 +142,9 @@
 
         }
 
-
-        let imagesUrlInputContainer = document.querySelector('.image-urlInput-container');
-        imagesUrlInputContainer.addEventListener('click', RemoveImageInputField);
-        let imgBtn = document.querySelector('#addImgBtn');
-        imgBtn.addEventListener('click', AddImageInputField);
-        async function AddImageInputField(event) {
-
-            event.preventDefault();
-            let imageInputOriginal = document.querySelector('.imageInputRow');
-            let clone = imageInputOriginal.cloneNode(true);
-            clone.querySelector('input').value = "";
-            imgBtn.insertAdjacentElement("beforebegin", clone);
-
-        };
-        function RemoveImageInputField(event) {
-            if (event.target.matches('.btn-close')) {
-                let divToRemove = event.target.closest('.imageInputRow');
-                let imageInputRowsCount = Array.from(document.querySelectorAll('.imageInputRow')).length;
-                if (imageInputRowsCount == 1) {
-                    return;
-                }
-                imagesUrlInputContainer.removeChild(divToRemove);
-            }
-        };
-
-
         let addSpecBtn = document.querySelector('#addSpecBtn');
-        let specContainer = document.querySelector('.specificationsBox');
-        addSpecBtn.addEventListener('click', AddSpecInputField);
-        specContainer.addEventListener('click', RemoveSpecBox);
-        async function AddSpecInputField(event) {
+        addSpecBtn.addEventListener('click', AddSpecification)
+        function AddSpecification(event) {
 
             let specificationsBox = document.querySelector('.specificationsBox');
             let specValueSelectMenu = document.querySelector('#specValuesSelectMenu');
@@ -180,29 +152,12 @@
             let specName = specValueSelectMenu.options[specValueSelectMenu.selectedIndex].dataset["specname"];
             let valueName = specValueSelectMenu.options[specValueSelectMenu.selectedIndex].dataset["valuename"];
             let valueId = specValueSelectMenu.value;
-            if (!valueId || !specName) {
+            if (!valueId) {
                 console.log("Invalid input");
                 return
             };
-            let html =
-            `
-            <div class="d-flex align-items-center gap-2 mb-2 position-relative" data-spec-name-value>
-                        <input required readonly value="${specName}" class="form-control" aria-invalid="false">
-                                <input required readonly value="${valueName}" class="form-control" aria-invalid="false">
-                        <input type="hidden" readonly readonly name="Specifications" value="${valueId}" class="form-control">
-                <button type="button" class="btn-close position-absolute top-50 end-0 translate-middle-y"></button>
-            </div>
-            `;
-
-            specContainer.insertAdjacentHTML('afterbegin', html);
-
-        };
-        function RemoveSpecBox(event) {
-            if (event.target.matches('.btn-close')) {
-                let divToRemove = event.target.closest('[data-spec-name-value]');
-                specContainer.removeChild(divToRemove);
-            }
-        };
-
+            let productId = @Model.Id;
+            window.location.href = `/Administration/ProductManagment/AddSpecification/${productId}?valueId=${valueId}`;
+        }
     </script>
-}
+} 

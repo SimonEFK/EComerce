@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using HardwareStore.App.Areas.Administration.Models.ProductManagment;
+    using HardwareStore.App.Models.Product;
     using HardwareStore.App.Services.Data;
     using HardwareStore.App.Services.Data.Category;
     using HardwareStore.App.Services.Data.Products;
@@ -16,13 +17,15 @@
         private ICategoryDataService _categoryDataService;
         private IProductDataService _productDataService;
         private IManufacturerDataService _manufacturerDataService;
+        private IProductSpecificationService _productSpecificationService;
         private IMapper mapper;
-        public ProductManagmentController(ICategoryDataService categoryDataService, IProductDataService productDataService, IManufacturerDataService manufacturerDataService, IMapper mapper)
+        public ProductManagmentController(ICategoryDataService categoryDataService, IProductDataService productDataService, IManufacturerDataService manufacturerDataService, IMapper mapper, IProductSpecificationService productSpecificationService)
         {
             _categoryDataService = categoryDataService;
             _productDataService = productDataService;
             _manufacturerDataService = manufacturerDataService;
             this.mapper = mapper;
+            _productSpecificationService = productSpecificationService;
         }
 
         public IActionResult Index()
@@ -59,6 +62,35 @@
             }
 
             return Redirect($"/Catalog");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditProduct(int id)
+        {
+            var product = await _productDataService.GetProductById<EditProductDTO>(id);
+            var model = new EditProductInputModel();
+            model.Id = product.Id;
+            model.Name = product.Name;
+            model.NameDetailed = product.NameDetailed;
+            model.CategoryId = product.CategoryId;
+            model.ManufacturerId = product.ManufacturerId;
+            model.Specifications = product.Specifications.ToList();
+            model.CategoryList = await _categoryDataService.GetCategoriesAsTupleCollectionAsync();
+            model.ManufacturerList = await _manufacturerDataService.GetManufacturersAsTupleCollectionAsync();
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RemoveSpecification(int id,int valueId)
+        {
+            await _productSpecificationService.RemoveSpecification(id, valueId);
+            return Redirect($"/Administration/ProductManagment/EditProduct/{id}");
+        }
+        [HttpGet]
+        public async Task<IActionResult> AddSpecification(int id, int valueId)
+        {
+            await _productSpecificationService.AddSpecification(id, valueId);
+            return Redirect($"/Administration/ProductManagment/EditProduct/{id}");
         }
     }
 }

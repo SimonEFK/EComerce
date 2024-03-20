@@ -58,6 +58,11 @@
             this.CreateMap<SpecificationInfoDTO, SpecificationCreateInputModel>()
                 .ForMember(m => m.Essential, cfg => cfg.MapFrom(x => x.InfoLevel == "Essential" ? true : false));
             this.CreateMap<ProductReview,ProductReviewDTO>();
+            this.CreateMap<Product, EditProductDTO>();
+            this.CreateMap<ProductSpecificationValues, ProductSpecificationEdit>()
+                .ForMember(x=> x.SpecificationName, cfg=> cfg.MapFrom(x=>x.SpecificationValue.Specification.Name))
+                .ForMember(x=> x.ValueName, cfg=> cfg.MapFrom(x=>x.SpecificationValue.Value))
+                .ForMember(x=>x.ValueId,cfg=> cfg.MapFrom(x=>x.SpecificationValueId));
         }
     }
 }

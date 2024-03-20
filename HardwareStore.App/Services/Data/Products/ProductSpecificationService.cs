@@ -52,7 +52,13 @@
                 throw new ArgumentException("Invalid Value");
             }
             var product = await dbContext.Products.Include(x => x.Specifications).FirstAsync(x => x.Id == productId);
-            product.Specifications.ToList().RemoveAll(x => x.SpecificationValueId == valueId);
+            foreach (var item in product.Specifications)
+            {
+                if (item.SpecificationValueId == valueId)
+                {
+                    product.Specifications.Remove(item);
+                }
+            }
             await dbContext.SaveChangesAsync();
         }
 
