@@ -4,6 +4,10 @@
 
     public interface IValidatorService
     {
-        Task<bool> IsProductValid(int productId);
+        Task<bool> IsCategoryValidAsync(int categoryId);
+        Task<bool> IsManufacturerValidAsync(int manufacturerId);
+        Task<bool> IsProductValidAsync(int productId);
+        Task<bool> IsSpecificationValidAsync(int specificationId);
+        Task<bool> IsSpecificationValueValidAsync(int valueId);
     }
 }

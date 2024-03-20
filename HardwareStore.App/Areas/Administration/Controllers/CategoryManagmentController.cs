@@ -8,7 +8,7 @@
     using Microsoft.AspNetCore.Mvc;
 
     [Area("administration")]
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")]
 
     public class CategoryManagmentController : Controller
     {
@@ -332,6 +332,13 @@
             }
             return Redirect($"/Administration/CategoryManagment/SpecificationInfo/{ValueEditFormModel.SpecificationId}");
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CategoryInfoJson(int categoryId)
+        {
+            var result = await _categoryDataService.CategoryInfo(categoryId);
+            return Json(result);
         }
     }
 }

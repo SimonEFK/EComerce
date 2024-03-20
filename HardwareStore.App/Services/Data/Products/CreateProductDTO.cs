@@ -10,7 +10,7 @@
 
         public int ManufacturerId { get; set; }
 
-        public Dictionary<string, List<string>> Specifications { get; set; } = new Dictionary<string, List<string>>();
+        public HashSet<int> Specifications { get; set; } = new HashSet<int>();
 
         public HashSet<string> ImageUrls { get; set; } = new HashSet<string>();
     }

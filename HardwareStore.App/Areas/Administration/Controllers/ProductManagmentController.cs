@@ -9,7 +9,7 @@
     using Microsoft.AspNetCore.Mvc;
 
     [Area("administration")]
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")]
 
     public class ProductManagmentController : Controller
     {
@@ -52,17 +52,12 @@
 
             var createProductDto = mapper.Map<CreateProductDTO>(createProductInputModel);
             var productStatus = await _productDataService.CreateProduct(createProductDto);
+
             if (productStatus.Success == false)
             {
-                foreach (var message in productStatus.ErrorMessage)
-                {
-                    ModelState.AddModelError("", message);
-
-                }
-                createProductInputModel.CategoryList = await _categoryDataService.GetCategoriesAsTupleCollectionAsync();
-                createProductInputModel.ManufacturerList = await _manufacturerDataService.GetManufacturersAsTupleCollectionAsync();
-                return View(createProductInputModel);
+                return BadRequest();
             }
+
             return Redirect($"/Catalog");
         }
     }

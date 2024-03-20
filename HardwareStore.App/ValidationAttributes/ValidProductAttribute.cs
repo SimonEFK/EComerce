@@ -13,7 +13,7 @@
 
             var service = validationContext.GetService<IValidatorService>();
             
-            var isValid = Task.Run(async () => await service.IsProductValid(productId)).GetAwaiter().GetResult();
+            var isValid = Task.Run(async () => await service.IsProductValidAsync(productId)).GetAwaiter().GetResult();
 
             if (!isValid)
             {

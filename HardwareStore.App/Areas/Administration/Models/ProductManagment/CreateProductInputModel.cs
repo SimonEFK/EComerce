@@ -5,7 +5,8 @@
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
-    public class CreateProductInputModel
+    public class CreateProductInputModel 
+        //: IValidatableObject
     {
         [Required]
         [StringLength(maximumLength: 60, MinimumLength = 6, ErrorMessage = "{0} field must be {2}-{1} characters long")]
@@ -15,13 +16,14 @@
         [DisplayName("Name Detailed")]
         public string? NameDetailed { get; set; }
 
-        [Range(minimum: 1, maximum: int.MaxValue, ErrorMessage = "Invalid Category")]
+        [ValidCategory(ErrorMessage = "Invalid Category")]
         public int CategoryId { get; set; }
 
-        [Range(minimum: 1, maximum: int.MaxValue, ErrorMessage = "Invalid Manufacturer")]
+        [ValidManufacturer(ErrorMessage = "Invalid Manufacturer")]
         public int ManufacturerId { get; set; }
 
-        public Dictionary<string, List<string>> Specifications { get; set; } = new Dictionary<string, List<string>>();
+        
+        public HashSet<int> Specifications { get; set; } = new HashSet<int>();
 
         [Required(ErrorMessage = "Product image is required")]
         [CollectionRegex(@"^https?:\/\/.*\/.*\.(jpg|jpeg|png|gif|webp|avif)$", ErrorMessage = "Invalid Url Format")]
@@ -30,5 +32,17 @@
         public ICollection<(string Name, int Id)> CategoryList { get; set; } = new List<(string Name, int Id)>();
 
         public ICollection<(string Name, int Id)> ManufacturerList { get; set; } = new List<(string Name, int Id)>();
+
+        //public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        //{
+        //    if (this.ImageUrls.Count > 10)
+        //    {
+        //        yield return new ValidationResult("Way too many images");
+        //    }
+        //    if (this.Specifications.Count <= 30 && this.Specifications.Count >= 3)
+        //    {
+        //        yield return new ValidationResult("Specifications must be 3-30 count");
+        //    }
+        //}
     }
 }
