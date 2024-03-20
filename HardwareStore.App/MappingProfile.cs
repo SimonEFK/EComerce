@@ -9,7 +9,8 @@
     using HardwareStore.App.Models.Product;
     using HardwareStore.App.Models.ProductFilter;
     using HardwareStore.App.Services.Data.Category;
-    using HardwareStore.App.Services.Data.Products;
+    using HardwareStore.App.Services.Data.Products.Create;
+    using HardwareStore.App.Services.Data.Products.Edit;
     using HardwareStore.App.Services.ProductReview;
 
     public class MappingProfile : Profile
@@ -51,6 +52,7 @@
             this.CreateMap<Category, Tuple<string, int>>();
 
             this.CreateMap<CreateProductInputModel, CreateProductDTO>();
+            this.CreateMap<EditProductInputModel, EditProductDTO>();
             this.CreateMap<Category, CategoryInfoDTO>();
             this.CreateMap<Specification, SpecificationInfoDTO>();
             this.CreateMap<SpecificationValue, SpecificationValueInfoDTO>();

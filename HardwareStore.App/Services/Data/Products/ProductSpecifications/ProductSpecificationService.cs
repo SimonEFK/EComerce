@@ -1,4 +1,4 @@
-﻿namespace HardwareStore.App.Services.Data.Products
+﻿namespace HardwareStore.App.Services.Data.Products.ProductSpecifications
 {
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;

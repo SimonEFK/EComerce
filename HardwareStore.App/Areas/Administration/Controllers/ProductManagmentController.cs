@@ -6,6 +6,9 @@
     using HardwareStore.App.Services.Data;
     using HardwareStore.App.Services.Data.Category;
     using HardwareStore.App.Services.Data.Products;
+    using HardwareStore.App.Services.Data.Products.Create;
+    using HardwareStore.App.Services.Data.Products.Edit;
+    using HardwareStore.App.Services.Data.Products.ProductSpecifications;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -79,9 +82,30 @@
             model.ManufacturerList = await _manufacturerDataService.GetManufacturersAsTupleCollectionAsync();
             return View(model);
         }
+        [HttpPost]
+        public async Task<IActionResult> EditProduct(int id, EditProductInputModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                if (ModelState.IsValid == false)
+                {
+                    model.CategoryList = await _categoryDataService.GetCategoriesAsTupleCollectionAsync();
+                    model.ManufacturerList = await _manufacturerDataService.GetManufacturersAsTupleCollectionAsync();
+                    return View(model);
+                }
+
+            }
+            var editProductDto = mapper.Map<EditProductDTO>(model);
+            var result = await _productDataService.EditProduct(editProductDto);
+            if (result.Success == false)
+            {
+                return BadRequest();
+            }
+            return Redirect($"/Administration/ProductManagment/EditProduct/{id}");
+        }
 
         [HttpGet]
-        public async Task<IActionResult> RemoveSpecification(int id,int valueId)
+        public async Task<IActionResult> RemoveSpecification(int id, int valueId)
         {
             await _productSpecificationService.RemoveSpecification(id, valueId);
             return Redirect($"/Administration/ProductManagment/EditProduct/{id}");

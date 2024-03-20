@@ -7,6 +7,9 @@ namespace HardwareStore.App
     using HardwareStore.App.Services.Data;
     using HardwareStore.App.Services.Data.Category;
     using HardwareStore.App.Services.Data.Products;
+    using HardwareStore.App.Services.Data.Products.Create;
+    using HardwareStore.App.Services.Data.Products.Edit;
+    using HardwareStore.App.Services.Data.Products.ProductSpecifications;
     using HardwareStore.App.Services.DownloadImage;
     using HardwareStore.App.Services.PriceManager;
     using HardwareStore.App.Services.ProductDiscount;
@@ -60,6 +63,7 @@ namespace HardwareStore.App
             builder.Services.AddScoped<IPriceManagerService, PriceManagerService>();
             builder.Services.AddScoped<IProductDiscountService, ProductDiscountService>();
             builder.Services.AddScoped<ICreateProductService, CreateProductService>();
+            builder.Services.AddScoped<IEditProductService, EditProductService>();
             builder.Services.AddScoped<IProductSpecificationService, ProductSpecificationService>();
             var app = builder.Build();
             // Configure the HTTP request pipeline.

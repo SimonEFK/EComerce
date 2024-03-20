@@ -1,4 +1,4 @@
-﻿namespace HardwareStore.App.Services.Data.Products
+﻿namespace HardwareStore.App.Services.Data.Products.Create
 {
     using CommunityToolkit.Diagnostics;
     using HardwareStore.App.Data;
@@ -29,9 +29,9 @@
                 Guard.IsNotWhiteSpace(nameDetailed);
             }
             Task.Run(async () => await validatorService.IsCategoryValidAsync(categoryId)).GetAwaiter().GetResult();
-            Task.Run(async ()=> await validatorService.IsManufacturerValidAsync(manufacturerId)).GetAwaiter().GetResult();
+            Task.Run(async () => await validatorService.IsManufacturerValidAsync(manufacturerId)).GetAwaiter().GetResult();
 
-            this.product = new Product
+            product = new Product
             {
                 Name = name,
                 NameDetailed = nameDetailed,
@@ -47,7 +47,7 @@
             {
                 var id = Guid.NewGuid().ToString();
                 //var filePath = $"/Images/{id}";
-                this.product.Images.Add(new Image
+                product.Images.Add(new Image
                 {
                     Id = id,
                     Url = image
@@ -60,10 +60,10 @@
         {
             foreach (var valueId in specificationValueIds)
             {
-                var isValid = Task.Run(async()=>await validatorService.IsSpecificationValueValidAsync(valueId)).GetAwaiter().GetResult();
+                var isValid = Task.Run(async () => await validatorService.IsSpecificationValueValidAsync(valueId)).GetAwaiter().GetResult();
                 if (isValid)
                 {
-                    this.product.Specifications.Add(new ProductSpecificationValues
+                    product.Specifications.Add(new ProductSpecificationValues
                     {
                         SpecificationValueId = valueId,
                     });
@@ -76,7 +76,7 @@
         {
             dbContext.Products.Add(product);
             await dbContext.SaveChangesAsync();
-            
+
         }
     }
 }

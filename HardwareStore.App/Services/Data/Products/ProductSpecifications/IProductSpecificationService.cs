@@ -1,4 +1,4 @@
-﻿namespace HardwareStore.App.Services.Data.Products
+﻿namespace HardwareStore.App.Services.Data.Products.ProductSpecifications
 {
     using System.Threading.Tasks;
 

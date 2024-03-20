@@ -1,4 +1,4 @@
-﻿namespace HardwareStore.App.Services.Data.Products
+﻿namespace HardwareStore.App.Services.Data.Products.Create
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;

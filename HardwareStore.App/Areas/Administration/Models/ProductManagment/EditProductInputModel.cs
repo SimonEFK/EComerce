@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
-    using HardwareStore.App.Services.Data.Products;
+    using HardwareStore.App.Services.Data.Products.Edit;
     using HardwareStore.App.ValidationAttributes;
 
     public class EditProductInputModel

@@ -1,7 +1,7 @@
 ﻿@model EditProductInputModel;
 <div class="row justify-content-center align-content-center">
     <div class="col">
-        <form method="post">
+        <form method="post" action="/Administration/ProductManagment/EditProduct/@Model.Id">
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label asp-for="@this.Model.Name" class="form-label"></label>
@@ -37,7 +37,6 @@
 
                 </div>
             </div>
-
             <div class="row">
                 <div class="col">
                     <h3>Specifications</h3>
@@ -82,7 +81,7 @@
                     <button class="btn btn-info w-25 mx-auto" type="submit">Submit</button>
                 </div>
             </div>
-
+            <button type="submit" class="btn btn-primary">Submitt</button>
         </form>
 
     </div>
