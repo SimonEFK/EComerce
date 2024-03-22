@@ -19,17 +19,20 @@
         public string? NameDetailed { get; set; }
 
         [ValidCategory(ErrorMessage = "Invalid Category")]
+        [DisplayName("Category")]
         public int CategoryId { get; set; }
 
         [ValidManufacturer(ErrorMessage = "Invalid Manufacturer")]
+        [DisplayName("Manufacturer")]
         public int ManufacturerId { get; set; }
 
+        [RegularExpression(@"^https?:\/\/.*\/.*\.(jpg|jpeg|png|gif|webp|avif)$", ErrorMessage = "Invalid Url Format")]
+        public AddImageInputModel? Image { get; set; } = new AddImageInputModel();
+
+        public List<EditImageDTO> Images { get; set; } = new List<EditImageDTO>();
+
         public List<ProductSpecificationEdit> Specifications { get; set; } = new List<ProductSpecificationEdit>();
-
-        //[Required(ErrorMessage = "Product image is required")]
-        //[CollectionRegex(@"^https?:\/\/.*\/.*\.(jpg|jpeg|png|gif|webp|avif)$", ErrorMessage = "Invalid Url Format")]
-        //public HashSet<string> ImageUrls { get; set; } = new HashSet<string>();
-
+        
         public ICollection<(string Name, int Id)> CategoryList { get; set; } = new List<(string Name, int Id)>();
 
         public ICollection<(string Name, int Id)> ManufacturerList { get; set; } = new List<(string Name, int Id)>();

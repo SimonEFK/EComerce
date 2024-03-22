@@ -21,14 +21,16 @@
         private IProductDataService _productDataService;
         private IManufacturerDataService _manufacturerDataService;
         private IProductSpecificationService _productSpecificationService;
+        private IEditProductService _editProductService;
         private IMapper mapper;
-        public ProductManagmentController(ICategoryDataService categoryDataService, IProductDataService productDataService, IManufacturerDataService manufacturerDataService, IMapper mapper, IProductSpecificationService productSpecificationService)
+        public ProductManagmentController(ICategoryDataService categoryDataService, IProductDataService productDataService, IManufacturerDataService manufacturerDataService, IMapper mapper, IProductSpecificationService productSpecificationService, IEditProductService editProductService)
         {
             _categoryDataService = categoryDataService;
             _productDataService = productDataService;
             _manufacturerDataService = manufacturerDataService;
             this.mapper = mapper;
             _productSpecificationService = productSpecificationService;
+            _editProductService = editProductService;
         }
 
         public IActionResult Index()
@@ -77,11 +79,13 @@
             model.NameDetailed = product.NameDetailed;
             model.CategoryId = product.CategoryId;
             model.ManufacturerId = product.ManufacturerId;
+            model.Images = product.Images;
             model.Specifications = product.Specifications.ToList();
             model.CategoryList = await _categoryDataService.GetCategoriesAsTupleCollectionAsync();
             model.ManufacturerList = await _manufacturerDataService.GetManufacturersAsTupleCollectionAsync();
             return View(model);
         }
+
         [HttpPost]
         public async Task<IActionResult> EditProduct(int id, EditProductInputModel model)
         {
@@ -104,16 +108,50 @@
             return Redirect($"/Administration/ProductManagment/EditProduct/{id}");
         }
 
-        [HttpGet]
-        public async Task<IActionResult> RemoveSpecification(int id, int valueId)
-        {
-            await _productSpecificationService.RemoveSpecification(id, valueId);
+        [HttpPost]
+        public async Task<IActionResult> RemoveSpecification(int id, SpecificationValueInputModel model)
+        { 
+            if (!ModelState.IsValid) 
+            {
+                return Redirect($"/Administration/ProductManagment/EditProduct/{id}");
+
+            }
+            await _productSpecificationService.RemoveSpecification(id, model.ValueId);
             return Redirect($"/Administration/ProductManagment/EditProduct/{id}");
         }
-        [HttpGet]
-        public async Task<IActionResult> AddSpecification(int id, int valueId)
+
+        [HttpPost]
+        public async Task<IActionResult> AddSpecification(int id, SpecificationValueInputModel model)
         {
-            await _productSpecificationService.AddSpecification(id, valueId);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+
+            }
+            await _productSpecificationService.AddSpecification(id, model.ValueId);
+            return Redirect($"/Administration/ProductManagment/EditProduct/{id}");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddImage(int id, AddImageInputModel imageModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Redirect($"/Administration/ProductManagment/EditProduct/{id}");
+
+            }
+            await _editProductService.AddImage(id, imageModel.ImageUrl);
+            return Redirect($"/Administration/ProductManagment/EditProduct/{id}");
+        }
+        [HttpPost]
+        public async Task<IActionResult> RemoveImage([FromRoute]int id, RemoveImageInputModel imageModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+
+            }
+            await _editProductService.RemoveImage(id, imageModel.ImageId);
             return Redirect($"/Administration/ProductManagment/EditProduct/{id}");
         }
     }

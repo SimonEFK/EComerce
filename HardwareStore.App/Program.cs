@@ -90,7 +90,7 @@ namespace HardwareStore.App
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapControllerRoute(
-                name: "defaultArea",
+                name: "areas",
                 pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");            
             app.MapRazorPages();
 

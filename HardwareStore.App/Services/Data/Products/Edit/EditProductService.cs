@@ -1,6 +1,5 @@
 ﻿namespace HardwareStore.App.Services.Data.Products.Edit
 {
-    using CommunityToolkit.Diagnostics;
     using HardwareStore.App.Data;
     using HardwareStore.App.Services.Validation;
     using Microsoft.EntityFrameworkCore;
@@ -18,28 +17,6 @@
 
         public async Task EditProduct(int id, string name, string? nameDetailed, int categoryId, int manufacturerId)
         {
-            var isProductValid = await validatorService.IsProductValidAsync(id);
-            if (!isProductValid)
-            {
-                throw new ArgumentException("Invalid Product");
-            }
-            var isCategoryValid = await validatorService.IsCategoryValidAsync(categoryId);
-            if (!isCategoryValid)
-            {
-                throw new ArgumentException("Invalid Category");
-            }
-            var isManufacturerValid = await validatorService.IsManufacturerValidAsync(manufacturerId);
-            if (!isManufacturerValid)
-            {
-                throw new ArgumentException("Invalid Manufacturer");
-            }
-            Guard.IsNotWhiteSpace(name);
-            Guard.IsNotEmpty(name);
-            if (nameDetailed != null)
-            {
-                Guard.IsNotEmpty(nameDetailed);
-                Guard.IsNotWhiteSpace(nameDetailed);
-            }
 
             var product = await dbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
             product.Name = name;
@@ -48,5 +25,28 @@
             product.ManufacturerId = manufacturerId;
             await dbContext.SaveChangesAsync();
         }
+
+        public async Task AddImage(int id, string url)
+        {
+            var product = dbContext.Products.FirstOrDefault(x => x.Id == id);
+            var newImageId = Guid.NewGuid().ToString();
+            var newImage = new App.Data.Models.Image
+            {
+                Id = newImageId,
+                Url = url,
+            };
+            product.Images.Add(newImage);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task RemoveImage(int id, string imageId) 
+        {
+            var product = dbContext.Products.Include(x=>x.Images).FirstOrDefault(x => x.Id == id);
+            var imageToRemove = product.Images.FirstOrDefault(x => x.Id == imageId);
+            product.Images.Remove(imageToRemove);
+            await dbContext.SaveChangesAsync();
+        }
+
+
     }
 }

@@ -12,7 +12,7 @@
 
         public int ManufacturerId { get; set; }
 
-        //public  Images { get; set; } = new HashSet<string>();
+        public List<EditImageDTO> Images { get; set; } = new List<EditImageDTO>();
 
         public IEnumerable<ProductSpecificationEdit> Specifications { get; set; } = new List<ProductSpecificationEdit>();
 

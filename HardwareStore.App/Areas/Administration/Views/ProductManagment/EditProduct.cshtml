@@ -1,21 +1,22 @@
 ﻿@model EditProductInputModel;
-<div class="row justify-content-center align-content-center">
+<div class="row flex-column justify-content-center align-content-center">
     <div class="col">
         <form method="post" action="/Administration/ProductManagment/EditProduct/@Model.Id">
             <div class="row mb-3">
-                <div class="col-md-6">
+                <div class="col-lg-6">
                     <label asp-for="@this.Model.Name" class="form-label"></label>
                     <input asp-for="@this.Model.Name" placeholder="e.g. AMD Ryzen 7 7800X3D" class="form-control" />
                     <span asp-validation-for="@this.Model.Name" class="text-danger"></span>
                 </div>
-                <div class="col-md-6">
+                <div class="col-lg-6">
                     <label asp-for="@this.Model.NameDetailed" class="form-label"></label>
                     <input asp-for="@this.Model.NameDetailed" placeholder="e.g. AMD Ryzen 7 7800X3D 4.2 GHz 8-Core Processor" class="form-control" />
                     <span asp-validation-for="@this.Model.NameDetailed" class="text-danger"></span>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-lg-6">
+                    <label asp-for="@this.Model.CategoryId"></label>
                     <select asp-for="@this.Model.CategoryId" class="form-select" id="categorySelectInputField">
                         <option>Select Category</option>
                         @foreach (var category in this.Model.CategoryList.OrderBy(x => x.Name))
@@ -25,7 +26,8 @@
                     </select>
                     <span class="text-danger" asp-validation-for="@this.Model.CategoryId"></span>
                 </div>
-                <div class="col-md-6">
+                <div class="col-lg-6">
+                    <label asp-for="@this.Model.ManufacturerId"></label>
                     <select asp-for="@this.Model.ManufacturerId" class="form-select">
                         <option>Select Manufacturer</option>
                         @foreach (var manufacturer in this.Model.ManufacturerList.OrderBy(x => x.Name))
@@ -37,70 +39,94 @@
 
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
-                    <h3>Specifications</h3>
-                    <div class="row">
-                        <div class="col">
-                            <select id="specificationsSelectMenu" class="form-select">
-                                <option>Select Specification</option>
-                            </select>
-                            <a target="_blank" href="/Administration/CategoryManagment">Add New Values</a>
-                        </div>
-                        <div class="col">
-                            <select id="specValuesSelectMenu" class="form-select">
-                                <option>Select Value</option>
-                            </select>
 
-                        </div>
-                    </div>
-                    <button id="addSpecBtn" type="button" class="btn btn-success">Add</button>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="specificationsBox">
-                                @foreach (var specification in Model.Specifications)
-                                {
-                                    <div class="row">
-                                        <div class="col-auto">
-                                            <input disabled class="form-control" placeholder="@specification.SpecificationName" />
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="input-group flex-nowrap">
-                                                <input disabled class="form-control" placeholder="@specification.ValueName" />
-                                                <a href="/Administration/ProductManagment/RemoveSpecification/@Model.Id?valueId=@specification.ValueId" class="btn btn-outline-danger">Remove</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="row">
-                    <button class="btn btn-info w-25 mx-auto" type="submit">Submit</button>
-                </div>
-            </div>
             <button type="submit" class="btn btn-primary">Submitt</button>
         </form>
+    </div>
+    <div class="col">
+        <div class="row">
+            <span class="h3 text-center mb-3">Specifications</span>
+            <div class="col">
+                <div class="row">
+                    <div class="col-md-6">
+                        <select id="specificationsSelectMenu" class="form-select">
+                            <option>Select Specification</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <select id="specValuesSelectMenu" class="form-select">
+                            <option>Select Value</option>
+                        </select>
+                    </div>
+                </div>
+                <button id="addSpecBtn" type="button" class="btn btn-success">Add</button>
+                <div class="row my-3" id="specificationsRow">
+                    <div class="col">
+                        <div class="row">
+                            @foreach (var specification in Model.Specifications)
+                            {
+                                <div class="col-lg-6">
+                                    <input disabled class="form-control" placeholder="@specification.SpecificationName" />
+                                </div>
+                                <div class="col-lg-6 mb-2">
+                                    <div class="input-group flex-nowrap">
+                                        <input disabled class="form-control" placeholder="@specification.ValueName" />
+                                        <button data-removeSpecBtn="@specification.ValueId" class="btn btn-outline-danger">Remove</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="row">
+            <div class="col">
+                <form method="post" action="/Administration/ProductManagment/AddImage/@Model.Id">
+                    <div class="input-group">
+                        <input name="ImageUrl" asp-for="@Model.Image.ImageUrl" class="form-control" type="text" placeholder="Image URL" />
+                        <button class="btn btn-outline-primary">Add Image</button>
+                    </div>
+                    <span class="text-danger" asp-validation-for="@Model.Image.ImageUrl"></span>
+                </form>
+            </div>
+        </div>
+        <div class="row" id="imageRow">
+            @foreach (var image in Model.Images)
+            {
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="overflow-hidden d-flex justify-content-center align-items-center">
+                        <img src="@image.Url" class="img-fluid" />
+                    </div>
+                    <button data-removeImageBtn="@image.Id" class="btn btn-outline-danger">Remove</button>
+                </div>
+            }
+        </div>
 
     </div>
 </div>
+
+
 @section Scripts {
     <script>
         let categoryInfo = {};
-        
-        window.addEventListener('load', UpdateSpecificationValues)
-        
-        let categorySelectInputField = document.querySelector("#categorySelectInputField");
 
+        window.addEventListener('load', UpdateSpecificationValues)
+        document.querySelector('#imageRow').addEventListener('click', RemoveImage)
+        document.querySelector('#specificationsRow').addEventListener('click', RemoveSpecification)
+        document.querySelector('#addSpecBtn').addEventListener('click', AddSpecification)
+
+
+        let categorySelectInputField = document.querySelector("#categorySelectInputField");
         let specificationsSelectMenu = document.querySelector('#specificationsSelectMenu');
         let specValuesSelectMenu = document.querySelector("#specValuesSelectMenu");
 
-        
         categorySelectInputField.addEventListener("input", UpdateSpecificationValues);
         specificationsSelectMenu.addEventListener("input", UpdateValues);
-
 
         async function UpdateSpecificationValues(event) {
 
@@ -141,22 +167,75 @@
 
         }
 
-        let addSpecBtn = document.querySelector('#addSpecBtn');
-        addSpecBtn.addEventListener('click', AddSpecification)
-        function AddSpecification(event) {
+        async function RemoveSpecification(event) {
+            event.preventDefault();
+            let target = event.target;
+            if (target.matches('button[data-removeSpecBtn]')) {
+                let valueId = target.dataset["removespecbtn"];
+                let productId = @Model.Id;
+                let url = `/Administration/ProductManagment/RemoveSpecification/${productId}`;
+                debugger;
+                let formData = new FormData();
+                debugger;
+                formData.append('valueid', valueId);
+                let options = {
+                    'method': 'POST',
+                    'body': formData
+                }
+                let response = await fetch(url, options);
+                if (response.redirected) {
+                    window.location.href = response.url;
+                }
 
-            let specificationsBox = document.querySelector('.specificationsBox');
+            }
+        }
+        async function RemoveImage(event) {
+            event.preventDefault();
+            let target = event.target;
+            if (target.matches('button[data-removeImageBtn]')) {
+                let imageId = target.dataset["removeimagebtn"];
+                let productId = @Model.Id;
+                let url = `/Administration/ProductManagment/RemoveImage/${productId}`;
+                debugger;
+                let formData = new FormData();
+
+                formData.append('imageId', imageId);
+                let options = {
+                    'method': 'POST',
+                    'body': formData
+                }
+                let response = await fetch(url, options);
+                if (response.redirected) {
+                    window.location.href = response.url;
+                }
+
+            }
+        }
+
+        async function AddSpecification(event) {
+            event.preventDefault();
+
             let specValueSelectMenu = document.querySelector('#specValuesSelectMenu');
-
-            let specName = specValueSelectMenu.options[specValueSelectMenu.selectedIndex].dataset["specname"];
-            let valueName = specValueSelectMenu.options[specValueSelectMenu.selectedIndex].dataset["valuename"];
             let valueId = specValueSelectMenu.value;
+
             if (!valueId) {
                 console.log("Invalid input");
                 return
             };
+
             let productId = @Model.Id;
-            window.location.href = `/Administration/ProductManagment/AddSpecification/${productId}?valueId=${valueId}`;
+            let url = `/Administration/ProductManagment/AddSpecification/${productId}`;
+
+            let formData = new FormData();
+            formData.append('valueId', valueId);
+            let options = {
+                'method': 'POST',
+                'body': formData
+            }
+            let response = await fetch(url, options);
+            if (response.redirected) {
+                window.location.href = response.url;
+            }
         }
     </script>
 } 
