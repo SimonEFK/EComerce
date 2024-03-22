@@ -16,7 +16,7 @@
                         <ul class="list-group">
                             <li class="list-group-item d-flex flex-grow-1 justify-content-between">
                                 <p class="m-0">@item.Name</p>
-                                <a href="Cart/RemoveItem/@item.Id"><i class="bi bi-x-lg text-danger" data-removeItemFromCart="@item.Name" data-productId="@item.Id"></i></a>
+                                <a asp-controller="Cart" asp-action="RemoveItem" asp-route-Id="@item.Id"><i class="bi bi-x-lg text-danger" data-removeItemFromCart="@item.Name" data-productId="@item.Id"></i></a>
                             </li>
                             <li class="list-group-item flex-grow-1">
                                 <p class="m-0">@item.Amount</p>

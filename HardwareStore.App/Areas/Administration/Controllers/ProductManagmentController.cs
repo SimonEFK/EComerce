@@ -73,14 +73,7 @@
         public async Task<IActionResult> EditProduct(int id)
         {
             var product = await _productDataService.GetProductById<EditProductDTO>(id);
-            var model = new EditProductInputModel();
-            model.Id = product.Id;
-            model.Name = product.Name;
-            model.NameDetailed = product.NameDetailed;
-            model.CategoryId = product.CategoryId;
-            model.ManufacturerId = product.ManufacturerId;
-            model.Images = product.Images;
-            model.Specifications = product.Specifications.ToList();
+            var model = mapper.Map<EditProductInputModel>(product);            
             model.CategoryList = await _categoryDataService.GetCategoriesAsTupleCollectionAsync();
             model.ManufacturerList = await _manufacturerDataService.GetManufacturersAsTupleCollectionAsync();
             return View(model);
@@ -117,7 +110,7 @@
 
             }
             await _productSpecificationService.RemoveSpecification(id, model.ValueId);
-            return Redirect($"/Administration/ProductManagment/EditProduct/{id}");
+            return Redirect($"/Administration/ProductManagment/EditProduct/{id}");           
         }
 
         [HttpPost]

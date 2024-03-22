@@ -66,6 +66,7 @@
                 .ForMember(x=> x.SpecificationName, cfg=> cfg.MapFrom(x=>x.SpecificationValue.Specification.Name))
                 .ForMember(x=> x.ValueName, cfg=> cfg.MapFrom(x=>x.SpecificationValue.Value))
                 .ForMember(x=>x.ValueId,cfg=> cfg.MapFrom(x=>x.SpecificationValueId));
+            this.CreateMap<EditProductDTO, EditProductInputModel>();
         }
     }
 }

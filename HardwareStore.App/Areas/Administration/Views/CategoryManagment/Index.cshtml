@@ -16,7 +16,7 @@
                         <th data-catid="@item.Id" scope="row">@item.Id</th>
                         <td data-itemName="@item.Name">@item.Name</td>                        
                         <td>
-                            <a href="/Administration/CategoryManagment/CategoryInfo/@item.Id" class="btn btn-outline-info">Edit</a>
+                            <a asp-area="Administration" asp-action="CategoryInfo" asp-route-Id="@item.Id" class="btn btn-outline-info">Edit</a>
                             <button class="btn btn-danger">Delete</button>
                         </td>
                     </tr>

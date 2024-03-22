@@ -82,7 +82,6 @@
             </div>
         </div>
     </div>
-
     <div class="col">
         <div class="row">
             <div class="col">
@@ -99,8 +98,8 @@
             @foreach (var image in Model.Images)
             {
                 <div class="col-12 col-sm-6 col-md-3">
-                    <div class="overflow-hidden d-flex justify-content-center align-items-center">
-                        <img src="@image.Url" class="img-fluid" />
+                    <div class="overflow-hidden d-flex justify-content-center align-items-center" style="height:300px;">
+                        <img src="@image.Url" class="img-fluid" style="max-height:300px" />
                     </div>
                     <button data-removeImageBtn="@image.Id" class="btn btn-outline-danger">Remove</button>
                 </div>
@@ -109,7 +108,7 @@
 
     </div>
 </div>
-
+<a asp-area="administration" asp-action="Index">TROLOLO</a>
 
 @section Scripts {
     <script>
@@ -130,7 +129,7 @@
 
         async function UpdateSpecificationValues(event) {
 
-            debugger;
+            
             let value = categorySelectInputField.value;
             let response = await fetch(`/administration/categorymanagment/categoryinfojson?categoryId=${value}`);
             categoryInfo = await response.json();
@@ -174,9 +173,9 @@
                 let valueId = target.dataset["removespecbtn"];
                 let productId = @Model.Id;
                 let url = `/Administration/ProductManagment/RemoveSpecification/${productId}`;
-                debugger;
+                
                 let formData = new FormData();
-                debugger;
+                
                 formData.append('valueid', valueId);
                 let options = {
                     'method': 'POST',
@@ -196,7 +195,7 @@
                 let imageId = target.dataset["removeimagebtn"];
                 let productId = @Model.Id;
                 let url = `/Administration/ProductManagment/RemoveImage/${productId}`;
-                debugger;
+                
                 let formData = new FormData();
 
                 formData.append('imageId', imageId);
