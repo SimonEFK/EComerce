@@ -4,7 +4,7 @@
 
     public interface IProductSpecificationService
     {
-        Task AddSpecification(int productId, int valueId);
-        Task RemoveSpecification(int productId, int valueId);
+        Task<ServiceResult> AddSpecificationAsync(int productId, int valueId);
+        Task<ServiceResult> RemoveSpecificationAsync(int productId, int valueId);
     }
 }

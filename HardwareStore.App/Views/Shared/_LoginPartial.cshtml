@@ -11,12 +11,12 @@
                 <button type="submit" class="nav-link btn btn-link link-primary">Logout</button>
             </form>
         </li>
-        @if (User.IsInRole("admin"))
-        {
+        @* @if (User.IsInRole("admin"))
+        { *@
             <li class="nav-item">
-                <a class="nav-link link-primary" href="/Administration">Administration</a>
+                <a class="nav-link link-primary" asp-area="Administration" asp-controller="ProductManagment">Administration</a>
             </li>            
-        }
+        @* } *@
     }
     else
     {

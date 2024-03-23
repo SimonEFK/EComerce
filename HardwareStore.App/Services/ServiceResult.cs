@@ -2,8 +2,10 @@
 {
     public class ServiceResult
     {
-        public bool Success { get; set; } =true;
-        
-        public ICollection<string> ErrorMessage { get; set; } = new List<string>();
+        public bool Success { get; set; } = true;
+
+        public string ErrorMessage { get; set; }
+       
     }
+    
 }

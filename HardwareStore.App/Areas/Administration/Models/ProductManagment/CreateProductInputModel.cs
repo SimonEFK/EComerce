@@ -1,12 +1,10 @@
 ﻿namespace HardwareStore.App.Areas.Administration.Models.ProductManagment
 {
-    using HardwareStore.App.Services;
     using HardwareStore.App.ValidationAttributes;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
-    public class CreateProductInputModel 
-        
+    public class CreateProductInputModel         
     {
         [Required]
         [StringLength(maximumLength: 60, MinimumLength = 6, ErrorMessage = "{0} field must be {2}-{1} characters long")]
@@ -21,7 +19,8 @@
 
         [ValidManufacturer(ErrorMessage = "Invalid Manufacturer")]
         public int ManufacturerId { get; set; }
-        
+
+        [ValidSpecificationValue(ErrorMessage ="Invalid Specification Values")]
         public HashSet<int> Specifications { get; set; } = new HashSet<int>();
 
         [Required(ErrorMessage = "Product image is required")]

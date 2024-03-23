@@ -1,7 +1,7 @@
 ﻿@model EditProductInputModel;
 <div class="row flex-column justify-content-center align-content-center">
     <div class="col">
-        <form method="post" action="/Administration/ProductManagment/EditProduct/@Model.Id">
+        <form method="post" asp-area="Administration" asp-controller="ProductManagment" asp-action="EditProduct" asp-route-id="@Model.Id">
             <div class="row mb-3">
                 <div class="col-lg-6">
                     <label asp-for="@this.Model.Name" class="form-label"></label>
@@ -84,13 +84,13 @@
     </div>
     <div class="col">
         <div class="row">
-            <div class="col">
-                <form method="post" action="/Administration/ProductManagment/AddImage/@Model.Id">
+            <div class="col">               
+                <form method="post" asp-area="Administration" asp-controller="ProductManagment" asp-action="AddImage" asp-route-Id="@Model.Id">
                     <div class="input-group">
-                        <input name="ImageUrl" asp-for="@Model.Image.ImageUrl" class="form-control" type="text" placeholder="Image URL" />
+                        <input name="ImageUrl" class="form-control" type="text" placeholder="Image URL" />
                         <button class="btn btn-outline-primary">Add Image</button>
                     </div>
-                    <span class="text-danger" asp-validation-for="@Model.Image.ImageUrl"></span>
+                    @* <span class="text-danger" asp-validation-for="@Model.Image.ImageUrl"></span> *@
                 </form>
             </div>
         </div>
@@ -108,7 +108,7 @@
 
     </div>
 </div>
-<a asp-area="administration" asp-action="Index">TROLOLO</a>
+
 
 @section Scripts {
     <script>
@@ -129,7 +129,7 @@
 
         async function UpdateSpecificationValues(event) {
 
-            
+
             let value = categorySelectInputField.value;
             let response = await fetch(`/administration/categorymanagment/categoryinfojson?categoryId=${value}`);
             categoryInfo = await response.json();
@@ -163,7 +163,6 @@
 
             })
 
-
         }
 
         async function RemoveSpecification(event) {
@@ -173,9 +172,11 @@
                 let valueId = target.dataset["removespecbtn"];
                 let productId = @Model.Id;
                 let url = `/Administration/ProductManagment/RemoveSpecification/${productId}`;
-                
+
+
                 let formData = new FormData();
-                
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                formData.append('__RequestVerificationToken', token);
                 formData.append('valueid', valueId);
                 let options = {
                     'method': 'POST',
@@ -195,9 +196,10 @@
                 let imageId = target.dataset["removeimagebtn"];
                 let productId = @Model.Id;
                 let url = `/Administration/ProductManagment/RemoveImage/${productId}`;
-                
-                let formData = new FormData();
 
+                let formData = new FormData();
+                var token = $('input[name="__RequestVerificationToken"]').val();
+                formData.append('__RequestVerificationToken', token);
                 formData.append('imageId', imageId);
                 let options = {
                     'method': 'POST',
@@ -210,7 +212,6 @@
 
             }
         }
-
         async function AddSpecification(event) {
             event.preventDefault();
 
@@ -226,6 +227,8 @@
             let url = `/Administration/ProductManagment/AddSpecification/${productId}`;
 
             let formData = new FormData();
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            formData.append('__RequestVerificationToken', token);
             formData.append('valueId', valueId);
             let options = {
                 'method': 'POST',

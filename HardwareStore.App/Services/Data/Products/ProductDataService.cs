@@ -6,22 +6,19 @@
     using HardwareStore.App.Services.Data.Products.Create;
     using HardwareStore.App.Services.Data.Products.Edit;
     using Microsoft.EntityFrameworkCore;
-    using System.Reflection.Metadata;
 
     public class ProductDataService : IProductDataService
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly IMapper mapper;
-        private readonly IWebHostEnvironment env;
+        private readonly IMapper mapper;        
         private readonly ICreateProductService createProductService;
         private readonly IEditProductService editProductService;
 
 
-        public ProductDataService(ApplicationDbContext dbContext, IMapper mapper, IWebHostEnvironment env, ICreateProductService createProductService, IEditProductService editProductService)
+        public ProductDataService(ApplicationDbContext dbContext, IMapper mapper, ICreateProductService createProductService, IEditProductService editProductService)
         {
             this.dbContext = dbContext;
-            this.mapper = mapper;
-            this.env = env;
+            this.mapper = mapper;            
             this.createProductService = createProductService;
             this.editProductService = editProductService;
         }
@@ -33,44 +30,47 @@
             return product;
         }
 
-        public async Task<ServiceResult> CreateProduct(CreateProductDTO createProductDTO)
-        {
-            var serviceResult = new ServiceResult();
-            try
-            {
-                await this.createProductService
-                .CreateProduct(createProductDTO.Name, createProductDTO.NameDetailed, createProductDTO.CategoryId, createProductDTO.ManufacturerId)
-                .AddImages(createProductDTO.ImageUrls)
-                .AddSpecifications(createProductDTO.Specifications)
-                .SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                serviceResult.Success = false;
-                serviceResult.ErrorMessage.Add(ex.Message);
-                return serviceResult;
-            }
+        public async Task<ServiceResultGeneric<T>> CreateProductAsync<T>(CreateProductDTO createProductDTO)
+        {            
+            var result = await this.createProductService
+            .CreateProduct(createProductDTO.Name, createProductDTO.NameDetailed, createProductDTO.CategoryId, createProductDTO.ManufacturerId)
+            .AddImages(createProductDTO.ImageUrls)
+            .AddSpecifications(createProductDTO.Specifications)
+            .SaveChangesAsync<T>();
 
-            return serviceResult;
+            return result;
         }
 
-        public async Task<ServiceResult> EditProduct(EditProductDTO editProductDto)
+        public async Task<ServiceResultGeneric<T>> EditProductAsync<T>(EditProductDTO editProductDto)
         {
-            var serviceResult = new ServiceResult();
+            var result = await editProductService.EditProductAsync<T>(editProductDto.Id, editProductDto.Name, editProductDto.NameDetailed, editProductDto.CategoryId, editProductDto.ManufacturerId);
+            return result;
+            
+        }
 
-            try
-            {
-                await editProductService.EditProduct(editProductDto.Id, editProductDto.Name, editProductDto.NameDetailed, editProductDto.CategoryId, editProductDto.ManufacturerId);
+        public async Task<ServiceResult> AddImageAsync(int productId, string imageUrl)
+        {
+            var result = await this.editProductService.AddImageAsync(productId, imageUrl);
+            return result;
+        }
 
-            }
-            catch (Exception ex)
-            {
-                serviceResult.ErrorMessage.Add(ex.Message);
-                serviceResult.Success = false;
-                return serviceResult;
+        public async Task<ServiceResult> RemoveImageAsync(int productId,string imageId)
+        {
+            var result = await this.editProductService.RemoveImageAsync(productId, imageId);
+            return result;
+        }
 
-            }
-            return serviceResult;
+        public async Task<ServiceResult> AddSpecificationAsync(int productId,int valueId)
+        {
+            var result = await this.editProductService.AddSpecificationAsync(productId, valueId);
+            return result;
+        }
+
+        public async Task<ServiceResult> RemoveSpecificationAsync(int productId,int valueId)
+
+        {
+            var result = await this.editProductService.RemoveSpecificationAsync(productId, valueId);
+            return result;
         }
     }
 }

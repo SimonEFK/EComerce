@@ -1,6 +1,6 @@
 ﻿namespace HardwareStore.App.ValidationAttributes
 {
-    using HardwareStore.App.Services.Data.Category;
+    using HardwareStore.App.Services.Validation;
     using System.ComponentModel.DataAnnotations;
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
     public class ValidSpecificationValueAttribute : ValidationAttribute
@@ -13,15 +13,16 @@
             {
                 var selectedIds = specifications.SelectMany(x => x.Value).ToHashSet();
 
-                var categoryDataService = (ICategoryDataService)validationContext.GetService(typeof(ICategoryDataService));
-                var validIds = categoryDataService.ValidSpecificationValuesIds().GetAwaiter().GetResult();
+                var validatorService = (IValidatorService)validationContext.GetService(typeof(IValidatorService));
+                var areValid = Task.Run(async () => await validatorService.IsSpecificationValueValidAsync(selectedIds)).GetAwaiter().GetResult();
 
-                if (selectedIds.Any(x => !validIds.Contains(x)))
+                if (!areValid)
                 {
                     return new ValidationResult("Invalid Filters");
                 }
             }
             return ValidationResult.Success;
         }
+       
     }
 }

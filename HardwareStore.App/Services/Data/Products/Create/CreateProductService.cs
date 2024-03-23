@@ -1,6 +1,6 @@
 ﻿namespace HardwareStore.App.Services.Data.Products.Create
 {
-    using CommunityToolkit.Diagnostics;
+    using AutoMapper;
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Services.Validation;
@@ -9,28 +9,18 @@
     {
         private ApplicationDbContext dbContext;
         private IValidatorService validatorService;
+        private IMapper mapper;
         private Product product;
 
-
-        public CreateProductService(ApplicationDbContext dbContext, IValidatorService validatorService)
+        public CreateProductService(ApplicationDbContext dbContext, IValidatorService validatorService, IMapper mapper)
         {
             this.dbContext = dbContext;
             this.validatorService = validatorService;
-
+            this.mapper = mapper;
         }
 
         public ICreateProductService CreateProduct(string name, string? nameDetailed, int categoryId, int manufacturerId)
         {
-            Guard.IsNotWhiteSpace(name);
-            Guard.IsNotEmpty(name);
-            if (nameDetailed != null)
-            {
-                Guard.IsNotEmpty(nameDetailed);
-                Guard.IsNotWhiteSpace(nameDetailed);
-            }
-            Task.Run(async () => await validatorService.IsCategoryValidAsync(categoryId)).GetAwaiter().GetResult();
-            Task.Run(async () => await validatorService.IsManufacturerValidAsync(manufacturerId)).GetAwaiter().GetResult();
-
             product = new Product
             {
                 Name = name,
@@ -72,10 +62,22 @@
             return this;
         }
 
-        public async Task SaveChangesAsync()
+        public async Task<ServiceResultGeneric<T>> SaveChangesAsync<T>()
         {
+            var result = new ServiceResultGeneric<T>();
             dbContext.Products.Add(product);
-            await dbContext.SaveChangesAsync();
+            try
+            {
+                await dbContext.SaveChangesAsync();
+                result.Data = mapper.Map<T>(product);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.ErrorMessage = ex.Message;
+                return result;
+            }
 
         }
     }

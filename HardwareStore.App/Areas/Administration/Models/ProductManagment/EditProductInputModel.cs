@@ -25,9 +25,7 @@
         [ValidManufacturer(ErrorMessage = "Invalid Manufacturer")]
         [DisplayName("Manufacturer")]
         public int ManufacturerId { get; set; }
-
-        [RegularExpression(@"^https?:\/\/.*\/.*\.(jpg|jpeg|png|gif|webp|avif)$", ErrorMessage = "Invalid Url Format")]
-        public AddImageInputModel? Image { get; set; } = new AddImageInputModel();
+        
 
         public List<EditImageDTO> Images { get; set; } = new List<EditImageDTO>();
 

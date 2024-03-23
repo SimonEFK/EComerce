@@ -10,11 +10,13 @@
         Task<ServiceResult> CreateCategory(string name, string ImageUrl);
 
         Task<ServiceResult> CreateSpecification(int categoryId, string name, bool isFilter = false, bool isEssential = false);
+
         Task<ServiceResult> CreateSpecificationValue(int categoryId, int specificationId, string value, string? metric);
 
         Task<ServiceResult> EditCategory(int id, string name, string imageUrl, string imageFilePath);
 
         Task<ServiceResult> EditSpecification(int categoryId, int id, string name, bool isFilter = false, bool isEssential = false);
+
         Task<ServiceResult> EditSpecificationValue(int categoryId, int specificationId, int valueId, string value, string? metric);
 
         Task<ICollection<TModel>> GetCategories<TModel>();
@@ -22,6 +24,6 @@
         Task<ICollection<(string Name, int Id)>> GetCategoriesAsTupleCollectionAsync();
 
         Task<SpecificationInfoDTO> SpecificationInfo(int specificationId);
-        Task<ICollection<int>> ValidSpecificationValuesIds();
+        
     }
 }

@@ -32,7 +32,7 @@
             if (categoryExsist != null)
             {
                 serviceResult.Success = false;
-                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryExsist, categoryExsist.Name));
+                serviceResult.ErrorMessage = string.Format(ErrorMessages.CategoryExsist, categoryExsist.Name);
                 return serviceResult;
             }
 
@@ -55,7 +55,7 @@
             if (category == null)
             {
                 serviceResult.Success = false;
-                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryDosentExsist, name));
+                serviceResult.ErrorMessage = string.Format(ErrorMessages.CategoryDosentExsist, name);
                 return serviceResult;
             }
             var categoryExist = dbContext.Categories
@@ -64,7 +64,7 @@
             if (categoryExist)
             {
                 serviceResult.Success = false;
-                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryExsist, name));
+                serviceResult.ErrorMessage = string.Format(ErrorMessages.CategoryExsist, name);
                 return serviceResult;
             }
 
@@ -86,7 +86,7 @@
                 .Include(x => x.Specifications).FirstOrDefaultAsync(x => x.Id == categoryId);
             if (categoryExists == null)
             {
-                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryDosentExsist));
+                serviceResult.ErrorMessage = string.Format(ErrorMessages.CategoryDosentExsist);
                 serviceResult.Success = false;
                 return serviceResult;
             }
@@ -97,7 +97,7 @@
             if (specificationExsist != null)
             {
                 serviceResult.ErrorMessage
-                    .Add(string.Format(ErrorMessages.SpecificationExsist, specificationExsist.Name, categoryExists.Name));
+                    = string.Format(ErrorMessages.SpecificationExsist, specificationExsist.Name, categoryExists.Name);
                 serviceResult.Success = false;
                 return serviceResult;
             }
@@ -122,7 +122,7 @@
             if (category == null)
             {
                 serviceResult.Success = false;
-                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryDosentExsist));
+                serviceResult.ErrorMessage = string.Format(ErrorMessages.CategoryDosentExsist);
                 return serviceResult;
             }
             var specification = category.Specifications.FirstOrDefault(x => x.Id == id);
@@ -130,7 +130,7 @@
             if (specificationExsist)
             {
                 serviceResult.Success = false;
-                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.SpecificationExsist, name, category.Name));
+                serviceResult.ErrorMessage = string.Format(ErrorMessages.SpecificationExsist, name, category.Name);
                 return serviceResult;
             }
 
@@ -150,21 +150,21 @@
             if (category == null)
             {
                 serviceResult.Success = false;
-                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryDosentExsist));
+                serviceResult.ErrorMessage = string.Format(ErrorMessages.CategoryDosentExsist);
                 return serviceResult;
             }
             var specification = category.Specifications.FirstOrDefault(x => x.Id == specificationId);
             if (specification == null)
             {
                 serviceResult.Success = false;
-                serviceResult.ErrorMessage.Add(ErrorMessages.SpecificationDoesentExsist);
+                serviceResult.ErrorMessage = ErrorMessages.SpecificationDoesentExsist;
                 return serviceResult;
             }
             var valueExsist = specification.Values.FirstOrDefault(x => string.Equals(x.Value, value, StringComparison.OrdinalIgnoreCase));
             if (valueExsist != null)
             {
                 serviceResult.Success = false;
-                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.SpecificationValueExsist, category.Name, specification.Name, value));
+                serviceResult.ErrorMessage = string.Format(ErrorMessages.SpecificationValueExsist, category.Name, specification.Name, value);
                 return serviceResult;
             }
 
@@ -187,28 +187,28 @@
             if (category == null)
             {
                 serviceResult.Success = false;
-                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.CategoryDosentExsist));
+                serviceResult.ErrorMessage = string.Format(ErrorMessages.CategoryDosentExsist);
                 return serviceResult;
             }
             var specification = category.Specifications.FirstOrDefault(x => x.Id == specificationId);
             if (specification == null)
             {
                 serviceResult.Success = false;
-                serviceResult.ErrorMessage.Add(ErrorMessages.SpecificationDoesentExsist);
+                serviceResult.ErrorMessage = ErrorMessages.SpecificationDoesentExsist;
                 return serviceResult;
             }
             var value = specification.Values.FirstOrDefault(x => x.Id == valueId);
             if (value == null)
             {
                 serviceResult.Success = false;
-                serviceResult.ErrorMessage.Add("Invalid Value Id");
+                serviceResult.ErrorMessage = "Invalid Value Id";
                 return serviceResult;
             }
             var valueExsist = specification.Values.Where(x => x.Id != value.Id).Any(x => string.Equals(x.Value, newValue, StringComparison.OrdinalIgnoreCase));
             if (valueExsist)
             {
                 serviceResult.Success = false;
-                serviceResult.ErrorMessage.Add(string.Format(ErrorMessages.SpecificationValueExsist, category.Name, specification.Name, newValue.ToTitleCase()));
+                serviceResult.ErrorMessage = string.Format(ErrorMessages.SpecificationValueExsist, category.Name, specification.Name, newValue.ToTitleCase());
                 return serviceResult;
             }
             value.Value = newValue.ToTitleCase();
@@ -261,11 +261,6 @@
             return specificationInfo;
         }
 
-        public async Task<ICollection<int>> ValidSpecificationValuesIds()
-        {
-            var result = await dbContext.SpecificationValues.Select(x => x.Id).ToListAsync();
-
-            return result;
-        }
+        
     }
 }

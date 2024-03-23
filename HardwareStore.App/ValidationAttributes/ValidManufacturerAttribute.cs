@@ -1,6 +1,6 @@
 ﻿namespace HardwareStore.App.ValidationAttributes
 {
-    using HardwareStore.App.Services.Data;
+    using HardwareStore.App.Services.Validation;
     using System.ComponentModel.DataAnnotations;
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
     public class ValidManufacturerAttribute : ValidationAttribute
@@ -9,14 +9,10 @@
         {
             if (value is HashSet<int> manufacturerIds)
             {
-                var manufacturerDataService = (IManufacturerDataService)validationContext.GetService(typeof(IManufacturerDataService));
-                var manufacturers = manufacturerDataService
-                    .GetManufacturersAsTupleCollectionAsync()
-                    .GetAwaiter()
-                    .GetResult()
-                    .Select(x => x.Id).ToList();
+                var validatorServce = (IValidatorService)validationContext.GetService(typeof(IValidatorService));
+                var areValid = Task.Run(async () => await validatorServce.IsManufacturerValidAsync(manufacturerIds)).GetAwaiter().GetResult();
 
-                if (manufacturerIds.Any(x => !manufacturers.Contains(x)))
+                if (!areValid)
                 {
                     return new ValidationResult("Invalid Manufacturer");
                 }

@@ -4,8 +4,10 @@
 
     public interface IEditProductService
     {
-        Task AddImage(int id, string url);
-        Task EditProduct(int id, string name, string? nameDetailed, int categoryId, int manufacturerId);
-        Task RemoveImage(int id, string imageId);
+        Task<ServiceResult> AddImageAsync(int id, string url);
+        Task<ServiceResult> AddSpecificationAsync(int productId, int valueId);
+        Task<ServiceResultGeneric<T>> EditProductAsync<T>(int id, string name, string? nameDetailed, int categoryId, int manufacturerId);
+        Task<ServiceResult> RemoveImageAsync(int id, string imageId);
+        Task<ServiceResult> RemoveSpecificationAsync(int productId, int valueId);
     }
 }

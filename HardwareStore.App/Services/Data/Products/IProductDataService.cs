@@ -6,9 +6,18 @@
 
     public interface IProductDataService
     {
-        Task<ServiceResult> CreateProduct(CreateProductDTO createProductDTO);
-        Task<ServiceResult> EditProduct(EditProductDTO editProductDto);
         Task<TModel?> GetProductById<TModel>(int id);
 
+        Task<ServiceResult> AddImageAsync(int productId, string imageUrl);
+
+        Task<ServiceResult> AddSpecificationAsync(int productId, int valueId);
+        
+        Task<ServiceResultGeneric<T>> CreateProductAsync<T>(CreateProductDTO createProductDTO);
+        
+        Task<ServiceResultGeneric<T>> EditProductAsync<T>(EditProductDTO editProductDto);
+
+        Task<ServiceResult> RemoveImageAsync(int productId, string imageId);
+
+        Task<ServiceResult> RemoveSpecificationAsync(int productId, int valueId);
     }
 }

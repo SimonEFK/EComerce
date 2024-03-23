@@ -16,6 +16,5 @@
 
         public IEnumerable<ProductSpecificationEdit> Specifications { get; set; } = new List<ProductSpecificationEdit>();
 
-
     }
 }

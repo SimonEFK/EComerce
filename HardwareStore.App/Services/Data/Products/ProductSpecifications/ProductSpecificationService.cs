@@ -2,7 +2,6 @@
 {
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
-    using HardwareStore.App.Models.Product;
     using HardwareStore.App.Services.Validation;
     using Microsoft.EntityFrameworkCore;
 
@@ -17,41 +16,52 @@
             this.dbContext = dbContext;
         }
 
-        public async Task AddSpecification(int productId, int valueId)
+        public async Task<ServiceResult> AddSpecificationAsync(int productId, int valueId)
         {
-            var isProductValid = await validatorService.IsProductValidAsync(productId);
-            if (!isProductValid)
+            var result = new ServiceResult();
+            var product = await dbContext.Products.FirstOrDefaultAsync(x => x.Id == productId);
+
+            if (product is null)
             {
-                throw new ArgumentException("Invalid Product");
+                result.Success = false;
+                result.ErrorMessage = $"Invalid Product Id:\"{productId}\"";
+                return result;
             }
             var isValueIdValid = await validatorService.IsSpecificationValueValidAsync(valueId);
             if (!isValueIdValid)
             {
-                throw new ArgumentException("Invalid Value");
+                result.Success = false;
+                result.ErrorMessage = $"Invalid Value Id:\"{valueId}\"";
+                return result;
             }
-            var product = await dbContext.Products.FirstAsync(x => x.Id == productId);
             var productSpecificationValue = new ProductSpecificationValues
             {
                 SpecificationValueId = valueId,
             };
             product.Specifications.Add(productSpecificationValue);
 
-            var saveResult = await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync();
+            return result;
         }
 
-        public async Task RemoveSpecification(int productId, int valueId)
+        public async Task<ServiceResult> RemoveSpecificationAsync(int productId, int valueId)
         {
-            var isProductValid = await validatorService.IsProductValidAsync(productId);
-            if (!isProductValid)
+            var result = new ServiceResult();
+            var product = await dbContext.Products.Include(x=>x.Specifications).FirstOrDefaultAsync(x => x.Id == productId);
+
+            if (product is null)
             {
-                throw new ArgumentException("Invalid Product");
+                result.Success = false;
+                result.ErrorMessage = $"Invalid Product Id:\"{productId}\"";
+                return result;
             }
             var isValueIdValid = await validatorService.IsSpecificationValueValidAsync(valueId);
             if (!isValueIdValid)
             {
-                throw new ArgumentException("Invalid Value");
+                result.Success = false;
+                result.ErrorMessage = $"Invalid Value Id:\"{valueId}\"";
+                return result;
             }
-            var product = await dbContext.Products.Include(x => x.Specifications).FirstAsync(x => x.Id == productId);
             foreach (var item in product.Specifications)
             {
                 if (item.SpecificationValueId == valueId)
@@ -60,6 +70,7 @@
                 }
             }
             await dbContext.SaveChangesAsync();
+            return result;
         }
 
     }

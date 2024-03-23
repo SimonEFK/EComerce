@@ -1,6 +1,7 @@
 ﻿namespace HardwareStore.App.ValidationAttributes
 {
     using HardwareStore.App.Services.ProductFiltering;
+    using HardwareStore.App.Services.Validation;
     using System.ComponentModel.DataAnnotations;
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter)]
     public class ValidSortOrderAttribute : ValidationAttribute
@@ -10,11 +11,11 @@
         {
             if (value is string sortOrder)
             {
-                var service = (IGenerateProductFilterOptionService)validationContext.GetService(typeof(IGenerateProductFilterOptionService));
+                var service = (IValidatorService)validationContext.GetService(typeof(IValidatorService));
 
-                var validSortOrders = service.GenerateSortOrderOptions().Select(x => x.ToLower());
+                var isValid = service.IsSortOrderValueValid(sortOrder);
 
-                if (!validSortOrders.Contains(sortOrder.ToLower()))
+                if (!isValid)
                 {
                     return new ValidationResult("Invalid SortOrder");
                 }

@@ -96,18 +96,7 @@
 
             if (!result.Success)
             {
-                foreach (var item in result.ErrorMessage)
-                {
-                    ModelState.AddModelError("", item);
-                }
-                ViewData["FormCollapse"] = "show";
-                var categories = await _categoryDataService.GetCategories<CategoryViewModel>();
-                var categoryListViewModel = new CategoryListingViewModel()
-                {
-                    Categories = categories.ToList(),
-                    CreateCategoryInputModel = createCategoryInputModel
-                };
-                return View("Index", categoryListViewModel);
+                return BadRequest(result);
             }
             return Redirect("/Administration/CategoryManagment");
         }
@@ -139,23 +128,7 @@
 
             if (!result.Success)
             {
-                foreach (var message in result.ErrorMessage)
-                {
-                    ModelState.AddModelError("", message);
-
-                }
-                var categoryInfoModel = await _categoryDataService.CategoryInfo(categoryEditModel.Id);
-                var specificationCreateModel = new SpecificationCreateInputModel
-                {
-                    CategoryId = categoryInfoModel.Id,
-                };
-                var categoryInfoViewModel = new CategoryInfoViewModel
-                {
-                    CategoryEditModel = categoryEditModel,
-                    CategoryInfoModel = categoryInfoModel,
-                    SpecificationCreateForm = specificationCreateModel
-                };
-                return View(categoryInfoViewModel);
+                return BadRequest(result);
             }
             return Redirect($"/Administration/CategoryManagment/CategoryInfo/{categoryEditModel.Id}");
         }
@@ -182,20 +155,9 @@
 
             if (!result.Success)
             {
-                foreach (var item in result.ErrorMessage)
-                {
-                    ModelState.AddModelError("", item);
-                }
-                ViewData["FormCollapse"] = "show";
-                var categoryInfoModel = await _categoryDataService.CategoryInfo(specificationCreateModel.CategoryId ?? 0);
-                var categoryEditModel = mapper.Map<CategoryEditInputModel>(categoryInfoModel);
-                var categoryInfoViewModel = new CategoryInfoViewModel
-                {
-                    CategoryEditModel = categoryEditModel,
-                    CategoryInfoModel = categoryInfoModel,
-                    SpecificationCreateForm = specificationCreateModel
-                };
-                return View("CategoryInfo", categoryInfoViewModel);
+
+                return BadRequest();
+
             }
             return Redirect($"/Administration/CategoryManagment/CategoryInfo/{specificationCreateModel.CategoryId}");
         }
@@ -220,17 +182,8 @@
                 .EditSpecification(specificationEditModel.CategoryId ?? 0, id, specificationEditModel.Name, specificationEditModel.Filter, specificationEditModel.Essential);
             if (!result.Success)
             {
-                foreach (var message in result.ErrorMessage)
-                {
-                    ModelState.AddModelError("", message);
-                }
-                var specificationInfo = await _categoryDataService.SpecificationInfo(id);
-                var specificationViewModel = new SpecificationInfoViewModel
-                {
-                    SpecificationCreateInputModel = specificationEditModel,
-                    Values = specificationInfo.Values.OrderBy(x => x.Value).ToList()
-                };
-                return View("SpecificationInfo", specificationViewModel);
+
+                return BadRequest(result);
 
             }
             return Redirect($"/Administration/CategoryManagment/SpecificationInfo/{specificationEditModel.Id}");
@@ -257,19 +210,8 @@
             var result = await _categoryDataService.CreateSpecificationValue(ValueCreateFormModel.CategoryId ?? 0, ValueCreateFormModel.SpecificationId, ValueCreateFormModel.Value, ValueCreateFormModel.Metric);
             if (result.Success == false)
             {
-                var valueEditModel = mapper.Map<SpecificationCreateInputModel>(specificationInfo);
-                var valueCreateModel = ValueCreateFormModel;
-                var specificationViewModel = new SpecificationInfoViewModel
-                {
-                    SpecificationCreateInputModel = valueEditModel,
-                    Values = specificationInfo.Values.OrderBy(x => x.Value).ToList(),
-                    ValueCreateFormModel = ValueCreateFormModel,
-                };
-                foreach (var message in result.ErrorMessage)
-                {
-                    ModelState.AddModelError("", message);
-                    return View("SpecificationInfo", specificationViewModel);
-                }
+                return BadRequest(result);
+
             }
 
             return Redirect($"/Administration/CategoryManagment/SpecificationInfo/{specificationInfo.Id}");
@@ -307,28 +249,7 @@
             if (!result.Success)
             {
 
-                var editForm = mapper.Map<SpecificationCreateInputModel>(specificationInfo);
-                var valueForm = new SpecificationValueCreateInputModel()
-                {
-                    CategoryId = specificationInfo.CategoryId,
-                    SpecificationId = specificationInfo.Id,
-                };
-                var valueEditForm = new SpecificationValueCreateInputModel
-                {
-                    SpecificationId = specificationInfo.Id
-                };
-                var specificationViewModel = new SpecificationInfoViewModel
-                {
-                    SpecificationCreateInputModel = editForm,
-                    ValueEditFormModel = valueEditForm,
-                    Values = specificationInfo.Values.OrderBy(x => x.Value).ToList(),
-                    ValueCreateFormModel = valueForm
-                };
-                foreach (var message in result.ErrorMessage)
-                {
-                    ModelState.AddModelError("", message);
-                }
-                return View("SpecificationInfo", specificationViewModel);
+                return BadRequest(result);
             }
             return Redirect($"/Administration/CategoryManagment/SpecificationInfo/{ValueEditFormModel.SpecificationId}");
 
