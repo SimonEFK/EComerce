@@ -3,9 +3,9 @@
 @model CreateProductInputModel;
 
 <div class="row justify-content-center align-content-center">
-    <div class="col">
-        <form method="post">
-            <div class="row mb-3">
+    <div class="col-md-12 col-lg-10 col-xl-8">
+        <form method="post" asp-area="Administration" asp-controller="ProductManagment" asp-action="CreateProduct">
+            <div class="row">
                 <div class="col-md-6">
                     <label asp-for="@this.Model.Name" class="form-label"></label>
                     <input asp-for="@this.Model.Name" placeholder="e.g. AMD Ryzen 7 7800X3D" class="form-control" />
@@ -17,7 +17,7 @@
                     <span asp-validation-for="@this.Model.NameDetailed" class="text-danger"></span>
                 </div>
             </div>
-            <div class="row">
+            <div class="row my-2">
                 <div class="col-md-6">
                     <select asp-for="@this.Model.CategoryId" class="form-select" id="categorySelectInputField">
                         <option>Select Category</option>
@@ -40,49 +40,50 @@
 
                 </div>
             </div>
-            <div class="image-urlInput-container">
-                <h3>Images</h3>
+            <div class="row image-urlInput-container my-2">
+                <div class="d-flex justify-content-between">
+                    <p class="h3 m-0">Images</p>
+                    <button class="btn btn-success" id="addImgBtn" type="button">Add Images</button>
+                </div>
                 <span class="text-danger d-block form-label" asp-validation-for="@Model.ImageUrls"></span>
                 <div class="col-12 imageInputRow mb-1">
                     <div class="input-group">
                         <input asp-for="@this.Model.ImageUrls" class="form-control" placeholder="Url" value="@string.Empty" />
                         <button type="button" class="btn-close ms-2 position-absolute top-50 end-0 translate-middle-y"></button>
                     </div>
-
                 </div>
-                <button class="btn btn-success" id="addImgBtn" type="button">Add Images</button>
             </div>
-            <div class="row">
+            <div class="row-cols-1">
                 <div class="col">
-                    <h3>Specifications</h3>
-                    <div class="row">
-                        <div class="col">
+                    <div class="d-flex align-items-center justify-content-between my-2">
+                        <p class="h3 m-0">Specifications</p>
+                        <a class="fs-5 text-decoration-none" target="_blank" asp-area="Administration" asp-controller="CategoryManagment" asp-action="Index">Add New Values</a>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
                             <select id="specificationsSelectMenu" class="form-select">
                                 <option>Select Specification</option>
                             </select>
-                            <a target="_blank" asp-area="Administration" asp-controller="CategoryManagment">Add New Values</a>
                         </div>
-                        <div class="col">
+                        <div class="col-md-6">
                             <select id="specValuesSelectMenu" class="form-select">
                                 <option>Select Value</option>
                             </select>
-
                         </div>
                     </div>
-                    <button id="addSpecBtn" type="button" class="btn btn-success">Add</button>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col">
                             <div class="specificationsBox">
                             </div>
                         </div>
 
                     </div>
                 </div>
-                <div class="row">
-                    <button class="btn btn-info w-25 mx-auto" type="submit">Submit</button>
+                <div class="d-flex justify-content-end">
+                    <button id="addSpecBtn" type="button" class="btn btn-success">Add</button>
                 </div>
             </div>
-
+            <button class="btn btn-info" type="submit">Submit</button>
         </form>
 
     </div>
@@ -152,7 +153,7 @@
             let imageInputOriginal = document.querySelector('.imageInputRow');
             let clone = imageInputOriginal.cloneNode(true);
             clone.querySelector('input').value = "";
-            imgBtn.insertAdjacentElement("beforebegin", clone);
+            imageInputOriginal.insertAdjacentElement("beforebegin", clone);
 
         };
         function RemoveImageInputField(event) {
@@ -185,13 +186,13 @@
             };
             let html =
                 `
-                    <div class="d-flex align-items-center gap-2 mb-2 position-relative" data-spec-name-value>
-                                <input required readonly value="${specName}" class="form-control" aria-invalid="false">
-                                        <input required readonly value="${valueName}" class="form-control" aria-invalid="false">
-                                <input type="hidden" readonly readonly name="Specifications" value="${valueId}" class="form-control">
-                        <button type="button" class="btn-close position-absolute top-50 end-0 translate-middle-y"></button>
-                    </div>
-                    `;
+                                            <div class="d-flex align-items-center gap-2 mb-2 position-relative" data-spec-name-value>
+                                                        <input required readonly value="${specName}" class="form-control" aria-invalid="false">
+                                                                <input required readonly value="${valueName}" class="form-control" aria-invalid="false">
+                                                        <input type="hidden" readonly readonly name="Specifications" value="${valueId}" class="form-control">
+                                                <button type="button" class="btn-close position-absolute top-50 end-0 translate-middle-y"></button>
+                                            </div>
+                                            `;
 
             specContainer.insertAdjacentHTML('afterbegin', html);
 

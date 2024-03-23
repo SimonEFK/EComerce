@@ -27,9 +27,10 @@
             this.mapper = mapper;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var products = await _productDataService.GetAll<ProductSimplifiedModel>();
+            return View(products.ToList().OrderByDescending(x=>x.Id));
         }
 
         [HttpGet]

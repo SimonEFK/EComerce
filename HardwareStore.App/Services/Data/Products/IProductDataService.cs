@@ -1,5 +1,6 @@
 ﻿namespace HardwareStore.App.Services.Data.Products
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using HardwareStore.App.Services.Data.Products.Create;
     using HardwareStore.App.Services.Data.Products.Edit;
@@ -19,5 +20,7 @@
         Task<ServiceResult> RemoveImageAsync(int productId, string imageId);
 
         Task<ServiceResult> RemoveSpecificationAsync(int productId, int valueId);
+
+        Task<IEnumerable<TModel>> GetAll<TModel>();
     }
 }

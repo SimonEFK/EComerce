@@ -23,12 +23,20 @@
             this.editProductService = editProductService;
         }
 
-        public async Task<TModel?> GetProductById<TModel>(int id)
+        public async Task<TModel> GetProductById<TModel>(int id)
         {
             var product = await dbContext.Products.Where(p => p.Id == id).ProjectTo<TModel>(mapper.ConfigurationProvider).FirstOrDefaultAsync();
 
             return product;
         }
+
+        public async Task<IEnumerable<TModel>> GetAll<TModel>()
+        {
+            var product = await dbContext.Products.ProjectTo<TModel>(mapper.ConfigurationProvider).ToListAsync();
+
+            return product;
+        }
+
 
         public async Task<ServiceResultGeneric<T>> CreateProductAsync<T>(CreateProductDTO createProductDTO)
         {            

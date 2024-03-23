@@ -11,14 +11,8 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/Administration">Navbar</a>
-            </div>
-        </nav>
-    </header>
-    <main class="container-fluid">
-        <div class="row">
-            <div class="col-auto">
-                <ul class="nav flex-column">
+                <a class="navbar-brand" asp-area="Administration" asp-controller="ProductManagment">Navbar</a>
+                <ul class="nav">
                     <li class="nav-item">
                         <a class="nav-link active" href="/Administration/ProductManagment">Product Managment</a>
                     </li>
@@ -27,10 +21,10 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-12 col-xxl-9">
-                @RenderBody()
-            </div>
-        </div>
+        </nav>
+    </header>
+    <main class="container-fluid">
+        @RenderBody()
     </main>
     <footer class="position-absolute bottom-0">
         <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
