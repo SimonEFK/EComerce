@@ -5,44 +5,59 @@
 
 <div class="container-fluid p-0">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-xl-8">
             <div id="carouselExample" class="carousel slide">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <div class="carousel-content position-relative">
                             <div class="courosel-img-container">
-                                <img class="d-block w-100" src="/Images/Layout/OIG3.Ud_EVSEUduSB1GBx.jpg" alt="...">
+                                <img class="img-fluid" src="/Images/Layout/OIG3.Ud_EVSEUduSB1GBx.jpg" alt="...">
                             </div>
-                            <div class="position-absolute top-50 start-50 translate-middle">
-                                <a href="/Catalog/Products/10"><p class="h1 rounded-5 bg-primary text-danger">Video Cards</p></a>
-                                <a href="/Catalog">Catalog</a>
+                            <div class="container position-absolute top-50 start-50 translate-middle border border-white  p-5">
+                                <div class="row justify-content-center">
+                                    <div class="col-10 text-center fs-1">
+                                        <a class="text-white text-decoration-none" href="/Catalog/Products/10"><p class="m-0">Video Cards</p></a>
+                                    </div>
+                                    <div class="col-10 text-center fs-1">
+                                        <a class="text-white text-decoration-none" href="/Catalog"><p class="m-0">Catalog</p></a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="carousel-item">
-
                         <div class="carousel-content">
                             <div class="courosel-img-container">
-                                <img class="d-block w-100" src="/Images//Layout/OIG3.jpg" alt="...">
+                                <img class="img-fluid" src="/Images//Layout/OIG3.jpg" alt="...">
                             </div>
-                            <div class="position-absolute top-50 start-50 translate-middle">
-                                <a href="/Catalog/Products/5"><p class="h1 rounded-5 bg-primary text-danger">Processors</p></a>
-                                <a href="/Catalog">Catalog</a>
+                            <div class="container position-absolute top-50 start-50 translate-middle border border-white  p-5">
+                                <div class="row justify-content-center">
+                                    <div class="col-10 text-center fs-1">
+                                        <a class="text-white text-decoration-none" href="/Catalog/Products/5"><p class="m-0">Processors</p></a>
+                                    </div>
+                                    <div class="col-10 text-center fs-1">
+                                        <a class="text-white text-decoration-none" href="/Catalog"><p class="m-0">Catalog</p></a>
+                                    </div>
+                                </div>
                             </div>
-
                         </div>
 
                     </div>
                     <div class="carousel-item">
                         <div class="carousel-content">
                             <div class="courosel-img-container">
-                                <img class="d-block w-100" src="~/Images//Layout/OIG2.0VbLkCBcipwgpqYhX.jpg" alt="...">
+                                <img class="img-fluid" src="~/Images//Layout/OIG2.0VbLkCBcipwgpqYhX.jpg" alt="...">
                             </div>
-                            <div class="position-absolute top-50 start-50 translate-middle">
-                                <a href="/Catalog/Products/8"><p class="h1 rounded-5 bg-primary text-danger">Memory</p></a>
-                                <a href="/Catalog">Catalog</a>
+                            <div class="container position-absolute top-50 start-50 translate-middle border border-white  p-5">
+                                <div class="row justify-content-center">
+                                    <div class="col-10 text-center fs-1">
+                                        <a class="text-white text-decoration-none" href="/Catalog/Products/8"><p class="m-0">Memory</p></a>
+                                    </div>
+                                    <div class="col-10 text-center fs-1">
+                                        <a class="text-white text-decoration-none" href="/Catalog"><p class="m-0">Catalog</p></a>
+                                    </div>
+                                </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -60,11 +75,11 @@
     </div>
     <div class="row justify-content-center">
         <h3 class="bg-primary text-white text-center">Latest</h3>
-        <div class="col-md-8 my-3">
+        <div class="col-xl-8">
             <div class="row" id="productLatestRow">
                 @foreach (var item in Model.Products)
                 {
-                    <div class="col-md-3 col-sm-6 hvr-grow">
+                    <div class="col-12 col-md-6 col-lg-4 col-xl-3 hvr-grow">
                         <div class="product-home-card d-flex flex-column justify-content-between p-1">
                             <partial name="_ProductStarRatingPartial" model="@item.ProductReviewsRatingAvg" />
                             <div class="product-home-card-image-container">
@@ -84,7 +99,6 @@
 
         </div>
     </div>
-
 </div>
 
 
