@@ -2,15 +2,14 @@
 @model List<CategoryModel>;
 <div class="container">
 
-    <div class="row justify-content-center mx-0">
+    <div class="row justify-content-start mx-0">
         @foreach (var category in @Model.OrderBy(x => x.Name))
         {
-
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 text-center">
                 <a class="text-decoration-none" asp-controller="Catalog" asp-action="Products" asp-route-category="@category.Id">
                     <span>@category.Name</span>
                     <div class="d-flex justify-content-center align-items-center" style="height:200px;">
-                        <img src="@category.Image" class="img-fluid object-fit-contain" style="max-height:200px;" />
+                        <img alt="img" src="@category.Image" class="img-fluid object-fit-contain" style="max-height:200px;" />
                     </div>
                 </a>
             </div>
