@@ -1,6 +1,6 @@
 ﻿@using HardwareStore.App.Models.ProductCatalog
 @model ComponentDetailViewModel
-<div class="container-fluid p-0">    
+<div class="container p-0">
     <div class="product-title-container mb-3">
         <h1 class="product-title p-lg-3">
             @{
@@ -12,78 +12,71 @@
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="row m-0">                
-                <div class="col-md-5 me-2 order-md-1">
-                    <div class="product-img-display">
-                        <div class="product-img-display-container">
-                            <img id="displayImg" src="@this.Model.Product.Images.FirstOrDefault()" />
-                        </div>
-                        <div class="row justify-content-center">
-                            <div class="col-3">
-                                @if (Model.Product.ProductReviewsRatingAvg > 0)
-                                {
-                                    <partial name="_ProductStarRatingPartial" model="@Model.Product.ProductReviewsRatingAvg" />
-                                }
-                            </div>
-                        </div>
-                        
-                    </div>
-                    @if (this.Model.Product.Images.Count > 1)
-                    {
-                        <hr />
-                        <div class="product-gallery">
-                            <div class="product-img-list" id="imgList">
-                                <ul class="d-flex justify-content-between">
-                                    @foreach (var image in this.Model.Product.Images)
-                                    {
-                                        <li class="product-gallery-img-container">
-                                            <img src="@image">
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-                        </div>
-
-                    }
-                    <div class="row justify-content-end">
-                        <div class="col-4">
-                            <div class="extra-info-container" id="productInfoContainer">                                
-                                <div class="btn-container align-items-center">
-                                    <button class="btn btn-primary btn-lg ms-auto" data-addProductToCart="@Model.Product.NameDetailed" data-productId="@Model.Product.Id">Buy</button>
-                                    <span class="fw-bold text-success ms-auto me-auto">@Model.Product.Price$</span>
-                                </div>
-                            </div>
-                        </div>
+        <div class="col-md-6 order-md-1">
+            <div class="product-img-display">
+                <div class="product-img-display-container">
+                    <img id="displayImg" src="@this.Model.Product.Images.FirstOrDefault()" />
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-3">
+                        @if (Model.Product.ProductReviewsRatingAvg > 0)
+                        {
+                            <partial name="_ProductStarRatingPartial" model="@Model.Product.ProductReviewsRatingAvg" />
+                        }
                     </div>
                 </div>
-                <div class="col-md-5">
-                    <div class="product-specs">
-                        <span>Specifications</span>
-                        <table class="table table-striped ">
-
-                            <tbody>
-                                @foreach (var item in this.Model.Product.Specifications.OrderBy(x => x.Name))
-                                {
-                                    <tr>
-                                        <td>@item.Name</td>
-                                        <td>@string.Join(", ", item.Values)</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
             </div>
+            @if (this.Model.Product.Images.Count > 1)
+            {
+                <hr />
+                <div class="product-gallery">
+                    <div class="product-img-list" id="imgList">
+                        <ul class="d-flex justify-content-center">
+                            @foreach (var image in this.Model.Product.Images)
+                            {
+                                <li class="product-gallery-img-container">
+                                    <img src="@image">
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
 
+            }
+            <div class="row justify-content-end">
+                <div class="col-4">
+                    <div class="extra-info-container" id="productInfoContainer">
+                        <div class="btn-container align-items-center">
+                            <button class="btn btn-primary btn-lg ms-auto" data-addProductToCart="@Model.Product.NameDetailed" data-productId="@Model.Product.Id">Buy</button>
+                            <span class="fw-bold text-success ms-auto me-auto">@Model.Product.Price$</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row flex-column" id="productReviewsRow">
                 <p>Reviews</p>
                 <partial name="_ProductReviewsPartial" model="@Model.ProductReviewViewModel" />
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="product-specs">
+                <span>Specifications</span>
+                <table class="table table-striped ">
+
+                    <tbody>
+                        @foreach (var item in this.Model.Product.Specifications.OrderBy(x => x.Name))
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>@string.Join(", ", item.Values)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-        
+
 </div>
 
 @section Scripts {

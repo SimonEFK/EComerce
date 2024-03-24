@@ -8,9 +8,11 @@
     </div>
     <div class="row catalog-product-content">
         <div class="col-lg-6">
-            <div class="d-flex justify-content-center align-items-center overflow-hidden" style="height:300px;">
-                <img class="img-fluid" src="@Model.ImageUrl" alt="product img" style="max-height:250px;"></a>
-            </div>
+            <a asp-action="ComponentDetail" asp-route-Id="@Model.Id">
+                <div class="d-flex justify-content-center align-items-center overflow-hidden" style="height:300px;">
+                    <img class="img-fluid" src="@Model.ImageUrl" alt="product img" style="max-height:250px;">
+                </div>
+            </a>            
         </div>
         <div class="col-lg-6">
             <ul class="catalog-product-specs list-group fs-5 h-100 justify-content-center">

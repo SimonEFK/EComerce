@@ -77,7 +77,7 @@
     <script>
         let searchBar = document.querySelector('#globalSearchbar');
         searchBar.addEventListener('input', PopulateMatchingProducts);
-        searchBar.addEventListener('blur', TurnOffSearchbox);
+        // searchBar.addEventListener('blur', TurnOffSearchbox);
         searchBar.addEventListener('focus', TurnOnSearchbox);
         async function PopulateMatchingProducts(event) {
             let value = searchBar.value;
