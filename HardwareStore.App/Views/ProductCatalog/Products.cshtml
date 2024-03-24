@@ -1,12 +1,7 @@
 ﻿@using HardwareStore.App.Models.ProductCatalog;
 @model ProductCatalogModel
 
-@* <div class="row mb-5 justify-content-center mt-4">
-    <div class="col-lg-6 d-flex gap-3">
-        <input id="searchInput" class="form-control" value="@ViewData["SearchString"]" placeholder="Search..." />
-        <button id="searchSubmitBtn" class="btn btn-info">Search</button>
-    </div>
-</div> *@
+
 <div class="row">
     <div class="col-lg-3">
         <select id="sortProductsSelectMenu" class="btn btn-primary mb-2 form-select">
@@ -25,16 +20,14 @@
         <button class="btn btn-primary w-100 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#FilterMenu" aria-expanded="false" aria-controls="collapseExample">
             Filters
         </button>
-        <div class="overflow-scroll h-50 z-2 col-lg-3 col-12 position-absolute collapse" id="FilterMenu">
-            <form id="filterForm" method="get" asp-controller="ProductCatalog" asp-action="Products" asp-route-category="@this.ViewData["Category"]">
+        <div class="overflow-scroll h-50 z-2 col-lg-3 col-12 position-absolute collapse show" id="FilterMenu">
+            <form data-category="@ViewData["category"]" id="filterForm" method="GET">
                 @{
                     var selectedSpecificationIds = ViewData["selectedSpecs"] as List<int>;
                     var selectedManufacturerIds = ViewData["selectedManufacturers"] as List<int>;
-
                 }
-                <input id="sortOrderHidden" type="hidden" name="so" value="newest" />
-                <input id="searchInputHidden" type="hidden" name="s" />
-                <input id="pageNumber" type="hidden" name="page" value="1" />
+                <input id="sortInputHidden" type="hidden" name="so" value="@ViewData["sortOrder"]" />
+                <input id="searchStringHidden" type="hidden" name="s" value="@ViewData["searchstring"]" />
                 <ul class="list-group">
                     @foreach (var category in this.Model.ProductFilters.Specifications)
                     {
@@ -101,25 +94,25 @@
             <div class="row justify-content-center">
                 <ul id="pagination" class="pagination justify-content-center col">
 
-                    <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-page="@this.Model.Pagination.PreviousPageNumber" data-pageNumber="@this.Model.Pagination.PreviousPageNumber">Previous</a></li>
+                    <li class="page-item"><a class="page-link" asp-controller="Catalog" asp-route-category="@ViewData["category"]" asp-route-page="@this.Model.Pagination.PreviousPageNumber" data-pageNumber="@this.Model.Pagination.PreviousPageNumber">Previous</a></li>
 
                     @for (int i = this.Model.Pagination.Page - 3; i < this.Model.Pagination.Page; i++)
                     {
                         if (i > 0)
                         {
-                            <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-page="@i" data-pageNumber="@i">@i</a></li>
+                            <li class="page-item"><a class="page-link" asp-controller="Catalog" asp-route-category="@ViewData["category"]" asp-route-page="@i" data-pageNumber="@i">@i</a></li>
                         }
                     }
-                    <li class="page-item active"><a class="page-link" asp-controller="catalog" asp-route-page="@this.Model.Pagination.Page" data-pageNumber="@this.Model.Pagination.Page">@this.Model.Pagination.Page</a></li>
+                    <li class="page-item active"><a class="page-link" asp-controller="Catalog" asp-route-category="@ViewData["category"]" asp-route-page="@this.Model.Pagination.Page" data-pageNumber="@this.Model.Pagination.Page">@this.Model.Pagination.Page</a></li>
 
                     @for (int i = this.Model.Pagination.Page + 1; i <= this.Model.Pagination.Page + 3; i++)
                     {
                         if (i <= this.Model.Pagination.PageSize)
                         {
-                            <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-page="@i" data-pageNumber="@i">@i</a></li>
+                            <li class="page-item"><a class="page-link" asp-controller="Catalog" asp-route-category="@ViewData["category"]" asp-route-page="@i" data-pageNumber="@i">@i</a></li>
                         }
                     }
-                    <li class="page-item"><a class="page-link" asp-controller="catalog" asp-route-page="@this.Model.Pagination.NextPageNumber" data-pageNumber="@this.Model.Pagination.NextPageNumber">Next</a></li>
+                    <li class="page-item"><a class="page-link" asp-controller="Catalog" asp-route-category="@ViewData["category"]" asp-route-page="@this.Model.Pagination.NextPageNumber" data-pageNumber="@this.Model.Pagination.NextPageNumber">Next</a></li>
                 </ul>
             </div>
         </div>
@@ -129,44 +122,53 @@
 @section Scripts {
     <script>
 
+        let pagiantion = document.querySelector('#pagination').addEventListener('click', () => {
+            event.preventDefault();
+            let target = event.target;
+            if (target.matches('[data-pageNumber]')) {
+                let pageNumber = event.target.dataset["pagenumber"];
+                if (pageNumber % 1 === 0) {
+                    SubmitForm(pageNumber)
+
+                }
+            }
+        })
+
         let productsRow = document.querySelector('#productsRow');
         productsRow.addEventListener('click', AddProductToCart);
 
         let filterForm = document.querySelector('#filterForm');
         filterForm.addEventListener('click', (event) => {
             if (event.target.type == "checkbox") {
-                SubmitForm();
+
+                SubmitForm(1);
             }
         });
 
-        function SubmitForm() {
-            let searchStringInputElement = document.querySelector('#searchInput');
-            let orderSelectInput = document.querySelector('#sortProductsSelectMenu');
+        function SubmitForm(pageNumber) {
 
-            document.querySelector('#sortOrderHidden').value = orderSelectInput.value;
-            document.querySelector('#searchInputHidden').value = searchStringInputElement.value;
 
+            let sortOrderValue = document.querySelector('#sortProductsSelectMenu').value;
+            document.querySelector('#sortInputHidden').value = sortOrderValue;
+            let searchString = document.querySelector('#globalSearchbar').value;
+            document.querySelector('#searchStringHidden').value = searchString;
+            let category = filterForm.dataset['category'];
+
+            let url =
+                `/Catalog/Products/${pageNumber}`;
+            if (category) {
+                url = url + `/${category}`;
+            }
+
+            filterForm.action = url;
             filterForm.submit();
-        };
-
-        let searchSubmitBtn = document.querySelector('#searchSubmitBtn');
-        searchSubmitBtn.addEventListener('click', (event) => {
-            SubmitForm();
-        })
+        }
 
         let sortProductsSelectMenu = document.querySelector('#sortProductsSelectMenu');
         sortProductsSelectMenu.addEventListener('change', (event) => {
-            SubmitForm();
-        })
 
-        let pagiantion = document.querySelector('#pagination');
-        pagination.addEventListener('click', (event) => {
-            event.preventDefault();
-            if (event.target.matches('[data-pageNumber]')) {
-                document.querySelector('#pageNumber').value = event.target.dataset.pagenumber;
-                SubmitForm();
-            }
-        })
+            SubmitForm(1);
+        });
 
     </script>
 }

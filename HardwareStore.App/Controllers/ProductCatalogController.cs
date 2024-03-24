@@ -34,15 +34,13 @@
         }
 
         [HttpGet]
-        [Route("Products/{category?}")]
+        [Route("Products/{page=1}/{category?}")]
         public async Task<IActionResult> Products(BrowseProductInputModel model)
-        {
-
+        {            
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("Index");
             }
-
             var catalogModel = await productCatalogService
                 .GetProducts(model.SearchString)
                 .ByCategory(model.Category)
@@ -87,7 +85,6 @@
                 Pagination = paginationModel,
                 ProductFilters = filterModel
             };
-
             return View(catalogViewModel);
         }
 

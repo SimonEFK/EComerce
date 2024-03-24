@@ -35,8 +35,8 @@
                     </div>                   
                 </div>
                 <div class="col-10 col-xl-8 position-relative">
-                    <form autocomplete="off" method="GET" action="/Catalog/Products" class="d-flex me-auto" role="search">
-                        <input id="globalSearchbar" class="form-control me-2" type="search" placeholder="Search All Products" aria-label="Search" name="s">
+                    <form autocomplete="off" method="GET" asp-controller="Catalog" asp-action="Products" asp-route-page="1" class="d-flex me-auto" role="search">
+                        <input id="globalSearchbar" class="form-control me-2" placeholder="Search All Products" aria-label="Search" name="s" value="@ViewData["SearchString"]">
                         <button class="btn btn-outline-success" type="submit">
                             <span class="d-none d-xl-block">Search</span>
                             <i class="d-xl-none bi bi-search"></i>
@@ -77,7 +77,7 @@
     <script>
         let searchBar = document.querySelector('#globalSearchbar');
         searchBar.addEventListener('input', PopulateMatchingProducts);
-        // searchBar.addEventListener('blur', TurnOffSearchbox);
+        searchBar.addEventListener('blur', TurnOffSearchbox);
         searchBar.addEventListener('focus', TurnOnSearchbox);
         async function PopulateMatchingProducts(event) {
             let value = searchBar.value;

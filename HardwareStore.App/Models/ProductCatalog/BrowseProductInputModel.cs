@@ -7,28 +7,25 @@
 
     public class BrowseProductInputModel : IValidatableObject
     {
-        [ValidCategory]
+        [FromRoute]
         public int? Category { get; set; }
 
-        [FromQuery]        
+        [FromRoute]        
         public int Page { get; set; } = 1;
 
-        [BindProperty(Name = "s")]
+        [BindProperty(Name = "s")]        
         [StringLength(maximumLength: 100, MinimumLength = 2)]
         public string? SearchString { get; set; }
-
 
         [BindProperty(Name = "ss")]
         [ValidSpecificationValue]
         public Dictionary<int, HashSet<int>> SpecificationIds { get; set; } = new Dictionary<int, HashSet<int>>();
 
-
         [BindProperty(Name = "m")]
         [ValidManufacturer]
         public HashSet<int> ManufacturerIds { get; set; } = new HashSet<int>();
 
-
-        [BindProperty(Name = "so")]
+        [BindProperty(Name = "so")]        
         [ValidSortOrder]
         public string SortOrder { get; set; } = "newest";
 

@@ -4,6 +4,6 @@
 @foreach (var item in Model.OrderBy(x=>x.Name))
 {
 
-    <li text-color-class="text-light" custom-active class="list-group-item"><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/Catalog/Products/@item.Id">@item.Name</a></li>
+    <li text-color-class="text-light" custom-active class="list-group-item"><a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" asp-controller="Catalog" asp-action="Products" asp-route-category="@item.Id" asp-route-page="1">@item.Name</a></li>
 
 }
