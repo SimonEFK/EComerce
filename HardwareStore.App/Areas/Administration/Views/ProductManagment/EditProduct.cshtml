@@ -40,7 +40,6 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Apply</button>
-            <a class="fs-6" asp-area="Administration" asp-controller="CategoryManagment" asp-action="CategoryInfo" asp-route-id="@Model.CategoryId">Add new values</a>
         </form>
     </div>
     <div class="col">
@@ -59,16 +58,20 @@
                         </select>
                     </div>
                 </div>
-                <button id="addSpecBtn" type="button" class="btn btn-success">Add</button>
+                <div class="d-flex my-3 justify-content-between">
+                    <button id="addSpecBtn" type="button" class="btn btn-success">Add</button>
+                    <a class="fs-6" asp-area="Administration" asp-controller="CategoryManagment" asp-action="CategoryInfo" asp-route-id="@Model.CategoryId">Add new values</a>
+                </div>
+
                 <div class="row my-3" id="specificationsRow">
                     <div class="col">
-                        <div class="row">
+                        <div class="row row-gap-2">
                             @foreach (var specification in Model.Specifications)
                             {
                                 <div class="col-lg-6">
                                     <input disabled class="form-control" placeholder="@specification.SpecificationName" />
                                 </div>
-                                <div class="col-lg-6 mb-2">
+                                <div class="col-lg-6">
                                     <div class="input-group flex-nowrap">
                                         <input disabled class="form-control" placeholder="@specification.ValueName" />
                                         <button data-removeSpecBtn="@specification.ValueId" class="btn btn-outline-danger">Remove</button>
@@ -77,20 +80,18 @@
                             }
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
     <div class="col">
-        <div class="row">
-            <div class="col">               
+        <div class="row mb-3">
+            <div class="col">
                 <form method="post" asp-area="Administration" asp-controller="ProductManagment" asp-action="AddImage" asp-route-Id="@Model.Id">
                     <div class="input-group">
                         <input name="ImageUrl" class="form-control" type="text" placeholder="Image URL" />
                         <button class="btn btn-outline-primary">Add Image</button>
                     </div>
-                    @* <span class="text-danger" asp-validation-for="@Model.Image.ImageUrl"></span> *@
                 </form>
             </div>
         </div>
@@ -105,7 +106,6 @@
                 </div>
             }
         </div>
-
     </div>
 </div>
 
