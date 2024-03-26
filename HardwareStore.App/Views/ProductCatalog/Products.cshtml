@@ -1,157 +1,124 @@
 ﻿@using HardwareStore.App.Models.ProductCatalog;
-@model ProductCatalogModel
+@using HardwareStore.App.Models.ProductFilter;
+@model FilterModel;
 
-
-<div class="row">
-    <div class="col-lg-3">
-        <select id="sortProductsSelectMenu" class="btn btn-primary mb-2 form-select">
-            @foreach (var item in this.Model.ProductFilters.SortOrder)
-            {
-                if (item == ViewData["sortOrder"]?.ToString())
+<div class="container-fluid">
+    <div class="row justify-content-between">
+        <div class="col-lg-3">
+            <select id="sortProductsSelectMenu" class="btn btn-primary mb-2 form-select">
+                @foreach (var item in this.Model.SortOrder)
                 {
-                    <option selected value="@item">@item</option>
-                }
-                else
-                {
-                    <option value="@item">@item</option>
-                }
-            }
-        </select>
-        <button class="btn btn-primary w-100 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#FilterMenu" aria-expanded="false" aria-controls="collapseExample">
-            Filters
-        </button>
-        <div class="overflow-scroll h-50 z-2 col-lg-3 col-12 position-absolute collapse show" id="FilterMenu">
-            <form data-category="@ViewData["category"]" id="filterForm" method="GET">
-                @{
-                    var selectedSpecificationIds = ViewData["selectedSpecs"] as List<int>;
-                    var selectedManufacturerIds = ViewData["selectedManufacturers"] as List<int>;
-                }
-                <input id="sortInputHidden" type="hidden" name="so" value="@ViewData["sortOrder"]" />
-                <input id="searchStringHidden" type="hidden" name="s" value="@ViewData["searchstring"]" />
-                <ul class="list-group">
-                    @foreach (var category in this.Model.ProductFilters.Specifications)
+                    if (item == ViewData["sortOrder"]?.ToString())
                     {
-                        @foreach (var specification in category.Value)
-                        {
-                            <li class="list-group-item">
-                                <span class="fw-bold">@specification.Name</span>
-                                @foreach (var value in specification.Values)
-                                {
-                                    <div class="form-check">
-                                        @if (selectedSpecificationIds is not null && selectedSpecificationIds.Contains(value.Id))
-                                        {
-                                            <span class="text-primary">(@value.ProductsCount)</span>
-                                            <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss[@specification.Id]" checked>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-primary">(@value.ProductsCount)</span>
-                                            <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss[@specification.Id]">
-
-                                        }
-                                        <label class="form-check-label" for="@value.Id">@value.Value</label>
-                                    </div>
-                                }
-                            </li>
-                        }
+                        <option selected value="@item">@item</option>
                     }
-                    <li class="list-group-item">
-                        <span class="fw-bold">Manufacturers</span>
-                        @foreach (var manufacturer in Model.ProductFilters.Manufacturers)
+                    else
+                    {
+                        <option value="@item">@item</option>
+                    }
+                }
+            </select>
+            <button class="btn btn-primary w-100 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#FilterMenu" aria-expanded="false" aria-controls="collapseExample">
+                Filters
+            </button>
+            <div class="overflow-scroll h-75 z-2 col-lg-3 col-11 position-absolute collapse show" id="FilterMenu">
+                <form data-category="@ViewData["category"]" id="filterForm" method="post" asp-controller="Catalog" asp-action="Productss" asp-route-category="@ViewData["category"]">
+                    @{
+                        var selectedSpecificationIds = ViewData["selectedSpecs"] as List<int>;
+                        var selectedManufacturerIds = ViewData["selectedManufacturers"] as List<int>;
+                    }
+                    <input id="sortInputHidden" type="hidden" name="so" value="@ViewData["sortOrder"]" />
+                    <input id="searchStringHidden" type="hidden" name="s" value="@ViewData["searchstring"]" />
+                    <ul class="list-group">
+                        @foreach (var category in this.Model.Specifications)
                         {
-                            var inputid = $"M{manufacturer.Item1}";
-                            <div class="form-check">
-                                @if (selectedManufacturerIds is not null && selectedManufacturerIds.Contains(manufacturer.Item2))
-                                {
-                                    <span class="text-primary">(@manufacturer.Item3)</span>
-                                    <input class="form-check-input" type="checkbox" value="@manufacturer.Item2" id="@inputid" name="m" checked>
+                            @foreach (var specification in category.Value)
+                            {
+                                <li class="list-group-item">
+                                    <span class="fw-bold">@specification.Name</span>
+                                    @foreach (var value in specification.Values)
+                                    {
+                                        <div class="form-check">
+                                            @if (selectedSpecificationIds is not null && selectedSpecificationIds.Contains(value.Id))
+                                            {
+                                                <span class="text-primary">(@value.ProductsCount)</span>
+                                                <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss[@specification.Id]" checked>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-primary">(@value.ProductsCount)</span>
+                                                <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss[@specification.Id]">
 
-                                }
-                                else
-                                {
-                                    <span class="text-primary">(@manufacturer.Item3)</span>
-                                    <input class="form-check-input" type="checkbox" value="@manufacturer.Item2" id=@inputid name="m">
-
-                                }
-                                <label class="form-check-label" for=@inputid>@manufacturer.Item1</label>
-                            </div>
+                                            }
+                                            <label class="form-check-label" for="@value.Id">@value.Value</label>
+                                        </div>
+                                    }
+                                </li>
+                            }
                         }
-                    </li>
+                        <li class="list-group-item">
+                            <span class="fw-bold">Manufacturers</span>
+                            @foreach (var manufacturer in Model.Manufacturers)
+                            {
+                                var inputid = $"M{manufacturer.Item1}";
+                                <div class="form-check">
+                                    @if (selectedManufacturerIds is not null && selectedManufacturerIds.Contains(manufacturer.Item2))
+                                    {
+                                        <span class="text-primary">(@manufacturer.Item3)</span>
+                                        <input class="form-check-input" type="checkbox" value="@manufacturer.Item2" id="@inputid" name="m" checked>
 
-                </ul>
-            </form>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-primary">(@manufacturer.Item3)</span>
+                                        <input class="form-check-input" type="checkbox" value="@manufacturer.Item2" id=@inputid name="m">
+
+                                    }
+                                    <label class="form-check-label" for=@inputid>@manufacturer.Item1</label>
+                                </div>
+                            }
+                        </li>
+
+                    </ul>
+                </form>
+            </div>
+
         </div>
-
-    </div>
-    <div class="col-lg-8">
-        <div class="row" id="productsRow">
-            @foreach (var product in this.Model.Products)
-            {
-                <div class="col-12 col-md-6">
-                    <partial name="_ProductCardPartial" model="@product" />
-                </div>
-            }
-            <div class="row justify-content-center">
-                <ul id="pagination" class="pagination justify-content-center col">
-
-                    <li class="page-item"><a class="page-link" asp-controller="Catalog" asp-route-category="@ViewData["category"]" asp-route-page="@this.Model.Pagination.PreviousPageNumber" data-pageNumber="@this.Model.Pagination.PreviousPageNumber">Previous</a></li>
-
-                    @for (int i = this.Model.Pagination.Page - 3; i < this.Model.Pagination.Page; i++)
-                    {
-                        if (i > 0)
-                        {
-                            <li class="page-item"><a class="page-link" asp-controller="Catalog" asp-route-category="@ViewData["category"]" asp-route-page="@i" data-pageNumber="@i">@i</a></li>
-                        }
-                    }
-                    <li class="page-item active"><a class="page-link" asp-controller="Catalog" asp-route-category="@ViewData["category"]" asp-route-page="@this.Model.Pagination.Page" data-pageNumber="@this.Model.Pagination.Page">@this.Model.Pagination.Page</a></li>
-
-                    @for (int i = this.Model.Pagination.Page + 1; i <= this.Model.Pagination.Page + 3; i++)
-                    {
-                        if (i <= this.Model.Pagination.PageSize)
-                        {
-                            <li class="page-item"><a class="page-link" asp-controller="Catalog" asp-route-category="@ViewData["category"]" asp-route-page="@i" data-pageNumber="@i">@i</a></li>
-                        }
-                    }
-                    <li class="page-item"><a class="page-link" asp-controller="Catalog" asp-route-category="@ViewData["category"]" asp-route-page="@this.Model.Pagination.NextPageNumber" data-pageNumber="@this.Model.Pagination.NextPageNumber">Next</a></li>
-                </ul>
+        <div class="col-lg-9">
+            <div class="row row-gap-3" id="productsRow">
             </div>
         </div>
     </div>
 </div>
-
 @section Scripts {
     <script>
 
-        let pagiantion = document.querySelector('#pagination').addEventListener('click', () => {
-            event.preventDefault();
-            let target = event.target;
-            if (target.matches('[data-pageNumber]')) {
-                let pageNumber = event.target.dataset["pagenumber"];
-                if (pageNumber % 1 === 0) {
-                    SubmitForm(pageNumber)
 
-                }
-            }
-        })
+        this.window.addEventListener('load', SubmitForm(1));
+        this.window.addEventListener('load', Pagination)
 
-        let productsRow = document.querySelector('#productsRow');
-        productsRow.addEventListener('click', AddProductToCart);
 
-        let filterForm = document.querySelector('#filterForm');
-        filterForm.addEventListener('click', (event) => {
+        document.querySelector('#productsRow').addEventListener('click', AddProductToCart);
+        document.querySelector('#filterForm').addEventListener('click', (event) => {
             if (event.target.type == "checkbox") {
 
                 SubmitForm(1);
             }
         });
+        document.querySelector('#sortProductsSelectMenu').addEventListener('change', (event) => {
 
-        function SubmitForm(pageNumber) {
+            SubmitForm(1);
+        });
 
+        async function SubmitForm(pageNumber) {
 
             let sortOrderValue = document.querySelector('#sortProductsSelectMenu').value;
             document.querySelector('#sortInputHidden').value = sortOrderValue;
             let searchString = document.querySelector('#globalSearchbar').value;
             document.querySelector('#searchStringHidden').value = searchString;
+
+            let filterForm = document.querySelector('#filterForm');
+
             let category = filterForm.dataset['category'];
 
             let url =
@@ -160,15 +127,31 @@
                 url = url + `/${category}`;
             }
 
-            filterForm.action = url;
-            filterForm.submit();
+            let formData = new FormData(filterForm);
+            let options = {
+                'method': 'POST',
+                body: formData
+            }
+
+            let response = await fetch(url, options);
+            let html = await response.text();
+
+            let productRow = document.querySelector('#productsRow')
+            productRow.innerHTML = html;
+
         }
-
-        let sortProductsSelectMenu = document.querySelector('#sortProductsSelectMenu');
-        sortProductsSelectMenu.addEventListener('change', (event) => {
-
-            SubmitForm(1);
-        });
+        function Pagination() {
+            document.querySelector('#productsRow').addEventListener('click', () => {
+                event.preventDefault();
+                let target = event.target;
+                if (target.matches('[data-pageNumber]')) {
+                    let pageNumber = event.target.dataset["pagenumber"];
+                    if (pageNumber % 1 === 0) {
+                        SubmitForm(pageNumber)
+                    }
+                }
+            });
+        }
 
     </script>
 }

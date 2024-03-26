@@ -8,6 +8,7 @@
     using HardwareStore.App.Models.Review;
     using HardwareStore.App.Services.Catalog;
     using HardwareStore.App.Services.Data.Category;
+    using HardwareStore.App.Services.ProductFiltering;
     using HardwareStore.App.Services.ProductReview;
     using Microsoft.AspNetCore.Mvc;
 
@@ -17,12 +18,14 @@
         private ICatalogService productCatalogService;
         private IProductReviewService reviewService;
         private ICategoryDataService categoryDataService;
+        private IGenerateProductFilterOptionService generateFilters;
 
-        public ProductCatalogController(ICatalogService productCatalogService, IProductReviewService reviewService, ICategoryDataService categoryDataService)
+        public ProductCatalogController(ICatalogService productCatalogService, IProductReviewService reviewService, ICategoryDataService categoryDataService, IGenerateProductFilterOptionService generateFilters)
         {
             this.productCatalogService = productCatalogService;
             this.reviewService = reviewService;
             this.categoryDataService = categoryDataService;
+            this.generateFilters = generateFilters;
         }
 
         public async Task<IActionResult> Index()
@@ -35,57 +38,68 @@
 
         [HttpGet]
         [Route("Products/{page=1}/{category?}")]
+        public async Task<IActionResult> Products(int? category,  string? s)
+        {
+
+            if (category is not null)
+            {
+                ViewData["Category"] = category;
+            }
+            if (s is not null)
+            {
+                ViewData["SearchString"] = s;
+            }
+
+
+            var specificationFilters = await generateFilters.GenerateSpecificationOptions(category,s);
+            var manufacturerFilters = await generateFilters.GenerateManufacturerOptions(category,s);
+            var sortOrderOptions = generateFilters.GenerateSortOrderOptions();
+
+            var filterModel = new FilterModel
+            {
+                Specifications = specificationFilters,
+                Manufacturers = manufacturerFilters,
+                SortOrder = sortOrderOptions
+            };
+            
+            return View(filterModel);
+        }
+
+        [HttpPost]
+        [Route("Products/{page=1}/{category?}")]
         public async Task<IActionResult> Products(BrowseProductInputModel model)
-        {            
+        {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("Index");
+               return RedirectToAction(nameof(Index));
             }
-            var catalogModel = await productCatalogService
+
+            var products = await productCatalogService
                 .GetProducts(model.SearchString)
                 .ByCategory(model.Category)
                 .ByManufacturer(model.ManufacturerIds)
                 .FilterBySpecification(model.SpecificationIds)
                 .Order(model.SortOrder)
-                .Pagination(model.Page)
-                .ToCatalogModel();
+                .Pagination(model.Page,3)
+                .ToList<ProductExtendedModel>();
 
-            ViewData["sortOrder"] = model.SortOrder;
-            if (model.Category is not null)
+            foreach (var product in products)
             {
-                var category = ViewData["Category"] = model.Category;
-            }
-            if (model.SearchString is not null)
-            {
-                ViewData["SearchString"] = model.SearchString;
-            }
-            if (model.SpecificationIds.Count > 0)
-            {
-                ViewData["selectedSpecs"] = model.SpecificationIds.SelectMany(x => x.Value).ToList();
-            }
-            if (model.ManufacturerIds.Count > 0)
-            {
-                ViewData["selectedManufacturers"] = model.ManufacturerIds.ToList();
+                product.Specifications = product.Specifications.DistinctBy(x => x.Name).ToList();
             }
 
-            var filterModel = new FilterModel
-            {
-                Specifications = catalogModel.SpecificationFilters,
-                Manufacturers = catalogModel.Manufacturers,
-                SortOrder = catalogModel.SortOrder
-            };           
             var paginationModel = new PaginationModel
             {
                 Page = model.Page,
-                PageSize = catalogModel.PageSize
+                PageSize = this.productCatalogService.PageCount
             };
-            var catalogViewModel = new ProductCatalogModel
+            var productListingViewModel = new ProductListViewModel()
             {
-                Products = catalogModel.Products,
+                Products = products,
                 Pagination = paginationModel,
-                ProductFilters = filterModel
             };
-            return View(catalogViewModel);
+
+            return PartialView("_CatalogProductsListing", productListingViewModel);
         }
 
         [HttpGet]
@@ -116,9 +130,9 @@
         [Route("/SearchProductsPartial")]
         public async Task<IActionResult> SearchProductsPartial(string searchString)
         {
-            
+
             var products = await productCatalogService.GetProducts(searchString).ToList<ProductSimplifiedModel>();
-            return PartialView("_SearchProductsPartial",products);
+            return PartialView("_SearchProductsPartial", products);
         }
     }
 }

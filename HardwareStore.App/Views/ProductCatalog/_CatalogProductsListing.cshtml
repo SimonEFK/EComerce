@@ -1,0 +1,12 @@
+﻿@using HardwareStore.App.Models.ProductCatalog
+@model ProductListViewModel;
+
+<partial name="_PaginationPartial" model="@this.Model.Pagination" />
+@foreach (var product in this.Model.Products)
+{
+    <div class="col-12 col-sm-6 col-md-4">
+        <partial name="_ProductCardPartial" model="@product" />
+    </div>
+
+}
+<partial name="_PaginationPartial" model="@this.Model.Pagination" />

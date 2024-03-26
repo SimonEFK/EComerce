@@ -16,8 +16,10 @@
 
 
         private IQueryable<Product> products;
-        private int pageSize;
+        private int pageCount;
         private CatalogModel catalogModel;
+
+        public int PageCount { get => pageCount; private set => pageCount = value; }
 
         public CatalogService(ApplicationDbContext dbContext, IMapper mapper, IGenerateProductFilterOptionService generateProductFilterOptionService)
         {
@@ -27,6 +29,9 @@
             this.filterOptionsService = generateProductFilterOptionService;
             this.catalogModel = new CatalogModel();
         }
+
+
+        
 
         public ICatalogService GetProducts(string? searchstring)
         {
@@ -71,6 +76,7 @@
             }
             return this;
         }
+
 
         public ICatalogService ByManufacturer(IEnumerable<int> manufacturerIds)
         {
@@ -137,12 +143,12 @@
         {
             var productCount = this.products.Count();
 
-            this.pageSize = (int)Math.Ceiling(productCount / (double)itemsPerPage);
+            this.pageCount = (int)Math.Ceiling(productCount / (double)itemsPerPage);
 
 
-            if (pageNumber > this.pageSize)
+            if (pageNumber > this.pageCount)
             {
-                pageNumber = this.pageSize;
+                pageNumber = this.pageCount;
             }
             if (pageNumber <= 0)
             {
@@ -152,12 +158,12 @@
             var skipAmount = (pageNumber - 1) * itemsPerPage;
             var takeAmount = itemsPerPage;
 
-            this.catalogModel
-                .SpecificationFilters = Task.Run(async () => await filterOptionsService.GenerateSpecificationOptions(this.products)).GetAwaiter().GetResult();
+            //this.catalogModel
+            //    .SpecificationFilters = Task.Run(async () => await filterOptionsService.GenerateSpecificationOptions(this.products)).GetAwaiter().GetResult();
 
-            this.catalogModel
-                .Manufacturers = Task.Run(async () => await filterOptionsService.GenerateManufacturerOptions(this.products)).GetAwaiter().GetResult();
-            this.catalogModel.SortOrder = filterOptionsService.GenerateSortOrderOptions();
+            //this.catalogModel
+            //    .Manufacturers = Task.Run(async () => await filterOptionsService.GenerateManufacturerOptions(this.products)).GetAwaiter().GetResult();
+            //this.catalogModel.SortOrder = filterOptionsService.GenerateSortOrderOptions();
 
 
             this.products = this.products.Skip(skipAmount).Take(takeAmount);
@@ -179,7 +185,7 @@
             }
 
             model.Products = products;
-            model.PageSize = this.pageSize;
+            model.PageSize = this.pageCount;
             model.SortOrder = this.catalogModel.SortOrder;
             model.SpecificationFilters = this.catalogModel.SpecificationFilters;
             model.Manufacturers = this.catalogModel.Manufacturers;

@@ -1,0 +1,25 @@
+﻿@model PaginationModel;
+<div class="row justify-content-center">
+    <ul id="pagination" class="pagination justify-content-center col">
+
+        <li class="page-item"><a class="page-link" asp-controller="Catalog" asp-route-category="@ViewData["category"]" asp-route-page="@this.Model.PreviousPageNumber" data-pageNumber="@this.Model.PreviousPageNumber">Previous</a></li>
+
+        @for (int i = this.Model.Page - 3; i < this.Model.Page; i++)
+        {
+            if (i > 0)
+            {
+                <li class="page-item"><a class="page-link" asp-controller="Catalog" asp-route-category="@ViewData["category"]" asp-route-page="@i" data-pageNumber="@i">@i</a></li>
+            }
+        }
+        <li class="page-item active"><a class="page-link" asp-controller="Catalog" asp-route-category="@ViewData["category"]" asp-route-page="@this.Model.Page" data-pageNumber="@this.Model.Page">@this.Model.Page</a></li>
+
+        @for (int i = this.Model.Page + 1; i <= this.Model.Page + 3; i++)
+        {
+            if (i <= this.Model.PageSize)
+            {
+                <li class="page-item"><a class="page-link" asp-controller="Catalog" asp-route-category="@ViewData["category"]" asp-route-page="@i" data-pageNumber="@i">@i</a></li>
+            }
+        }
+        <li class="page-item"><a class="page-link" asp-controller="Catalog" asp-route-category="@ViewData["category"]" asp-route-page="@this.Model.NextPageNumber" data-pageNumber="@this.Model.NextPageNumber">Next</a></li>
+    </ul>
+</div>

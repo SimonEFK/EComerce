@@ -6,6 +6,8 @@
 
     public interface ICatalogService
     {
+        int PageCount { get; }
+
         ICatalogService ByCategory(int? categoryId);
         ICatalogService ByManufacturer(IEnumerable<int> manufacturerIds);
         ICatalogService FilterBySpecification(Dictionary<int, HashSet<int>> selectedSpecsIds);
