@@ -4,6 +4,7 @@
     using HardwareStore.App.Data;
     using HardwareStore.App.Services.Data.Products.ProductSpecifications;
     using Microsoft.EntityFrameworkCore;
+    using static Constants.Constants;
 
     public class EditProductService : IEditProductService
     {
@@ -26,7 +27,7 @@
             if (product == null)
             {
                 result.Success = false;
-                result.ErrorMessage = $"Invalid Product with Id:\"{id}\"";
+                result.ErrorMessage = string.Format(ErrorMessages.InvalidProductId, id);                
                 return result;
             }
 
@@ -47,7 +48,7 @@
             if (product == null)
             {
                 result.Success = false;
-                result.ErrorMessage = $"Invalid Product with Id:\"{id}\"";
+                result.ErrorMessage = string.Format(ErrorMessages.InvalidProductId, id);
                 return result;
             }
             var newImageId = Guid.NewGuid().ToString();
@@ -69,7 +70,7 @@
             if (product == null)
             {
                 result.Success = false;
-                result.ErrorMessage = $"Invalid Product with Id:\"{id}\"";
+                result.ErrorMessage = string.Format(ErrorMessages.InvalidProductId, id);
                 return result;
             }
 
@@ -92,7 +93,5 @@
             return result;
         }
     }
-
-
 
 }

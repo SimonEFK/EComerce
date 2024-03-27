@@ -1,6 +1,7 @@
 ﻿@model EditProductInputModel;
 <div class="row flex-column justify-content-center align-content-center">
     <div class="col">
+        <a class="text-decoration-none" target="_blank" href="/ComponentDetail/@Model.Id">Product Link</a>
         <form method="post" asp-area="Administration" asp-controller="ProductManagment" asp-action="EditProduct" asp-route-id="@Model.Id">
             <div class="row mb-3">
                 <div class="col-lg-6">

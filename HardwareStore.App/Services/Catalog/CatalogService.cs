@@ -5,42 +5,35 @@
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Product;
-    using HardwareStore.App.Services.ProductFiltering;
     using Microsoft.EntityFrameworkCore;
 
     public class CatalogService : ICatalogService
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly IMapper mapper;
-        private readonly IGenerateProductFilterOptionService filterOptionsService;
 
+        private readonly IMapper mapper;
 
         private IQueryable<Product> products;
+
         private int pageCount;
-        private CatalogModel catalogModel;
 
         public int PageCount { get => pageCount; private set => pageCount = value; }
 
-        public CatalogService(ApplicationDbContext dbContext, IMapper mapper, IGenerateProductFilterOptionService generateProductFilterOptionService)
+        public CatalogService(ApplicationDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
             this.mapper = mapper;
             this.products = dbContext.Products.AsQueryable();
-            this.filterOptionsService = generateProductFilterOptionService;
-            this.catalogModel = new CatalogModel();
         }
-
-
-        
 
         public ICatalogService GetProducts(string? searchstring)
         {
             if (searchstring != null)
             {
-
                 this.products = dbContext.Products
                     .Where(x => x.NameDetailed.Contains(searchstring) || x.Name.Contains(searchstring)).AsQueryable();
             }
+
             return this;
         }
 
@@ -49,7 +42,6 @@
             var product = await dbContext.Products.Where(p => p.Id == id)
                 .ProjectTo<ProductDetailedModel>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
-
             if (product is not null)
             {
                 product.Specifications = product.Specifications.DistinctBy(x => x.Name).ToList();
@@ -72,11 +64,9 @@
             if (categoryId != null)
             {
                 this.products = products.Where(x => x.CategoryId == categoryId).AsQueryable();
-
             }
             return this;
         }
-
 
         public ICatalogService ByManufacturer(IEnumerable<int> manufacturerIds)
         {
@@ -142,61 +132,29 @@
         public ICatalogService Pagination(int pageNumber, int itemsPerPage = 12)
         {
             var productCount = this.products.Count();
-
             this.pageCount = (int)Math.Ceiling(productCount / (double)itemsPerPage);
-
 
             if (pageNumber > this.pageCount)
             {
                 pageNumber = this.pageCount;
             }
+
             if (pageNumber <= 0)
             {
                 pageNumber = 1;
             }
 
             var skipAmount = (pageNumber - 1) * itemsPerPage;
-            var takeAmount = itemsPerPage;
-
-            //this.catalogModel
-            //    .SpecificationFilters = Task.Run(async () => await filterOptionsService.GenerateSpecificationOptions(this.products)).GetAwaiter().GetResult();
-
-            //this.catalogModel
-            //    .Manufacturers = Task.Run(async () => await filterOptionsService.GenerateManufacturerOptions(this.products)).GetAwaiter().GetResult();
-            //this.catalogModel.SortOrder = filterOptionsService.GenerateSortOrderOptions();
-
-
+            var takeAmount = itemsPerPage;            
             this.products = this.products.Skip(skipAmount).Take(takeAmount);
 
             return this;
         }
-
-        public async Task<CatalogModel> ToCatalogModel()
-        {
-            var model = new CatalogModel();
-
-            var products = await this.products
-                .ProjectTo<ProductExtendedModel>(mapper.ConfigurationProvider)
-                .ToListAsync();
-
-            foreach (var product in products)
-            {
-                product.Specifications = product.Specifications.DistinctBy(x => x.Name).ToList();
-            }
-
-            model.Products = products;
-            model.PageSize = this.pageCount;
-            model.SortOrder = this.catalogModel.SortOrder;
-            model.SpecificationFilters = this.catalogModel.SpecificationFilters;
-            model.Manufacturers = this.catalogModel.Manufacturers;
-            return model;
-        }
-
+       
         public async Task<List<T>> ToList<T>() where T : class
         {
             var products = await this.products.ProjectTo<T>(mapper.ConfigurationProvider).ToListAsync();
             return products;
         }
-
     }
 }

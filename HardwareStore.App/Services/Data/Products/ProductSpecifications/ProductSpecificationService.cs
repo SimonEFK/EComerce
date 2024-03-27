@@ -4,6 +4,7 @@
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Services.Validation;
     using Microsoft.EntityFrameworkCore;
+    using static Constants.Constants;
 
     public class ProductSpecificationService : IProductSpecificationService
     {
@@ -24,16 +25,18 @@
             if (product is null)
             {
                 result.Success = false;
-                result.ErrorMessage = $"Invalid Product Id:\"{productId}\"";
+                result.ErrorMessage = string.Format(ErrorMessages.InvalidProductId, productId);                   
                 return result;
             }
+
             var isValueIdValid = await validatorService.IsSpecificationValueValidAsync(valueId);
             if (!isValueIdValid)
             {
                 result.Success = false;
-                result.ErrorMessage = $"Invalid Value Id:\"{valueId}\"";
+                result.ErrorMessage = string.Format(ErrorMessages.InvalidVlaueId, valueId);                   
                 return result;
             }
+
             var productSpecificationValue = new ProductSpecificationValues
             {
                 SpecificationValueId = valueId,
@@ -52,14 +55,14 @@
             if (product is null)
             {
                 result.Success = false;
-                result.ErrorMessage = $"Invalid Product Id:\"{productId}\"";
+                result.ErrorMessage = string.Format(ErrorMessages.InvalidProductId, productId);                   
                 return result;
             }
             var isValueIdValid = await validatorService.IsSpecificationValueValidAsync(valueId);
             if (!isValueIdValid)
             {
                 result.Success = false;
-                result.ErrorMessage = $"Invalid Value Id:\"{valueId}\"";
+                result.ErrorMessage = string.Format(ErrorMessages.InvalidVlaueId, valueId);                   
                 return result;
             }
             foreach (var item in product.Specifications)

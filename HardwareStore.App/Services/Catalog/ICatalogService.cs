@@ -9,14 +9,21 @@
         int PageCount { get; }
 
         ICatalogService ByCategory(int? categoryId);
+
         ICatalogService ByManufacturer(IEnumerable<int> manufacturerIds);
+
         ICatalogService FilterBySpecification(Dictionary<int, HashSet<int>> selectedSpecsIds);
+
         Task<List<ProductSimplifiedModel>> GetLatestProductsAsync(int count = 4);
+
         Task<ProductDetailedModel> GetProductById(int id);
+
         ICatalogService GetProducts(string? searchstring);
+
         ICatalogService Order(string sortOrder);
-        ICatalogService Pagination(int pageNumber, int itemsPerPage = 12);
-        Task<CatalogModel> ToCatalogModel();
+
+        ICatalogService Pagination(int pageNumber, int itemsPerPage = 12);  
+        
         Task<List<T>> ToList<T>() where T : class;
     }
 }

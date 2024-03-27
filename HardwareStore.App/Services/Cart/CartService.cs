@@ -3,19 +3,15 @@
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using Microsoft.EntityFrameworkCore;
-
+    using static Constants.Constants;
 
     public class CartService : ICartService
     {
         private readonly ApplicationDbContext data;
-        private readonly DbContext dbContext;
-
         public CartService(ApplicationDbContext data)
         {
             this.data = data;
-
         }
-
         public async Task CreateCartAsync(ApplicationUser applicationUser)
         {
             var userCart = await UserCartExsistAsync(applicationUser);
@@ -23,24 +19,20 @@
             {
                 throw new ArgumentException($"User with Id:{applicationUser.Id} Already has a cart");
             }
-
             var cart = new Cart()
             {
                 ApplicationUser = applicationUser,
-
             };
             data.Carts.Add(cart);
             await data.SaveChangesAsync();
-
         }
-
         public async Task AddProductToCartAsync(ApplicationUser user, int productId)
         {
             var product = data.Products.FirstOrDefault(x => x.Id == productId);
             var userCart = await GetUserCartAsync(user);
             if (product == null)
             {
-                throw new ArgumentNullException($"Product Id: {productId} is Invalid");
+                throw new ArgumentNullException(string.Format(ErrorMessages.InvalidProductId, productId));
             }
             var productCartEntry = await data.CartProducts
                 .FirstOrDefaultAsync(x => x.CartId == userCart.Id && x.ProductId == productId);
@@ -59,30 +51,27 @@
             }
             await data.SaveChangesAsync();
         }
-
         private async Task<Cart> GetUserCartAsync(ApplicationUser applicationUser)
         {
             var userCart = await UserCartExsistAsync(applicationUser);
             if (userCart == null)
             {
-                throw new ArgumentException($"User with Id:{applicationUser.Id} dosen't have cart");
+                throw new ArgumentException(string.Format(ErrorMessages.InvalidUserCart, applicationUser.Id));
             }
             return userCart;
         }
-
         private async Task<Cart?> UserCartExsistAsync(ApplicationUser applicationUser)
         {
             return await data.Carts
                 .FirstOrDefaultAsync(x => x.ApplicationUserId == applicationUser.Id);
         }
-
         public async Task RemoveItem(ApplicationUser applicationUser, int productId)
         {
             var product = data.Products.FirstOrDefault(x => x.Id == productId);
             var userCart = await GetUserCartAsync(applicationUser);
             if (product == null)
             {
-                throw new ArgumentNullException($"Product Id: {productId} is Invalid");
+                throw new ArgumentNullException(string.Format(ErrorMessages.InvalidProductId, productId));
             }
             var productCartEntry = await data.CartProducts
                 .FirstOrDefaultAsync(x => x.CartId == userCart.Id && x.ProductId == productId);
@@ -94,7 +83,6 @@
             }
 
         }
-
         public async Task<ICollection<CartProductModel>> GetUserCartProductsAsync(ApplicationUser applicationUser)
         {
             var cart = await data.Carts.FirstOrDefaultAsync(x => x.ApplicationUserId == applicationUser.Id);

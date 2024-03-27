@@ -14,12 +14,12 @@
 
         public async Task<ICollection<(string Name, int Id)>> GetManufacturersAsTupleCollectionAsync()
         {
-
             var query = await dbContext.Manufacturers.Select(x => new
             {
                 Name = x.Name,
                 Id = x.Id,
             }).ToListAsync();
+
             var manufacturerResult = new List<(string Name, int Id)>();
 
             foreach (var manufacturer in query)

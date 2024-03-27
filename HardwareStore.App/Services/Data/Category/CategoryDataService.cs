@@ -6,7 +6,7 @@
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Services.DownloadImage;
     using Microsoft.EntityFrameworkCore;
-    using static Constants;
+    using static Constants.Constants;
 
     public class CategoryDataService : ICategoryDataService
     {
@@ -227,12 +227,12 @@
 
         public async Task<ICollection<(string Name, int Id)>> GetCategoriesAsTupleCollectionAsync()
         {
-
             var categoriesQuery = await dbContext.Categories.Select(x => new
             {
                 x.Name,
                 x.Id,
             }).ToListAsync();
+
             var categoriesResult = new List<(string Name, int Id)>();
 
             foreach (var category in categoriesQuery)
@@ -261,6 +261,6 @@
             return specificationInfo;
         }
 
-        
+
     }
 }

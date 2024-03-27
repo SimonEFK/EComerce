@@ -9,7 +9,9 @@
     public class ProductReviewService : IProductReviewService
     {
         private readonly ApplicationDbContext dbContext;
+
         private readonly IMapper mapper;
+
         public ProductReviewService(ApplicationDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
@@ -34,6 +36,7 @@
             dbContext.ProductReviews.Add(review);
             await dbContext.SaveChangesAsync();
         }
+
         public async Task<List<ProductReviewDTO>> GetProductReviews(int productId)
         {
             var result = await dbContext.ProductReviews.Where(x => x.ProductId == productId).ProjectTo<ProductReviewDTO>(mapper.ConfigurationProvider).ToListAsync();

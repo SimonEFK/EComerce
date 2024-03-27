@@ -37,7 +37,6 @@
             return product;
         }
 
-
         public async Task<ServiceResultGeneric<T>> CreateProductAsync<T>(CreateProductDTO createProductDTO)
         {            
             var result = await this.createProductService
@@ -75,7 +74,6 @@
         }
 
         public async Task<ServiceResult> RemoveSpecificationAsync(int productId,int valueId)
-
         {
             var result = await this.editProductService.RemoveSpecificationAsync(productId, valueId);
             return result;
