@@ -1,32 +1,32 @@
 ﻿@using HardwareStore.App.Models.Account;
 @model UserLoginFormModel;
-<div class="row reg-form-wrapper mx-auto">
-    <div class="col-md-6">
-        <h3>Login</h3>
-        <form asp-controller="Account" asp-action="Login" method="post">
-            <span asp-validation-for="@Model.Email" class="text-danger"></span>
-            <div class="form-floating">
+<div class="row reg-form-wrapper justify-content-center">
+    <span class="h3">Login</span>
+    <div class="col-md-4 ">
+        <form asp-controller="Account" asp-action="Login" method="post" class="row-gap-2 d-flex flex-column">
+            <div class="row">
+                <label asp-for="@Model.Email" class="form-label p-0 m-0"></label>
+                <span asp-validation-for="@Model.Email" class="text-danger p-0"></span>
                 <input asp-for="@Model.Email" class="form-control" placeholder="Email">
-                <label asp-for="@Model.Email"></label>
             </div>
-            <span asp-validation-for="@Model.Password" class="text-danger"></span>
-            <div class="form-floating">
+            <div class="row">
+                <label asp-for="@Model.Password" class="form-label p-0 m-0"></label>
+                <span asp-validation-for="@Model.Password" class="text-danger p-0"></span>
                 <input asp-for="@Model.Password" class="form-control" placeholder="Password" type="password">
-                <label asp-for="@Model.Password"></label>
             </div>
             <button asp-controller="Account" asp-action="Login" type="submit" class="btn btn-primary">Login</button>
         </form>
-        <br />
-        @if (ViewBag.Message is not null)
-        {
-            <div class="alert alert-success" role="alert">
-                @ViewBag.Message
-            </div>
-        }
     </div>
+    <br />
+    @if (ViewBag.Message is not null)
+    {
+        <div class="alert alert-success" role="alert">
+            @ViewBag.Message
+        </div>
+    }
 </div>
 @section Scripts
-    {
+{
     <partial name="_ValidationScriptsPartial" />
 
-    }
+}
