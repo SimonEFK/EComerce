@@ -2,25 +2,32 @@
 @model CartViewModel
 
 <div class="container">
-    <div class="row justify-content-center mt-3">
-        <div class="col" id="cartItemsRow">
+    <div class="row justify-content-center mt-3" id="cartItemsRow">
+        <div class="col-md-8 d-flex flex-column row-gap-3">
             @foreach (var item in Model.CartProducts)
             {
                 <div class="row">
-                    <div class="col">
-                        <div class="product-home-card-image-container">
-                            <img src="@item.Image" />
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-center overflow-hidden" style="height:200px;">
+                            <a target="_blank" href="/ComponentDetail/@item.ProductId">
+                                <img class="img-fluid object-fit-contain" src="@item.Image" style="max-height:200px" />
+                            </a>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-md-6">
                         <ul class="list-group">
                             <li class="list-group-item d-flex flex-grow-1 justify-content-between">
-                                <p class="m-0">@item.Name</p>
-                                <a asp-controller="Cart" asp-action="RemoveItem" asp-route-Id="@item.Id"><i class="bi bi-x-lg text-danger" data-removeItemFromCart="@item.Name" data-productId="@item.Id"></i></a>
+                                <a class="text-black text-decoration-none" target="_blank" href="/ComponentDetail/@item.ProductId">
+                                    <p title="@item.ProductNameDetailed" class="m-0">@item.ProductName</p>
+                                </a>
+                                <a asp-controller="Cart" asp-action="RemoveItem" asp-route-Id="@item.ProductId"><i class="bi bi-x-lg text-danger" data-removeItemFromCart="@item.ProductName" data-productId="@item.ProductId"></i></a>
                             </li>
                             <li class="list-group-item flex-grow-1">
                                 <p class="m-0">@item.Amount</p>
-                                <p class="m-0">@item.Price</p>
+
+                                <p class="text-success fw-bold m-0">
+                                    $@string.Format("{0:0.00}", item.ProductPrice.ToString())
+                                </p>
                             </li>
                         </ul>
                     </div>
@@ -28,12 +35,13 @@
             }
         </div>
     </div>
-    <div class="row justify-content-end">
-        <div class="col-4">
-            <p class="m-0">Total Price: <span class="fw-bold fs-5 text-color-success">@Model.CartProducts.Sum(x => x.Price * x.Amount)</span></p>
-            <button type="button" class="btn btn-outline-success">Checkout</button>
-        </div>
+</div>
+<div class="row justify-content-end">
+    <div class="col-4">
+        <p class="fw-bold text-success m-0">Total:<span class="fw-bold fs-5 text-color-success">@Model.CartProducts.Sum(x => x.ProductPrice * x.Amount)$</span></p>
+        <button type="button" class="btn btn-outline-success">Checkout</button>
     </div>
+</div>
 </div>
 @section Scripts {
     <script>

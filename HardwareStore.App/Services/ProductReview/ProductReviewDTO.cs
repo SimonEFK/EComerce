@@ -8,6 +8,8 @@
 
         public string ApplicationUserId { get; set; }
 
+        public string ApplicationUserUserName { get; set; }
+
         public int ProductId { get; set; }
 
         public string Review { get; set; }

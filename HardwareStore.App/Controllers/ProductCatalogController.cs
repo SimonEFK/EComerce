@@ -80,7 +80,7 @@
                 .ByManufacturer(model.ManufacturerIds)
                 .FilterBySpecification(model.SpecificationIds)
                 .Order(model.SortOrder)
-                .Pagination(model.Page,3)
+                .Pagination(model.Page)
                 .ToList<ProductExtendedModel>();
 
             foreach (var product in products)

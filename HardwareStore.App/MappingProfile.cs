@@ -8,6 +8,7 @@
     using HardwareStore.App.Models.Category;
     using HardwareStore.App.Models.Product;
     using HardwareStore.App.Models.ProductFilter;
+    using HardwareStore.App.Services.Cart;
     using HardwareStore.App.Services.Data.Category;
     using HardwareStore.App.Services.Data.Products.Create;
     using HardwareStore.App.Services.Data.Products.Edit;
@@ -67,6 +68,7 @@
                 .ForMember(x=> x.ValueName, cfg=> cfg.MapFrom(x=>x.SpecificationValue.Value))
                 .ForMember(x=>x.ValueId,cfg=> cfg.MapFrom(x=>x.SpecificationValueId));
             this.CreateMap<EditProductDTO, EditProductInputModel>();
+            this.CreateMap<CartProduct,CartProductModel>().ForMember(x => x.Image, cfg => cfg.MapFrom(source => source.Product.Images.FirstOrDefault().FilePath ?? source.Product.Images.FirstOrDefault().Url));
         }
     }
 }

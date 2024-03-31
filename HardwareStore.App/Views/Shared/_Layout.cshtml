@@ -11,13 +11,12 @@
 </head>
 <body class="fs-3">
     <header>
-        <nav class="navbar navbar-expand-lg bg-dark border-body">
+        <nav class="bg-dark border-body">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">Logo</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>                
-                <partial name="_LoginPartial" />
+                <div id="navbarSupportedContent">
+                    <partial name="_LoginPartial" />
+                </div>               
             </div>
 
         </nav>
@@ -32,7 +31,7 @@
                         <ul class="list-group">
                             @await Component.InvokeAsync("CategoryMenu")
                         </ul>
-                    </div>                   
+                    </div>
                 </div>
                 <div class="col-10 col-xl-8 position-relative">
                     <form autocomplete="off" method="GET" asp-controller="Catalog" asp-action="Products" asp-route-page="1" class="d-flex me-auto" role="search">
@@ -56,9 +55,11 @@
         <div class="toast-container position-fixed bottom-0 end-0 p-3">
             <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
-                    <i class="bi bi-cart me-auto"></i>
-                    <strong class="me-auto">Shopping Cart</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    <a class="text-black text-decoration-none" href="/Cart">
+                        <i class="bi bi-cart"></i>
+                        <strong>Shopping Cart</strong>
+                    </a>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
                 <div class="toast-body text-center">
                     Item:<span class="toast-message text-success"></span>
@@ -77,7 +78,6 @@
     <script>
         let searchBar = document.querySelector('#globalSearchbar');
         searchBar.addEventListener('input', PopulateMatchingProducts);
-        // searchBar.addEventListener('blur', TurnOffSearchbox);
         searchBar.addEventListener('focus', TurnOnSearchbox);
         async function PopulateMatchingProducts(event) {
             let value = searchBar.value;

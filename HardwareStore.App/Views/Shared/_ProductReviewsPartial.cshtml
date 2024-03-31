@@ -18,7 +18,7 @@
 {
     <div class="product-review-wrap mb-3">
         <div class="product-review-header d-flex justify-content-between bg-body-secondary p-2">
-            <p class="m-0 fs-6">@review.ApplicationUserId</p>
+            <p class="m-0 fs-6">@review.ApplicationUserUserName</p>
             <div class="d-flex flex-column text-end justify-content-end">
                 <p class="m-0 fs-6">@review.CreatedOn.ToLocalTime().ToShortDateString()</p>
                 <partial name="_ProductStarRatingPartial" model="(double)review.Rating" />

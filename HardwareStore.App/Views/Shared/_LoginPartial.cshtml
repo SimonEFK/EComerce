@@ -3,10 +3,9 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<ul class="navbar-nav align-items-center">
+<ul class="navbar-nav justify-content-end align-items-center d-flex flex-row column-gap-2">
     @if (SignInManager.IsSignedIn(User))
     {
-
         <li class="nav-item">
             <a title="My Cart" class="nav-link text-primary" href="/Cart">
                 <i class="text-success bi bi-cart-fill"></i>

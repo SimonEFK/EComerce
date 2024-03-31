@@ -1,5 +1,7 @@
 ﻿namespace HardwareStore.App.Services.Cart
 {
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using Microsoft.EntityFrameworkCore;
@@ -8,9 +10,11 @@
     public class CartService : ICartService
     {
         private readonly ApplicationDbContext data;
-        public CartService(ApplicationDbContext data)
+        private readonly IMapper mapper;
+        public CartService(ApplicationDbContext data, IMapper mapper)
         {
             this.data = data;
+            this.mapper = mapper;
         }
         public async Task CreateCartAsync(ApplicationUser applicationUser)
         {
@@ -86,17 +90,8 @@
         public async Task<ICollection<CartProductModel>> GetUserCartProductsAsync(ApplicationUser applicationUser)
         {
             var cart = await data.Carts.FirstOrDefaultAsync(x => x.ApplicationUserId == applicationUser.Id);
-            var cartProducts = await data.CartProducts.Where(x => x.CartId == cart.Id).Select(x => new CartProductModel
-            {
-                Amount = x.Amount,
-                Id = x.ProductId,
-                Name = x.Product.Name,
-                CategoryId = x.Product.CategoryId,
-                Image = x.Product.Images.FirstOrDefault().FilePath ?? x.Product.Images.FirstOrDefault().Url,
-                Price = x.Product.Price
-            }).ToListAsync();
-
-
+            var cartProducts = await data.CartProducts
+                .Where(x => x.CartId == cart.Id).ProjectTo<CartProductModel>(mapper.ConfigurationProvider).ToListAsync();            
             return cartProducts;
         }
     }
