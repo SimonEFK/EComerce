@@ -93,10 +93,8 @@
 @section Scripts {
     <script>
 
-
         this.window.addEventListener('load', SubmitForm(1));
         this.window.addEventListener('load', Pagination)
-
 
         document.querySelector('#productsRow').addEventListener('click', AddProductToCart);
         document.querySelector('#filterForm').addEventListener('click', (event) => {
@@ -142,9 +140,9 @@
         }
         function Pagination() {
             document.querySelector('#productsRow').addEventListener('click', () => {
-                event.preventDefault();
                 let target = event.target;
                 if (target.matches('[data-pageNumber]')) {
+                    event.preventDefault();
                     let pageNumber = event.target.dataset["pagenumber"];
                     if (pageNumber % 1 === 0) {
                         SubmitForm(pageNumber)

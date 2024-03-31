@@ -33,7 +33,10 @@
         {
 
             var user = await _userManager.GetUserAsync(this.HttpContext.User);
-            
+            if (user is null)
+            {
+                return BadRequest();
+            }
             await _cartService.AddProductToCartAsync(user, productId);
 
             return Ok();

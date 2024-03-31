@@ -1,18 +1,22 @@
-﻿@model ProductExtendedModel
+﻿@model ProductExtendedModel;
 <div class="container-fluid catalog-product-card d-flex flex-column justify-content-between h-100">
     <div class="row">
         <div class="d-flex flex-column p-0">
-            <h3 class="py-3 bg-primary text-center"><a class="text-white  fs-2 text-decoration-none" asp-action="ComponentDetail" asp-route-id="@this.Model.Id"><span title="@this.Model.NameDetailed" class="text-nowrap">@this.Model.Name</span></a></h3>
+            <a class="text-white  fs-2 text-decoration-none" asp-action="ComponentDetail" asp-route-id="@this.Model.Id">
+                <h3 title="@this.Model.NameDetailed" class="py-3 bg-primary text-center text-nowrap">
+                    @this.Model.Name
+                </h3>
+            </a>
             <partial name="_ProductStarRatingPartial" model="@Model.ProductReviewsRatingAvg" />
         </div>
     </div>
     <div class="row catalog-product-content">
         <div class="col-lg-6">
-            <a asp-action="ComponentDetail" asp-route-Id="@Model.Id">
-                <div class="d-flex justify-content-center align-items-center overflow-hidden" style="height:300px;">
+            <div class="d-flex justify-content-center align-items-center overflow-hidden" style="height:300px;">
+                <a href="/ComponentDetail/@this.Model.Id">
                     <img class="img-fluid" src="@Model.ImageUrl" alt="product img" style="max-height:250px;">
-                </div>
-            </a>            
+                </a>
+            </div>
         </div>
         <div class="col-lg-6">
             <ul class="catalog-product-specs list-group fs-5 h-100 justify-content-center">
@@ -31,7 +35,6 @@
         <div class="col-md-6 justify-content-end d-flex">
             <button class="btn btn-primary " data-addProductToCart="@Model.Name" data-productId="@Model.Id">Buy</button>
             <span class="fw-bold text-success">@Model.Price$</span>
-        </div>        
+        </div>
     </div>
-    
 </div>

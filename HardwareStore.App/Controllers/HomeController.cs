@@ -4,7 +4,6 @@
     using HardwareStore.App.Models.Category;
     using HardwareStore.App.Services.Catalog;
     using HardwareStore.App.Services.Data.Category;
-    using HardwareStore.App.Services.ProductDiscount;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
 

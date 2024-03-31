@@ -37,7 +37,7 @@
         }
 
         [HttpGet]
-        [Route("Products/{page=1}/{category?}")]
+        [Route("Products/{page?}/{category?}")]
         public async Task<IActionResult> Products(int? category,  string? s)
         {
 
@@ -66,7 +66,7 @@
         }
 
         [HttpPost]
-        [Route("Products/{page=1}/{category?}")]
+        [Route("Products/{page?}/{category?}")]
         public async Task<IActionResult> Products(BrowseProductInputModel model)
         {
             if (!ModelState.IsValid)
