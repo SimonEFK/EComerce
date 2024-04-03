@@ -15,6 +15,8 @@
             public const string SpecificationExsist = "Specification:\"{0}\" already exsist in Category \"{1}\"";
             public const string SpecificationDoesentExsist = "Specification doesn't exsist";
             public const string SpecificationValueExsist = "Value:\"{2}\" already exsist in Category:\"{0}\" Specification:\"{1}\"";
+
+            public const string InvalidReviewId = "Review with Id:\"{0}\" is invalid";
         }
         public static class Areas
         {

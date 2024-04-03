@@ -1,0 +1,106 @@
+﻿@using HardwareStore.App.Models.ProductCatalog
+@model ProductReviewViewModel;
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-8 col-xl-10">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ReviewId</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Review</th>
+                    <th scope="col">Rating</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">IsApproved</th>
+                    <th scope="col">Manage</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model.ProductReviews)
+                {
+                    var colorClass = item.IsApproved == true ? "table-success" : "table-danger";
+                    <tr class="@colorClass" data-reviewid="@item.Id">
+                        <th scope="row">@item.Id</th>
+                        <td scope="row"><a class="text-decoration-none" target="_blank" href="/ComponentDetail/@item.ProductId">@item.ProductId</a></td>
+                        <td>@item.ApplicationUserUserName</td>
+                        <td>@item.Review</td>
+                        <td>@item.Rating</td>
+                        <td>@item.CreatedOn</td>
+                        <td>@item.IsApproved</td>
+                        <td>
+                            <div class="d-flex column-gap-1">
+                                @if (!item.IsApproved)
+                                {
+                                    <button data-btnApprove="@item.IsApproved" class="btn btn-success flex-grow-1">Approve</button>
+                                }
+                                else
+                                {
+                                    <button data-btnApprove="@item.IsApproved" class="btn btn-warning flex-grow-1">Hide</button>
+
+                                }
+                                <button class="btn btn-danger" data-deletebtn="@item.Id">Delete</button>
+                            </div>
+
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.querySelector('table').addEventListener('click', ChangeReviewStatus);
+        document.querySelector('table').addEventListener('click', DeleteReview);
+
+        async function ChangeReviewStatus(event) {
+            let target = event.target;
+            if (target.matches('button[data-btnApprove]')) {
+                let tr = target.closest('tr');
+                let status = target.dataset.btnapprove.toLowerCase() === "true";
+                let reviewId = tr.dataset.reviewid;
+                let formData = new FormData();
+                formData.append("reviewId", reviewId);
+                formData.append("isApproved", !status);
+                let result = await Submit(formData);
+                if (result.status == 200) {
+                    window.location.reload();
+                }
+            }
+        };
+        async function Submit(formData) {
+
+            let url = "/Administration/ReviewManagment/ChangeReviewStatus";
+            let options = {
+                'method': 'POST',
+                'body': formData
+            }
+            let response = await fetch(url, options);
+            return response;
+        }
+
+        async function DeleteReview(event) {
+            let target = event.target
+            if (target.matches('button[data-deletebtn]')) {
+                let reviewId = target.dataset.deletebtn;
+                debugger;
+                let url = '/Administration/ReviewManagment/DeleteReview';
+                let formData = new FormData();
+                formData.append('reviewId', reviewId);
+
+                let options = {
+                    'method': 'POST',
+                    'body': formData
+                };
+                let result = await fetch(url, options);
+                if (result.status == 200) {
+                    window.location.reload();
+
+                }
+            }
+        }
+    </script>
+}

@@ -6,6 +6,8 @@
     {
         public int Id { get; set; }
 
+        public bool IsApproved { get; set; }
+
         public string ApplicationUserId { get; set; }
 
         public string ApplicationUserUserName { get; set; }

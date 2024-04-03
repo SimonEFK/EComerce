@@ -7,22 +7,30 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <title>@ViewBag.Title</title>
 </head>
-<body class="fs-3">
+<body>
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="Administration" asp-controller="ProductManagment">Navbar</a>
-                <ul class="nav align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link active" asp-area="Administration" asp-controller="ProductManagment" asp-action="Index">Product Managment</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="Administration" asp-Controller="CategoryManagment" asp-action="Index">Category Managment</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="text-decoration-none" asp-area="" asp-controller="Home" asp-action="Index">Store</a>
-                    </li>
-                </ul>
+                <a class="navbar-brand" href="#">Navbar</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">                            
+                            <a class="nav-link active" aria-current="page" asp-area="" asp-controller="Home" asp-action="Index">Store</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" asp-area="Administration" asp-controller="ProductManagment" asp-action="Index">Product Managment</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" asp-area="Administration" asp-controller="CategoryManagment" asp-action="Index">Category Managment</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" asp-area="Administration" asp-controller="ReviewManagment" asp-action="Index">Review Managment</a>
+                        </li>
+                    </ul>                    
+                </div>
             </div>
         </nav>
     </header>

@@ -29,6 +29,9 @@
 
             builder.Entity<Specification>(x => x.Property(y => y.Filter).HasDefaultValue(false));
 
+            builder.Entity<ProductReview>(x => x.Property(y => y.IsApproved).HasDefaultValue(false));
+
+
             var categories = Seed.Data<Category>("categories.json");
             var manufacturers = Seed.Data<Manufacturer>("manufacturers.json");
             var products = Seed.Data<Product>("products.json");
