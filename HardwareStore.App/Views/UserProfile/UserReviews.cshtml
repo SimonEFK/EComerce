@@ -7,8 +7,8 @@
     <div class="col">
         @foreach (var item in Model.ProductReviews)
         {
-            <div class="d-flex flex-column row-gap-3 fs-2 position-relative">
-                <div class="d-flex justify-content-between column-gap-2">
+            <div class="d-flex p-2 flex-column row-gap-3 fs-2 position-relative">
+                <div class="d-md-flex justify-content-between column-gap-2">
                     <span>@item.CreatedOn.ToShortDateString()</span>
                     <a target="_blank" class="text-decoration-none" href="/ComponentDetail/@item.ProductId">Product</a>
                     <partial name="_ProductStarRatingPartial" model="@(double)item.Rating" />
@@ -29,8 +29,8 @@
                 </div>
                 <form method="post" asp-controller="UserProfile" asp-action="EditReview">
                     <input disabled type="hidden" name="ReviewId" value="@item.Id" />
-                    <input disabled type="hidden" name="ProductId" value="@item.ProductId" />                    
-                    <input asp-for="@Model.ReviewInputModel.Content" name="Content" disabled type="text" value="@item.Review" class="m-0 form-control" />
+                    <input disabled type="hidden" name="ProductId" value="@item.ProductId" />
+                    <input asp-for="@Model.ReviewInputModel.Content" name="Content" disabled type="text" value="@item.Review" class="my-2 form-control" />
                     <select asp-for="@Model.ReviewInputModel.Rating" name="Rating" disabled class="form-select">
                         <option value="1">1 Star</option>
                         <option value="2">2 Stars</option>
@@ -41,12 +41,15 @@
                     <button data-editbtn type="button" class="btn btn-outline-info">Edit</button>
                     <button class="btn btn-outline-info">Apply</button>
                 </form>
-                <form method="post" asp-controller="UserProfile" asp-action="RemoveReview">
-                    <input type="hidden" name="reviewId" value="@item.Id" />
-                    <button class="btn btn-outline-danger position-absolute bottom-0 end-0" type="submit">Delete</button>
-                </form>
+                @if (!item.IsDeleted)
+                {
+                    <form method="post" asp-controller="UserProfile" asp-action="RemoveReview">
+                        <input type="hidden" name="reviewId" value="@item.Id" />
+                        <button class="btn btn-outline-danger position-absolute bottom-0 end-0" type="submit">Delete</button>
+                    </form>
+                }
             </div>
-            
+            <hr />
         }
 
     </div>

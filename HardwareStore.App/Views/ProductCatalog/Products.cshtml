@@ -127,15 +127,22 @@
 
             let formData = new FormData(filterForm);
             let options = {
-                'method': 'POST',
+                'method': 'POST',               
                 body: formData
             }
 
             let response = await fetch(url, options);
-            let html = await response.text();
+            debugger;
+            if (response.redirected) {
+                window.location.href = response.url;
+               
+            }
+            if (response.status == 200) {
+                let html = await response.text();
+                let productRow = document.querySelector('#productsRow')
+                productRow.innerHTML = html;
+            }
 
-            let productRow = document.querySelector('#productsRow')
-            productRow.innerHTML = html;
 
         }
         function Pagination() {

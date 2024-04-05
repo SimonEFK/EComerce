@@ -8,10 +8,10 @@
     {
         Task<ServiceResult> ChangeReviewStatus(int reviewId, bool isApproved);
         Task CreateReview(ApplicationUser user, string content, int? rating, int productId);
-        Task<ServiceResult> DeleteReview(int reviewId,bool trueDelete = false);
+        Task<ServiceResult> DeleteReview(int reviewId, bool trueDelete = false);
         Task<ServiceResult> EditReview(ApplicationUser user, int reviewId, string content, int rating);
         Task<IEnumerable<ProductReviewDTO>> GetAll(bool includeApproved = false);
-        Task<List<ProductReviewDTO>> GetProductReviews(int productId);
+        Task<List<ProductReviewDTO>> GetProductReviews(int productId, bool includeNotApproved = false, bool includeDeleted = false);
         Task<IEnumerable<ProductReviewDTO>> GetUserReviews(string userId, bool includeNotApproved = false);
     }
 }

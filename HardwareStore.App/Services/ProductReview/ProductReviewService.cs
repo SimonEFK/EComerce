@@ -38,12 +38,20 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<ProductReviewDTO>> GetProductReviews(int productId)
+        public async Task<List<ProductReviewDTO>> GetProductReviews(int productId, bool includeNotApproved = false, bool includeDeleted = false)
         {
-            var result = await dbContext.ProductReviews
-                .Where(x => x.ProductId == productId)
-                .Where(x => x.IsApproved == true)
-                .ProjectTo<ProductReviewDTO>(mapper.ConfigurationProvider).ToListAsync();
+            var query = dbContext.ProductReviews
+                .Where(x => x.ProductId == productId).AsQueryable();
+            if (!includeNotApproved)
+            {
+                query = query.Where(x => x.IsApproved == false);
+            }
+            if (!includeDeleted)
+            {
+                query = query.Where(x => x.IsDeleted == false);
+            }
+            var result = await query
+            .ProjectTo<ProductReviewDTO>(mapper.ConfigurationProvider).ToListAsync();
 
             return result;
         }

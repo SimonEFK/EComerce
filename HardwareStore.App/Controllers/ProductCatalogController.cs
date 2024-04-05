@@ -38,8 +38,12 @@
 
         [HttpGet]
         [Route("Products/{page?}/{category?}")]
-        public async Task<IActionResult> Products(int? category,  string? s)
+        public async Task<IActionResult> Products(int? category, string? s)
         {
+            if (category is null && s is null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
 
             if (category is not null)
             {
@@ -50,9 +54,14 @@
                 ViewData["SearchString"] = s;
             }
 
+            var specificationFilters = await generateFilters.GenerateSpecificationOptions(category, s);
 
-            var specificationFilters = await generateFilters.GenerateSpecificationOptions(category,s);
-            var manufacturerFilters = await generateFilters.GenerateManufacturerOptions(category,s);
+            if (specificationFilters.Count == 0)
+            {
+                return RedirectToAction(nameof(Index));
+
+            }
+            var manufacturerFilters = await generateFilters.GenerateManufacturerOptions(category, s);
             var sortOrderOptions = generateFilters.GenerateSortOrderOptions();
 
             var filterModel = new FilterModel
@@ -61,7 +70,7 @@
                 Manufacturers = manufacturerFilters,
                 SortOrder = sortOrderOptions
             };
-            
+
             return View(filterModel);
         }
 
@@ -71,7 +80,7 @@
         {
             if (!ModelState.IsValid)
             {
-               return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
             }
 
             var products = await productCatalogService
@@ -82,7 +91,10 @@
                 .Order(model.SortOrder)
                 .Pagination(model.Page)
                 .ToList<ProductExtendedModel>();
-
+            if (products.Count == 0)
+            {
+                return RedirectToAction(nameof(Index));
+            }
             foreach (var product in products)
             {
                 product.Specifications = product.Specifications.DistinctBy(x => x.Name).ToList();

@@ -35,9 +35,9 @@
                     </div>
                 </div>
                 <div class="col-10 col-xl-8 position-relative">
-                    <form autocomplete="off" method="GET" asp-controller="Catalog" asp-action="Products" asp-route-page="1" class="d-flex me-auto" role="search">
+                    <form id="searchForm" autocomplete="off" method="get" asp-controller="Catalog" asp-action="Products" asp-route-page="1" class="d-flex me-auto" role="search">
                         <input id="globalSearchbar" class="form-control me-2" placeholder="Search All Products" aria-label="Search" name="s" value="@ViewData["SearchString"]">
-                        <button class="btn btn-outline-success" type="submit">
+                        <button class="btn btn-outline-success" type="submit" id="searchSubmitBtn">
                             <span class="d-none d-xl-block">Search</span>
                             <i class="d-xl-none bi bi-search"></i>
                         </button>
@@ -76,6 +76,24 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
+
+        let submitBtn = document.querySelector('#searchSubmitBtn');
+        submitBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            debugger;
+            let inputValue = document.querySelector('#globalSearchbar').value;
+            if (!inputValue) {
+                return;
+            }
+            if (inputValue.length < 3) {
+                return;
+            }
+            let form = document.querySelector('#searchForm');
+            form.submit();
+        })
+
+
+
         let searchBar = document.querySelector('#globalSearchbar');
         searchBar.addEventListener('input', PopulateMatchingProducts);
         searchBar.addEventListener('focus', TurnOnSearchbox);
