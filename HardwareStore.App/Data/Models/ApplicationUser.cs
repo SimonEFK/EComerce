@@ -10,6 +10,8 @@
 
         }
         public ICollection<ProductReview> ProductReviews { get; set; }
+
+        public ICollection<Address> Addresses { get; set; }
         
         public Cart Cart { get; set; }
 

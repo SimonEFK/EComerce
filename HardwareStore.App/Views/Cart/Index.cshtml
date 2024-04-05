@@ -20,7 +20,10 @@
                                 <a class="text-black text-decoration-none" target="_blank" href="/ComponentDetail/@item.ProductId">
                                     <p title="@item.ProductNameDetailed" class="m-0">@item.ProductName</p>
                                 </a>
-                                <a asp-controller="Cart" asp-action="RemoveItem" asp-route-Id="@item.ProductId"><i class="bi bi-x-lg text-danger" data-removeItemFromCart="@item.ProductName" data-productId="@item.ProductId"></i></a>
+                                <form method="post" asp-controller="Cart" asp-action="RemoveItem">
+                                    <input type="hidden" name="Id" value="@item.ProductId" />
+                                    <button class="btn btn-close" type="submit"></button>
+                                </form>
                             </li>
                             <li class="list-group-item flex-grow-1">
                                 <p class="m-0">@item.Amount</p>

@@ -9,6 +9,8 @@
         [ValidProduct]
         public int ProductId { get; set; }
 
+        public int? ReviewId { get; set; }
+
         [Range(1, 5)]
         public int? Rating { get; set; }
 

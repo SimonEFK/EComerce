@@ -8,6 +8,8 @@
 
         public bool IsApproved { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public string ApplicationUserId { get; set; }
 
         public string ApplicationUserUserName { get; set; }

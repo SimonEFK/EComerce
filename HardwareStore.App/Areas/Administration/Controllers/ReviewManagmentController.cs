@@ -42,7 +42,7 @@
         [HttpPost]
         public async Task<IActionResult> DeleteReview(int reviewId)
         {
-            var result = await productReviewService.DeleteReview(reviewId);
+            var result = await productReviewService.DeleteReview(reviewId, true);
 
             if (result.Success == false)
             {

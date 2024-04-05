@@ -63,6 +63,18 @@
             return reviews;
         }
 
+        public async Task<IEnumerable<ProductReviewDTO>> GetUserReviews(string userId, bool includeNotApproved = false)
+        {
+            var query = dbContext.ProductReviews.AsQueryable();
+
+            if (!includeNotApproved)
+            {
+                query = query.Where(x => x.IsApproved == true);
+            }
+            var userReviews = await query.Where(x => x.ApplicationUserId == userId).ProjectTo<ProductReviewDTO>(mapper.ConfigurationProvider).ToListAsync();
+
+            return userReviews;
+        }
 
         public async Task<ServiceResult> ChangeReviewStatus(int reviewId, bool isApproved)
         {
@@ -80,7 +92,7 @@
             return serviceResult;
         }
 
-        public async Task<ServiceResult> DeleteReview(int reviewId)
+        public async Task<ServiceResult> DeleteReview(int reviewId, bool trueDelete = false)
         {
             var serviceResult = new ServiceResult();
             var review = await dbContext.ProductReviews.FirstOrDefaultAsync(x => x.Id == reviewId);
@@ -92,7 +104,43 @@
                 return serviceResult;
             }
 
-            dbContext.ProductReviews.Remove(review);
+            if (trueDelete == true)
+            {
+                dbContext.ProductReviews.Remove(review);
+
+            }
+            else
+            {
+                review.IsDeleted = true;
+            }
+
+            await dbContext.SaveChangesAsync();
+            return serviceResult;
+        }
+
+        public async Task<ServiceResult> EditReview(ApplicationUser user, int reviewId, string content, int rating)
+        {
+            var serviceResult = new ServiceResult();
+            var review = await dbContext.ProductReviews.FirstOrDefaultAsync(x => x.Id == reviewId);
+            if (review is null)
+            {
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage = string.Format(ErrorMessages.InvalidReviewId, reviewId);
+                return serviceResult;
+            }
+            if (review.ApplicationUserId != user.Id)
+            {
+                serviceResult.Success = false;
+                return serviceResult;
+            }
+            if (review.Review != content)
+            {
+                review.Review = content;
+                review.IsApproved = false;
+            }
+            review.Rating = rating;
+            review.IsDeleted = false;
+
             await dbContext.SaveChangesAsync();
             return serviceResult;
         }

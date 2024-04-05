@@ -42,7 +42,7 @@
             return Ok();
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> RemoveItem(int Id)
         {
             var user = await _userManager.GetUserAsync(this.HttpContext.User);

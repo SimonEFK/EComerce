@@ -2,41 +2,43 @@
 @model ProductReviewViewModel;
 <div class="row justify-content-center">
     <div class="col-md-6 col-lg-8 col-xl-10">
-        <table class="table">
+        <table class="table table-sm">
             <thead>
                 <tr>
                     <th scope="col">ReviewId</th>
+                    <th scope="col">Date</th>
                     <th scope="col">Product</th>
                     <th scope="col">User</th>
-                    <th scope="col">Review</th>
                     <th scope="col">Rating</th>
-                    <th scope="col">Date</th>
+                    <th scope="col">Review</th>
                     <th scope="col">IsApproved</th>
+                    <th scope="col">IsDeleted</th>
                     <th scope="col">Manage</th>
                 </tr>
             </thead>
             <tbody>
 
-                @foreach (var item in Model.ProductReviews)
+                @foreach (var item in Model.ProductReviews.OrderBy(x=>x.CreatedOn))
                 {
                     var colorClass = item.IsApproved == true ? "table-success" : "table-danger";
                     <tr class="@colorClass" data-reviewid="@item.Id">
                         <th scope="row">@item.Id</th>
-                        <td scope="row"><a class="text-decoration-none" target="_blank" href="/ComponentDetail/@item.ProductId">@item.ProductId</a></td>
-                        <td>@item.ApplicationUserUserName</td>
-                        <td>@item.Review</td>
-                        <td>@item.Rating</td>
                         <td>@item.CreatedOn</td>
+                        <td><a class="text-decoration-none" target="_blank" href="/ComponentDetail/@item.ProductId">@item.ProductId</a></td>
+                        <td>@item.ApplicationUserUserName</td>
+                        <td>@item.Rating</td>
+                        <td>@item.Review</td>
                         <td>@item.IsApproved</td>
+                        <td>@item.IsDeleted</td>
                         <td>
                             <div class="d-flex column-gap-1">
                                 @if (!item.IsApproved)
                                 {
-                                    <button data-btnApprove="@item.IsApproved" class="btn btn-success flex-grow-1">Approve</button>
+                                    <button data-btnApprove="@item.IsApproved" class="btn btn-success">Approve</button>
                                 }
                                 else
                                 {
-                                    <button data-btnApprove="@item.IsApproved" class="btn btn-warning flex-grow-1">Hide</button>
+                                    <button data-btnApprove="@item.IsApproved" class="btn btn-warning">Hide</button>
 
                                 }
                                 <button class="btn btn-danger" data-deletebtn="@item.Id">Delete</button>
