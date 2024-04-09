@@ -1,0 +1,38 @@
+﻿@using HardwareStore.App.Services.Orders
+@model List<OrderInfoDTO>
+
+<div class="container">
+    <div class="row row-gap-3">
+
+        @foreach (var item in Model)
+        {
+            <div class="col-12">
+                <div class="bg-warning d-flex justify-content-between align-items-center p-3">
+                    <p class="m-0"><span>OrderId: </span>@item.Id</p>
+                    <p class="m-0"><span>OrderSum: </span>@item.OrderSum$</p>
+                </div>
+                <div class="bg-warning d-flex justify-content-between text-start">
+                    <p class="px-3 m-0"><span>Order Status:</span></p>
+                    <p class="px-3 m-0">
+                        <span>
+                            Date: @item.OrderDate.ToShortDateString() @item.OrderDate.ToShortTimeString()
+                        </span></p>
+                </div>
+
+                <ul class="list-group">
+                    @foreach (var product in item.OrderProducts)
+                    {
+                        <li class="list-group-item d-flex justify-content-between">
+                            <a title="@product.ProductName" target="_blank" class="text-decoration-none" href="/ComponentDetail/@product.ProductId"><span>@product.ProductName</span></a>
+                            <div class="col-6 d-flex justify-content-between">
+                                <span>@product.Amount</span>
+                                <span>@product.ProductPrice$</span>
+                                <span>@product.TotalPrice$</span>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+</div>

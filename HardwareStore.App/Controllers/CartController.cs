@@ -2,6 +2,7 @@
 {
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Cart;
+    using HardwareStore.App.Models.Orders;
     using HardwareStore.App.Services.Cart;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -25,6 +26,8 @@
 
             var userProducts = await _cartService.GetUserCartProductsAsync(user);
             var cartViewModel = new CartViewModel { CartProducts = userProducts.ToList() };
+
+            var inputModel = new OrderInputModel();
             return View(cartViewModel);
         }
 

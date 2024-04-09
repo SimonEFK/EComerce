@@ -6,12 +6,14 @@
     using HardwareStore.App.Areas.Administration.Models.ProductManagment;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Category;
+    using HardwareStore.App.Models.Orders;
     using HardwareStore.App.Models.Product;
     using HardwareStore.App.Models.ProductFilter;
     using HardwareStore.App.Services.Cart;
     using HardwareStore.App.Services.Data.Category;
     using HardwareStore.App.Services.Data.Products.Create;
     using HardwareStore.App.Services.Data.Products.Edit;
+    using HardwareStore.App.Services.Orders;
     using HardwareStore.App.Services.ProductReview;
 
     public class MappingProfile : Profile
@@ -69,6 +71,10 @@
                 .ForMember(x=>x.ValueId,cfg=> cfg.MapFrom(x=>x.SpecificationValueId));
             this.CreateMap<EditProductDTO, EditProductInputModel>();
             this.CreateMap<CartProduct,CartProductModel>().ForMember(x => x.Image, cfg => cfg.MapFrom(source => source.Product.Images.FirstOrDefault().FilePath ?? source.Product.Images.FirstOrDefault().Url));
+
+            this.CreateMap<OrderItemInputModel, CreateOrderItemDTO>();
+            this.CreateMap<Order, OrderInfoDTO>();
+            this.CreateMap<OrderProduct,OrderProductInfoDTO>();
         }
     }
 }

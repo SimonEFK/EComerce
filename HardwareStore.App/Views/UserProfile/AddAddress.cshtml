@@ -1,0 +1,41 @@
+﻿@using HardwareStore.App.Models.UserProfile;
+@model CreateAddressViewModel;
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <form method="post" asp-controller="UserProfile" asp-action="AddAddress">
+            <div>
+                <label class="form-label" asp-for="@Model.AddresInputModel.Region"></label>
+                <input class="form-control" asp-for="@Model.AddresInputModel.Region" />
+                <span class="text-danger" asp-validation-for="@Model.AddresInputModel.Region"></span>
+            </div>
+            <div>
+                <label class="form-label" asp-for="@Model.AddresInputModel.City"></label>
+                <input class="form-control" asp-for="@Model.AddresInputModel.City" />
+                <span class="text-danger" asp-validation-for="@Model.AddresInputModel.City"></span>
+            </div>
+            <div>
+                <label class="form-label" asp-for="@Model.AddresInputModel.PostalCode"></label>
+                <input class="form-control" asp-for="@Model.AddresInputModel.PostalCode" />
+                <span class="text-danger" asp-validation-for="@Model.AddresInputModel.PostalCode"></span>
+            </div>
+            <div>
+                <label class="form-label" asp-for="@Model.AddresInputModel.Phone"></label>
+                <input class="form-control" asp-for="@Model.AddresInputModel.Phone" />
+                <span class="text-danger" asp-validation-for="@Model.AddresInputModel.Phone"></span>
+            </div>
+
+            <div>
+                <label class="form-label" asp-for="@Model.AddresInputModel.Description"></label>
+                <input class="form-control" asp-for="@Model.AddresInputModel.Description" />
+                <span class="text-danger" asp-validation-for="@Model.AddresInputModel.Description"></span>
+            </div>
+
+            <button class="btn btn-primary mt-3">Submit</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
     <div class="row justify-content-between">
-        <div class="col-lg-3">
+        <div class="col-lg-2">
             <select id="sortProductsSelectMenu" class="btn btn-primary mb-2 form-select">
                 @foreach (var item in this.Model.SortOrder)
                 {
@@ -21,7 +21,7 @@
             <button class="btn btn-primary w-100 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#FilterMenu" aria-expanded="false" aria-controls="collapseExample">
                 Filters
             </button>
-            <div class="overflow-scroll h-75 z-2 col-lg-3 col-11 position-absolute collapse show" id="FilterMenu">
+            <div class="overflow-scroll  z-2 col-lg-2 col-11 position-absolute collapse show" id="FilterMenu">
                 <form data-category="@ViewData["category"]" id="filterForm" method="post" asp-controller="Catalog" asp-action="Productss" asp-route-category="@ViewData["category"]">
                     @{
                         var selectedSpecificationIds = ViewData["selectedSpecs"] as List<int>;

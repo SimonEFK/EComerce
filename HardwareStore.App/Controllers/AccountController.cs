@@ -44,6 +44,13 @@
                 return View(model);
             };
 
+            var userExsist = userManager.Users.FirstOrDefault(x => x.Email == model.Email);
+
+            if (userExsist != null)
+            {
+                ModelState.AddModelError("Email", "Invalid Email");
+            }
+
             var user = new ApplicationUser()
             {
                 UserName = model.UserName,
@@ -52,8 +59,7 @@
 
             var result = await userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
-            {
-                TempData["RegisterMessage"] = "Account Created Succssesfully";
+            {                
                 await cartService.CreateCartAsync(user);
                 return RedirectToAction(nameof(Login));
             }
@@ -61,7 +67,6 @@
             {
                 ModelState.AddModelError("", error.Description);
             }
-            ViewBag.Message = "Failed to Create Account";
 
             return View(model);
         }
@@ -70,9 +75,7 @@
         [AllowAnonymous]
         public IActionResult Login()
         {
-            var loginModel = new UserLoginFormModel();
-            ViewBag.Message = TempData["RegisterMessage"];
-
+            var loginModel = new UserLoginFormModel();            
             return View(loginModel);
         }
 
@@ -87,17 +90,15 @@
             }
 
             var user = await userManager.FindByEmailAsync(loginModel.Email);
-            if (user is not null)
+            if (user is null)
             {
-                var result = await signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
+                return BadRequest();
             }
-
-            ViewBag.Message = "Unssecssesful Login";
-
+            var result = await signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View(loginModel);
         }
 

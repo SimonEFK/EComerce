@@ -11,6 +11,7 @@ namespace HardwareStore.App
     using HardwareStore.App.Services.Data.Products.Edit;
     using HardwareStore.App.Services.Data.Products.ProductSpecifications;
     using HardwareStore.App.Services.DownloadImage;
+    using HardwareStore.App.Services.Orders;
     using HardwareStore.App.Services.PriceManager;
     using HardwareStore.App.Services.ProductDiscount;
     using HardwareStore.App.Services.ProductFiltering;
@@ -56,7 +57,7 @@ namespace HardwareStore.App
             builder.Services.AddScoped<ICategoryDataService, CategoryDataService>();
             builder.Services.AddScoped<IManufacturerDataService, ManufacturerDataService>();
             builder.Services.AddScoped<ICartService, CartService>();
-            builder.Services.AddScoped<ICatalogService, CatalogService>();            
+            builder.Services.AddScoped<ICatalogService, CatalogService>();
             builder.Services.AddScoped<IDownloadImageService, DownloadImageService>();
             builder.Services.AddScoped<IProductReviewService, ProductReviewService>();
             builder.Services.AddScoped<IValidatorService, ValidatorService>();
@@ -65,6 +66,7 @@ namespace HardwareStore.App
             builder.Services.AddScoped<ICreateProductService, CreateProductService>();
             builder.Services.AddScoped<IEditProductService, EditProductService>();
             builder.Services.AddScoped<IProductSpecificationService, ProductSpecificationService>();
+            builder.Services.AddScoped<IOrderProductService, OrderProductService>();
             var app = builder.Build();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -97,7 +99,7 @@ namespace HardwareStore.App
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-            
+
             app.MapRazorPages();
 
             app.Run();

@@ -44,7 +44,7 @@
                 .Where(x => x.ProductId == productId).AsQueryable();
             if (!includeNotApproved)
             {
-                query = query.Where(x => x.IsApproved == false);
+                query = query.Where(x => x.IsApproved == true);
             }
             if (!includeDeleted)
             {

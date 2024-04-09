@@ -1,48 +1,57 @@
 ﻿@using HardwareStore.App.Models.Cart
 @model CartViewModel
-
+@{
+    var count = 0;
+}
 <div class="container">
-    <div class="row justify-content-center mt-3" id="cartItemsRow">
-        <div class="col-md-8 d-flex flex-column row-gap-3">
-            @foreach (var item in Model.CartProducts)
-            {
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="d-flex justify-content-center overflow-hidden" style="height:200px;">
-                            <a target="_blank" href="/ComponentDetail/@item.ProductId">
-                                <img class="img-fluid object-fit-contain" src="@item.Image" style="max-height:200px" />
-                            </a>
+    
+    <form id="ordersForm" method="post" asp-controller="Order" asp-action="CreateOrder">        
+        <div class="row justify-content-center mt-3" id="cartItemsRow">
+            <div class="col-md-8 d-flex flex-column row-gap-3">
+
+                @foreach (var item in Model.CartProducts)
+                {
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-center overflow-hidden" style="height:200px;">
+                                <a target="_blank" href="/ComponentDetail/@item.ProductId">
+                                    <img class="img-fluid object-fit-contain" src="@item.Image" style="max-height:200px" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex flex-grow-1 justify-content-between">
+                                    <a class="text-black text-decoration-none" target="_blank" href="/ComponentDetail/@item.ProductId">
+                                        <p title="@item.ProductNameDetailed" class="m-0">@item.ProductName</p>
+                                    </a>
+                                    <form method="post" asp-controller="Cart" asp-action="RemoveItem">
+                                        <input type="hidden" name="Id" value="@item.ProductId" />
+                                        <button class="btn btn-close" type="submit"></button>
+                                    </form>
+                                </li>
+                                <li class="list-group-item flex-grow-1">
+                                    <input name="orderInputModel.items[@count].amount" class="form-control" type="number" value="@item.Amount" />
+                                    <input name="orderInputModel.items[@count].productid" type="hidden" value="@item.ProductId" />
+                                    <p class="text-success fw-bold m-0">
+                                        $@string.Format("{0:0.00}", item.ProductPrice.ToString())
+                                    </p>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <ul class="list-group">
-                            <li class="list-group-item d-flex flex-grow-1 justify-content-between">
-                                <a class="text-black text-decoration-none" target="_blank" href="/ComponentDetail/@item.ProductId">
-                                    <p title="@item.ProductNameDetailed" class="m-0">@item.ProductName</p>
-                                </a>
-                                <form method="post" asp-controller="Cart" asp-action="RemoveItem">
-                                    <input type="hidden" name="Id" value="@item.ProductId" />
-                                    <button class="btn btn-close" type="submit"></button>
-                                </form>
-                            </li>
-                            <li class="list-group-item flex-grow-1">
-                                <p class="m-0">@item.Amount</p>
+                    count += 1;
 
-                                <p class="text-success fw-bold m-0">
-                                    $@string.Format("{0:0.00}", item.ProductPrice.ToString())
-                                </p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            }
+                }
+
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 <div class="row justify-content-end">
     <div class="col-4">
         <p class="fw-bold text-success m-0">Total:<span class="fw-bold fs-5 text-color-success">@Model.CartProducts.Sum(x => x.ProductPrice * x.Amount)$</span></p>
-        <button type="button" class="btn btn-outline-success">Checkout</button>
+        <button type="submit" form="ordersForm" class="btn btn-outline-success">Checkout</button>
     </div>
 </div>
 </div>

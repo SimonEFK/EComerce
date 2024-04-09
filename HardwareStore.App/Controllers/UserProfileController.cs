@@ -69,5 +69,24 @@
 
         }
 
+
+        [HttpGet]
+        public IActionResult AddAddress()
+        {
+            var viewModel = new CreateAddressViewModel();
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult AddAddress(CreateAddressViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                
+                return View(model);
+            }
+            return Ok();
+        }
+
     }
 }
