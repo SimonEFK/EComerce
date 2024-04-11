@@ -21,7 +21,7 @@
             <button class="btn btn-primary w-100 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#FilterMenu" aria-expanded="false" aria-controls="collapseExample">
                 Filters
             </button>
-            <div class="overflow-scroll  z-2 col-lg-2 col-11 position-absolute collapse show" id="FilterMenu">
+            <div class="overflow-scroll h-75 z-2 col-lg-2 col-11 position-absolute collapse show" id="FilterMenu">
                 <form data-category="@ViewData["category"]" id="filterForm" method="post" asp-controller="Catalog" asp-action="Productss" asp-route-category="@ViewData["category"]">
                     @{
                         var selectedSpecificationIds = ViewData["selectedSpecs"] as List<int>;
@@ -29,33 +29,45 @@
                     }
                     <input id="sortInputHidden" type="hidden" name="so" value="@ViewData["sortOrder"]" />
                     <input id="searchStringHidden" type="hidden" name="s" value="@ViewData["searchstring"]" />
-                    <ul class="list-group">
-                        @foreach (var category in this.Model.Specifications)
-                        {
-                            @foreach (var specification in category.Value)
+                    @if (Model.Specifications.Count == 1)
+                    {
+                        <ul class="list-group">
+                            @foreach (var category in this.Model.Specifications)
                             {
-                                <li class="list-group-item">
-                                    <span class="fw-bold">@specification.Name</span>
-                                    @foreach (var value in specification.Values)
-                                    {
-                                        <div class="form-check">
-                                            @if (selectedSpecificationIds is not null && selectedSpecificationIds.Contains(value.Id))
-                                            {
-                                                <span class="text-primary">(@value.ProductsCount)</span>
-                                                <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss[@specification.Id]" checked>
-                                            }
-                                            else
-                                            {
-                                                <span class="text-primary">(@value.ProductsCount)</span>
-                                                <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss[@specification.Id]">
-
-                                            }
-                                            <label class="form-check-label" for="@value.Id">@value.Value</label>
-                                        </div>
-                                    }
+                                <li class="list-group-item text-center">
+                                    <a asp-controller="Catalog" asp-action="Products" asp-route-page="1" asp-route-category="@category.Value.FirstOrDefault().CategoryId">@category.Key</a>
                                 </li>
+                                @foreach (var specification in category.Value)
+                                {
+                                    <li class="list-group-item">
+                                        <span class="fw-bold">@specification.Name</span>
+                                        @foreach (var value in specification.Values)
+                                        {
+                                            if (value.ProductsCount > 0)
+                                            {
+
+                                                <div class="form-check">
+                                                    @if (selectedSpecificationIds is not null && selectedSpecificationIds.Contains(value.Id))
+                                                    {
+                                                        <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss[@specification.Id]" checked>
+                                                    }
+                                                    else
+                                                    {
+                                                        <input class="form-check-input" type="checkbox" value="@value.Id" id="@value.Id" name="ss[@specification.Id]">
+
+                                                    }
+                                                    <label class="form-check-label" for="@value.Id">@value.Value</label>
+                                                </div>
+                                            }
+
+                                        }
+                                    </li>
+                                }
                             }
-                        }
+                        </ul>
+                    }
+
+                    <ul class="list-group">
                         <li class="list-group-item">
                             <span class="fw-bold">Manufacturers</span>
                             @foreach (var manufacturer in Model.Manufacturers)
@@ -64,13 +76,11 @@
                                 <div class="form-check">
                                     @if (selectedManufacturerIds is not null && selectedManufacturerIds.Contains(manufacturer.Item2))
                                     {
-                                        <span class="text-primary">(@manufacturer.Item3)</span>
                                         <input class="form-check-input" type="checkbox" value="@manufacturer.Item2" id="@inputid" name="m" checked>
 
                                     }
                                     else
                                     {
-                                        <span class="text-primary">(@manufacturer.Item3)</span>
                                         <input class="form-check-input" type="checkbox" value="@manufacturer.Item2" id=@inputid name="m">
 
                                     }
@@ -127,7 +137,7 @@
 
             let formData = new FormData(filterForm);
             let options = {
-                'method': 'POST',               
+                'method': 'POST',
                 body: formData
             }
 
@@ -135,7 +145,7 @@
             debugger;
             if (response.redirected) {
                 window.location.href = response.url;
-               
+
             }
             if (response.status == 200) {
                 let html = await response.text();

@@ -2,11 +2,21 @@
 @model ProductListViewModel;
 
 <partial name="_PaginationPartial" model="@this.Model.Pagination" />
-@foreach (var product in this.Model.Products)
+@if (this.Model.Products.Count == 0)
 {
-    <div class="col-12 col-sm-6 col-md-4">
-        <partial name="_ProductCardPartial" model="@product" />
+    <div class="col-12 col-sm-6 col-md-4 mx-auto">
+        <p class="text-center m-0">No Items Found With Selected Filters</p>
     </div>
-
 }
+else
+{
+    @foreach (var product in this.Model.Products)
+    {
+        <div class="col-12 col-sm-6 col-md-4">
+            <partial name="_ProductCardPartial" model="@product" />
+        </div>
+
+    }
+}
+
 <partial name="_PaginationPartial" model="@this.Model.Pagination" />
