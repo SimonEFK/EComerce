@@ -4,8 +4,8 @@
     var count = 0;
 }
 <div class="container">
-    
-    <form id="ordersForm" method="post" asp-controller="Order" asp-action="CreateOrder">        
+
+    <form id="ordersForm" method="post" asp-controller="Order" asp-action="CreateOrder">
         <div class="row justify-content-center mt-3" id="cartItemsRow">
             <div class="col-md-8 d-flex flex-column row-gap-3">
 
@@ -25,10 +25,7 @@
                                     <a class="text-black text-decoration-none" target="_blank" href="/ComponentDetail/@item.ProductId">
                                         <p title="@item.ProductNameDetailed" class="m-0">@item.ProductName</p>
                                     </a>
-                                    <form method="post" asp-controller="Cart" asp-action="RemoveItem">
-                                        <input type="hidden" name="Id" value="@item.ProductId" />
-                                        <button class="btn btn-close" type="submit"></button>
-                                    </form>
+                                    <button data-removeproductfromcart="@item.ProductId" class="btn btn-close" type="button"></button>
                                 </li>
                                 <li class="list-group-item flex-grow-1">
                                     <input name="orderInputModel.items[@count].amount" class="form-control" type="number" value="@item.Amount" />
@@ -47,16 +44,16 @@
             </div>
         </div>
     </form>
-</div>
-<div class="row justify-content-end">
-    <div class="col-4">
-        <p class="fw-bold text-success m-0">Total:<span class="fw-bold fs-5 text-color-success">@Model.CartProducts.Sum(x => x.ProductPrice * x.Amount)$</span></p>
-        <button type="submit" form="ordersForm" class="btn btn-outline-success">Checkout</button>
+
+    <div class="row justify-content-end">
+        <div class="col-4">
+            <p class="fw-bold text-success m-0">Total:<span class="fw-bold fs-5 text-color-success">@Model.CartProducts.Sum(x => x.ProductPrice * x.Amount)$</span></p>
+            <button type="submit" form="ordersForm" class="btn btn-outline-success">Checkout</button>
+        </div>
     </div>
 </div>
-</div>
-@section Scripts {
+@section Scripts{
     <script>
-
+        document.querySelector('#cartItemsRow').addEventListener('click', RemoveProductFromCart);
     </script>
 }

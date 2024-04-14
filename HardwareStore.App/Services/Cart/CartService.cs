@@ -72,18 +72,22 @@
         public async Task RemoveItem(ApplicationUser applicationUser, int productId)
         {
             var product = data.Products.FirstOrDefault(x => x.Id == productId);
-            var userCart = await GetUserCartAsync(applicationUser);
             if (product == null)
             {
                 throw new ArgumentNullException(string.Format(ErrorMessages.InvalidProductId, productId));
             }
+            var userCart = await GetUserCartAsync(applicationUser);
+            if (userCart is null)
+            {
+                throw new ArgumentNullException(nameof(userCart), "Invalid User Cart");
+            }
+            
             var productCartEntry = await data.CartProducts
                 .FirstOrDefaultAsync(x => x.CartId == userCart.Id && x.ProductId == productId);
             if (productCartEntry != null)
             {
                 data.CartProducts.Remove(productCartEntry);
                 await data.SaveChangesAsync();
-
             }
 
         }

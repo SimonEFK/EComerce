@@ -5,7 +5,7 @@
 
     public class CartViewModel
     {
-        public ICollection<CartProductModel> CartProducts = new HashSet<CartProductModel>();
+        public List<CartProductModel> CartProducts = new List<CartProductModel>();
 
         public OrderInputModel OrderInputModel { get; set; } = new OrderInputModel();
     }

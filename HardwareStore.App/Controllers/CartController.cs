@@ -20,6 +20,7 @@
             _userManager = userManager;
         }
 
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(this.HttpContext.User);
@@ -32,6 +33,8 @@
         }
 
         [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddItemToCart(int productId)
         {
 
@@ -40,21 +43,42 @@
             {
                 return BadRequest();
             }
-            await _cartService.AddProductToCartAsync(user, productId);
+            try
+            {
+                await _cartService.AddProductToCartAsync(user, productId);
+
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
 
             return Ok();
         }
 
         [HttpPost]
-        public async Task<IActionResult> RemoveItem(int Id)
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveItem(int productId)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var user = await _userManager.GetUserAsync(this.HttpContext.User);
 
-            await _cartService.RemoveItem(user, Id);
+            try
+            {
+                await _cartService.RemoveItem(user, productId);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
             return RedirectToAction(nameof(Index), "Cart");
         }
-
 
     }
 }
