@@ -7,7 +7,6 @@
     using HardwareStore.App.Services.Orders;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.VisualBasic;
     using PayPal.Api;
 
     public class OrderController : Controller

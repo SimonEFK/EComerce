@@ -20,6 +20,7 @@ namespace HardwareStore.App
     using HardwareStore.App.Services.Validation;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+    using PayPal.Api;
 
     public class Program
     {
@@ -55,6 +56,7 @@ namespace HardwareStore.App
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddScoped<IProductDataService, ProductDataService>();
             builder.Services.AddScoped<IGenerateProductFilterOptionService, GenerateProductFilterOptionService>();
+            builder.Services.AddSingleton<APIContext,APIContext>();
             builder.Services.AddSingleton<IPayPalService,PayPalService>();
             builder.Services.AddScoped<ICategoryDataService, CategoryDataService>();
             builder.Services.AddScoped<IManufacturerDataService, ManufacturerDataService>();

@@ -12,11 +12,24 @@
                     <p class="m-0"><span>OrderSum: </span>@item.OrderSum$</p>
                 </div>
                 <div class="bg-warning d-flex justify-content-between text-start">
-                    <p class="px-3 m-0"><span>Order Status: @item.Status</span></p>
+                    <p class="px-3 mb-2">
+                        <span>Order Status:</span>
+                        @if (@item.Status == "approved")
+                        {
+                            <span class="bg-success p-2 rounded-pill">
+                                @item.Status
+                            </span>
+                        }
+                        else
+                        {
+                            <span>@item.Status</span>
+                        }
+                    </p>
                     <p class="px-3 m-0">
                         <span>
                             Date: @item.OrderDate.ToShortDateString() @item.OrderDate.ToShortTimeString()
-                        </span></p>
+                        </span>
+                    </p>
                 </div>
 
                 <ul class="list-group">

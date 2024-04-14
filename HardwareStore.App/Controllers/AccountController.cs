@@ -7,7 +7,6 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-
     [Authorize]
     public class AccountController : Controller
     {
@@ -36,6 +35,7 @@
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [AllowAnonymous]
         public async Task<IActionResult> Register(UserRegisterFormModel model)
         {
@@ -49,6 +49,7 @@
             if (userExsist != null)
             {
                 ModelState.AddModelError("Email", "Invalid Email");
+                return View(model);
             }
 
             var user = new ApplicationUser()
@@ -59,7 +60,7 @@
 
             var result = await userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
-            {                
+            {
                 await cartService.CreateCartAsync(user);
                 return RedirectToAction(nameof(Login));
             }
@@ -75,39 +76,58 @@
         [AllowAnonymous]
         public IActionResult Login()
         {
-            var loginModel = new UserLoginFormModel();            
+            var loginModel = new UserLoginFormModel();
             return View(loginModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(UserLoginFormModel loginModel)
+        public async Task<IActionResult> Login(UserLoginFormModel loginModel, string? returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(loginModel);
             }
 
-            var user = await userManager.FindByEmailAsync(loginModel.Email);
+            var user = await userManager.FindByEmailAsync(loginModel.Email.ToUpper());
             if (user is null)
             {
-                return BadRequest();
+                ModelState.AddModelError("email", "Invalid User");
+                return View(loginModel);
             }
             var result = await signInManager.PasswordSignInAsync(user, loginModel.Password, false, false);
-            if (result.Succeeded)
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("password", "Failed to sign in this user");
+                return View(loginModel);
+            }
+
+            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
             {
                 return RedirectToAction("Index", "Home");
             }
-            return View(loginModel);
+
         }
 
         [HttpPost]
-        public async Task<IActionResult> Logout()
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout([FromQuery] string? returnUrl = null)
         {
             await signInManager.SignOutAsync();
 
-            return Redirect("/Account/Login");
+
+            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+
+            return RedirectToAction("Index", "Home");
+
         }
     }
 }

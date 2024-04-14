@@ -17,16 +17,16 @@
                     <i class="text-primary bi bi-person-circle"></i>
                 </button>
                 <ul class="dropdown-menu position-absolute">
-                    <li><a class="dropdown-item" asp-controller="UserProfile" asp-action="UserReviews">My Reviews</a></li>
-                    <li><a class="dropdown-item" asp-controller="Order" asp-action="UserOrders">My Orders</a></li>                    
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <li><a class="dropdown-item" asp-area="" asp-controller="UserProfile" asp-action="UserReviews">My Reviews</a></li>
+                    <li><a class="dropdown-item" asp-area="" asp-controller="Order" asp-action="UserOrders">My Orders</a></li>
+                    <li><a class="dropdown-item" asp-area="Identity" asp-controller="Account" asp-action="Manage">Settings</a></li>
                 </ul>
             </div>
 
         </li>
 
         <li class="nav-item">
-            <form class="form-inline" asp-controller="Account" asp-action="Logout" method="post">
+            <form class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]" method="post">
                 <button type="submit" class="nav-link btn btn-link link-primary">
                     <span class="d-none d-lg-block">Logout</span>
                     <i class="text-danger d-lg-none bi bi-box-arrow-right"></i>
@@ -44,10 +44,10 @@
     else
     {
         <li class="nav-item">
-            <a class="nav-link link-primary" asp-controller="Account" asp-action="Register">Sign Up</a>
+            <a class="nav-link link-primary" asp-area="" asp-controller="Account" asp-action="Register">Sign Up</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link link-primary" asp-controller="Account" asp-action="Login">Login</a>
+            <a class="nav-link link-primary" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
         </li>
     }
 </ul>

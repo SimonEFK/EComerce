@@ -3,7 +3,7 @@
 <div class="row reg-form-wrapper justify-content-center">
     <span class="h3">Login</span>
     <div class="col-md-4 ">
-        <form asp-controller="Account" asp-action="Login" method="post" class="row-gap-2 d-flex flex-column">
+        <form method="post" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]" method="post" class="row-gap-2 d-flex flex-column">
             <div class="row">
                 <label asp-for="@Model.Email" class="form-label p-0 m-0"></label>
                 <span asp-validation-for="@Model.Email" class="text-danger p-0"></span>

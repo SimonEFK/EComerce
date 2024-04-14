@@ -91,10 +91,7 @@
                 .Order(model.SortOrder)
                 .Pagination(model.Page)
                 .ToList<ProductExtendedModel>();
-            //if (products.Count == 0)
-            //{
-            //    return RedirectToAction(nameof(Index));
-            //}
+            
             foreach (var product in products)
             {
                 product.Specifications = product.Specifications.DistinctBy(x => x.Name).ToList();

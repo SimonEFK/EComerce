@@ -8,10 +8,12 @@
     using HardwareStore.App.Services.Data.Products;
     using HardwareStore.App.Services.Data.Products.Create;
     using HardwareStore.App.Services.Data.Products.Edit;
+    using static HardwareStore.App.Constants.Constants;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
 
-    [Area("administration")]
-    //[Authorize(Roles = "admin")]
+    [Area(Areas.Administration)]
+    [Authorize(Roles = "admin")]
 
     public class ProductManagmentController : Controller
     {
