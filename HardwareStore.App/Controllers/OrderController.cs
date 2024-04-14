@@ -5,6 +5,7 @@
     using HardwareStore.App.Models.Orders;
     using HardwareStore.App.Services;
     using HardwareStore.App.Services.Orders;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using PayPal.Api;
@@ -25,13 +26,15 @@
             this.payPalService = payPalService;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction(nameof(UserOrders));
         }
 
-
         [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateOrder(OrderInputModel orderInputModel)
         {
 
@@ -41,34 +44,47 @@
             }
 
             var user = await userManager.GetUserAsync(this.HttpContext.User);
+            if (user == null)
+            {
+                return BadRequest();
+            }
             var orderItems = mapper.Map<List<CreateOrderItemDTO>>(orderInputModel.Items);
-
             var result = await orderProductService.CreateOrderAsync(user, orderItems);
-
 
             if (result.Success == false)
             {
                 return BadRequest(result);
             }
-
             var orderId = result.Data;
 
-            
-            var payment = await orderProductService.CreatePayment(orderId);
-            
+            try
+            {
+                var payment = await orderProductService.CreatePayment(orderId);
+                var url = payment.GetApprovalUrl();
+                return Redirect(url);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
 
-            var url = payment.GetApprovalUrl();
-            return Redirect(url);
+            }
         }
 
         public async Task<IActionResult> PaypalPayment(string payerId, string paymentId)
         {
-            this.payPalContext = this.payPalService.GetAPIContext();
-            var paymentExecution = new PaymentExecution { payer_id = payerId };
-            var executedPayment = new Payment { id = paymentId }.Execute(this.payPalContext, paymentExecution);
 
-            await orderProductService.UpdateOrderStatus(paymentId, executedPayment.state);
-
+            try
+            {
+                this.payPalContext = this.payPalService.GetAPIContext();
+                var paymentExecution = new PaymentExecution { payer_id = payerId };
+                var executedPayment = new Payment { id = paymentId }.Execute(this.payPalContext, paymentExecution);
+                await orderProductService.UpdateOrderStatus(paymentId, executedPayment.state);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);                
+            }
+            
             return RedirectToAction(nameof(UserOrders));
         }
 
@@ -77,9 +93,16 @@
             return BadRequest();
         }
 
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> UserOrders()
         {
             var user = await userManager.GetUserAsync(this.HttpContext.User);
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
 
             var userOrders = await orderProductService.GetUserOrdersAsync(user.Id);
 

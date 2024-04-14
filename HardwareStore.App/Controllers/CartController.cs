@@ -20,7 +20,7 @@
             _userManager = userManager;
         }
 
-        [Authorize]
+        
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(this.HttpContext.User);
@@ -32,8 +32,7 @@
             return View(cartViewModel);
         }
 
-        [HttpPost]
-        [Authorize]
+        [HttpPost]        
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddItemToCart(int productId)
         {
@@ -57,8 +56,7 @@
             return Ok();
         }
 
-        [HttpPost]
-        [Authorize]
+        [HttpPost]        
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveItem(int productId)
         {
