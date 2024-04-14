@@ -21,6 +21,13 @@
 
             let productName = target.dataset.addproducttocart;
             let toast = new bootstrap.Toast('.toast');
+            let toastHeader = document.querySelector('.toast-header')
+
+            toastHeader.innerHTML =
+                `<a class="text-black text-decoration-none" href="/Cart">
+                            <i class="bi bi-cart"></i>
+                            <strong>Shopping Cart</strong>
+                </a>`
             let toastMessageSpan = document.querySelector('.toast-message');
             toastMessageSpan.textContent = `${productName} added to cart`;
             toast.show();

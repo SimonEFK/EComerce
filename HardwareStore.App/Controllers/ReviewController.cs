@@ -4,6 +4,7 @@
     using HardwareStore.App.Models.ProductCatalog;
     using HardwareStore.App.Models.Review;
     using HardwareStore.App.Services.ProductReview;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.Security.Claims;
@@ -24,14 +25,17 @@
             return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateReview(ReviewInputModel reviewInputModel)
-        {
-            var user = await _userManager.GetUserAsync(this.HttpContext.User);
-            await _productReviewService
-                .CreateReview(user, reviewInputModel.Content, reviewInputModel.Rating, reviewInputModel.ProductId);
-            return Ok();
-        }
+        //[HttpPost]
+        //[Authorize]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> CreateReview(ReviewInputModel reviewInputModel)
+        //{
+        //    var user = await _userManager.GetUserAsync(this.HttpContext.User);
+            
+        //    await _productReviewService
+        //        .CreateReview(user, reviewInputModel.Content, reviewInputModel.Rating, reviewInputModel.ProductId);
+        //    return Ok();
+        //}
 
         public async Task<IActionResult> ProductReviews(int productId)
         {

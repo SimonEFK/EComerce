@@ -21,10 +21,14 @@
 
         public async Task CreateReview(ApplicationUser user, string content, int? rating, int productId)
         {
-            var product = await dbContext.Products.FirstOrDefaultAsync(x => x.Id == productId);
+            var product = await dbContext.Products.Include(x=>x.ProductReviews).FirstOrDefaultAsync(x => x.Id == productId);
             if (product == null)
             {
                 throw new ArgumentNullException(nameof(productId), "Invalid Product");
+            }
+            if (product.ProductReviews.Any(x => x.ApplicationUserId == user.Id))
+            {
+                throw new ArgumentException("User already has review for this product");
             }
             var review = new ProductReview
             {

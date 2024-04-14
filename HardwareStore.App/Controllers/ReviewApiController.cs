@@ -24,12 +24,21 @@
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateReview(ReviewInputModel model)
-        {            
+        {
             var user = await _userManager.GetUserAsync(this.HttpContext.User);
-            await _productReviewService.CreateReview(user, model.Content, model.Rating, model.ProductId);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                await _productReviewService.CreateReview(user, model.Content, model.Rating, model.ProductId);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);                
+            }
             return Ok();
         }
-
-
     }
 }

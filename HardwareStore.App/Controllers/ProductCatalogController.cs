@@ -75,6 +75,7 @@
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Route("Products/{page?}/{category?}")]
         public async Task<IActionResult> Products(BrowseProductInputModel model)
         {

@@ -27,6 +27,7 @@
                         var selectedSpecificationIds = ViewData["selectedSpecs"] as List<int>;
                         var selectedManufacturerIds = ViewData["selectedManufacturers"] as List<int>;
                     }
+                    @Html.AntiForgeryToken();
                     <input id="sortInputHidden" type="hidden" name="so" value="@ViewData["sortOrder"]" />
                     <input id="searchStringHidden" type="hidden" name="s" value="@ViewData["searchstring"]" />
                     @* @if (Model.Specifications.Count == 1)
@@ -136,14 +137,13 @@
                 url = url + `/${category}`;
             }
 
-            let formData = new FormData(filterForm);
+            let formData = new FormData(filterForm);            
             let options = {
                 'method': 'POST',
                 body: formData
             }
 
-            let response = await fetch(url, options);
-            debugger;
+            let response = await fetch(url, options);            
             if (response.redirected) {
                 window.location.href = response.url;
 
