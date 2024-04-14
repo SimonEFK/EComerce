@@ -6,6 +6,7 @@
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Product;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
     public class CatalogService : ICatalogService
     {
@@ -85,16 +86,24 @@
         {
             if (selectedSpecsIds.Any())
             {
-                foreach (var key in selectedSpecsIds)
-                {
-                    this.products = products
-                            .Where(product => product.Specifications.Any(specification => key.Value
-                            .Contains(specification.SpecificationValueId)));
-                    if (products.Count() == 0)
-                    {
-                        break;
-                    }
-                }
+
+                var specsIds = selectedSpecsIds.SelectMany(x => x.Value);               
+                this.products = dbContext.ProductSpecificationValues
+                    .Where(x => specsIds.Contains(x.SpecificationValueId))
+                    .Select(x => x.Product)
+                    .AsQueryable();
+
+
+                //foreach (var key in selectedSpecsIds)
+                //{
+                //    this.products = products
+                //            .Where(product => product.Specifications.Any(specification => key.Value
+                //            .Contains(specification.SpecificationValueId)));
+                //    if (products.Count() == 0)
+                //    {
+                //        break;
+                //    }
+                //}
 
             }
             return this;

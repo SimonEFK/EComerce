@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HardwareStore.App.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240405101546_boolIsDeletedForProductReviews")]
-    partial class boolIsDeletedForProductReviews
+    [Migration("20240414102255_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1416,6 +1416,61 @@ namespace HardwareStore.App.Migrations
                             Id = 27,
                             Name = "LG"
                         });
+                });
+
+            modelBuilder.Entity("HardwareStore.App.Data.Models.Order", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("OrderSum")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("HardwareStore.App.Data.Models.OrderProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OrderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("OriginalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrdersProducts");
                 });
 
             modelBuilder.Entity("HardwareStore.App.Data.Models.PartNumber", b =>
@@ -12607,6 +12662,36 @@ namespace HardwareStore.App.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("HardwareStore.App.Data.Models.Order", b =>
+                {
+                    b.HasOne("HardwareStore.App.Data.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("Orders")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("HardwareStore.App.Data.Models.OrderProduct", b =>
+                {
+                    b.HasOne("HardwareStore.App.Data.Models.Order", "Order")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HardwareStore.App.Data.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("HardwareStore.App.Data.Models.PartNumber", b =>
                 {
                     b.HasOne("HardwareStore.App.Data.Models.Product", "Product")
@@ -12751,6 +12836,8 @@ namespace HardwareStore.App.Migrations
                     b.Navigation("Cart")
                         .IsRequired();
 
+                    b.Navigation("Orders");
+
                     b.Navigation("ProductReviews");
                 });
 
@@ -12769,6 +12856,11 @@ namespace HardwareStore.App.Migrations
             modelBuilder.Entity("HardwareStore.App.Data.Models.Manufacturer", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("HardwareStore.App.Data.Models.Order", b =>
+                {
+                    b.Navigation("OrderProducts");
                 });
 
             modelBuilder.Entity("HardwareStore.App.Data.Models.Product", b =>

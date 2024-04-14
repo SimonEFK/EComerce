@@ -29,8 +29,8 @@
                     }
                     <input id="sortInputHidden" type="hidden" name="so" value="@ViewData["sortOrder"]" />
                     <input id="searchStringHidden" type="hidden" name="s" value="@ViewData["searchstring"]" />
-                    @if (Model.Specifications.Count == 1)
-                    {
+                    @* @if (Model.Specifications.Count == 1)
+                    { *@
                         <ul class="list-group">
                             @foreach (var category in this.Model.Specifications)
                             {
@@ -65,7 +65,7 @@
                                 }
                             }
                         </ul>
-                    }
+                    @* } *@
 
                     <ul class="list-group">
                         <li class="list-group-item">

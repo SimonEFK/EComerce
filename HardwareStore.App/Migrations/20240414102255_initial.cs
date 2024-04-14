@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace HardwareStore.App.Migrations
 {
-    public partial class initialCoreTablesAndDataSeed : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -92,6 +93,31 @@ namespace HardwareStore.App.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Address",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Region = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Address", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Address_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -201,6 +227,26 @@ namespace HardwareStore.App.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OrderSum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Specifications",
                 columns: table => new
                 {
@@ -227,6 +273,7 @@ namespace HardwareStore.App.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NameDetailed = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
@@ -316,6 +363,35 @@ namespace HardwareStore.App.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OrdersProducts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    OriginalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrdersProducts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrdersProducts_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrdersProducts_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PartNumbers",
                 columns: table => new
                 {
@@ -341,12 +417,14 @@ namespace HardwareStore.App.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsApproved = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     Review = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Rating = table.Column<int>(type: "int", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -446,72 +524,72 @@ namespace HardwareStore.App.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "CategoryId", "ManufacturerId", "Name", "NameDetailed" },
+                columns: new[] { "Id", "CategoryId", "ManufacturerId", "Name", "NameDetailed", "Price" },
                 values: new object[,]
                 {
-                    { 3, 5, 3, "AMD Ryzen 5 5600X", "AMD Ryzen 5 5600X 3.7 GHz 6-Core Processor" },
-                    { 4, 5, 3, "AMD Ryzen 7 7800X3D", "AMD Ryzen 7 7800X3D 4.2 GHz 8-Core Processor" },
-                    { 5, 5, 4, "Intel Core i7-13700K", "Intel Core i7-13700K 3.4 GHz 16-Core Processor" },
-                    { 6, 5, 3, "AMD Ryzen 7 5800X", "AMD Ryzen 7 5800X 3.8 GHz 8-Core Processor" },
-                    { 7, 6, 5, "Cooler Master Hyper 212 Black Edition", "Cooler Master Hyper 212 Black Edition 42 CFM CPU Cooler" },
-                    { 8, 6, 5, "Cooler Master MASTERLIQUID ML240L RGB V2", "Cooler Master MASTERLIQUID ML240L RGB V2 65.59 CFM Liquid CPU Cooler" },
-                    { 9, 6, 6, "be quiet! Dark Rock Pro 4", "be quiet! Dark Rock Pro 4 50.5 CFM CPU Cooler" },
-                    { 10, 6, 7, "Corsair iCUE H150i ELITE CAPELLIX XT", "Corsair iCUE H150i ELITE CAPELLIX XT 65.57 CFM Liquid CPU Cooler" },
-                    { 11, 7, 8, "MSI B550 GAMING GEN3", "MSI B550 GAMING GEN3 ATX AM4 Motherboard" },
-                    { 12, 7, 9, "Gigabyte B650 AORUS ELITE AX", "Gigabyte B650 AORUS ELITE AX ATX AM5 Motherboard" },
-                    { 13, 7, 8, "MSI MAG B550 TOMAHAWK", "MSI MAG B550 TOMAHAWK ATX AM4 Motherboard" },
-                    { 14, 7, 9, "Gigabyte Z790 AORUS ELITE AX", "Gigabyte Z790 AORUS ELITE AX ATX LGA1700 Motherboard" },
-                    { 15, 8, 7, "Corsair Vengeance LPX 16 GB", "Corsair Vengeance LPX 16 GB (2 x 8 GB) DDR4-3200 CL16 Memory" },
-                    { 16, 8, 7, "Corsair Vengeance 32 GB", "Corsair Vengeance 32 GB (2 x 16 GB) DDR5-5600 CL36 Memory" },
-                    { 17, 8, 7, "Corsair Vengeance RGB Pro 32 GB", "Corsair Vengeance RGB Pro 32 GB (2 x 16 GB) DDR4-3600 CL18 Memory" },
-                    { 18, 8, 10, "G.Skill Trident Z5 RGB 32 GB", "G.Skill Trident Z5 RGB 32 GB (2 x 16 GB) DDR5-6000 CL36 Memory" },
-                    { 19, 9, 11, "Samsung 980 Pro", "Samsung 980 Pro 2 TB M.2-2280 PCIe 4.0 X4 NVME Solid State Drive" },
-                    { 20, 9, 12, "Seagate Barracuda Compute", "Seagate Barracuda Compute 2 TB 3.5\" 7200 RPM Internal Hard Drive" },
-                    { 21, 9, 13, "Kingston A400", "Kingston A400 240 GB 2.5\" Solid State Drive" },
-                    { 22, 9, 14, "Crucial P3", "Crucial P3 4 TB M.2-2280 PCIe 3.0 X4 NVME Solid State Drive" },
-                    { 23, 10, 8, "MSI GeForce RTX 3060 Ventus 2X 12G", "MSI GeForce RTX 3060 Ventus 2X 12G GeForce RTX 3060 12GB 12 GB Video Card" },
-                    { 24, 10, 9, "Gigabyte WINDFORCE OC", "Gigabyte WINDFORCE OC GeForce RTX 4070 12 GB Video Card" },
-                    { 25, 10, 15, "Asus ROG STRIX GAMING OC", "Asus ROG STRIX GAMING OC GeForce RTX 4090 24 GB Video Card" },
-                    { 26, 10, 8, "MSI RTX 3060 Ventus 3X 12G OC", "MSI RTX 3060 Ventus 3X 12G OC GeForce RTX 3060 12GB 12 GB Video Card" },
-                    { 27, 11, 7, "Corsair RM750e (2023)", "Corsair RM750e (2023) 750 W 80+ Gold Certified Fully Modular ATX Power Supply" },
-                    { 28, 11, 16, "Thermaltake Toughpower GX2", "Thermaltake Toughpower GX2 600 W 80+ Gold Certified ATX Power Supply" },
-                    { 29, 11, 8, "MSI MPG A650GF", "MSI MPG A650GF 650 W 80+ Gold Certified Fully Modular ATX Power Supply" },
-                    { 30, 11, 17, "EVGA 500 W1", "EVGA 500 W1 500 W 80+ Certified ATX Power Supply" },
-                    { 31, 12, 18, "Deepcool CC560", "Deepcool CC560 ATX Mid Tower Case" },
-                    { 32, 12, 19, "NZXT H5 Flow", "NZXT H5 Flow ATX Mid Tower Case" },
-                    { 33, 12, 20, "Lian Li O11 Dynamic EVO", "Lian Li O11 Dynamic EVO ATX Mid Tower Case" },
-                    { 34, 12, 21, "Fractal Design North", "Fractal Design North ATX Mid Tower Case" },
-                    { 35, 13, 22, "HP HyperX Cloud II", "HP HyperX Cloud II 7.1 Channel Headset" },
-                    { 36, 13, 23, "Razer BlackShark V2 X", "Razer BlackShark V2 X 7.1 Channel Headset" },
-                    { 37, 13, 24, "Logitech Pro X", "Logitech Pro X 7.1 Channel Headset" },
-                    { 38, 13, 23, "Razer Kraken Kitty", "Razer Kraken Kitty Headset" },
-                    { 39, 14, 7, "Corsair K60 RGB Pro", "Corsair K60 RGB Pro Wired Gaming Keyboard" },
-                    { 40, 14, 24, "Logitech K120", "Logitech K120 Wired Standard Keyboard" },
-                    { 41, 14, 23, "Razer Huntsman Mini", "Razer Huntsman Mini RGB Wired Mini Keyboard" },
-                    { 42, 14, 23, "Razer BlackWidow V3", "Razer BlackWidow V3 RGB Wired Gaming Keyboard" },
-                    { 43, 15, 24, "Logitech G502 HERO", "Logitech G502 HERO Wired Optical Mouse" },
-                    { 44, 15, 23, "Razer Basilisk V3", "Razer Basilisk V3 Wired Optical Mouse" }
+                    { 3, 5, 3, "AMD Ryzen 5 5600X", "AMD Ryzen 5 5600X 3.7 GHz 6-Core Processor", 0m },
+                    { 4, 5, 3, "AMD Ryzen 7 7800X3D", "AMD Ryzen 7 7800X3D 4.2 GHz 8-Core Processor", 0m },
+                    { 5, 5, 4, "Intel Core i7-13700K", "Intel Core i7-13700K 3.4 GHz 16-Core Processor", 0m },
+                    { 6, 5, 3, "AMD Ryzen 7 5800X", "AMD Ryzen 7 5800X 3.8 GHz 8-Core Processor", 0m },
+                    { 7, 6, 5, "Cooler Master Hyper 212 Black Edition", "Cooler Master Hyper 212 Black Edition 42 CFM CPU Cooler", 0m },
+                    { 8, 6, 5, "Cooler Master MASTERLIQUID ML240L RGB V2", "Cooler Master MASTERLIQUID ML240L RGB V2 65.59 CFM Liquid CPU Cooler", 0m },
+                    { 9, 6, 6, "be quiet! Dark Rock Pro 4", "be quiet! Dark Rock Pro 4 50.5 CFM CPU Cooler", 0m },
+                    { 10, 6, 7, "Corsair iCUE H150i ELITE CAPELLIX XT", "Corsair iCUE H150i ELITE CAPELLIX XT 65.57 CFM Liquid CPU Cooler", 0m },
+                    { 11, 7, 8, "MSI B550 GAMING GEN3", "MSI B550 GAMING GEN3 ATX AM4 Motherboard", 0m },
+                    { 12, 7, 9, "Gigabyte B650 AORUS ELITE AX", "Gigabyte B650 AORUS ELITE AX ATX AM5 Motherboard", 0m },
+                    { 13, 7, 8, "MSI MAG B550 TOMAHAWK", "MSI MAG B550 TOMAHAWK ATX AM4 Motherboard", 0m },
+                    { 14, 7, 9, "Gigabyte Z790 AORUS ELITE AX", "Gigabyte Z790 AORUS ELITE AX ATX LGA1700 Motherboard", 0m },
+                    { 15, 8, 7, "Corsair Vengeance LPX 16 GB", "Corsair Vengeance LPX 16 GB (2 x 8 GB) DDR4-3200 CL16 Memory", 0m },
+                    { 16, 8, 7, "Corsair Vengeance 32 GB", "Corsair Vengeance 32 GB (2 x 16 GB) DDR5-5600 CL36 Memory", 0m },
+                    { 17, 8, 7, "Corsair Vengeance RGB Pro 32 GB", "Corsair Vengeance RGB Pro 32 GB (2 x 16 GB) DDR4-3600 CL18 Memory", 0m },
+                    { 18, 8, 10, "G.Skill Trident Z5 RGB 32 GB", "G.Skill Trident Z5 RGB 32 GB (2 x 16 GB) DDR5-6000 CL36 Memory", 0m },
+                    { 19, 9, 11, "Samsung 980 Pro", "Samsung 980 Pro 2 TB M.2-2280 PCIe 4.0 X4 NVME Solid State Drive", 0m },
+                    { 20, 9, 12, "Seagate Barracuda Compute", "Seagate Barracuda Compute 2 TB 3.5\" 7200 RPM Internal Hard Drive", 0m },
+                    { 21, 9, 13, "Kingston A400", "Kingston A400 240 GB 2.5\" Solid State Drive", 0m },
+                    { 22, 9, 14, "Crucial P3", "Crucial P3 4 TB M.2-2280 PCIe 3.0 X4 NVME Solid State Drive", 0m },
+                    { 23, 10, 8, "MSI GeForce RTX 3060 Ventus 2X 12G", "MSI GeForce RTX 3060 Ventus 2X 12G GeForce RTX 3060 12GB 12 GB Video Card", 0m },
+                    { 24, 10, 9, "Gigabyte WINDFORCE OC", "Gigabyte WINDFORCE OC GeForce RTX 4070 12 GB Video Card", 0m },
+                    { 25, 10, 15, "Asus ROG STRIX GAMING OC", "Asus ROG STRIX GAMING OC GeForce RTX 4090 24 GB Video Card", 0m },
+                    { 26, 10, 8, "MSI RTX 3060 Ventus 3X 12G OC", "MSI RTX 3060 Ventus 3X 12G OC GeForce RTX 3060 12GB 12 GB Video Card", 0m },
+                    { 27, 11, 7, "Corsair RM750e (2023)", "Corsair RM750e (2023) 750 W 80+ Gold Certified Fully Modular ATX Power Supply", 0m },
+                    { 28, 11, 16, "Thermaltake Toughpower GX2", "Thermaltake Toughpower GX2 600 W 80+ Gold Certified ATX Power Supply", 0m },
+                    { 29, 11, 8, "MSI MPG A650GF", "MSI MPG A650GF 650 W 80+ Gold Certified Fully Modular ATX Power Supply", 0m },
+                    { 30, 11, 17, "EVGA 500 W1", "EVGA 500 W1 500 W 80+ Certified ATX Power Supply", 0m },
+                    { 31, 12, 18, "Deepcool CC560", "Deepcool CC560 ATX Mid Tower Case", 0m },
+                    { 32, 12, 19, "NZXT H5 Flow", "NZXT H5 Flow ATX Mid Tower Case", 0m },
+                    { 33, 12, 20, "Lian Li O11 Dynamic EVO", "Lian Li O11 Dynamic EVO ATX Mid Tower Case", 0m },
+                    { 34, 12, 21, "Fractal Design North", "Fractal Design North ATX Mid Tower Case", 0m },
+                    { 35, 13, 22, "HP HyperX Cloud II", "HP HyperX Cloud II 7.1 Channel Headset", 0m },
+                    { 36, 13, 23, "Razer BlackShark V2 X", "Razer BlackShark V2 X 7.1 Channel Headset", 0m },
+                    { 37, 13, 24, "Logitech Pro X", "Logitech Pro X 7.1 Channel Headset", 0m },
+                    { 38, 13, 23, "Razer Kraken Kitty", "Razer Kraken Kitty Headset", 0m },
+                    { 39, 14, 7, "Corsair K60 RGB Pro", "Corsair K60 RGB Pro Wired Gaming Keyboard", 0m },
+                    { 40, 14, 24, "Logitech K120", "Logitech K120 Wired Standard Keyboard", 0m },
+                    { 41, 14, 23, "Razer Huntsman Mini", "Razer Huntsman Mini RGB Wired Mini Keyboard", 0m },
+                    { 42, 14, 23, "Razer BlackWidow V3", "Razer BlackWidow V3 RGB Wired Gaming Keyboard", 0m },
+                    { 43, 15, 24, "Logitech G502 HERO", "Logitech G502 HERO Wired Optical Mouse", 0m },
+                    { 44, 15, 23, "Razer Basilisk V3", "Razer Basilisk V3 Wired Optical Mouse", 0m }
                 });
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "CategoryId", "ManufacturerId", "Name", "NameDetailed" },
+                columns: new[] { "Id", "CategoryId", "ManufacturerId", "Name", "NameDetailed", "Price" },
                 values: new object[,]
                 {
-                    { 45, 15, 23, "Razer DeathAdder Essential", "Razer DeathAdder Essential Wired Optical Mouse" },
-                    { 46, 15, 23, "Razer Viper Mini", "Razer Viper Mini Wired Optical Mouse" },
-                    { 47, 16, 24, "Logitech Z200", "Logitech Z200 10 W Speakers" },
-                    { 48, 16, 24, "Logitech Z906", "Logitech Z906 500 W 5.1-Channel Speakers" },
-                    { 49, 16, 23, "Razer Leviathan V2", "Razer Leviathan V2 65 W 2.1-Channel Speakers" },
-                    { 50, 16, 25, "Creative Labs Creative Stage V2", "Creative Labs Creative Stage V2 80 W 2.1-Channel Speakers" },
-                    { 51, 17, 24, "Logitech BRIO Ultra HD Pro", "Logitech BRIO Ultra HD Pro Webcam" },
-                    { 52, 17, 23, "Razer Kiyo Pro Ultra", "Razer Kiyo Pro Ultra Webcam" },
-                    { 53, 18, 15, "Asus TUF Gaming VG27AQ", "Asus TUF Gaming VG27AQ 27.0\" 2560 x 1440 165 Hz Monitor" },
-                    { 54, 18, 11, "Samsung Odyssey G7", "Samsung Odyssey G7 27.0\" 2560 x 1440 240 Hz Curved Monitor" },
-                    { 55, 18, 26, "AOC C27G2Z", "AOC C27G2Z 27.0\" 1920 x 1080 240 Hz Curved Monitor" },
-                    { 56, 17, 24, "Logitech C270", "Logitech C270 Webcam" },
-                    { 57, 17, 23, "Razer Kiyo", "Razer Kiyo Webcam" },
-                    { 58, 18, 27, "LG UltraGear", "LG UltraGear 27.0\" 2560 x 1440 165 Hz Monitor" }
+                    { 45, 15, 23, "Razer DeathAdder Essential", "Razer DeathAdder Essential Wired Optical Mouse", 0m },
+                    { 46, 15, 23, "Razer Viper Mini", "Razer Viper Mini Wired Optical Mouse", 0m },
+                    { 47, 16, 24, "Logitech Z200", "Logitech Z200 10 W Speakers", 0m },
+                    { 48, 16, 24, "Logitech Z906", "Logitech Z906 500 W 5.1-Channel Speakers", 0m },
+                    { 49, 16, 23, "Razer Leviathan V2", "Razer Leviathan V2 65 W 2.1-Channel Speakers", 0m },
+                    { 50, 16, 25, "Creative Labs Creative Stage V2", "Creative Labs Creative Stage V2 80 W 2.1-Channel Speakers", 0m },
+                    { 51, 17, 24, "Logitech BRIO Ultra HD Pro", "Logitech BRIO Ultra HD Pro Webcam", 0m },
+                    { 52, 17, 23, "Razer Kiyo Pro Ultra", "Razer Kiyo Pro Ultra Webcam", 0m },
+                    { 53, 18, 15, "Asus TUF Gaming VG27AQ", "Asus TUF Gaming VG27AQ 27.0\" 2560 x 1440 165 Hz Monitor", 0m },
+                    { 54, 18, 11, "Samsung Odyssey G7", "Samsung Odyssey G7 27.0\" 2560 x 1440 240 Hz Curved Monitor", 0m },
+                    { 55, 18, 26, "AOC C27G2Z", "AOC C27G2Z 27.0\" 1920 x 1080 240 Hz Curved Monitor", 0m },
+                    { 56, 17, 24, "Logitech C270", "Logitech C270 Webcam", 0m },
+                    { 57, 17, 23, "Razer Kiyo", "Razer Kiyo Webcam", 0m },
+                    { 58, 18, 27, "LG UltraGear", "LG UltraGear 27.0\" 2560 x 1440 165 Hz Monitor", 0m }
                 });
 
             migrationBuilder.InsertData(
@@ -1106,48 +1184,48 @@ namespace HardwareStore.App.Migrations
                 columns: new[] { "Id", "FilePath", "MainImage", "ProductId", "Url" },
                 values: new object[,]
                 {
-                    { "00f7b9f8-49fc-45a3-a8fa-43a0c96b62dd", "Images/00f7b9f8-49fc-45a3-a8fa-43a0c96b62dd.jpg", null, 24, "https://cdna.pcpartpicker.com/static/forever/images/product/772cce097c55469671a0d75ea4aca83a.1600.jpg" },
-                    { "03c91e40-c117-460a-8454-60ca9e771c38", "Images/03c91e40-c117-460a-8454-60ca9e771c38.jpg", null, 55, "https://cdna.pcpartpicker.com/static/forever/images/product/f2d189697dd22bdee32e3f78ac93ecf6.1600.jpg" },
-                    { "04d4d665-98b4-40ed-83de-9b7cf3311444", "Images/04d4d665-98b4-40ed-83de-9b7cf3311444.jpg", null, 4, "https://cdna.pcpartpicker.com/static/forever/images/product/f0e0e59d75066ec825667b71c31e3c83.1600.jpg" },
-                    { "06d3b2eb-ac3a-47a7-82a5-e363d20096f1", "Images/06d3b2eb-ac3a-47a7-82a5-e363d20096f1.jpg", null, 15, "https://cdna.pcpartpicker.com/static/forever/images/product/0d7ccc6bb32c1a857bdfc56d9eb74081.1600.jpg" },
-                    { "09230f47-7964-4e73-b4ce-4fd9d613f0a5", "Images/09230f47-7964-4e73-b4ce-4fd9d613f0a5.jpg", null, 12, "https://cdna.pcpartpicker.com/static/forever/images/product/bcc3861f5dd336421becec729f2ac903.1600.jpg" },
-                    { "09c41293-55d6-4bb2-ab31-0f127ee7318c", "Images/09c41293-55d6-4bb2-ab31-0f127ee7318c.jpg", null, 30, "https://m.media-amazon.com/images/I/41T5OeHmOJL.jpg" },
-                    { "0be57707-e0c2-4177-af7a-591415d0c00a", "Images/0be57707-e0c2-4177-af7a-591415d0c00a.jpg", null, 44, "https://cdna.pcpartpicker.com/static/forever/images/product/0607ed766f65ab17807168b707b7580c.1600.jpg" },
-                    { "0bf93fd0-19e8-4486-a08c-bfe097bb1c22", "Images/0bf93fd0-19e8-4486-a08c-bfe097bb1c22.jpg", null, 55, "https://cdna.pcpartpicker.com/static/forever/images/product/589fcb12f6c675045fa379c9f7169c4d.1600.jpg" },
-                    { "0e6086b0-4555-4f77-8bce-2cc581472780", "Images/0e6086b0-4555-4f77-8bce-2cc581472780.jpg", null, 22, "https://m.media-amazon.com/images/I/318lV0rfJoL.jpg" },
-                    { "11f02df0-ed66-410c-a126-f1147ae4a54c", "Images/11f02df0-ed66-410c-a126-f1147ae4a54c.jpg", null, 32, "https://cdna.pcpartpicker.com/static/forever/images/product/8651013bcb8890048e06820902e927db.1600.jpg" },
-                    { "11f11e54-3c3a-4257-bd90-9bf8de1393b2", "Images/11f11e54-3c3a-4257-bd90-9bf8de1393b2.jpg", null, 51, "https://cdna.pcpartpicker.com/static/forever/images/product/6c931846f8b1f5346a3700526272ea24.1600.jpg" },
-                    { "12fe677c-7697-48f6-bf52-64c3df981a26", "Images/12fe677c-7697-48f6-bf52-64c3df981a26.jpg", null, 18, "https://cdna.pcpartpicker.com/static/forever/images/product/41e3e55e5ef124b218bfec3b3b243ca3.1600.jpg" },
-                    { "17a14db7-ad18-4a06-a149-4a6872d77972", "Images/17a14db7-ad18-4a06-a149-4a6872d77972.jpg", null, 56, "https://cdna.pcpartpicker.com/static/forever/images/product/2ea46c5847b08c504b33b7d4c8ef39d7.1600.jpg" },
-                    { "202af0b0-41f3-4744-a862-483fd01a92b2", "Images/202af0b0-41f3-4744-a862-483fd01a92b2.jpg", null, 39, "https://cdna.pcpartpicker.com/static/forever/images/product/0fa355840792cb24746bbb4200368282.1600.jpg" },
-                    { "20ae62e9-42aa-4969-8cf6-ad878e2fb573", "Images/20ae62e9-42aa-4969-8cf6-ad878e2fb573.jpg", null, 31, "https://m.media-amazon.com/images/I/41yIE8KxulL.jpg" },
-                    { "21b8572c-f178-4ba9-9308-475b9a3ac2b3", "Images/21b8572c-f178-4ba9-9308-475b9a3ac2b3.jpg", null, 15, "https://cdna.pcpartpicker.com/static/forever/images/product/835ab3efad1be13bbe53beef3e3c6f96.1600.jpg" },
-                    { "24f043ca-72a5-4bb6-8580-2e1907613542", "Images/24f043ca-72a5-4bb6-8580-2e1907613542.jpg", null, 31, "https://m.media-amazon.com/images/I/41WfYdvzk5L.jpg" },
-                    { "252a502e-94fe-42ef-b287-9883a9c631ae", "Images/252a502e-94fe-42ef-b287-9883a9c631ae.jpg", null, 7, "https://cdna.pcpartpicker.com/static/forever/images/product/105c8b0ca528860487720c77b236bca9.1600.jpg" },
-                    { "2553abe7-63c8-4da5-b338-a899d0a80e8b", "Images/2553abe7-63c8-4da5-b338-a899d0a80e8b.jpg", null, 13, "https://cdna.pcpartpicker.com/static/forever/images/product/52ee465cbd64b16145232d863524c066.1600.jpg" },
-                    { "2593176e-20bf-4392-9b27-1abfbcb1d1c2", "Images/2593176e-20bf-4392-9b27-1abfbcb1d1c2.jpg", null, 30, "https://m.media-amazon.com/images/I/41iw-jgJj8L.jpg" },
-                    { "274c6543-3980-4c11-8664-2f618907e7e8", "Images/274c6543-3980-4c11-8664-2f618907e7e8.jpg", null, 52, "https://cdna.pcpartpicker.com/static/forever/images/product/f0281d7b65771dacec49d796123aa7f6.1600.jpg" },
-                    { "28e8257b-25d3-4114-b523-c0f778129fe1", "Images/28e8257b-25d3-4114-b523-c0f778129fe1.jpg", null, 46, "https://cdna.pcpartpicker.com/static/forever/images/product/8da02f4b1cae5ccffadffc74272e4e01.1600.jpg" },
-                    { "28e968e1-e5a1-4532-a11a-775cfc02f114", "Images/28e968e1-e5a1-4532-a11a-775cfc02f114.jpg", null, 3, "https://cdna.pcpartpicker.com/static/forever/images/product/aea586ed783a4fba090978dfab85b886.1600.jpg" },
-                    { "2b9e3dac-3cc8-43e3-bfb8-b63118fccffe", "Images/2b9e3dac-3cc8-43e3-bfb8-b63118fccffe.jpg", null, 31, "https://m.media-amazon.com/images/I/31YAOE3okkL.jpg" },
-                    { "319d5f95-24c2-434a-82b0-3462b0ddf4b3", "Images/319d5f95-24c2-434a-82b0-3462b0ddf4b3.jpg", null, 45, "https://cdna.pcpartpicker.com/static/forever/images/product/1435c1dd5733f7443c14b484e733224e.1600.jpg" },
-                    { "32792424-48fe-4e32-9fe7-241afc3c215d", "Images/32792424-48fe-4e32-9fe7-241afc3c215d.jpg", null, 31, "https://m.media-amazon.com/images/I/31cNL+9TWsL.jpg" },
-                    { "33848993-28f5-468f-8a2d-1d2d2cc160c2", "Images/33848993-28f5-468f-8a2d-1d2d2cc160c2.jpg", null, 53, "https://m.media-amazon.com/images/I/31OAVlJoj8L.jpg" },
-                    { "3667240a-f95f-4da5-8895-b7ee370e5c7c", "Images/3667240a-f95f-4da5-8895-b7ee370e5c7c.jpg", null, 18, "https://cdna.pcpartpicker.com/static/forever/images/product/e8d573bd2eac864d427645f0d2f7cad8.1600.jpg" },
-                    { "3850f95a-562f-4bb8-af27-f937ef1cd13a", "Images/3850f95a-562f-4bb8-af27-f937ef1cd13a.jpg", null, 7, "https://cdna.pcpartpicker.com/static/forever/images/product/4975cf5b81bf9bc7cc08445417c0e0ed.1600.jpg" },
-                    { "3b88db86-67e1-4aac-9e39-0d765a554949", "Images/3b88db86-67e1-4aac-9e39-0d765a554949.jpg", null, 27, "https://cdna.pcpartpicker.com/static/forever/images/product/c4dd55a69469ec64be1f6a69864dc7e6.1600.jpg" },
-                    { "41f8ee04-f97f-41d8-8cba-18ad9dd01217", "Images/41f8ee04-f97f-41d8-8cba-18ad9dd01217.jpg", null, 12, "https://cdna.pcpartpicker.com/static/forever/images/product/4ff70faff6636170612b985373f74d1e.1600.jpg" },
-                    { "42d1ebb0-6b86-4b09-ad4f-4f34c189b01c", "Images/42d1ebb0-6b86-4b09-ad4f-4f34c189b01c.jpg", null, 41, "https://cdna.pcpartpicker.com/static/forever/images/product/1411d2ffe69ca84f0c740ee5d0df4a0e.1600.jpg" },
-                    { "42fb9716-1e61-4e4f-ae83-e8043b6c9ba0", "Images/42fb9716-1e61-4e4f-ae83-e8043b6c9ba0.jpg", null, 3, "https://cdna.pcpartpicker.com/static/forever/images/product/3ef757133d38ac40afe75da691ba7d60.1600.jpg" },
-                    { "4369891f-6ffc-4227-b3f2-4ec660ea74b9", "Images/4369891f-6ffc-4227-b3f2-4ec660ea74b9.jpg", null, 40, "https://cdna.pcpartpicker.com/static/forever/images/product/acaf1664d5bee7d6eaca0eeab94a3aff.1600.jpg" },
-                    { "4588eab1-c87c-4661-9ddc-8d9c9de8c4b8", "Images/4588eab1-c87c-4661-9ddc-8d9c9de8c4b8.jpg", null, 25, "https://cdna.pcpartpicker.com/static/forever/images/product/9f7b45a2816c45ea9449e8ca2bf6f616.1600.jpg" },
-                    { "490f8038-9bad-4180-a0d2-39e9e9f6292f", "Images/490f8038-9bad-4180-a0d2-39e9e9f6292f.jpg", null, 39, "https://cdna.pcpartpicker.com/static/forever/images/product/1feb55de02c0b18beceb45600ab4882a.1600.jpg" },
-                    { "49eb0ef2-158b-4d65-a292-1c133a777621", "Images/49eb0ef2-158b-4d65-a292-1c133a777621.jpg", null, 33, "https://cdna.pcpartpicker.com/static/forever/images/product/9f19b59f2318bfd557d22b4ea9dec097.1600.jpg" },
-                    { "4a338c8d-2537-4766-8c67-f4446ff478f2", "Images/4a338c8d-2537-4766-8c67-f4446ff478f2.jpg", null, 34, "https://cdna.pcpartpicker.com/static/forever/images/product/0512d4822aa3bd78639eda0c0cc202ad.1600.jpg" },
-                    { "4f9f15d2-126e-4ac9-9cea-1fe8b9e86f97", "Images/4f9f15d2-126e-4ac9-9cea-1fe8b9e86f97.jpg", null, 44, "https://cdna.pcpartpicker.com/static/forever/images/product/d662cc7b90e3fd45502f7c77d9b54269.1600.jpg" },
-                    { "503a5bdb-be29-4da5-9440-5022c33f36ac", "Images/503a5bdb-be29-4da5-9440-5022c33f36ac.jpg", null, 57, "https://cdna.pcpartpicker.com/static/forever/images/product/9a20036a42989c40ac4815feccc3c380.1600.jpg" },
-                    { "50ec92b2-38ee-4b77-a52c-7cbab6b3f7ac", "Images/50ec92b2-38ee-4b77-a52c-7cbab6b3f7ac.jpg", null, 55, "https://cdna.pcpartpicker.com/static/forever/images/product/4ab5f30ba2f7e3bc8429eff823900b66.1600.jpg" },
-                    { "51de09d5-30ae-45d1-ba22-0000251ca087", "Images/51de09d5-30ae-45d1-ba22-0000251ca087.jpg", null, 55, "https://cdna.pcpartpicker.com/static/forever/images/product/1538883177a83e33b087e056745d95d2.1600.jpg" }
+                    { "00f7b9f8-49fc-45a3-a8fa-43a0c96b62dd", "/Images/00f7b9f8-49fc-45a3-a8fa-43a0c96b62dd.jpg", null, 24, "https://cdna.pcpartpicker.com/static/forever/images/product/772cce097c55469671a0d75ea4aca83a.1600.jpg" },
+                    { "03c91e40-c117-460a-8454-60ca9e771c38", "/Images/03c91e40-c117-460a-8454-60ca9e771c38.jpg", null, 55, "https://cdna.pcpartpicker.com/static/forever/images/product/f2d189697dd22bdee32e3f78ac93ecf6.1600.jpg" },
+                    { "04d4d665-98b4-40ed-83de-9b7cf3311444", "/Images/04d4d665-98b4-40ed-83de-9b7cf3311444.jpg", null, 4, "https://cdna.pcpartpicker.com/static/forever/images/product/f0e0e59d75066ec825667b71c31e3c83.1600.jpg" },
+                    { "06d3b2eb-ac3a-47a7-82a5-e363d20096f1", "/Images/06d3b2eb-ac3a-47a7-82a5-e363d20096f1.jpg", null, 15, "https://cdna.pcpartpicker.com/static/forever/images/product/0d7ccc6bb32c1a857bdfc56d9eb74081.1600.jpg" },
+                    { "09230f47-7964-4e73-b4ce-4fd9d613f0a5", "/Images/09230f47-7964-4e73-b4ce-4fd9d613f0a5.jpg", null, 12, "https://cdna.pcpartpicker.com/static/forever/images/product/bcc3861f5dd336421becec729f2ac903.1600.jpg" },
+                    { "09c41293-55d6-4bb2-ab31-0f127ee7318c", "/Images/09c41293-55d6-4bb2-ab31-0f127ee7318c.jpg", null, 30, "https://m.media-amazon.com/images/I/41T5OeHmOJL.jpg" },
+                    { "0be57707-e0c2-4177-af7a-591415d0c00a", "/Images/0be57707-e0c2-4177-af7a-591415d0c00a.jpg", null, 44, "https://cdna.pcpartpicker.com/static/forever/images/product/0607ed766f65ab17807168b707b7580c.1600.jpg" },
+                    { "0bf93fd0-19e8-4486-a08c-bfe097bb1c22", "/Images/0bf93fd0-19e8-4486-a08c-bfe097bb1c22.jpg", null, 55, "https://cdna.pcpartpicker.com/static/forever/images/product/589fcb12f6c675045fa379c9f7169c4d.1600.jpg" },
+                    { "0e6086b0-4555-4f77-8bce-2cc581472780", "/Images/0e6086b0-4555-4f77-8bce-2cc581472780.jpg", null, 22, "https://m.media-amazon.com/images/I/318lV0rfJoL.jpg" },
+                    { "11f02df0-ed66-410c-a126-f1147ae4a54c", "/Images/11f02df0-ed66-410c-a126-f1147ae4a54c.jpg", null, 32, "https://cdna.pcpartpicker.com/static/forever/images/product/8651013bcb8890048e06820902e927db.1600.jpg" },
+                    { "11f11e54-3c3a-4257-bd90-9bf8de1393b2", "/Images/11f11e54-3c3a-4257-bd90-9bf8de1393b2.jpg", null, 51, "https://cdna.pcpartpicker.com/static/forever/images/product/6c931846f8b1f5346a3700526272ea24.1600.jpg" },
+                    { "12fe677c-7697-48f6-bf52-64c3df981a26", "/Images/12fe677c-7697-48f6-bf52-64c3df981a26.jpg", null, 18, "https://cdna.pcpartpicker.com/static/forever/images/product/41e3e55e5ef124b218bfec3b3b243ca3.1600.jpg" },
+                    { "17a14db7-ad18-4a06-a149-4a6872d77972", "/Images/17a14db7-ad18-4a06-a149-4a6872d77972.jpg", null, 56, "https://cdna.pcpartpicker.com/static/forever/images/product/2ea46c5847b08c504b33b7d4c8ef39d7.1600.jpg" },
+                    { "202af0b0-41f3-4744-a862-483fd01a92b2", "/Images/202af0b0-41f3-4744-a862-483fd01a92b2.jpg", null, 39, "https://cdna.pcpartpicker.com/static/forever/images/product/0fa355840792cb24746bbb4200368282.1600.jpg" },
+                    { "20ae62e9-42aa-4969-8cf6-ad878e2fb573", "/Images/20ae62e9-42aa-4969-8cf6-ad878e2fb573.jpg", null, 31, "https://m.media-amazon.com/images/I/41yIE8KxulL.jpg" },
+                    { "21b8572c-f178-4ba9-9308-475b9a3ac2b3", "/Images/21b8572c-f178-4ba9-9308-475b9a3ac2b3.jpg", null, 15, "https://cdna.pcpartpicker.com/static/forever/images/product/835ab3efad1be13bbe53beef3e3c6f96.1600.jpg" },
+                    { "24f043ca-72a5-4bb6-8580-2e1907613542", "/Images/24f043ca-72a5-4bb6-8580-2e1907613542.jpg", null, 31, "https://m.media-amazon.com/images/I/41WfYdvzk5L.jpg" },
+                    { "252a502e-94fe-42ef-b287-9883a9c631ae", "/Images/252a502e-94fe-42ef-b287-9883a9c631ae.jpg", null, 7, "https://cdna.pcpartpicker.com/static/forever/images/product/105c8b0ca528860487720c77b236bca9.1600.jpg" },
+                    { "2553abe7-63c8-4da5-b338-a899d0a80e8b", "/Images/2553abe7-63c8-4da5-b338-a899d0a80e8b.jpg", null, 13, "https://cdna.pcpartpicker.com/static/forever/images/product/52ee465cbd64b16145232d863524c066.1600.jpg" },
+                    { "2593176e-20bf-4392-9b27-1abfbcb1d1c2", "/Images/2593176e-20bf-4392-9b27-1abfbcb1d1c2.jpg", null, 30, "https://m.media-amazon.com/images/I/41iw-jgJj8L.jpg" },
+                    { "274c6543-3980-4c11-8664-2f618907e7e8", "/Images/274c6543-3980-4c11-8664-2f618907e7e8.jpg", null, 52, "https://cdna.pcpartpicker.com/static/forever/images/product/f0281d7b65771dacec49d796123aa7f6.1600.jpg" },
+                    { "28e8257b-25d3-4114-b523-c0f778129fe1", "/Images/28e8257b-25d3-4114-b523-c0f778129fe1.jpg", null, 46, "https://cdna.pcpartpicker.com/static/forever/images/product/8da02f4b1cae5ccffadffc74272e4e01.1600.jpg" },
+                    { "28e968e1-e5a1-4532-a11a-775cfc02f114", "/Images/28e968e1-e5a1-4532-a11a-775cfc02f114.jpg", null, 3, "https://cdna.pcpartpicker.com/static/forever/images/product/aea586ed783a4fba090978dfab85b886.1600.jpg" },
+                    { "2b9e3dac-3cc8-43e3-bfb8-b63118fccffe", "/Images/2b9e3dac-3cc8-43e3-bfb8-b63118fccffe.jpg", null, 31, "https://m.media-amazon.com/images/I/31YAOE3okkL.jpg" },
+                    { "319d5f95-24c2-434a-82b0-3462b0ddf4b3", "/Images/319d5f95-24c2-434a-82b0-3462b0ddf4b3.jpg", null, 45, "https://cdna.pcpartpicker.com/static/forever/images/product/1435c1dd5733f7443c14b484e733224e.1600.jpg" },
+                    { "32792424-48fe-4e32-9fe7-241afc3c215d", "/Images/32792424-48fe-4e32-9fe7-241afc3c215d.jpg", null, 31, "https://m.media-amazon.com/images/I/31cNL+9TWsL.jpg" },
+                    { "33848993-28f5-468f-8a2d-1d2d2cc160c2", "/Images/33848993-28f5-468f-8a2d-1d2d2cc160c2.jpg", null, 53, "https://m.media-amazon.com/images/I/31OAVlJoj8L.jpg" },
+                    { "3667240a-f95f-4da5-8895-b7ee370e5c7c", "/Images/3667240a-f95f-4da5-8895-b7ee370e5c7c.jpg", null, 18, "https://cdna.pcpartpicker.com/static/forever/images/product/e8d573bd2eac864d427645f0d2f7cad8.1600.jpg" },
+                    { "3850f95a-562f-4bb8-af27-f937ef1cd13a", "/Images/3850f95a-562f-4bb8-af27-f937ef1cd13a.jpg", null, 7, "https://cdna.pcpartpicker.com/static/forever/images/product/4975cf5b81bf9bc7cc08445417c0e0ed.1600.jpg" },
+                    { "3b88db86-67e1-4aac-9e39-0d765a554949", "/Images/3b88db86-67e1-4aac-9e39-0d765a554949.jpg", null, 27, "https://cdna.pcpartpicker.com/static/forever/images/product/c4dd55a69469ec64be1f6a69864dc7e6.1600.jpg" },
+                    { "41f8ee04-f97f-41d8-8cba-18ad9dd01217", "/Images/41f8ee04-f97f-41d8-8cba-18ad9dd01217.jpg", null, 12, "https://cdna.pcpartpicker.com/static/forever/images/product/4ff70faff6636170612b985373f74d1e.1600.jpg" },
+                    { "42d1ebb0-6b86-4b09-ad4f-4f34c189b01c", "/Images/42d1ebb0-6b86-4b09-ad4f-4f34c189b01c.jpg", null, 41, "https://cdna.pcpartpicker.com/static/forever/images/product/1411d2ffe69ca84f0c740ee5d0df4a0e.1600.jpg" },
+                    { "42fb9716-1e61-4e4f-ae83-e8043b6c9ba0", "/Images/42fb9716-1e61-4e4f-ae83-e8043b6c9ba0.jpg", null, 3, "https://cdna.pcpartpicker.com/static/forever/images/product/3ef757133d38ac40afe75da691ba7d60.1600.jpg" },
+                    { "4369891f-6ffc-4227-b3f2-4ec660ea74b9", "/Images/4369891f-6ffc-4227-b3f2-4ec660ea74b9.jpg", null, 40, "https://cdna.pcpartpicker.com/static/forever/images/product/acaf1664d5bee7d6eaca0eeab94a3aff.1600.jpg" },
+                    { "4588eab1-c87c-4661-9ddc-8d9c9de8c4b8", "/Images/4588eab1-c87c-4661-9ddc-8d9c9de8c4b8.jpg", null, 25, "https://cdna.pcpartpicker.com/static/forever/images/product/9f7b45a2816c45ea9449e8ca2bf6f616.1600.jpg" },
+                    { "490f8038-9bad-4180-a0d2-39e9e9f6292f", "/Images/490f8038-9bad-4180-a0d2-39e9e9f6292f.jpg", null, 39, "https://cdna.pcpartpicker.com/static/forever/images/product/1feb55de02c0b18beceb45600ab4882a.1600.jpg" },
+                    { "49eb0ef2-158b-4d65-a292-1c133a777621", "/Images/49eb0ef2-158b-4d65-a292-1c133a777621.jpg", null, 33, "https://cdna.pcpartpicker.com/static/forever/images/product/9f19b59f2318bfd557d22b4ea9dec097.1600.jpg" },
+                    { "4a338c8d-2537-4766-8c67-f4446ff478f2", "/Images/4a338c8d-2537-4766-8c67-f4446ff478f2.jpg", null, 34, "https://cdna.pcpartpicker.com/static/forever/images/product/0512d4822aa3bd78639eda0c0cc202ad.1600.jpg" },
+                    { "4f9f15d2-126e-4ac9-9cea-1fe8b9e86f97", "/Images/4f9f15d2-126e-4ac9-9cea-1fe8b9e86f97.jpg", null, 44, "https://cdna.pcpartpicker.com/static/forever/images/product/d662cc7b90e3fd45502f7c77d9b54269.1600.jpg" },
+                    { "503a5bdb-be29-4da5-9440-5022c33f36ac", "/Images/503a5bdb-be29-4da5-9440-5022c33f36ac.jpg", null, 57, "https://cdna.pcpartpicker.com/static/forever/images/product/9a20036a42989c40ac4815feccc3c380.1600.jpg" },
+                    { "50ec92b2-38ee-4b77-a52c-7cbab6b3f7ac", "/Images/50ec92b2-38ee-4b77-a52c-7cbab6b3f7ac.jpg", null, 55, "https://cdna.pcpartpicker.com/static/forever/images/product/4ab5f30ba2f7e3bc8429eff823900b66.1600.jpg" },
+                    { "51de09d5-30ae-45d1-ba22-0000251ca087", "/Images/51de09d5-30ae-45d1-ba22-0000251ca087.jpg", null, 55, "https://cdna.pcpartpicker.com/static/forever/images/product/1538883177a83e33b087e056745d95d2.1600.jpg" }
                 });
 
             migrationBuilder.InsertData(
@@ -1155,48 +1233,48 @@ namespace HardwareStore.App.Migrations
                 columns: new[] { "Id", "FilePath", "MainImage", "ProductId", "Url" },
                 values: new object[,]
                 {
-                    { "5267ec91-ad23-4a73-9fde-20271907e089", "Images/5267ec91-ad23-4a73-9fde-20271907e089.jpg", null, 53, "https://m.media-amazon.com/images/I/31SVEFibvEL.jpg" },
-                    { "5366937c-e4fd-4147-b88b-d42cdc5a214a", "Images/5366937c-e4fd-4147-b88b-d42cdc5a214a.jpg", null, 46, "https://cdna.pcpartpicker.com/static/forever/images/product/31ad0dccffff39f176c038672c8fb2cd.1600.jpg" },
-                    { "5474f429-2dc7-40ec-9af1-7a81c24db43f", "Images/5474f429-2dc7-40ec-9af1-7a81c24db43f.jpg", null, 49, "https://cdna.pcpartpicker.com/static/forever/images/product/a404c6eeceb711738df49595a0ac7d4c.1600.jpg" },
-                    { "54bbd9b8-16f4-41a5-895a-2395549fb8ca", "Images/54bbd9b8-16f4-41a5-895a-2395549fb8ca.jpg", null, 51, "https://cdna.pcpartpicker.com/static/forever/images/product/1643f73c0a44e536665cc5a9470393c9.1600.jpg" },
-                    { "574ed2e4-cdec-4133-a588-5241c263f6b8", "Images/574ed2e4-cdec-4133-a588-5241c263f6b8.jpg", null, 7, "https://cdna.pcpartpicker.com/static/forever/images/product/6859ee3cce2b38b9136206073f9e76da.1600.jpg" },
-                    { "589ede3e-390d-4395-9bf3-799bfaf06701", "Images/589ede3e-390d-4395-9bf3-799bfaf06701.jpg", null, 55, "https://cdna.pcpartpicker.com/static/forever/images/product/14e788b7ea0fa13b2129be9c7baecdbb.1600.jpg" },
-                    { "5c73024d-d613-4fae-9873-0e88ff7289c8", "Images/5c73024d-d613-4fae-9873-0e88ff7289c8.jpg", null, 39, "https://cdna.pcpartpicker.com/static/forever/images/product/c27c50cf8e875c9152bde42bf6c540e6.1600.jpg" },
-                    { "5d956bf3-d052-44bf-ae8f-29e945da2bb9", "Images/5d956bf3-d052-44bf-ae8f-29e945da2bb9.jpg", null, 54, "https://cdna.pcpartpicker.com/static/forever/images/product/c1cef36415ba8f85086b55459b9bf0aa.1600.jpg" },
-                    { "5f206e19-dea7-4c40-91e7-852458e61831", "Images/5f206e19-dea7-4c40-91e7-852458e61831.jpg", null, 43, "https://m.media-amazon.com/images/I/4189N8RLVYL.jpg" },
-                    { "616f99ab-d19f-43cb-9743-f62376b7cd10", "Images/616f99ab-d19f-43cb-9743-f62376b7cd10.jpg", null, 15, "https://cdna.pcpartpicker.com/static/forever/images/product/fee3ba4d684ea643cc72a1c38f0dbc2f.1600.jpg" },
-                    { "6625b408-607b-48d2-91d8-356ba3e684dd", "Images/6625b408-607b-48d2-91d8-356ba3e684dd.jpg", null, 31, "https://m.media-amazon.com/images/I/41qGXVVM++L.jpg" },
-                    { "66986a8c-76fb-4626-a2b7-93b4d4aae61f", "Images/66986a8c-76fb-4626-a2b7-93b4d4aae61f.jpg", null, 34, "https://cdna.pcpartpicker.com/static/forever/images/product/d7a5742ff148519dc3960487b4ee8c3b.1600.jpg" },
-                    { "66d9eb05-c031-4e76-bb69-0c650657ff94", "Images/66d9eb05-c031-4e76-bb69-0c650657ff94.jpg", null, 42, "https://cdna.pcpartpicker.com/static/forever/images/product/72afebab92f6ad28ba42d28c64442a07.1600.jpg" },
-                    { "71db4dae-fa71-4311-84b5-ea7b29fcf5fa", "Images/71db4dae-fa71-4311-84b5-ea7b29fcf5fa.jpg", null, 36, "https://cdna.pcpartpicker.com/static/forever/images/product/6bfd83b70242125dd19a098b04deb9e1.1600.jpg" },
-                    { "729cfb1b-62fd-4a7f-a11c-b073bd0d8969", "Images/729cfb1b-62fd-4a7f-a11c-b073bd0d8969.jpg", null, 49, "https://cdna.pcpartpicker.com/static/forever/images/product/73abc535b47971b36868e797a4c4c96f.1600.jpg" },
-                    { "7580baab-5081-45a2-b227-787ab2263775", "Images/7580baab-5081-45a2-b227-787ab2263775.jpg", null, 6, "https://cdna.pcpartpicker.com/static/forever/images/product/9a001de1081123932309b918dab89b01.1600.jpg" },
-                    { "76f054da-5ffc-4fe3-aa6b-8d6743cf83a9", "Images/76f054da-5ffc-4fe3-aa6b-8d6743cf83a9.jpg", null, 10, "https://cdna.pcpartpicker.com/static/forever/images/product/12bfecb3325a384ef35e38ada6b8bca3.1600.jpg" },
-                    { "77eaf7c6-e81d-4338-be23-a6d84ceb04ca", "Images/77eaf7c6-e81d-4338-be23-a6d84ceb04ca.jpg", null, 11, "https://cdna.pcpartpicker.com/static/forever/images/product/cbc52effd345bd5e9d66b5f7d198f8b4.1600.jpg" },
-                    { "7a8ba6fe-03d7-485e-b3af-8cdeec70d067", "Images/7a8ba6fe-03d7-485e-b3af-8cdeec70d067.jpg", null, 32, "https://cdna.pcpartpicker.com/static/forever/images/product/0caced7ab126d5fe057d6ce2306cee39.1600.jpg" },
-                    { "7d963661-04f6-43ae-a1e8-f314b597627d", "Images/7d963661-04f6-43ae-a1e8-f314b597627d.jpg", null, 34, "https://cdna.pcpartpicker.com/static/forever/images/product/dd92e303301f8c06036a17d24ed9ab46.1600.jpg" },
-                    { "824fc1f4-6e52-4776-9ca5-e42e54e68e69", "Images/824fc1f4-6e52-4776-9ca5-e42e54e68e69.jpg", null, 26, "https://cdna.pcpartpicker.com/static/forever/images/product/24f2250843caa631f82d234bc781e9d0.1600.jpg" },
-                    { "83f98923-0661-44ee-b1aa-be4411619690", "Images/83f98923-0661-44ee-b1aa-be4411619690.jpg", null, 7, "https://cdna.pcpartpicker.com/static/forever/images/product/0d8a58e3c4bf5ecde38ed4f9738c91fd.1600.jpg" },
-                    { "852824a2-c4bd-4582-8f74-9e02667cd57a", "Images/852824a2-c4bd-4582-8f74-9e02667cd57a.jpg", null, 37, "https://cdna.pcpartpicker.com/static/forever/images/product/c4927b86acf31ab403449e81673d56f7.1600.jpg" },
-                    { "85a78cf1-d5af-4363-a2a2-13837485f50f", "Images/85a78cf1-d5af-4363-a2a2-13837485f50f.jpg", null, 31, "https://m.media-amazon.com/images/I/41bmeAiECpL.jpg" },
-                    { "868302ff-1931-4b03-9afe-9c3c321dcb3b", "Images/868302ff-1931-4b03-9afe-9c3c321dcb3b.jpg", null, 23, "https://cdna.pcpartpicker.com/static/forever/images/product/dbc81b89efc82ce66fb2e3ab7e0f0658.1600.jpg" },
-                    { "8982521c-bcd4-4ee4-a712-6085d687e588", "Images/8982521c-bcd4-4ee4-a712-6085d687e588.jpg", null, 49, "https://cdna.pcpartpicker.com/static/forever/images/product/2981675c06bdccf5daa39fe5c567c5f4.1600.jpg" },
-                    { "8ca5997f-53fe-4bf4-8af9-e95994dbb61d", "Images/8ca5997f-53fe-4bf4-8af9-e95994dbb61d.jpg", null, 31, "https://m.media-amazon.com/images/I/418Ezw9+M5L.jpg" },
-                    { "8f833fa0-8648-4f0c-bd2f-914fa872ff6a", "Images/8f833fa0-8648-4f0c-bd2f-914fa872ff6a.jpg", null, 47, "https://cdna.pcpartpicker.com/static/forever/images/product/044e21f178b0ad10f69fbc76b6ac013e.1600.jpg" },
-                    { "8fd47fe2-a487-4fce-9c1b-427de0af5d9e", "Images/8fd47fe2-a487-4fce-9c1b-427de0af5d9e.jpg", null, 8, "https://cdna.pcpartpicker.com/static/forever/images/product/5b6a5e7f4cf456ccf6415235cf7adc99.1600.jpg" },
-                    { "91cd8cd7-0b1f-4ad7-a9e2-efe029133c78", "Images/91cd8cd7-0b1f-4ad7-a9e2-efe029133c78.jpg", null, 45, "https://cdna.pcpartpicker.com/static/forever/images/product/ee20df28356c1f66b8d3c6d69be9f823.1600.jpg" },
-                    { "926a0cc9-f77f-4d38-a4ed-80954038182b", "Images/926a0cc9-f77f-4d38-a4ed-80954038182b.jpg", null, 27, "https://cdna.pcpartpicker.com/static/forever/images/product/177c70bda04558a33afef3fa7fbf6d3a.1600.jpg" },
-                    { "92dd4206-5009-4274-9340-41d101a666ef", "Images/92dd4206-5009-4274-9340-41d101a666ef.jpg", null, 54, "https://m.media-amazon.com/images/I/31Ey7sbAF-L.jpg" },
-                    { "94be617b-2886-4796-a816-e70d8254db5c", "Images/94be617b-2886-4796-a816-e70d8254db5c.jpg", null, 36, "https://cdna.pcpartpicker.com/static/forever/images/product/eac8b9bc26c9fc82da9099dd785b0d25.1600.jpg" },
-                    { "9650da52-cfd0-4da3-a484-8b5d47b896a0", "Images/9650da52-cfd0-4da3-a484-8b5d47b896a0.jpg", null, 23, "https://cdna.pcpartpicker.com/static/forever/images/product/c740684e2cd2339bf845f7493711bcb7.1600.jpg" },
-                    { "984fdc6b-11f3-4b24-ab69-6f4eb853d722", "Images/984fdc6b-11f3-4b24-ab69-6f4eb853d722.jpg", null, 27, "https://cdna.pcpartpicker.com/static/forever/images/product/786ae500dc9ee10793a78a066bfdc2ae.1600.jpg" },
-                    { "988610ab-3fdb-46b8-883a-511e709c51f9", "Images/988610ab-3fdb-46b8-883a-511e709c51f9.jpg", null, 30, "https://m.media-amazon.com/images/I/41OrNb0Me-L.jpg" },
-                    { "997a8f8f-9e44-4925-b898-ace5cd35bfcd", "Images/997a8f8f-9e44-4925-b898-ace5cd35bfcd.jpg", null, 20, "https://cdna.pcpartpicker.com/static/forever/images/product/c7b5b7dacbecdcdd0e073b761193eef6.1600.jpg" },
-                    { "9a4f1cef-e773-4b24-9f8c-c4359001b1dd", "Images/9a4f1cef-e773-4b24-9f8c-c4359001b1dd.jpg", null, 34, "https://cdna.pcpartpicker.com/static/forever/images/product/53592fbfc2434075c871babe2ebd9b4d.1600.jpg" },
-                    { "9aede4aa-7c74-44d1-a70b-201b79442096", "Images/9aede4aa-7c74-44d1-a70b-201b79442096.jpg", null, 55, "https://cdna.pcpartpicker.com/static/forever/images/product/e01b4d44c0de80c58cefbcc78a1fe809.1600.jpg" },
-                    { "a10bdd3e-a845-4cb4-9079-0ec9729cd2ff", "Images/a10bdd3e-a845-4cb4-9079-0ec9729cd2ff.jpg", null, 28, "https://cdna.pcpartpicker.com/static/forever/images/product/56f77032e78c9af99041786b5196fe91.1600.jpg" },
-                    { "a1554699-e1bf-44d6-83d1-c9196b545703", "Images/a1554699-e1bf-44d6-83d1-c9196b545703.jpg", null, 31, "https://cdna.pcpartpicker.com/static/forever/images/product/eacaf9e3a9f012060fbd0a98f4e22511.1600.jpg" },
-                    { "a2b37b1f-827f-4ffd-ad2a-6a4a5ecdd938", "Images/a2b37b1f-827f-4ffd-ad2a-6a4a5ecdd938.jpg", null, 29, "https://cdna.pcpartpicker.com/static/forever/images/product/304c409dc991a5bc733316ceac29f77e.1600.jpg" }
+                    { "5267ec91-ad23-4a73-9fde-20271907e089", "/Images/5267ec91-ad23-4a73-9fde-20271907e089.jpg", null, 53, "https://m.media-amazon.com/images/I/31SVEFibvEL.jpg" },
+                    { "5366937c-e4fd-4147-b88b-d42cdc5a214a", "/Images/5366937c-e4fd-4147-b88b-d42cdc5a214a.jpg", null, 46, "https://cdna.pcpartpicker.com/static/forever/images/product/31ad0dccffff39f176c038672c8fb2cd.1600.jpg" },
+                    { "5474f429-2dc7-40ec-9af1-7a81c24db43f", "/Images/5474f429-2dc7-40ec-9af1-7a81c24db43f.jpg", null, 49, "https://cdna.pcpartpicker.com/static/forever/images/product/a404c6eeceb711738df49595a0ac7d4c.1600.jpg" },
+                    { "54bbd9b8-16f4-41a5-895a-2395549fb8ca", "/Images/54bbd9b8-16f4-41a5-895a-2395549fb8ca.jpg", null, 51, "https://cdna.pcpartpicker.com/static/forever/images/product/1643f73c0a44e536665cc5a9470393c9.1600.jpg" },
+                    { "574ed2e4-cdec-4133-a588-5241c263f6b8", "/Images/574ed2e4-cdec-4133-a588-5241c263f6b8.jpg", null, 7, "https://cdna.pcpartpicker.com/static/forever/images/product/6859ee3cce2b38b9136206073f9e76da.1600.jpg" },
+                    { "589ede3e-390d-4395-9bf3-799bfaf06701", "/Images/589ede3e-390d-4395-9bf3-799bfaf06701.jpg", null, 55, "https://cdna.pcpartpicker.com/static/forever/images/product/14e788b7ea0fa13b2129be9c7baecdbb.1600.jpg" },
+                    { "5c73024d-d613-4fae-9873-0e88ff7289c8", "/Images/5c73024d-d613-4fae-9873-0e88ff7289c8.jpg", null, 39, "https://cdna.pcpartpicker.com/static/forever/images/product/c27c50cf8e875c9152bde42bf6c540e6.1600.jpg" },
+                    { "5d956bf3-d052-44bf-ae8f-29e945da2bb9", "/Images/5d956bf3-d052-44bf-ae8f-29e945da2bb9.jpg", null, 54, "https://cdna.pcpartpicker.com/static/forever/images/product/c1cef36415ba8f85086b55459b9bf0aa.1600.jpg" },
+                    { "5f206e19-dea7-4c40-91e7-852458e61831", "/Images/5f206e19-dea7-4c40-91e7-852458e61831.jpg", null, 43, "https://m.media-amazon.com/images/I/4189N8RLVYL.jpg" },
+                    { "616f99ab-d19f-43cb-9743-f62376b7cd10", "/Images/616f99ab-d19f-43cb-9743-f62376b7cd10.jpg", null, 15, "https://cdna.pcpartpicker.com/static/forever/images/product/fee3ba4d684ea643cc72a1c38f0dbc2f.1600.jpg" },
+                    { "6625b408-607b-48d2-91d8-356ba3e684dd", "/Images/6625b408-607b-48d2-91d8-356ba3e684dd.jpg", null, 31, "https://m.media-amazon.com/images/I/41qGXVVM++L.jpg" },
+                    { "66986a8c-76fb-4626-a2b7-93b4d4aae61f", "/Images/66986a8c-76fb-4626-a2b7-93b4d4aae61f.jpg", null, 34, "https://cdna.pcpartpicker.com/static/forever/images/product/d7a5742ff148519dc3960487b4ee8c3b.1600.jpg" },
+                    { "66d9eb05-c031-4e76-bb69-0c650657ff94", "/Images/66d9eb05-c031-4e76-bb69-0c650657ff94.jpg", null, 42, "https://cdna.pcpartpicker.com/static/forever/images/product/72afebab92f6ad28ba42d28c64442a07.1600.jpg" },
+                    { "71db4dae-fa71-4311-84b5-ea7b29fcf5fa", "/Images/71db4dae-fa71-4311-84b5-ea7b29fcf5fa.jpg", null, 36, "https://cdna.pcpartpicker.com/static/forever/images/product/6bfd83b70242125dd19a098b04deb9e1.1600.jpg" },
+                    { "729cfb1b-62fd-4a7f-a11c-b073bd0d8969", "/Images/729cfb1b-62fd-4a7f-a11c-b073bd0d8969.jpg", null, 49, "https://cdna.pcpartpicker.com/static/forever/images/product/73abc535b47971b36868e797a4c4c96f.1600.jpg" },
+                    { "7580baab-5081-45a2-b227-787ab2263775", "/Images/7580baab-5081-45a2-b227-787ab2263775.jpg", null, 6, "https://cdna.pcpartpicker.com/static/forever/images/product/9a001de1081123932309b918dab89b01.1600.jpg" },
+                    { "76f054da-5ffc-4fe3-aa6b-8d6743cf83a9", "/Images/76f054da-5ffc-4fe3-aa6b-8d6743cf83a9.jpg", null, 10, "https://cdna.pcpartpicker.com/static/forever/images/product/12bfecb3325a384ef35e38ada6b8bca3.1600.jpg" },
+                    { "77eaf7c6-e81d-4338-be23-a6d84ceb04ca", "/Images/77eaf7c6-e81d-4338-be23-a6d84ceb04ca.jpg", null, 11, "https://cdna.pcpartpicker.com/static/forever/images/product/cbc52effd345bd5e9d66b5f7d198f8b4.1600.jpg" },
+                    { "7a8ba6fe-03d7-485e-b3af-8cdeec70d067", "/Images/7a8ba6fe-03d7-485e-b3af-8cdeec70d067.jpg", null, 32, "https://cdna.pcpartpicker.com/static/forever/images/product/0caced7ab126d5fe057d6ce2306cee39.1600.jpg" },
+                    { "7d963661-04f6-43ae-a1e8-f314b597627d", "/Images/7d963661-04f6-43ae-a1e8-f314b597627d.jpg", null, 34, "https://cdna.pcpartpicker.com/static/forever/images/product/dd92e303301f8c06036a17d24ed9ab46.1600.jpg" },
+                    { "824fc1f4-6e52-4776-9ca5-e42e54e68e69", "/Images/824fc1f4-6e52-4776-9ca5-e42e54e68e69.jpg", null, 26, "https://cdna.pcpartpicker.com/static/forever/images/product/24f2250843caa631f82d234bc781e9d0.1600.jpg" },
+                    { "83f98923-0661-44ee-b1aa-be4411619690", "/Images/83f98923-0661-44ee-b1aa-be4411619690.jpg", null, 7, "https://cdna.pcpartpicker.com/static/forever/images/product/0d8a58e3c4bf5ecde38ed4f9738c91fd.1600.jpg" },
+                    { "852824a2-c4bd-4582-8f74-9e02667cd57a", "/Images/852824a2-c4bd-4582-8f74-9e02667cd57a.jpg", null, 37, "https://cdna.pcpartpicker.com/static/forever/images/product/c4927b86acf31ab403449e81673d56f7.1600.jpg" },
+                    { "85a78cf1-d5af-4363-a2a2-13837485f50f", "/Images/85a78cf1-d5af-4363-a2a2-13837485f50f.jpg", null, 31, "https://m.media-amazon.com/images/I/41bmeAiECpL.jpg" },
+                    { "868302ff-1931-4b03-9afe-9c3c321dcb3b", "/Images/868302ff-1931-4b03-9afe-9c3c321dcb3b.jpg", null, 23, "https://cdna.pcpartpicker.com/static/forever/images/product/dbc81b89efc82ce66fb2e3ab7e0f0658.1600.jpg" },
+                    { "8982521c-bcd4-4ee4-a712-6085d687e588", "/Images/8982521c-bcd4-4ee4-a712-6085d687e588.jpg", null, 49, "https://cdna.pcpartpicker.com/static/forever/images/product/2981675c06bdccf5daa39fe5c567c5f4.1600.jpg" },
+                    { "8ca5997f-53fe-4bf4-8af9-e95994dbb61d", "/Images/8ca5997f-53fe-4bf4-8af9-e95994dbb61d.jpg", null, 31, "https://m.media-amazon.com/images/I/418Ezw9+M5L.jpg" },
+                    { "8f833fa0-8648-4f0c-bd2f-914fa872ff6a", "/Images/8f833fa0-8648-4f0c-bd2f-914fa872ff6a.jpg", null, 47, "https://cdna.pcpartpicker.com/static/forever/images/product/044e21f178b0ad10f69fbc76b6ac013e.1600.jpg" },
+                    { "8fd47fe2-a487-4fce-9c1b-427de0af5d9e", "/Images/8fd47fe2-a487-4fce-9c1b-427de0af5d9e.jpg", null, 8, "https://cdna.pcpartpicker.com/static/forever/images/product/5b6a5e7f4cf456ccf6415235cf7adc99.1600.jpg" },
+                    { "91cd8cd7-0b1f-4ad7-a9e2-efe029133c78", "/Images/91cd8cd7-0b1f-4ad7-a9e2-efe029133c78.jpg", null, 45, "https://cdna.pcpartpicker.com/static/forever/images/product/ee20df28356c1f66b8d3c6d69be9f823.1600.jpg" },
+                    { "926a0cc9-f77f-4d38-a4ed-80954038182b", "/Images/926a0cc9-f77f-4d38-a4ed-80954038182b.jpg", null, 27, "https://cdna.pcpartpicker.com/static/forever/images/product/177c70bda04558a33afef3fa7fbf6d3a.1600.jpg" },
+                    { "92dd4206-5009-4274-9340-41d101a666ef", "/Images/92dd4206-5009-4274-9340-41d101a666ef.jpg", null, 54, "https://m.media-amazon.com/images/I/31Ey7sbAF-L.jpg" },
+                    { "94be617b-2886-4796-a816-e70d8254db5c", "/Images/94be617b-2886-4796-a816-e70d8254db5c.jpg", null, 36, "https://cdna.pcpartpicker.com/static/forever/images/product/eac8b9bc26c9fc82da9099dd785b0d25.1600.jpg" },
+                    { "9650da52-cfd0-4da3-a484-8b5d47b896a0", "/Images/9650da52-cfd0-4da3-a484-8b5d47b896a0.jpg", null, 23, "https://cdna.pcpartpicker.com/static/forever/images/product/c740684e2cd2339bf845f7493711bcb7.1600.jpg" },
+                    { "984fdc6b-11f3-4b24-ab69-6f4eb853d722", "/Images/984fdc6b-11f3-4b24-ab69-6f4eb853d722.jpg", null, 27, "https://cdna.pcpartpicker.com/static/forever/images/product/786ae500dc9ee10793a78a066bfdc2ae.1600.jpg" },
+                    { "988610ab-3fdb-46b8-883a-511e709c51f9", "/Images/988610ab-3fdb-46b8-883a-511e709c51f9.jpg", null, 30, "https://m.media-amazon.com/images/I/41OrNb0Me-L.jpg" },
+                    { "997a8f8f-9e44-4925-b898-ace5cd35bfcd", "/Images/997a8f8f-9e44-4925-b898-ace5cd35bfcd.jpg", null, 20, "https://cdna.pcpartpicker.com/static/forever/images/product/c7b5b7dacbecdcdd0e073b761193eef6.1600.jpg" },
+                    { "9a4f1cef-e773-4b24-9f8c-c4359001b1dd", "/Images/9a4f1cef-e773-4b24-9f8c-c4359001b1dd.jpg", null, 34, "https://cdna.pcpartpicker.com/static/forever/images/product/53592fbfc2434075c871babe2ebd9b4d.1600.jpg" },
+                    { "9aede4aa-7c74-44d1-a70b-201b79442096", "/Images/9aede4aa-7c74-44d1-a70b-201b79442096.jpg", null, 55, "https://cdna.pcpartpicker.com/static/forever/images/product/e01b4d44c0de80c58cefbcc78a1fe809.1600.jpg" },
+                    { "a10bdd3e-a845-4cb4-9079-0ec9729cd2ff", "/Images/a10bdd3e-a845-4cb4-9079-0ec9729cd2ff.jpg", null, 28, "https://cdna.pcpartpicker.com/static/forever/images/product/56f77032e78c9af99041786b5196fe91.1600.jpg" },
+                    { "a1554699-e1bf-44d6-83d1-c9196b545703", "/Images/a1554699-e1bf-44d6-83d1-c9196b545703.jpg", null, 31, "https://cdna.pcpartpicker.com/static/forever/images/product/eacaf9e3a9f012060fbd0a98f4e22511.1600.jpg" },
+                    { "a2b37b1f-827f-4ffd-ad2a-6a4a5ecdd938", "/Images/a2b37b1f-827f-4ffd-ad2a-6a4a5ecdd938.jpg", null, 29, "https://cdna.pcpartpicker.com/static/forever/images/product/304c409dc991a5bc733316ceac29f77e.1600.jpg" }
                 });
 
             migrationBuilder.InsertData(
@@ -1204,48 +1282,48 @@ namespace HardwareStore.App.Migrations
                 columns: new[] { "Id", "FilePath", "MainImage", "ProductId", "Url" },
                 values: new object[,]
                 {
-                    { "a326c01d-f7b2-4f67-9a5d-4944f8960f10", "Images/a326c01d-f7b2-4f67-9a5d-4944f8960f10.jpg", null, 19, "https://cdna.pcpartpicker.com/static/forever/images/product/3b2a91588d1a28bfa1b0184fb7f1c0a1.1600.jpg" },
-                    { "a5afb091-9e09-4a84-9f58-e14d3685e1e7", "Images/a5afb091-9e09-4a84-9f58-e14d3685e1e7.jpg", null, 31, "https://m.media-amazon.com/images/I/31ZDKNuuZ8L.jpg" },
-                    { "a6089e18-0213-4564-a0a1-c3923cc9466f", "Images/a6089e18-0213-4564-a0a1-c3923cc9466f.jpg", null, 55, "https://cdna.pcpartpicker.com/static/forever/images/product/fffd31cf56d1bec77ca7f6d1bebdb4ef.1600.jpg" },
-                    { "a6cb50fc-d720-438f-b2fb-b2abf73ad1d0", "Images/a6cb50fc-d720-438f-b2fb-b2abf73ad1d0.jpg", null, 7, "https://cdna.pcpartpicker.com/static/forever/images/product/4d9006e40c0471daaf7d1982f32aa5ed.1600.jpg" },
-                    { "a8b7d89b-08eb-485f-9059-03fe91ee36d2", "Images/a8b7d89b-08eb-485f-9059-03fe91ee36d2.jpg", null, 55, "https://cdna.pcpartpicker.com/static/forever/images/product/3215b6dc5bfe17dc7f2f99071713d74b.1600.jpg" },
-                    { "aa8c05b7-c942-4397-8a17-029c0d8dc875", "Images/aa8c05b7-c942-4397-8a17-029c0d8dc875.jpg", null, 46, "https://cdna.pcpartpicker.com/static/forever/images/product/ae6e2d9188a5b8d2452c008cbbdfb6c2.1600.jpg" },
-                    { "aba175f1-63c2-4725-ae4b-740eecac6bf0", "Images/aba175f1-63c2-4725-ae4b-740eecac6bf0.jpg", null, 44, "https://cdna.pcpartpicker.com/static/forever/images/product/64bf868b636fe7f3a847f59c1a0f146b.1600.jpg" },
-                    { "abc2b28b-f750-45c4-9ebc-fd8d427a397a", "Images/abc2b28b-f750-45c4-9ebc-fd8d427a397a.jpg", null, 53, "https://m.media-amazon.com/images/I/31Z-DhEv-NL.jpg" },
-                    { "ac9c897f-0834-4041-b87b-0f3918f6df24", "Images/ac9c897f-0834-4041-b87b-0f3918f6df24.jpg", null, 32, "https://cdna.pcpartpicker.com/static/forever/images/product/84cb77175187296029f50f8bf6ca6960.1600.jpg" },
-                    { "af776ffc-d3ce-4313-b19d-dcb2a0a09cd4", "Images/af776ffc-d3ce-4313-b19d-dcb2a0a09cd4.jpg", null, 50, "https://m.media-amazon.com/images/I/21yyXF0cW4L.jpg" },
-                    { "b17cdfaf-7c31-4b18-adc9-0dec44672b09", "Images/b17cdfaf-7c31-4b18-adc9-0dec44672b09.jpg", null, 12, "https://cdna.pcpartpicker.com/static/forever/images/product/ca2d72ee76257a0397e4b4fc1056d60d.1600.jpg" },
-                    { "b2eb45be-70f3-498e-91d5-e43f7861b47b", "Images/b2eb45be-70f3-498e-91d5-e43f7861b47b.jpg", null, 39, "https://cdna.pcpartpicker.com/static/forever/images/product/7134ada8090eab583a9cdbafdccf3f9a.1600.jpg" },
-                    { "b4f70f16-4962-4adb-aa21-cbaae0e369bb", "Images/b4f70f16-4962-4adb-aa21-cbaae0e369bb.jpg", null, 55, "https://cdna.pcpartpicker.com/static/forever/images/product/814013acd24de0801b6a32a2bd3c6fa3.1600.jpg" },
-                    { "b5541707-2e00-45fc-9221-3f940ee50255", "Images/b5541707-2e00-45fc-9221-3f940ee50255.jpg", null, 6, "https://cdna.pcpartpicker.com/static/forever/images/product/9b4cefb2e43f2c358f3a97a31e1be90b.1600.jpg" },
-                    { "b69dab00-2857-4555-8d7b-7ae6db195795", "Images/b69dab00-2857-4555-8d7b-7ae6db195795.jpg", null, 17, "https://cdna.pcpartpicker.com/static/forever/images/product/5f09867b54e9ad932b4dd1bc767f6238.1600.jpg" },
-                    { "bb1cefec-0b96-494e-915c-430b17063192", "Images/bb1cefec-0b96-494e-915c-430b17063192.jpg", null, 48, "https://m.media-amazon.com/images/I/41tnErFDq3L.jpg" },
-                    { "bd8bb8e7-1221-466e-8be8-1faaa623f3b4", "Images/bd8bb8e7-1221-466e-8be8-1faaa623f3b4.jpg", null, 21, "https://cdna.pcpartpicker.com/static/forever/images/product/97e2bd828644767c8a80b71f8cb14743.1600.jpg" },
-                    { "be653ffe-93b8-4eeb-a9d3-7c7e8c27ca95", "Images/be653ffe-93b8-4eeb-a9d3-7c7e8c27ca95.jpg", null, 53, "https://m.media-amazon.com/images/I/41ZM7pNwiJL.jpg" },
-                    { "c649c783-fd90-40f1-b15e-1703623ddc8a", "Images/c649c783-fd90-40f1-b15e-1703623ddc8a.jpg", null, 54, "https://m.media-amazon.com/images/I/31lbKfslw-L.jpg" },
-                    { "cc4db4c9-b014-4fa4-891a-85051ad2a631", "Images/cc4db4c9-b014-4fa4-891a-85051ad2a631.jpg", null, 38, "https://cdna.pcpartpicker.com/static/forever/images/product/590df3876fa2f75521f718e26036d99e.1600.jpg" },
-                    { "cc98fedc-1307-4f2c-a830-c7cb312c9a07", "Images/cc98fedc-1307-4f2c-a830-c7cb312c9a07.jpg", null, 31, "https://m.media-amazon.com/images/I/41B-bypM5FL.jpg" },
-                    { "cd1621e2-52d4-4190-9b14-70568d0ca2ed", "Images/cd1621e2-52d4-4190-9b14-70568d0ca2ed.jpg", null, 44, "https://cdna.pcpartpicker.com/static/forever/images/product/9329a601afeadc9f218b235fd02778c7.1600.jpg" },
-                    { "cf221477-6c55-4318-8674-ee8a8f02f370", "Images/cf221477-6c55-4318-8674-ee8a8f02f370.jpg", null, 26, "https://cdna.pcpartpicker.com/static/forever/images/product/4f3b20c2caf70107a2c3735d9e165015.1600.jpg" },
-                    { "cfcf1476-2863-4fe6-a892-8ffb8975b166", "Images/cfcf1476-2863-4fe6-a892-8ffb8975b166.jpg", null, 31, "https://m.media-amazon.com/images/I/31r8KD7+2BL.jpg" },
-                    { "cfe3ca17-7d35-4897-95a1-22fae8071309", "Images/cfe3ca17-7d35-4897-95a1-22fae8071309.jpg", null, 29, "https://cdna.pcpartpicker.com/static/forever/images/product/69c7679bbfccb706c80f41b452d36f54.1600.jpg" },
-                    { "d239df37-50c8-4e9b-a80d-04a1e6a8670a", "Images/d239df37-50c8-4e9b-a80d-04a1e6a8670a.jpg", null, 12, "https://cdna.pcpartpicker.com/static/forever/images/product/7e96ffff509386a74534bbe0dafc2a6e.1600.jpg" },
-                    { "d353dbeb-9820-41b0-8e0b-8f3bf1fca1f5", "Images/d353dbeb-9820-41b0-8e0b-8f3bf1fca1f5.jpg", null, 16, "https://m.media-amazon.com/images/I/41jJSPS8W7L.jpg" },
-                    { "d3617f44-7666-4563-82c0-d54aa838a954", "Images/d3617f44-7666-4563-82c0-d54aa838a954.jpg", null, 58, "https://cdna.pcpartpicker.com/static/forever/images/product/51cdef3b9216df555b7c7eec7620b0e7.1600.jpg" },
-                    { "d41da59e-ee18-44d2-8304-87a056c76767", "Images/d41da59e-ee18-44d2-8304-87a056c76767.jpg", null, 38, "https://cdna.pcpartpicker.com/static/forever/images/product/45ba4975d9641058c4284b7766939591.1600.jpg" },
-                    { "d42d3600-ac00-4976-bb49-681f9d7c4e27", "Images/d42d3600-ac00-4976-bb49-681f9d7c4e27.jpg", null, 5, "https://cdna.pcpartpicker.com/static/forever/images/product/2f3405387f23ab827695d966ea9f9682.1600.jpg" },
-                    { "d4ed8af0-c378-490c-bab2-09a95686808a", "Images/d4ed8af0-c378-490c-bab2-09a95686808a.jpg", null, 34, "https://cdna.pcpartpicker.com/static/forever/images/product/beccd007e2d3672aa3772619d54fd5dd.1600.jpg" },
-                    { "d4fda4f4-b48f-4da5-a6c9-693a3e3ef73b", "Images/d4fda4f4-b48f-4da5-a6c9-693a3e3ef73b.jpg", null, 43, "https://cdna.pcpartpicker.com/static/forever/images/product/125c1da538a8704be799ef12a506e177.1600.jpg" },
-                    { "d767d6bb-e3ab-4fa4-9398-9003de15cc00", "Images/d767d6bb-e3ab-4fa4-9398-9003de15cc00.jpg", null, 33, "https://cdna.pcpartpicker.com/static/forever/images/product/ea0dee3c3376cc6326ca2f4a73a054ac.1600.jpg" },
-                    { "da97a2e9-d13e-4c08-bc7b-883c8d492f86", "Images/da97a2e9-d13e-4c08-bc7b-883c8d492f86.jpg", null, 14, "https://cdna.pcpartpicker.com/static/forever/images/product/ba20600286bf8f74ce71df37ed8aef65.1600.jpg" },
-                    { "de272047-1790-4f5f-bc74-a79ffb720335", "Images/de272047-1790-4f5f-bc74-a79ffb720335.jpg", null, 39, "https://cdna.pcpartpicker.com/static/forever/images/product/589124c889203fda89e25b99964ee3cb.1600.jpg" },
-                    { "e0884d7b-45f0-4484-b72f-4ca35db6936f", "Images/e0884d7b-45f0-4484-b72f-4ca35db6936f.jpg", null, 35, "https://cdna.pcpartpicker.com/static/forever/images/product/72a586f112591cd7b43f4b0dc244ba29.1600.jpg" },
-                    { "e0b29485-265a-4f85-a3db-1a65df513ae8", "Images/e0b29485-265a-4f85-a3db-1a65df513ae8.jpg", null, 57, "https://cdna.pcpartpicker.com/static/forever/images/product/4553483e1ab3289f1b7e0482bc3da223.1600.jpg" },
-                    { "eb201225-6593-409b-955b-58603556f34b", "Images/eb201225-6593-409b-955b-58603556f34b.jpg", null, 12, "https://cdna.pcpartpicker.com/static/forever/images/product/322a6059c413dd736536e5ad5c3a2285.1600.jpg" },
-                    { "eb5bad8b-889a-4ebd-9966-145e4f787368", "Images/eb5bad8b-889a-4ebd-9966-145e4f787368.jpg", null, 34, "https://cdna.pcpartpicker.com/static/forever/images/product/1977a3a3f6f1238d12ea2a555be4d7ce.1600.jpg" },
-                    { "ec07baac-38f2-4d85-b278-7e1c2ed6ece5", "Images/ec07baac-38f2-4d85-b278-7e1c2ed6ece5.jpg", null, 9, "https://cdna.pcpartpicker.com/static/forever/images/product/8ab57dc3c0eb346c72ef7a2405e31227.1600.jpg" },
-                    { "ec2ac398-5973-4594-a155-e53d3f6b1b1d", "Images/ec2ac398-5973-4594-a155-e53d3f6b1b1d.jpg", null, 7, "https://cdna.pcpartpicker.com/static/forever/images/product/5909bba6badf1236eb5c127aa97091c7.1600.jpg" },
-                    { "ed1a380d-d279-427e-89a0-91e9fb56167d", "Images/ed1a380d-d279-427e-89a0-91e9fb56167d.jpg", null, 39, "https://cdna.pcpartpicker.com/static/forever/images/product/108a73ebe0ccd2107410f6602134b39f.1600.jpg" }
+                    { "a326c01d-f7b2-4f67-9a5d-4944f8960f10", "/Images/a326c01d-f7b2-4f67-9a5d-4944f8960f10.jpg", null, 19, "https://cdna.pcpartpicker.com/static/forever/images/product/3b2a91588d1a28bfa1b0184fb7f1c0a1.1600.jpg" },
+                    { "a5afb091-9e09-4a84-9f58-e14d3685e1e7", "/Images/a5afb091-9e09-4a84-9f58-e14d3685e1e7.jpg", null, 31, "https://m.media-amazon.com/images/I/31ZDKNuuZ8L.jpg" },
+                    { "a6089e18-0213-4564-a0a1-c3923cc9466f", "/Images/a6089e18-0213-4564-a0a1-c3923cc9466f.jpg", null, 55, "https://cdna.pcpartpicker.com/static/forever/images/product/fffd31cf56d1bec77ca7f6d1bebdb4ef.1600.jpg" },
+                    { "a6cb50fc-d720-438f-b2fb-b2abf73ad1d0", "/Images/a6cb50fc-d720-438f-b2fb-b2abf73ad1d0.jpg", null, 7, "https://cdna.pcpartpicker.com/static/forever/images/product/4d9006e40c0471daaf7d1982f32aa5ed.1600.jpg" },
+                    { "a8b7d89b-08eb-485f-9059-03fe91ee36d2", "/Images/a8b7d89b-08eb-485f-9059-03fe91ee36d2.jpg", null, 55, "https://cdna.pcpartpicker.com/static/forever/images/product/3215b6dc5bfe17dc7f2f99071713d74b.1600.jpg" },
+                    { "aa8c05b7-c942-4397-8a17-029c0d8dc875", "/Images/aa8c05b7-c942-4397-8a17-029c0d8dc875.jpg", null, 46, "https://cdna.pcpartpicker.com/static/forever/images/product/ae6e2d9188a5b8d2452c008cbbdfb6c2.1600.jpg" },
+                    { "aba175f1-63c2-4725-ae4b-740eecac6bf0", "/Images/aba175f1-63c2-4725-ae4b-740eecac6bf0.jpg", null, 44, "https://cdna.pcpartpicker.com/static/forever/images/product/64bf868b636fe7f3a847f59c1a0f146b.1600.jpg" },
+                    { "abc2b28b-f750-45c4-9ebc-fd8d427a397a", "/Images/abc2b28b-f750-45c4-9ebc-fd8d427a397a.jpg", null, 53, "https://m.media-amazon.com/images/I/31Z-DhEv-NL.jpg" },
+                    { "ac9c897f-0834-4041-b87b-0f3918f6df24", "/Images/ac9c897f-0834-4041-b87b-0f3918f6df24.jpg", null, 32, "https://cdna.pcpartpicker.com/static/forever/images/product/84cb77175187296029f50f8bf6ca6960.1600.jpg" },
+                    { "af776ffc-d3ce-4313-b19d-dcb2a0a09cd4", "/Images/af776ffc-d3ce-4313-b19d-dcb2a0a09cd4.jpg", null, 50, "https://m.media-amazon.com/images/I/21yyXF0cW4L.jpg" },
+                    { "b17cdfaf-7c31-4b18-adc9-0dec44672b09", "/Images/b17cdfaf-7c31-4b18-adc9-0dec44672b09.jpg", null, 12, "https://cdna.pcpartpicker.com/static/forever/images/product/ca2d72ee76257a0397e4b4fc1056d60d.1600.jpg" },
+                    { "b2eb45be-70f3-498e-91d5-e43f7861b47b", "/Images/b2eb45be-70f3-498e-91d5-e43f7861b47b.jpg", null, 39, "https://cdna.pcpartpicker.com/static/forever/images/product/7134ada8090eab583a9cdbafdccf3f9a.1600.jpg" },
+                    { "b4f70f16-4962-4adb-aa21-cbaae0e369bb", "/Images/b4f70f16-4962-4adb-aa21-cbaae0e369bb.jpg", null, 55, "https://cdna.pcpartpicker.com/static/forever/images/product/814013acd24de0801b6a32a2bd3c6fa3.1600.jpg" },
+                    { "b5541707-2e00-45fc-9221-3f940ee50255", "/Images/b5541707-2e00-45fc-9221-3f940ee50255.jpg", null, 6, "https://cdna.pcpartpicker.com/static/forever/images/product/9b4cefb2e43f2c358f3a97a31e1be90b.1600.jpg" },
+                    { "b69dab00-2857-4555-8d7b-7ae6db195795", "/Images/b69dab00-2857-4555-8d7b-7ae6db195795.jpg", null, 17, "https://cdna.pcpartpicker.com/static/forever/images/product/5f09867b54e9ad932b4dd1bc767f6238.1600.jpg" },
+                    { "bb1cefec-0b96-494e-915c-430b17063192", "/Images/bb1cefec-0b96-494e-915c-430b17063192.jpg", null, 48, "https://m.media-amazon.com/images/I/41tnErFDq3L.jpg" },
+                    { "bd8bb8e7-1221-466e-8be8-1faaa623f3b4", "/Images/bd8bb8e7-1221-466e-8be8-1faaa623f3b4.jpg", null, 21, "https://cdna.pcpartpicker.com/static/forever/images/product/97e2bd828644767c8a80b71f8cb14743.1600.jpg" },
+                    { "be653ffe-93b8-4eeb-a9d3-7c7e8c27ca95", "/Images/be653ffe-93b8-4eeb-a9d3-7c7e8c27ca95.jpg", null, 53, "https://m.media-amazon.com/images/I/41ZM7pNwiJL.jpg" },
+                    { "c649c783-fd90-40f1-b15e-1703623ddc8a", "/Images/c649c783-fd90-40f1-b15e-1703623ddc8a.jpg", null, 54, "https://m.media-amazon.com/images/I/31lbKfslw-L.jpg" },
+                    { "cc4db4c9-b014-4fa4-891a-85051ad2a631", "/Images/cc4db4c9-b014-4fa4-891a-85051ad2a631.jpg", null, 38, "https://cdna.pcpartpicker.com/static/forever/images/product/590df3876fa2f75521f718e26036d99e.1600.jpg" },
+                    { "cc98fedc-1307-4f2c-a830-c7cb312c9a07", "/Images/cc98fedc-1307-4f2c-a830-c7cb312c9a07.jpg", null, 31, "https://m.media-amazon.com/images/I/41B-bypM5FL.jpg" },
+                    { "cd1621e2-52d4-4190-9b14-70568d0ca2ed", "/Images/cd1621e2-52d4-4190-9b14-70568d0ca2ed.jpg", null, 44, "https://cdna.pcpartpicker.com/static/forever/images/product/9329a601afeadc9f218b235fd02778c7.1600.jpg" },
+                    { "cf221477-6c55-4318-8674-ee8a8f02f370", "/Images/cf221477-6c55-4318-8674-ee8a8f02f370.jpg", null, 26, "https://cdna.pcpartpicker.com/static/forever/images/product/4f3b20c2caf70107a2c3735d9e165015.1600.jpg" },
+                    { "cfcf1476-2863-4fe6-a892-8ffb8975b166", "/Images/cfcf1476-2863-4fe6-a892-8ffb8975b166.jpg", null, 31, "https://m.media-amazon.com/images/I/31r8KD7+2BL.jpg" },
+                    { "cfe3ca17-7d35-4897-95a1-22fae8071309", "/Images/cfe3ca17-7d35-4897-95a1-22fae8071309.jpg", null, 29, "https://cdna.pcpartpicker.com/static/forever/images/product/69c7679bbfccb706c80f41b452d36f54.1600.jpg" },
+                    { "d239df37-50c8-4e9b-a80d-04a1e6a8670a", "/Images/d239df37-50c8-4e9b-a80d-04a1e6a8670a.jpg", null, 12, "https://cdna.pcpartpicker.com/static/forever/images/product/7e96ffff509386a74534bbe0dafc2a6e.1600.jpg" },
+                    { "d353dbeb-9820-41b0-8e0b-8f3bf1fca1f5", "/Images/d353dbeb-9820-41b0-8e0b-8f3bf1fca1f5.jpg", null, 16, "https://m.media-amazon.com/images/I/41jJSPS8W7L.jpg" },
+                    { "d3617f44-7666-4563-82c0-d54aa838a954", "/Images/d3617f44-7666-4563-82c0-d54aa838a954.jpg", null, 58, "https://cdna.pcpartpicker.com/static/forever/images/product/51cdef3b9216df555b7c7eec7620b0e7.1600.jpg" },
+                    { "d41da59e-ee18-44d2-8304-87a056c76767", "/Images/d41da59e-ee18-44d2-8304-87a056c76767.jpg", null, 38, "https://cdna.pcpartpicker.com/static/forever/images/product/45ba4975d9641058c4284b7766939591.1600.jpg" },
+                    { "d42d3600-ac00-4976-bb49-681f9d7c4e27", "/Images/d42d3600-ac00-4976-bb49-681f9d7c4e27.jpg", null, 5, "https://cdna.pcpartpicker.com/static/forever/images/product/2f3405387f23ab827695d966ea9f9682.1600.jpg" },
+                    { "d4ed8af0-c378-490c-bab2-09a95686808a", "/Images/d4ed8af0-c378-490c-bab2-09a95686808a.jpg", null, 34, "https://cdna.pcpartpicker.com/static/forever/images/product/beccd007e2d3672aa3772619d54fd5dd.1600.jpg" },
+                    { "d4fda4f4-b48f-4da5-a6c9-693a3e3ef73b", "/Images/d4fda4f4-b48f-4da5-a6c9-693a3e3ef73b.jpg", null, 43, "https://cdna.pcpartpicker.com/static/forever/images/product/125c1da538a8704be799ef12a506e177.1600.jpg" },
+                    { "d767d6bb-e3ab-4fa4-9398-9003de15cc00", "/Images/d767d6bb-e3ab-4fa4-9398-9003de15cc00.jpg", null, 33, "https://cdna.pcpartpicker.com/static/forever/images/product/ea0dee3c3376cc6326ca2f4a73a054ac.1600.jpg" },
+                    { "da97a2e9-d13e-4c08-bc7b-883c8d492f86", "/Images/da97a2e9-d13e-4c08-bc7b-883c8d492f86.jpg", null, 14, "https://cdna.pcpartpicker.com/static/forever/images/product/ba20600286bf8f74ce71df37ed8aef65.1600.jpg" },
+                    { "de272047-1790-4f5f-bc74-a79ffb720335", "/Images/de272047-1790-4f5f-bc74-a79ffb720335.jpg", null, 39, "https://cdna.pcpartpicker.com/static/forever/images/product/589124c889203fda89e25b99964ee3cb.1600.jpg" },
+                    { "e0884d7b-45f0-4484-b72f-4ca35db6936f", "/Images/e0884d7b-45f0-4484-b72f-4ca35db6936f.jpg", null, 35, "https://cdna.pcpartpicker.com/static/forever/images/product/72a586f112591cd7b43f4b0dc244ba29.1600.jpg" },
+                    { "e0b29485-265a-4f85-a3db-1a65df513ae8", "/Images/e0b29485-265a-4f85-a3db-1a65df513ae8.jpg", null, 57, "https://cdna.pcpartpicker.com/static/forever/images/product/4553483e1ab3289f1b7e0482bc3da223.1600.jpg" },
+                    { "eb201225-6593-409b-955b-58603556f34b", "/Images/eb201225-6593-409b-955b-58603556f34b.jpg", null, 12, "https://cdna.pcpartpicker.com/static/forever/images/product/322a6059c413dd736536e5ad5c3a2285.1600.jpg" },
+                    { "eb5bad8b-889a-4ebd-9966-145e4f787368", "/Images/eb5bad8b-889a-4ebd-9966-145e4f787368.jpg", null, 34, "https://cdna.pcpartpicker.com/static/forever/images/product/1977a3a3f6f1238d12ea2a555be4d7ce.1600.jpg" },
+                    { "ec07baac-38f2-4d85-b278-7e1c2ed6ece5", "/Images/ec07baac-38f2-4d85-b278-7e1c2ed6ece5.jpg", null, 9, "https://cdna.pcpartpicker.com/static/forever/images/product/8ab57dc3c0eb346c72ef7a2405e31227.1600.jpg" },
+                    { "ec2ac398-5973-4594-a155-e53d3f6b1b1d", "/Images/ec2ac398-5973-4594-a155-e53d3f6b1b1d.jpg", null, 7, "https://cdna.pcpartpicker.com/static/forever/images/product/5909bba6badf1236eb5c127aa97091c7.1600.jpg" },
+                    { "ed1a380d-d279-427e-89a0-91e9fb56167d", "/Images/ed1a380d-d279-427e-89a0-91e9fb56167d.jpg", null, 39, "https://cdna.pcpartpicker.com/static/forever/images/product/108a73ebe0ccd2107410f6602134b39f.1600.jpg" }
                 });
 
             migrationBuilder.InsertData(
@@ -1253,18 +1331,18 @@ namespace HardwareStore.App.Migrations
                 columns: new[] { "Id", "FilePath", "MainImage", "ProductId", "Url" },
                 values: new object[,]
                 {
-                    { "edc756ff-7dec-42c0-8fd6-d6baeeff938f", "Images/edc756ff-7dec-42c0-8fd6-d6baeeff938f.jpg", null, 7, "https://cdna.pcpartpicker.com/static/forever/images/product/7b0dd4af0da38d3d1bfe7b06dba06907.1600.jpg" },
-                    { "f0eff95f-91ff-4f96-b703-2576a8ab50b5", "Images/f0eff95f-91ff-4f96-b703-2576a8ab50b5.jpg", null, 44, "https://cdna.pcpartpicker.com/static/forever/images/product/c5c7e572704d69ffbd70e0043ea0fbba.1600.jpg" },
-                    { "f19aaa80-4cdd-443a-a542-8eeb1320998c", "Images/f19aaa80-4cdd-443a-a542-8eeb1320998c.jpg", null, 33, "https://cdna.pcpartpicker.com/static/forever/images/product/e16f356c568cce4de8b945232f49c676.1600.jpg" },
-                    { "f4c93663-203a-45bf-ae7c-e76ab78dd290", "Images/f4c93663-203a-45bf-ae7c-e76ab78dd290.jpg", null, 30, "https://m.media-amazon.com/images/I/3119BHzm7NL.jpg" },
-                    { "f68fdafc-f5db-4ab7-94ae-81a09e4f817c", "Images/f68fdafc-f5db-4ab7-94ae-81a09e4f817c.jpg", null, 12, "https://cdna.pcpartpicker.com/static/forever/images/product/85b8dbb810453334ae54f9744a082801.1600.jpg" },
-                    { "f741bca7-e0b3-414d-bdcd-40c0c9ff3cdd", "Images/f741bca7-e0b3-414d-bdcd-40c0c9ff3cdd.jpg", null, 39, "https://cdna.pcpartpicker.com/static/forever/images/product/86b45d138eeeb6df121fd3fee4ba6ec2.1600.jpg" },
-                    { "f981971f-a887-43ca-b3e2-4f39f613483d", "Images/f981971f-a887-43ca-b3e2-4f39f613483d.jpg", null, 7, "https://cdna.pcpartpicker.com/static/forever/images/product/b45763abe7a0517129d3c0e026d0370d.1600.jpg" },
-                    { "f98b5387-e029-4ab9-8366-f764b5313e4c", "Images/f98b5387-e029-4ab9-8366-f764b5313e4c.jpg", null, 33, "https://cdna.pcpartpicker.com/static/forever/images/product/45f130618c6312f8e0563fe324783fb8.1600.jpg" },
-                    { "fad4f25c-7bb3-4a17-ba18-c9b2969e8852", "Images/fad4f25c-7bb3-4a17-ba18-c9b2969e8852.jpg", null, 27, "https://cdna.pcpartpicker.com/static/forever/images/product/336c7955df0312d04655dd3a13973c95.1600.jpg" },
-                    { "fcf45d3e-bd42-4e4f-90ce-d37b26f58995", "Images/fcf45d3e-bd42-4e4f-90ce-d37b26f58995.jpg", null, 32, "https://cdna.pcpartpicker.com/static/forever/images/product/8fea66429634183b78ae8cf477e6f7fa.1600.jpg" },
-                    { "fd700b5d-ae2f-4dae-91ae-46d8f3bf3be2", "Images/fd700b5d-ae2f-4dae-91ae-46d8f3bf3be2.jpg", null, 34, "https://cdna.pcpartpicker.com/static/forever/images/product/760d63945cda200b5c35cb492ebc5a25.1600.jpg" },
-                    { "fe1a4e59-6541-4d42-ad4a-90094c4b8c97", "Images/fe1a4e59-6541-4d42-ad4a-90094c4b8c97.jpg", null, 54, "https://m.media-amazon.com/images/I/31WTkBtfx-L.jpg" }
+                    { "edc756ff-7dec-42c0-8fd6-d6baeeff938f", "/Images/edc756ff-7dec-42c0-8fd6-d6baeeff938f.jpg", null, 7, "https://cdna.pcpartpicker.com/static/forever/images/product/7b0dd4af0da38d3d1bfe7b06dba06907.1600.jpg" },
+                    { "f0eff95f-91ff-4f96-b703-2576a8ab50b5", "/Images/f0eff95f-91ff-4f96-b703-2576a8ab50b5.jpg", null, 44, "https://cdna.pcpartpicker.com/static/forever/images/product/c5c7e572704d69ffbd70e0043ea0fbba.1600.jpg" },
+                    { "f19aaa80-4cdd-443a-a542-8eeb1320998c", "/Images/f19aaa80-4cdd-443a-a542-8eeb1320998c.jpg", null, 33, "https://cdna.pcpartpicker.com/static/forever/images/product/e16f356c568cce4de8b945232f49c676.1600.jpg" },
+                    { "f4c93663-203a-45bf-ae7c-e76ab78dd290", "/Images/f4c93663-203a-45bf-ae7c-e76ab78dd290.jpg", null, 30, "https://m.media-amazon.com/images/I/3119BHzm7NL.jpg" },
+                    { "f68fdafc-f5db-4ab7-94ae-81a09e4f817c", "/Images/f68fdafc-f5db-4ab7-94ae-81a09e4f817c.jpg", null, 12, "https://cdna.pcpartpicker.com/static/forever/images/product/85b8dbb810453334ae54f9744a082801.1600.jpg" },
+                    { "f741bca7-e0b3-414d-bdcd-40c0c9ff3cdd", "/Images/f741bca7-e0b3-414d-bdcd-40c0c9ff3cdd.jpg", null, 39, "https://cdna.pcpartpicker.com/static/forever/images/product/86b45d138eeeb6df121fd3fee4ba6ec2.1600.jpg" },
+                    { "f981971f-a887-43ca-b3e2-4f39f613483d", "/Images/f981971f-a887-43ca-b3e2-4f39f613483d.jpg", null, 7, "https://cdna.pcpartpicker.com/static/forever/images/product/b45763abe7a0517129d3c0e026d0370d.1600.jpg" },
+                    { "f98b5387-e029-4ab9-8366-f764b5313e4c", "/Images/f98b5387-e029-4ab9-8366-f764b5313e4c.jpg", null, 33, "https://cdna.pcpartpicker.com/static/forever/images/product/45f130618c6312f8e0563fe324783fb8.1600.jpg" },
+                    { "fad4f25c-7bb3-4a17-ba18-c9b2969e8852", "/Images/fad4f25c-7bb3-4a17-ba18-c9b2969e8852.jpg", null, 27, "https://cdna.pcpartpicker.com/static/forever/images/product/336c7955df0312d04655dd3a13973c95.1600.jpg" },
+                    { "fcf45d3e-bd42-4e4f-90ce-d37b26f58995", "/Images/fcf45d3e-bd42-4e4f-90ce-d37b26f58995.jpg", null, 32, "https://cdna.pcpartpicker.com/static/forever/images/product/8fea66429634183b78ae8cf477e6f7fa.1600.jpg" },
+                    { "fd700b5d-ae2f-4dae-91ae-46d8f3bf3be2", "/Images/fd700b5d-ae2f-4dae-91ae-46d8f3bf3be2.jpg", null, 34, "https://cdna.pcpartpicker.com/static/forever/images/product/760d63945cda200b5c35cb492ebc5a25.1600.jpg" },
+                    { "fe1a4e59-6541-4d42-ad4a-90094c4b8c97", "/Images/fe1a4e59-6541-4d42-ad4a-90094c4b8c97.jpg", null, 54, "https://m.media-amazon.com/images/I/31WTkBtfx-L.jpg" }
                 });
 
             migrationBuilder.InsertData(
@@ -3015,6 +3093,11 @@ namespace HardwareStore.App.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Address_ApplicationUserId",
+                table: "Address",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -3070,6 +3153,21 @@ namespace HardwareStore.App.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Orders_ApplicationUserId",
+                table: "Orders",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrdersProducts_OrderId",
+                table: "OrdersProducts",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrdersProducts_ProductId",
+                table: "OrdersProducts",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PartNumbers_ProductId",
                 table: "PartNumbers",
                 column: "ProductId");
@@ -3118,6 +3216,9 @@ namespace HardwareStore.App.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Address");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -3139,6 +3240,9 @@ namespace HardwareStore.App.Migrations
                 name: "Images");
 
             migrationBuilder.DropTable(
+                name: "OrdersProducts");
+
+            migrationBuilder.DropTable(
                 name: "PartNumbers");
 
             migrationBuilder.DropTable(
@@ -3152,6 +3256,9 @@ namespace HardwareStore.App.Migrations
 
             migrationBuilder.DropTable(
                 name: "Carts");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Products");

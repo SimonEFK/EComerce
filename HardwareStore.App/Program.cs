@@ -2,6 +2,7 @@ namespace HardwareStore.App
 {
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
+    using HardwareStore.App.Services;
     using HardwareStore.App.Services.Cart;
     using HardwareStore.App.Services.Catalog;
     using HardwareStore.App.Services.Data;
@@ -54,6 +55,7 @@ namespace HardwareStore.App
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddScoped<IProductDataService, ProductDataService>();
             builder.Services.AddScoped<IGenerateProductFilterOptionService, GenerateProductFilterOptionService>();
+            builder.Services.AddSingleton<IPayPalService,PayPalService>();
             builder.Services.AddScoped<ICategoryDataService, CategoryDataService>();
             builder.Services.AddScoped<IManufacturerDataService, ManufacturerDataService>();
             builder.Services.AddScoped<ICartService, CartService>();

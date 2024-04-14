@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HardwareStore.App.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231017235454_initialCoreTablesAndDataSeed")]
-    partial class initialCoreTablesAndDataSeed
+    [Migration("20240414104222_orderPaymentIdCanBeNULL")]
+    partial class orderPaymentIdCanBeNULL
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,49 @@ namespace HardwareStore.App.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("HardwareStore.App.Data.Models.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Region")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Address");
+                });
 
             modelBuilder.Entity("HardwareStore.App.Data.Models.ApplicationUser", b =>
                 {
@@ -266,966 +309,966 @@ namespace HardwareStore.App.Migrations
                         new
                         {
                             Id = "00f7b9f8-49fc-45a3-a8fa-43a0c96b62dd",
-                            FilePath = "Images/00f7b9f8-49fc-45a3-a8fa-43a0c96b62dd.jpg",
+                            FilePath = "/Images/00f7b9f8-49fc-45a3-a8fa-43a0c96b62dd.jpg",
                             ProductId = 24,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/772cce097c55469671a0d75ea4aca83a.1600.jpg"
                         },
                         new
                         {
                             Id = "03c91e40-c117-460a-8454-60ca9e771c38",
-                            FilePath = "Images/03c91e40-c117-460a-8454-60ca9e771c38.jpg",
+                            FilePath = "/Images/03c91e40-c117-460a-8454-60ca9e771c38.jpg",
                             ProductId = 55,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/f2d189697dd22bdee32e3f78ac93ecf6.1600.jpg"
                         },
                         new
                         {
                             Id = "04d4d665-98b4-40ed-83de-9b7cf3311444",
-                            FilePath = "Images/04d4d665-98b4-40ed-83de-9b7cf3311444.jpg",
+                            FilePath = "/Images/04d4d665-98b4-40ed-83de-9b7cf3311444.jpg",
                             ProductId = 4,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/f0e0e59d75066ec825667b71c31e3c83.1600.jpg"
                         },
                         new
                         {
                             Id = "06d3b2eb-ac3a-47a7-82a5-e363d20096f1",
-                            FilePath = "Images/06d3b2eb-ac3a-47a7-82a5-e363d20096f1.jpg",
+                            FilePath = "/Images/06d3b2eb-ac3a-47a7-82a5-e363d20096f1.jpg",
                             ProductId = 15,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/0d7ccc6bb32c1a857bdfc56d9eb74081.1600.jpg"
                         },
                         new
                         {
                             Id = "09230f47-7964-4e73-b4ce-4fd9d613f0a5",
-                            FilePath = "Images/09230f47-7964-4e73-b4ce-4fd9d613f0a5.jpg",
+                            FilePath = "/Images/09230f47-7964-4e73-b4ce-4fd9d613f0a5.jpg",
                             ProductId = 12,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/bcc3861f5dd336421becec729f2ac903.1600.jpg"
                         },
                         new
                         {
                             Id = "09c41293-55d6-4bb2-ab31-0f127ee7318c",
-                            FilePath = "Images/09c41293-55d6-4bb2-ab31-0f127ee7318c.jpg",
+                            FilePath = "/Images/09c41293-55d6-4bb2-ab31-0f127ee7318c.jpg",
                             ProductId = 30,
                             Url = "https://m.media-amazon.com/images/I/41T5OeHmOJL.jpg"
                         },
                         new
                         {
                             Id = "0be57707-e0c2-4177-af7a-591415d0c00a",
-                            FilePath = "Images/0be57707-e0c2-4177-af7a-591415d0c00a.jpg",
+                            FilePath = "/Images/0be57707-e0c2-4177-af7a-591415d0c00a.jpg",
                             ProductId = 44,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/0607ed766f65ab17807168b707b7580c.1600.jpg"
                         },
                         new
                         {
                             Id = "0bf93fd0-19e8-4486-a08c-bfe097bb1c22",
-                            FilePath = "Images/0bf93fd0-19e8-4486-a08c-bfe097bb1c22.jpg",
+                            FilePath = "/Images/0bf93fd0-19e8-4486-a08c-bfe097bb1c22.jpg",
                             ProductId = 55,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/589fcb12f6c675045fa379c9f7169c4d.1600.jpg"
                         },
                         new
                         {
                             Id = "0e6086b0-4555-4f77-8bce-2cc581472780",
-                            FilePath = "Images/0e6086b0-4555-4f77-8bce-2cc581472780.jpg",
+                            FilePath = "/Images/0e6086b0-4555-4f77-8bce-2cc581472780.jpg",
                             ProductId = 22,
                             Url = "https://m.media-amazon.com/images/I/318lV0rfJoL.jpg"
                         },
                         new
                         {
                             Id = "11f02df0-ed66-410c-a126-f1147ae4a54c",
-                            FilePath = "Images/11f02df0-ed66-410c-a126-f1147ae4a54c.jpg",
+                            FilePath = "/Images/11f02df0-ed66-410c-a126-f1147ae4a54c.jpg",
                             ProductId = 32,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/8651013bcb8890048e06820902e927db.1600.jpg"
                         },
                         new
                         {
                             Id = "11f11e54-3c3a-4257-bd90-9bf8de1393b2",
-                            FilePath = "Images/11f11e54-3c3a-4257-bd90-9bf8de1393b2.jpg",
+                            FilePath = "/Images/11f11e54-3c3a-4257-bd90-9bf8de1393b2.jpg",
                             ProductId = 51,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/6c931846f8b1f5346a3700526272ea24.1600.jpg"
                         },
                         new
                         {
                             Id = "12fe677c-7697-48f6-bf52-64c3df981a26",
-                            FilePath = "Images/12fe677c-7697-48f6-bf52-64c3df981a26.jpg",
+                            FilePath = "/Images/12fe677c-7697-48f6-bf52-64c3df981a26.jpg",
                             ProductId = 18,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/41e3e55e5ef124b218bfec3b3b243ca3.1600.jpg"
                         },
                         new
                         {
                             Id = "17a14db7-ad18-4a06-a149-4a6872d77972",
-                            FilePath = "Images/17a14db7-ad18-4a06-a149-4a6872d77972.jpg",
+                            FilePath = "/Images/17a14db7-ad18-4a06-a149-4a6872d77972.jpg",
                             ProductId = 56,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/2ea46c5847b08c504b33b7d4c8ef39d7.1600.jpg"
                         },
                         new
                         {
                             Id = "202af0b0-41f3-4744-a862-483fd01a92b2",
-                            FilePath = "Images/202af0b0-41f3-4744-a862-483fd01a92b2.jpg",
+                            FilePath = "/Images/202af0b0-41f3-4744-a862-483fd01a92b2.jpg",
                             ProductId = 39,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/0fa355840792cb24746bbb4200368282.1600.jpg"
                         },
                         new
                         {
                             Id = "20ae62e9-42aa-4969-8cf6-ad878e2fb573",
-                            FilePath = "Images/20ae62e9-42aa-4969-8cf6-ad878e2fb573.jpg",
+                            FilePath = "/Images/20ae62e9-42aa-4969-8cf6-ad878e2fb573.jpg",
                             ProductId = 31,
                             Url = "https://m.media-amazon.com/images/I/41yIE8KxulL.jpg"
                         },
                         new
                         {
                             Id = "21b8572c-f178-4ba9-9308-475b9a3ac2b3",
-                            FilePath = "Images/21b8572c-f178-4ba9-9308-475b9a3ac2b3.jpg",
+                            FilePath = "/Images/21b8572c-f178-4ba9-9308-475b9a3ac2b3.jpg",
                             ProductId = 15,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/835ab3efad1be13bbe53beef3e3c6f96.1600.jpg"
                         },
                         new
                         {
                             Id = "24f043ca-72a5-4bb6-8580-2e1907613542",
-                            FilePath = "Images/24f043ca-72a5-4bb6-8580-2e1907613542.jpg",
+                            FilePath = "/Images/24f043ca-72a5-4bb6-8580-2e1907613542.jpg",
                             ProductId = 31,
                             Url = "https://m.media-amazon.com/images/I/41WfYdvzk5L.jpg"
                         },
                         new
                         {
                             Id = "252a502e-94fe-42ef-b287-9883a9c631ae",
-                            FilePath = "Images/252a502e-94fe-42ef-b287-9883a9c631ae.jpg",
+                            FilePath = "/Images/252a502e-94fe-42ef-b287-9883a9c631ae.jpg",
                             ProductId = 7,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/105c8b0ca528860487720c77b236bca9.1600.jpg"
                         },
                         new
                         {
                             Id = "2553abe7-63c8-4da5-b338-a899d0a80e8b",
-                            FilePath = "Images/2553abe7-63c8-4da5-b338-a899d0a80e8b.jpg",
+                            FilePath = "/Images/2553abe7-63c8-4da5-b338-a899d0a80e8b.jpg",
                             ProductId = 13,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/52ee465cbd64b16145232d863524c066.1600.jpg"
                         },
                         new
                         {
                             Id = "2593176e-20bf-4392-9b27-1abfbcb1d1c2",
-                            FilePath = "Images/2593176e-20bf-4392-9b27-1abfbcb1d1c2.jpg",
+                            FilePath = "/Images/2593176e-20bf-4392-9b27-1abfbcb1d1c2.jpg",
                             ProductId = 30,
                             Url = "https://m.media-amazon.com/images/I/41iw-jgJj8L.jpg"
                         },
                         new
                         {
                             Id = "274c6543-3980-4c11-8664-2f618907e7e8",
-                            FilePath = "Images/274c6543-3980-4c11-8664-2f618907e7e8.jpg",
+                            FilePath = "/Images/274c6543-3980-4c11-8664-2f618907e7e8.jpg",
                             ProductId = 52,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/f0281d7b65771dacec49d796123aa7f6.1600.jpg"
                         },
                         new
                         {
                             Id = "28e8257b-25d3-4114-b523-c0f778129fe1",
-                            FilePath = "Images/28e8257b-25d3-4114-b523-c0f778129fe1.jpg",
+                            FilePath = "/Images/28e8257b-25d3-4114-b523-c0f778129fe1.jpg",
                             ProductId = 46,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/8da02f4b1cae5ccffadffc74272e4e01.1600.jpg"
                         },
                         new
                         {
                             Id = "28e968e1-e5a1-4532-a11a-775cfc02f114",
-                            FilePath = "Images/28e968e1-e5a1-4532-a11a-775cfc02f114.jpg",
+                            FilePath = "/Images/28e968e1-e5a1-4532-a11a-775cfc02f114.jpg",
                             ProductId = 3,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/aea586ed783a4fba090978dfab85b886.1600.jpg"
                         },
                         new
                         {
                             Id = "2b9e3dac-3cc8-43e3-bfb8-b63118fccffe",
-                            FilePath = "Images/2b9e3dac-3cc8-43e3-bfb8-b63118fccffe.jpg",
+                            FilePath = "/Images/2b9e3dac-3cc8-43e3-bfb8-b63118fccffe.jpg",
                             ProductId = 31,
                             Url = "https://m.media-amazon.com/images/I/31YAOE3okkL.jpg"
                         },
                         new
                         {
                             Id = "319d5f95-24c2-434a-82b0-3462b0ddf4b3",
-                            FilePath = "Images/319d5f95-24c2-434a-82b0-3462b0ddf4b3.jpg",
+                            FilePath = "/Images/319d5f95-24c2-434a-82b0-3462b0ddf4b3.jpg",
                             ProductId = 45,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/1435c1dd5733f7443c14b484e733224e.1600.jpg"
                         },
                         new
                         {
                             Id = "32792424-48fe-4e32-9fe7-241afc3c215d",
-                            FilePath = "Images/32792424-48fe-4e32-9fe7-241afc3c215d.jpg",
+                            FilePath = "/Images/32792424-48fe-4e32-9fe7-241afc3c215d.jpg",
                             ProductId = 31,
                             Url = "https://m.media-amazon.com/images/I/31cNL+9TWsL.jpg"
                         },
                         new
                         {
                             Id = "33848993-28f5-468f-8a2d-1d2d2cc160c2",
-                            FilePath = "Images/33848993-28f5-468f-8a2d-1d2d2cc160c2.jpg",
+                            FilePath = "/Images/33848993-28f5-468f-8a2d-1d2d2cc160c2.jpg",
                             ProductId = 53,
                             Url = "https://m.media-amazon.com/images/I/31OAVlJoj8L.jpg"
                         },
                         new
                         {
                             Id = "3667240a-f95f-4da5-8895-b7ee370e5c7c",
-                            FilePath = "Images/3667240a-f95f-4da5-8895-b7ee370e5c7c.jpg",
+                            FilePath = "/Images/3667240a-f95f-4da5-8895-b7ee370e5c7c.jpg",
                             ProductId = 18,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/e8d573bd2eac864d427645f0d2f7cad8.1600.jpg"
                         },
                         new
                         {
                             Id = "3850f95a-562f-4bb8-af27-f937ef1cd13a",
-                            FilePath = "Images/3850f95a-562f-4bb8-af27-f937ef1cd13a.jpg",
+                            FilePath = "/Images/3850f95a-562f-4bb8-af27-f937ef1cd13a.jpg",
                             ProductId = 7,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/4975cf5b81bf9bc7cc08445417c0e0ed.1600.jpg"
                         },
                         new
                         {
                             Id = "3b88db86-67e1-4aac-9e39-0d765a554949",
-                            FilePath = "Images/3b88db86-67e1-4aac-9e39-0d765a554949.jpg",
+                            FilePath = "/Images/3b88db86-67e1-4aac-9e39-0d765a554949.jpg",
                             ProductId = 27,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/c4dd55a69469ec64be1f6a69864dc7e6.1600.jpg"
                         },
                         new
                         {
                             Id = "41f8ee04-f97f-41d8-8cba-18ad9dd01217",
-                            FilePath = "Images/41f8ee04-f97f-41d8-8cba-18ad9dd01217.jpg",
+                            FilePath = "/Images/41f8ee04-f97f-41d8-8cba-18ad9dd01217.jpg",
                             ProductId = 12,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/4ff70faff6636170612b985373f74d1e.1600.jpg"
                         },
                         new
                         {
                             Id = "42d1ebb0-6b86-4b09-ad4f-4f34c189b01c",
-                            FilePath = "Images/42d1ebb0-6b86-4b09-ad4f-4f34c189b01c.jpg",
+                            FilePath = "/Images/42d1ebb0-6b86-4b09-ad4f-4f34c189b01c.jpg",
                             ProductId = 41,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/1411d2ffe69ca84f0c740ee5d0df4a0e.1600.jpg"
                         },
                         new
                         {
                             Id = "42fb9716-1e61-4e4f-ae83-e8043b6c9ba0",
-                            FilePath = "Images/42fb9716-1e61-4e4f-ae83-e8043b6c9ba0.jpg",
+                            FilePath = "/Images/42fb9716-1e61-4e4f-ae83-e8043b6c9ba0.jpg",
                             ProductId = 3,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/3ef757133d38ac40afe75da691ba7d60.1600.jpg"
                         },
                         new
                         {
                             Id = "4369891f-6ffc-4227-b3f2-4ec660ea74b9",
-                            FilePath = "Images/4369891f-6ffc-4227-b3f2-4ec660ea74b9.jpg",
+                            FilePath = "/Images/4369891f-6ffc-4227-b3f2-4ec660ea74b9.jpg",
                             ProductId = 40,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/acaf1664d5bee7d6eaca0eeab94a3aff.1600.jpg"
                         },
                         new
                         {
                             Id = "4588eab1-c87c-4661-9ddc-8d9c9de8c4b8",
-                            FilePath = "Images/4588eab1-c87c-4661-9ddc-8d9c9de8c4b8.jpg",
+                            FilePath = "/Images/4588eab1-c87c-4661-9ddc-8d9c9de8c4b8.jpg",
                             ProductId = 25,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/9f7b45a2816c45ea9449e8ca2bf6f616.1600.jpg"
                         },
                         new
                         {
                             Id = "490f8038-9bad-4180-a0d2-39e9e9f6292f",
-                            FilePath = "Images/490f8038-9bad-4180-a0d2-39e9e9f6292f.jpg",
+                            FilePath = "/Images/490f8038-9bad-4180-a0d2-39e9e9f6292f.jpg",
                             ProductId = 39,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/1feb55de02c0b18beceb45600ab4882a.1600.jpg"
                         },
                         new
                         {
                             Id = "49eb0ef2-158b-4d65-a292-1c133a777621",
-                            FilePath = "Images/49eb0ef2-158b-4d65-a292-1c133a777621.jpg",
+                            FilePath = "/Images/49eb0ef2-158b-4d65-a292-1c133a777621.jpg",
                             ProductId = 33,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/9f19b59f2318bfd557d22b4ea9dec097.1600.jpg"
                         },
                         new
                         {
                             Id = "4a338c8d-2537-4766-8c67-f4446ff478f2",
-                            FilePath = "Images/4a338c8d-2537-4766-8c67-f4446ff478f2.jpg",
+                            FilePath = "/Images/4a338c8d-2537-4766-8c67-f4446ff478f2.jpg",
                             ProductId = 34,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/0512d4822aa3bd78639eda0c0cc202ad.1600.jpg"
                         },
                         new
                         {
                             Id = "4f9f15d2-126e-4ac9-9cea-1fe8b9e86f97",
-                            FilePath = "Images/4f9f15d2-126e-4ac9-9cea-1fe8b9e86f97.jpg",
+                            FilePath = "/Images/4f9f15d2-126e-4ac9-9cea-1fe8b9e86f97.jpg",
                             ProductId = 44,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/d662cc7b90e3fd45502f7c77d9b54269.1600.jpg"
                         },
                         new
                         {
                             Id = "503a5bdb-be29-4da5-9440-5022c33f36ac",
-                            FilePath = "Images/503a5bdb-be29-4da5-9440-5022c33f36ac.jpg",
+                            FilePath = "/Images/503a5bdb-be29-4da5-9440-5022c33f36ac.jpg",
                             ProductId = 57,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/9a20036a42989c40ac4815feccc3c380.1600.jpg"
                         },
                         new
                         {
                             Id = "50ec92b2-38ee-4b77-a52c-7cbab6b3f7ac",
-                            FilePath = "Images/50ec92b2-38ee-4b77-a52c-7cbab6b3f7ac.jpg",
+                            FilePath = "/Images/50ec92b2-38ee-4b77-a52c-7cbab6b3f7ac.jpg",
                             ProductId = 55,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/4ab5f30ba2f7e3bc8429eff823900b66.1600.jpg"
                         },
                         new
                         {
                             Id = "51de09d5-30ae-45d1-ba22-0000251ca087",
-                            FilePath = "Images/51de09d5-30ae-45d1-ba22-0000251ca087.jpg",
+                            FilePath = "/Images/51de09d5-30ae-45d1-ba22-0000251ca087.jpg",
                             ProductId = 55,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/1538883177a83e33b087e056745d95d2.1600.jpg"
                         },
                         new
                         {
                             Id = "5267ec91-ad23-4a73-9fde-20271907e089",
-                            FilePath = "Images/5267ec91-ad23-4a73-9fde-20271907e089.jpg",
+                            FilePath = "/Images/5267ec91-ad23-4a73-9fde-20271907e089.jpg",
                             ProductId = 53,
                             Url = "https://m.media-amazon.com/images/I/31SVEFibvEL.jpg"
                         },
                         new
                         {
                             Id = "5366937c-e4fd-4147-b88b-d42cdc5a214a",
-                            FilePath = "Images/5366937c-e4fd-4147-b88b-d42cdc5a214a.jpg",
+                            FilePath = "/Images/5366937c-e4fd-4147-b88b-d42cdc5a214a.jpg",
                             ProductId = 46,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/31ad0dccffff39f176c038672c8fb2cd.1600.jpg"
                         },
                         new
                         {
                             Id = "5474f429-2dc7-40ec-9af1-7a81c24db43f",
-                            FilePath = "Images/5474f429-2dc7-40ec-9af1-7a81c24db43f.jpg",
+                            FilePath = "/Images/5474f429-2dc7-40ec-9af1-7a81c24db43f.jpg",
                             ProductId = 49,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/a404c6eeceb711738df49595a0ac7d4c.1600.jpg"
                         },
                         new
                         {
                             Id = "54bbd9b8-16f4-41a5-895a-2395549fb8ca",
-                            FilePath = "Images/54bbd9b8-16f4-41a5-895a-2395549fb8ca.jpg",
+                            FilePath = "/Images/54bbd9b8-16f4-41a5-895a-2395549fb8ca.jpg",
                             ProductId = 51,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/1643f73c0a44e536665cc5a9470393c9.1600.jpg"
                         },
                         new
                         {
                             Id = "574ed2e4-cdec-4133-a588-5241c263f6b8",
-                            FilePath = "Images/574ed2e4-cdec-4133-a588-5241c263f6b8.jpg",
+                            FilePath = "/Images/574ed2e4-cdec-4133-a588-5241c263f6b8.jpg",
                             ProductId = 7,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/6859ee3cce2b38b9136206073f9e76da.1600.jpg"
                         },
                         new
                         {
                             Id = "589ede3e-390d-4395-9bf3-799bfaf06701",
-                            FilePath = "Images/589ede3e-390d-4395-9bf3-799bfaf06701.jpg",
+                            FilePath = "/Images/589ede3e-390d-4395-9bf3-799bfaf06701.jpg",
                             ProductId = 55,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/14e788b7ea0fa13b2129be9c7baecdbb.1600.jpg"
                         },
                         new
                         {
                             Id = "5c73024d-d613-4fae-9873-0e88ff7289c8",
-                            FilePath = "Images/5c73024d-d613-4fae-9873-0e88ff7289c8.jpg",
+                            FilePath = "/Images/5c73024d-d613-4fae-9873-0e88ff7289c8.jpg",
                             ProductId = 39,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/c27c50cf8e875c9152bde42bf6c540e6.1600.jpg"
                         },
                         new
                         {
                             Id = "5d956bf3-d052-44bf-ae8f-29e945da2bb9",
-                            FilePath = "Images/5d956bf3-d052-44bf-ae8f-29e945da2bb9.jpg",
+                            FilePath = "/Images/5d956bf3-d052-44bf-ae8f-29e945da2bb9.jpg",
                             ProductId = 54,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/c1cef36415ba8f85086b55459b9bf0aa.1600.jpg"
                         },
                         new
                         {
                             Id = "5f206e19-dea7-4c40-91e7-852458e61831",
-                            FilePath = "Images/5f206e19-dea7-4c40-91e7-852458e61831.jpg",
+                            FilePath = "/Images/5f206e19-dea7-4c40-91e7-852458e61831.jpg",
                             ProductId = 43,
                             Url = "https://m.media-amazon.com/images/I/4189N8RLVYL.jpg"
                         },
                         new
                         {
                             Id = "616f99ab-d19f-43cb-9743-f62376b7cd10",
-                            FilePath = "Images/616f99ab-d19f-43cb-9743-f62376b7cd10.jpg",
+                            FilePath = "/Images/616f99ab-d19f-43cb-9743-f62376b7cd10.jpg",
                             ProductId = 15,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/fee3ba4d684ea643cc72a1c38f0dbc2f.1600.jpg"
                         },
                         new
                         {
                             Id = "6625b408-607b-48d2-91d8-356ba3e684dd",
-                            FilePath = "Images/6625b408-607b-48d2-91d8-356ba3e684dd.jpg",
+                            FilePath = "/Images/6625b408-607b-48d2-91d8-356ba3e684dd.jpg",
                             ProductId = 31,
                             Url = "https://m.media-amazon.com/images/I/41qGXVVM++L.jpg"
                         },
                         new
                         {
                             Id = "66986a8c-76fb-4626-a2b7-93b4d4aae61f",
-                            FilePath = "Images/66986a8c-76fb-4626-a2b7-93b4d4aae61f.jpg",
+                            FilePath = "/Images/66986a8c-76fb-4626-a2b7-93b4d4aae61f.jpg",
                             ProductId = 34,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/d7a5742ff148519dc3960487b4ee8c3b.1600.jpg"
                         },
                         new
                         {
                             Id = "66d9eb05-c031-4e76-bb69-0c650657ff94",
-                            FilePath = "Images/66d9eb05-c031-4e76-bb69-0c650657ff94.jpg",
+                            FilePath = "/Images/66d9eb05-c031-4e76-bb69-0c650657ff94.jpg",
                             ProductId = 42,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/72afebab92f6ad28ba42d28c64442a07.1600.jpg"
                         },
                         new
                         {
                             Id = "71db4dae-fa71-4311-84b5-ea7b29fcf5fa",
-                            FilePath = "Images/71db4dae-fa71-4311-84b5-ea7b29fcf5fa.jpg",
+                            FilePath = "/Images/71db4dae-fa71-4311-84b5-ea7b29fcf5fa.jpg",
                             ProductId = 36,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/6bfd83b70242125dd19a098b04deb9e1.1600.jpg"
                         },
                         new
                         {
                             Id = "729cfb1b-62fd-4a7f-a11c-b073bd0d8969",
-                            FilePath = "Images/729cfb1b-62fd-4a7f-a11c-b073bd0d8969.jpg",
+                            FilePath = "/Images/729cfb1b-62fd-4a7f-a11c-b073bd0d8969.jpg",
                             ProductId = 49,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/73abc535b47971b36868e797a4c4c96f.1600.jpg"
                         },
                         new
                         {
                             Id = "7580baab-5081-45a2-b227-787ab2263775",
-                            FilePath = "Images/7580baab-5081-45a2-b227-787ab2263775.jpg",
+                            FilePath = "/Images/7580baab-5081-45a2-b227-787ab2263775.jpg",
                             ProductId = 6,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/9a001de1081123932309b918dab89b01.1600.jpg"
                         },
                         new
                         {
                             Id = "76f054da-5ffc-4fe3-aa6b-8d6743cf83a9",
-                            FilePath = "Images/76f054da-5ffc-4fe3-aa6b-8d6743cf83a9.jpg",
+                            FilePath = "/Images/76f054da-5ffc-4fe3-aa6b-8d6743cf83a9.jpg",
                             ProductId = 10,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/12bfecb3325a384ef35e38ada6b8bca3.1600.jpg"
                         },
                         new
                         {
                             Id = "77eaf7c6-e81d-4338-be23-a6d84ceb04ca",
-                            FilePath = "Images/77eaf7c6-e81d-4338-be23-a6d84ceb04ca.jpg",
+                            FilePath = "/Images/77eaf7c6-e81d-4338-be23-a6d84ceb04ca.jpg",
                             ProductId = 11,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/cbc52effd345bd5e9d66b5f7d198f8b4.1600.jpg"
                         },
                         new
                         {
                             Id = "7a8ba6fe-03d7-485e-b3af-8cdeec70d067",
-                            FilePath = "Images/7a8ba6fe-03d7-485e-b3af-8cdeec70d067.jpg",
+                            FilePath = "/Images/7a8ba6fe-03d7-485e-b3af-8cdeec70d067.jpg",
                             ProductId = 32,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/0caced7ab126d5fe057d6ce2306cee39.1600.jpg"
                         },
                         new
                         {
                             Id = "7d963661-04f6-43ae-a1e8-f314b597627d",
-                            FilePath = "Images/7d963661-04f6-43ae-a1e8-f314b597627d.jpg",
+                            FilePath = "/Images/7d963661-04f6-43ae-a1e8-f314b597627d.jpg",
                             ProductId = 34,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/dd92e303301f8c06036a17d24ed9ab46.1600.jpg"
                         },
                         new
                         {
                             Id = "824fc1f4-6e52-4776-9ca5-e42e54e68e69",
-                            FilePath = "Images/824fc1f4-6e52-4776-9ca5-e42e54e68e69.jpg",
+                            FilePath = "/Images/824fc1f4-6e52-4776-9ca5-e42e54e68e69.jpg",
                             ProductId = 26,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/24f2250843caa631f82d234bc781e9d0.1600.jpg"
                         },
                         new
                         {
                             Id = "83f98923-0661-44ee-b1aa-be4411619690",
-                            FilePath = "Images/83f98923-0661-44ee-b1aa-be4411619690.jpg",
+                            FilePath = "/Images/83f98923-0661-44ee-b1aa-be4411619690.jpg",
                             ProductId = 7,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/0d8a58e3c4bf5ecde38ed4f9738c91fd.1600.jpg"
                         },
                         new
                         {
                             Id = "852824a2-c4bd-4582-8f74-9e02667cd57a",
-                            FilePath = "Images/852824a2-c4bd-4582-8f74-9e02667cd57a.jpg",
+                            FilePath = "/Images/852824a2-c4bd-4582-8f74-9e02667cd57a.jpg",
                             ProductId = 37,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/c4927b86acf31ab403449e81673d56f7.1600.jpg"
                         },
                         new
                         {
                             Id = "85a78cf1-d5af-4363-a2a2-13837485f50f",
-                            FilePath = "Images/85a78cf1-d5af-4363-a2a2-13837485f50f.jpg",
+                            FilePath = "/Images/85a78cf1-d5af-4363-a2a2-13837485f50f.jpg",
                             ProductId = 31,
                             Url = "https://m.media-amazon.com/images/I/41bmeAiECpL.jpg"
                         },
                         new
                         {
                             Id = "868302ff-1931-4b03-9afe-9c3c321dcb3b",
-                            FilePath = "Images/868302ff-1931-4b03-9afe-9c3c321dcb3b.jpg",
+                            FilePath = "/Images/868302ff-1931-4b03-9afe-9c3c321dcb3b.jpg",
                             ProductId = 23,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/dbc81b89efc82ce66fb2e3ab7e0f0658.1600.jpg"
                         },
                         new
                         {
                             Id = "8982521c-bcd4-4ee4-a712-6085d687e588",
-                            FilePath = "Images/8982521c-bcd4-4ee4-a712-6085d687e588.jpg",
+                            FilePath = "/Images/8982521c-bcd4-4ee4-a712-6085d687e588.jpg",
                             ProductId = 49,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/2981675c06bdccf5daa39fe5c567c5f4.1600.jpg"
                         },
                         new
                         {
                             Id = "8ca5997f-53fe-4bf4-8af9-e95994dbb61d",
-                            FilePath = "Images/8ca5997f-53fe-4bf4-8af9-e95994dbb61d.jpg",
+                            FilePath = "/Images/8ca5997f-53fe-4bf4-8af9-e95994dbb61d.jpg",
                             ProductId = 31,
                             Url = "https://m.media-amazon.com/images/I/418Ezw9+M5L.jpg"
                         },
                         new
                         {
                             Id = "8f833fa0-8648-4f0c-bd2f-914fa872ff6a",
-                            FilePath = "Images/8f833fa0-8648-4f0c-bd2f-914fa872ff6a.jpg",
+                            FilePath = "/Images/8f833fa0-8648-4f0c-bd2f-914fa872ff6a.jpg",
                             ProductId = 47,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/044e21f178b0ad10f69fbc76b6ac013e.1600.jpg"
                         },
                         new
                         {
                             Id = "8fd47fe2-a487-4fce-9c1b-427de0af5d9e",
-                            FilePath = "Images/8fd47fe2-a487-4fce-9c1b-427de0af5d9e.jpg",
+                            FilePath = "/Images/8fd47fe2-a487-4fce-9c1b-427de0af5d9e.jpg",
                             ProductId = 8,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/5b6a5e7f4cf456ccf6415235cf7adc99.1600.jpg"
                         },
                         new
                         {
                             Id = "91cd8cd7-0b1f-4ad7-a9e2-efe029133c78",
-                            FilePath = "Images/91cd8cd7-0b1f-4ad7-a9e2-efe029133c78.jpg",
+                            FilePath = "/Images/91cd8cd7-0b1f-4ad7-a9e2-efe029133c78.jpg",
                             ProductId = 45,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/ee20df28356c1f66b8d3c6d69be9f823.1600.jpg"
                         },
                         new
                         {
                             Id = "926a0cc9-f77f-4d38-a4ed-80954038182b",
-                            FilePath = "Images/926a0cc9-f77f-4d38-a4ed-80954038182b.jpg",
+                            FilePath = "/Images/926a0cc9-f77f-4d38-a4ed-80954038182b.jpg",
                             ProductId = 27,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/177c70bda04558a33afef3fa7fbf6d3a.1600.jpg"
                         },
                         new
                         {
                             Id = "92dd4206-5009-4274-9340-41d101a666ef",
-                            FilePath = "Images/92dd4206-5009-4274-9340-41d101a666ef.jpg",
+                            FilePath = "/Images/92dd4206-5009-4274-9340-41d101a666ef.jpg",
                             ProductId = 54,
                             Url = "https://m.media-amazon.com/images/I/31Ey7sbAF-L.jpg"
                         },
                         new
                         {
                             Id = "94be617b-2886-4796-a816-e70d8254db5c",
-                            FilePath = "Images/94be617b-2886-4796-a816-e70d8254db5c.jpg",
+                            FilePath = "/Images/94be617b-2886-4796-a816-e70d8254db5c.jpg",
                             ProductId = 36,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/eac8b9bc26c9fc82da9099dd785b0d25.1600.jpg"
                         },
                         new
                         {
                             Id = "9650da52-cfd0-4da3-a484-8b5d47b896a0",
-                            FilePath = "Images/9650da52-cfd0-4da3-a484-8b5d47b896a0.jpg",
+                            FilePath = "/Images/9650da52-cfd0-4da3-a484-8b5d47b896a0.jpg",
                             ProductId = 23,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/c740684e2cd2339bf845f7493711bcb7.1600.jpg"
                         },
                         new
                         {
                             Id = "984fdc6b-11f3-4b24-ab69-6f4eb853d722",
-                            FilePath = "Images/984fdc6b-11f3-4b24-ab69-6f4eb853d722.jpg",
+                            FilePath = "/Images/984fdc6b-11f3-4b24-ab69-6f4eb853d722.jpg",
                             ProductId = 27,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/786ae500dc9ee10793a78a066bfdc2ae.1600.jpg"
                         },
                         new
                         {
                             Id = "988610ab-3fdb-46b8-883a-511e709c51f9",
-                            FilePath = "Images/988610ab-3fdb-46b8-883a-511e709c51f9.jpg",
+                            FilePath = "/Images/988610ab-3fdb-46b8-883a-511e709c51f9.jpg",
                             ProductId = 30,
                             Url = "https://m.media-amazon.com/images/I/41OrNb0Me-L.jpg"
                         },
                         new
                         {
                             Id = "997a8f8f-9e44-4925-b898-ace5cd35bfcd",
-                            FilePath = "Images/997a8f8f-9e44-4925-b898-ace5cd35bfcd.jpg",
+                            FilePath = "/Images/997a8f8f-9e44-4925-b898-ace5cd35bfcd.jpg",
                             ProductId = 20,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/c7b5b7dacbecdcdd0e073b761193eef6.1600.jpg"
                         },
                         new
                         {
                             Id = "9a4f1cef-e773-4b24-9f8c-c4359001b1dd",
-                            FilePath = "Images/9a4f1cef-e773-4b24-9f8c-c4359001b1dd.jpg",
+                            FilePath = "/Images/9a4f1cef-e773-4b24-9f8c-c4359001b1dd.jpg",
                             ProductId = 34,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/53592fbfc2434075c871babe2ebd9b4d.1600.jpg"
                         },
                         new
                         {
                             Id = "9aede4aa-7c74-44d1-a70b-201b79442096",
-                            FilePath = "Images/9aede4aa-7c74-44d1-a70b-201b79442096.jpg",
+                            FilePath = "/Images/9aede4aa-7c74-44d1-a70b-201b79442096.jpg",
                             ProductId = 55,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/e01b4d44c0de80c58cefbcc78a1fe809.1600.jpg"
                         },
                         new
                         {
                             Id = "a10bdd3e-a845-4cb4-9079-0ec9729cd2ff",
-                            FilePath = "Images/a10bdd3e-a845-4cb4-9079-0ec9729cd2ff.jpg",
+                            FilePath = "/Images/a10bdd3e-a845-4cb4-9079-0ec9729cd2ff.jpg",
                             ProductId = 28,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/56f77032e78c9af99041786b5196fe91.1600.jpg"
                         },
                         new
                         {
                             Id = "a1554699-e1bf-44d6-83d1-c9196b545703",
-                            FilePath = "Images/a1554699-e1bf-44d6-83d1-c9196b545703.jpg",
+                            FilePath = "/Images/a1554699-e1bf-44d6-83d1-c9196b545703.jpg",
                             ProductId = 31,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/eacaf9e3a9f012060fbd0a98f4e22511.1600.jpg"
                         },
                         new
                         {
                             Id = "a2b37b1f-827f-4ffd-ad2a-6a4a5ecdd938",
-                            FilePath = "Images/a2b37b1f-827f-4ffd-ad2a-6a4a5ecdd938.jpg",
+                            FilePath = "/Images/a2b37b1f-827f-4ffd-ad2a-6a4a5ecdd938.jpg",
                             ProductId = 29,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/304c409dc991a5bc733316ceac29f77e.1600.jpg"
                         },
                         new
                         {
                             Id = "a326c01d-f7b2-4f67-9a5d-4944f8960f10",
-                            FilePath = "Images/a326c01d-f7b2-4f67-9a5d-4944f8960f10.jpg",
+                            FilePath = "/Images/a326c01d-f7b2-4f67-9a5d-4944f8960f10.jpg",
                             ProductId = 19,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/3b2a91588d1a28bfa1b0184fb7f1c0a1.1600.jpg"
                         },
                         new
                         {
                             Id = "a5afb091-9e09-4a84-9f58-e14d3685e1e7",
-                            FilePath = "Images/a5afb091-9e09-4a84-9f58-e14d3685e1e7.jpg",
+                            FilePath = "/Images/a5afb091-9e09-4a84-9f58-e14d3685e1e7.jpg",
                             ProductId = 31,
                             Url = "https://m.media-amazon.com/images/I/31ZDKNuuZ8L.jpg"
                         },
                         new
                         {
                             Id = "a6089e18-0213-4564-a0a1-c3923cc9466f",
-                            FilePath = "Images/a6089e18-0213-4564-a0a1-c3923cc9466f.jpg",
+                            FilePath = "/Images/a6089e18-0213-4564-a0a1-c3923cc9466f.jpg",
                             ProductId = 55,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/fffd31cf56d1bec77ca7f6d1bebdb4ef.1600.jpg"
                         },
                         new
                         {
                             Id = "a6cb50fc-d720-438f-b2fb-b2abf73ad1d0",
-                            FilePath = "Images/a6cb50fc-d720-438f-b2fb-b2abf73ad1d0.jpg",
+                            FilePath = "/Images/a6cb50fc-d720-438f-b2fb-b2abf73ad1d0.jpg",
                             ProductId = 7,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/4d9006e40c0471daaf7d1982f32aa5ed.1600.jpg"
                         },
                         new
                         {
                             Id = "a8b7d89b-08eb-485f-9059-03fe91ee36d2",
-                            FilePath = "Images/a8b7d89b-08eb-485f-9059-03fe91ee36d2.jpg",
+                            FilePath = "/Images/a8b7d89b-08eb-485f-9059-03fe91ee36d2.jpg",
                             ProductId = 55,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/3215b6dc5bfe17dc7f2f99071713d74b.1600.jpg"
                         },
                         new
                         {
                             Id = "aa8c05b7-c942-4397-8a17-029c0d8dc875",
-                            FilePath = "Images/aa8c05b7-c942-4397-8a17-029c0d8dc875.jpg",
+                            FilePath = "/Images/aa8c05b7-c942-4397-8a17-029c0d8dc875.jpg",
                             ProductId = 46,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/ae6e2d9188a5b8d2452c008cbbdfb6c2.1600.jpg"
                         },
                         new
                         {
                             Id = "aba175f1-63c2-4725-ae4b-740eecac6bf0",
-                            FilePath = "Images/aba175f1-63c2-4725-ae4b-740eecac6bf0.jpg",
+                            FilePath = "/Images/aba175f1-63c2-4725-ae4b-740eecac6bf0.jpg",
                             ProductId = 44,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/64bf868b636fe7f3a847f59c1a0f146b.1600.jpg"
                         },
                         new
                         {
                             Id = "abc2b28b-f750-45c4-9ebc-fd8d427a397a",
-                            FilePath = "Images/abc2b28b-f750-45c4-9ebc-fd8d427a397a.jpg",
+                            FilePath = "/Images/abc2b28b-f750-45c4-9ebc-fd8d427a397a.jpg",
                             ProductId = 53,
                             Url = "https://m.media-amazon.com/images/I/31Z-DhEv-NL.jpg"
                         },
                         new
                         {
                             Id = "ac9c897f-0834-4041-b87b-0f3918f6df24",
-                            FilePath = "Images/ac9c897f-0834-4041-b87b-0f3918f6df24.jpg",
+                            FilePath = "/Images/ac9c897f-0834-4041-b87b-0f3918f6df24.jpg",
                             ProductId = 32,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/84cb77175187296029f50f8bf6ca6960.1600.jpg"
                         },
                         new
                         {
                             Id = "af776ffc-d3ce-4313-b19d-dcb2a0a09cd4",
-                            FilePath = "Images/af776ffc-d3ce-4313-b19d-dcb2a0a09cd4.jpg",
+                            FilePath = "/Images/af776ffc-d3ce-4313-b19d-dcb2a0a09cd4.jpg",
                             ProductId = 50,
                             Url = "https://m.media-amazon.com/images/I/21yyXF0cW4L.jpg"
                         },
                         new
                         {
                             Id = "b17cdfaf-7c31-4b18-adc9-0dec44672b09",
-                            FilePath = "Images/b17cdfaf-7c31-4b18-adc9-0dec44672b09.jpg",
+                            FilePath = "/Images/b17cdfaf-7c31-4b18-adc9-0dec44672b09.jpg",
                             ProductId = 12,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/ca2d72ee76257a0397e4b4fc1056d60d.1600.jpg"
                         },
                         new
                         {
                             Id = "b2eb45be-70f3-498e-91d5-e43f7861b47b",
-                            FilePath = "Images/b2eb45be-70f3-498e-91d5-e43f7861b47b.jpg",
+                            FilePath = "/Images/b2eb45be-70f3-498e-91d5-e43f7861b47b.jpg",
                             ProductId = 39,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/7134ada8090eab583a9cdbafdccf3f9a.1600.jpg"
                         },
                         new
                         {
                             Id = "b4f70f16-4962-4adb-aa21-cbaae0e369bb",
-                            FilePath = "Images/b4f70f16-4962-4adb-aa21-cbaae0e369bb.jpg",
+                            FilePath = "/Images/b4f70f16-4962-4adb-aa21-cbaae0e369bb.jpg",
                             ProductId = 55,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/814013acd24de0801b6a32a2bd3c6fa3.1600.jpg"
                         },
                         new
                         {
                             Id = "b5541707-2e00-45fc-9221-3f940ee50255",
-                            FilePath = "Images/b5541707-2e00-45fc-9221-3f940ee50255.jpg",
+                            FilePath = "/Images/b5541707-2e00-45fc-9221-3f940ee50255.jpg",
                             ProductId = 6,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/9b4cefb2e43f2c358f3a97a31e1be90b.1600.jpg"
                         },
                         new
                         {
                             Id = "b69dab00-2857-4555-8d7b-7ae6db195795",
-                            FilePath = "Images/b69dab00-2857-4555-8d7b-7ae6db195795.jpg",
+                            FilePath = "/Images/b69dab00-2857-4555-8d7b-7ae6db195795.jpg",
                             ProductId = 17,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/5f09867b54e9ad932b4dd1bc767f6238.1600.jpg"
                         },
                         new
                         {
                             Id = "bb1cefec-0b96-494e-915c-430b17063192",
-                            FilePath = "Images/bb1cefec-0b96-494e-915c-430b17063192.jpg",
+                            FilePath = "/Images/bb1cefec-0b96-494e-915c-430b17063192.jpg",
                             ProductId = 48,
                             Url = "https://m.media-amazon.com/images/I/41tnErFDq3L.jpg"
                         },
                         new
                         {
                             Id = "bd8bb8e7-1221-466e-8be8-1faaa623f3b4",
-                            FilePath = "Images/bd8bb8e7-1221-466e-8be8-1faaa623f3b4.jpg",
+                            FilePath = "/Images/bd8bb8e7-1221-466e-8be8-1faaa623f3b4.jpg",
                             ProductId = 21,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/97e2bd828644767c8a80b71f8cb14743.1600.jpg"
                         },
                         new
                         {
                             Id = "be653ffe-93b8-4eeb-a9d3-7c7e8c27ca95",
-                            FilePath = "Images/be653ffe-93b8-4eeb-a9d3-7c7e8c27ca95.jpg",
+                            FilePath = "/Images/be653ffe-93b8-4eeb-a9d3-7c7e8c27ca95.jpg",
                             ProductId = 53,
                             Url = "https://m.media-amazon.com/images/I/41ZM7pNwiJL.jpg"
                         },
                         new
                         {
                             Id = "c649c783-fd90-40f1-b15e-1703623ddc8a",
-                            FilePath = "Images/c649c783-fd90-40f1-b15e-1703623ddc8a.jpg",
+                            FilePath = "/Images/c649c783-fd90-40f1-b15e-1703623ddc8a.jpg",
                             ProductId = 54,
                             Url = "https://m.media-amazon.com/images/I/31lbKfslw-L.jpg"
                         },
                         new
                         {
                             Id = "cc4db4c9-b014-4fa4-891a-85051ad2a631",
-                            FilePath = "Images/cc4db4c9-b014-4fa4-891a-85051ad2a631.jpg",
+                            FilePath = "/Images/cc4db4c9-b014-4fa4-891a-85051ad2a631.jpg",
                             ProductId = 38,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/590df3876fa2f75521f718e26036d99e.1600.jpg"
                         },
                         new
                         {
                             Id = "cc98fedc-1307-4f2c-a830-c7cb312c9a07",
-                            FilePath = "Images/cc98fedc-1307-4f2c-a830-c7cb312c9a07.jpg",
+                            FilePath = "/Images/cc98fedc-1307-4f2c-a830-c7cb312c9a07.jpg",
                             ProductId = 31,
                             Url = "https://m.media-amazon.com/images/I/41B-bypM5FL.jpg"
                         },
                         new
                         {
                             Id = "cd1621e2-52d4-4190-9b14-70568d0ca2ed",
-                            FilePath = "Images/cd1621e2-52d4-4190-9b14-70568d0ca2ed.jpg",
+                            FilePath = "/Images/cd1621e2-52d4-4190-9b14-70568d0ca2ed.jpg",
                             ProductId = 44,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/9329a601afeadc9f218b235fd02778c7.1600.jpg"
                         },
                         new
                         {
                             Id = "cf221477-6c55-4318-8674-ee8a8f02f370",
-                            FilePath = "Images/cf221477-6c55-4318-8674-ee8a8f02f370.jpg",
+                            FilePath = "/Images/cf221477-6c55-4318-8674-ee8a8f02f370.jpg",
                             ProductId = 26,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/4f3b20c2caf70107a2c3735d9e165015.1600.jpg"
                         },
                         new
                         {
                             Id = "cfcf1476-2863-4fe6-a892-8ffb8975b166",
-                            FilePath = "Images/cfcf1476-2863-4fe6-a892-8ffb8975b166.jpg",
+                            FilePath = "/Images/cfcf1476-2863-4fe6-a892-8ffb8975b166.jpg",
                             ProductId = 31,
                             Url = "https://m.media-amazon.com/images/I/31r8KD7+2BL.jpg"
                         },
                         new
                         {
                             Id = "cfe3ca17-7d35-4897-95a1-22fae8071309",
-                            FilePath = "Images/cfe3ca17-7d35-4897-95a1-22fae8071309.jpg",
+                            FilePath = "/Images/cfe3ca17-7d35-4897-95a1-22fae8071309.jpg",
                             ProductId = 29,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/69c7679bbfccb706c80f41b452d36f54.1600.jpg"
                         },
                         new
                         {
                             Id = "d239df37-50c8-4e9b-a80d-04a1e6a8670a",
-                            FilePath = "Images/d239df37-50c8-4e9b-a80d-04a1e6a8670a.jpg",
+                            FilePath = "/Images/d239df37-50c8-4e9b-a80d-04a1e6a8670a.jpg",
                             ProductId = 12,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/7e96ffff509386a74534bbe0dafc2a6e.1600.jpg"
                         },
                         new
                         {
                             Id = "d353dbeb-9820-41b0-8e0b-8f3bf1fca1f5",
-                            FilePath = "Images/d353dbeb-9820-41b0-8e0b-8f3bf1fca1f5.jpg",
+                            FilePath = "/Images/d353dbeb-9820-41b0-8e0b-8f3bf1fca1f5.jpg",
                             ProductId = 16,
                             Url = "https://m.media-amazon.com/images/I/41jJSPS8W7L.jpg"
                         },
                         new
                         {
                             Id = "d3617f44-7666-4563-82c0-d54aa838a954",
-                            FilePath = "Images/d3617f44-7666-4563-82c0-d54aa838a954.jpg",
+                            FilePath = "/Images/d3617f44-7666-4563-82c0-d54aa838a954.jpg",
                             ProductId = 58,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/51cdef3b9216df555b7c7eec7620b0e7.1600.jpg"
                         },
                         new
                         {
                             Id = "d41da59e-ee18-44d2-8304-87a056c76767",
-                            FilePath = "Images/d41da59e-ee18-44d2-8304-87a056c76767.jpg",
+                            FilePath = "/Images/d41da59e-ee18-44d2-8304-87a056c76767.jpg",
                             ProductId = 38,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/45ba4975d9641058c4284b7766939591.1600.jpg"
                         },
                         new
                         {
                             Id = "d42d3600-ac00-4976-bb49-681f9d7c4e27",
-                            FilePath = "Images/d42d3600-ac00-4976-bb49-681f9d7c4e27.jpg",
+                            FilePath = "/Images/d42d3600-ac00-4976-bb49-681f9d7c4e27.jpg",
                             ProductId = 5,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/2f3405387f23ab827695d966ea9f9682.1600.jpg"
                         },
                         new
                         {
                             Id = "d4ed8af0-c378-490c-bab2-09a95686808a",
-                            FilePath = "Images/d4ed8af0-c378-490c-bab2-09a95686808a.jpg",
+                            FilePath = "/Images/d4ed8af0-c378-490c-bab2-09a95686808a.jpg",
                             ProductId = 34,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/beccd007e2d3672aa3772619d54fd5dd.1600.jpg"
                         },
                         new
                         {
                             Id = "d4fda4f4-b48f-4da5-a6c9-693a3e3ef73b",
-                            FilePath = "Images/d4fda4f4-b48f-4da5-a6c9-693a3e3ef73b.jpg",
+                            FilePath = "/Images/d4fda4f4-b48f-4da5-a6c9-693a3e3ef73b.jpg",
                             ProductId = 43,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/125c1da538a8704be799ef12a506e177.1600.jpg"
                         },
                         new
                         {
                             Id = "d767d6bb-e3ab-4fa4-9398-9003de15cc00",
-                            FilePath = "Images/d767d6bb-e3ab-4fa4-9398-9003de15cc00.jpg",
+                            FilePath = "/Images/d767d6bb-e3ab-4fa4-9398-9003de15cc00.jpg",
                             ProductId = 33,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/ea0dee3c3376cc6326ca2f4a73a054ac.1600.jpg"
                         },
                         new
                         {
                             Id = "da97a2e9-d13e-4c08-bc7b-883c8d492f86",
-                            FilePath = "Images/da97a2e9-d13e-4c08-bc7b-883c8d492f86.jpg",
+                            FilePath = "/Images/da97a2e9-d13e-4c08-bc7b-883c8d492f86.jpg",
                             ProductId = 14,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/ba20600286bf8f74ce71df37ed8aef65.1600.jpg"
                         },
                         new
                         {
                             Id = "de272047-1790-4f5f-bc74-a79ffb720335",
-                            FilePath = "Images/de272047-1790-4f5f-bc74-a79ffb720335.jpg",
+                            FilePath = "/Images/de272047-1790-4f5f-bc74-a79ffb720335.jpg",
                             ProductId = 39,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/589124c889203fda89e25b99964ee3cb.1600.jpg"
                         },
                         new
                         {
                             Id = "e0884d7b-45f0-4484-b72f-4ca35db6936f",
-                            FilePath = "Images/e0884d7b-45f0-4484-b72f-4ca35db6936f.jpg",
+                            FilePath = "/Images/e0884d7b-45f0-4484-b72f-4ca35db6936f.jpg",
                             ProductId = 35,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/72a586f112591cd7b43f4b0dc244ba29.1600.jpg"
                         },
                         new
                         {
                             Id = "e0b29485-265a-4f85-a3db-1a65df513ae8",
-                            FilePath = "Images/e0b29485-265a-4f85-a3db-1a65df513ae8.jpg",
+                            FilePath = "/Images/e0b29485-265a-4f85-a3db-1a65df513ae8.jpg",
                             ProductId = 57,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/4553483e1ab3289f1b7e0482bc3da223.1600.jpg"
                         },
                         new
                         {
                             Id = "eb201225-6593-409b-955b-58603556f34b",
-                            FilePath = "Images/eb201225-6593-409b-955b-58603556f34b.jpg",
+                            FilePath = "/Images/eb201225-6593-409b-955b-58603556f34b.jpg",
                             ProductId = 12,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/322a6059c413dd736536e5ad5c3a2285.1600.jpg"
                         },
                         new
                         {
                             Id = "eb5bad8b-889a-4ebd-9966-145e4f787368",
-                            FilePath = "Images/eb5bad8b-889a-4ebd-9966-145e4f787368.jpg",
+                            FilePath = "/Images/eb5bad8b-889a-4ebd-9966-145e4f787368.jpg",
                             ProductId = 34,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/1977a3a3f6f1238d12ea2a555be4d7ce.1600.jpg"
                         },
                         new
                         {
                             Id = "ec07baac-38f2-4d85-b278-7e1c2ed6ece5",
-                            FilePath = "Images/ec07baac-38f2-4d85-b278-7e1c2ed6ece5.jpg",
+                            FilePath = "/Images/ec07baac-38f2-4d85-b278-7e1c2ed6ece5.jpg",
                             ProductId = 9,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/8ab57dc3c0eb346c72ef7a2405e31227.1600.jpg"
                         },
                         new
                         {
                             Id = "ec2ac398-5973-4594-a155-e53d3f6b1b1d",
-                            FilePath = "Images/ec2ac398-5973-4594-a155-e53d3f6b1b1d.jpg",
+                            FilePath = "/Images/ec2ac398-5973-4594-a155-e53d3f6b1b1d.jpg",
                             ProductId = 7,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/5909bba6badf1236eb5c127aa97091c7.1600.jpg"
                         },
                         new
                         {
                             Id = "ed1a380d-d279-427e-89a0-91e9fb56167d",
-                            FilePath = "Images/ed1a380d-d279-427e-89a0-91e9fb56167d.jpg",
+                            FilePath = "/Images/ed1a380d-d279-427e-89a0-91e9fb56167d.jpg",
                             ProductId = 39,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/108a73ebe0ccd2107410f6602134b39f.1600.jpg"
                         },
                         new
                         {
                             Id = "edc756ff-7dec-42c0-8fd6-d6baeeff938f",
-                            FilePath = "Images/edc756ff-7dec-42c0-8fd6-d6baeeff938f.jpg",
+                            FilePath = "/Images/edc756ff-7dec-42c0-8fd6-d6baeeff938f.jpg",
                             ProductId = 7,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/7b0dd4af0da38d3d1bfe7b06dba06907.1600.jpg"
                         },
                         new
                         {
                             Id = "f0eff95f-91ff-4f96-b703-2576a8ab50b5",
-                            FilePath = "Images/f0eff95f-91ff-4f96-b703-2576a8ab50b5.jpg",
+                            FilePath = "/Images/f0eff95f-91ff-4f96-b703-2576a8ab50b5.jpg",
                             ProductId = 44,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/c5c7e572704d69ffbd70e0043ea0fbba.1600.jpg"
                         },
                         new
                         {
                             Id = "f19aaa80-4cdd-443a-a542-8eeb1320998c",
-                            FilePath = "Images/f19aaa80-4cdd-443a-a542-8eeb1320998c.jpg",
+                            FilePath = "/Images/f19aaa80-4cdd-443a-a542-8eeb1320998c.jpg",
                             ProductId = 33,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/e16f356c568cce4de8b945232f49c676.1600.jpg"
                         },
                         new
                         {
                             Id = "f4c93663-203a-45bf-ae7c-e76ab78dd290",
-                            FilePath = "Images/f4c93663-203a-45bf-ae7c-e76ab78dd290.jpg",
+                            FilePath = "/Images/f4c93663-203a-45bf-ae7c-e76ab78dd290.jpg",
                             ProductId = 30,
                             Url = "https://m.media-amazon.com/images/I/3119BHzm7NL.jpg"
                         },
                         new
                         {
                             Id = "f68fdafc-f5db-4ab7-94ae-81a09e4f817c",
-                            FilePath = "Images/f68fdafc-f5db-4ab7-94ae-81a09e4f817c.jpg",
+                            FilePath = "/Images/f68fdafc-f5db-4ab7-94ae-81a09e4f817c.jpg",
                             ProductId = 12,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/85b8dbb810453334ae54f9744a082801.1600.jpg"
                         },
                         new
                         {
                             Id = "f741bca7-e0b3-414d-bdcd-40c0c9ff3cdd",
-                            FilePath = "Images/f741bca7-e0b3-414d-bdcd-40c0c9ff3cdd.jpg",
+                            FilePath = "/Images/f741bca7-e0b3-414d-bdcd-40c0c9ff3cdd.jpg",
                             ProductId = 39,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/86b45d138eeeb6df121fd3fee4ba6ec2.1600.jpg"
                         },
                         new
                         {
                             Id = "f981971f-a887-43ca-b3e2-4f39f613483d",
-                            FilePath = "Images/f981971f-a887-43ca-b3e2-4f39f613483d.jpg",
+                            FilePath = "/Images/f981971f-a887-43ca-b3e2-4f39f613483d.jpg",
                             ProductId = 7,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/b45763abe7a0517129d3c0e026d0370d.1600.jpg"
                         },
                         new
                         {
                             Id = "f98b5387-e029-4ab9-8366-f764b5313e4c",
-                            FilePath = "Images/f98b5387-e029-4ab9-8366-f764b5313e4c.jpg",
+                            FilePath = "/Images/f98b5387-e029-4ab9-8366-f764b5313e4c.jpg",
                             ProductId = 33,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/45f130618c6312f8e0563fe324783fb8.1600.jpg"
                         },
                         new
                         {
                             Id = "fad4f25c-7bb3-4a17-ba18-c9b2969e8852",
-                            FilePath = "Images/fad4f25c-7bb3-4a17-ba18-c9b2969e8852.jpg",
+                            FilePath = "/Images/fad4f25c-7bb3-4a17-ba18-c9b2969e8852.jpg",
                             ProductId = 27,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/336c7955df0312d04655dd3a13973c95.1600.jpg"
                         },
                         new
                         {
                             Id = "fcf45d3e-bd42-4e4f-90ce-d37b26f58995",
-                            FilePath = "Images/fcf45d3e-bd42-4e4f-90ce-d37b26f58995.jpg",
+                            FilePath = "/Images/fcf45d3e-bd42-4e4f-90ce-d37b26f58995.jpg",
                             ProductId = 32,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/8fea66429634183b78ae8cf477e6f7fa.1600.jpg"
                         },
                         new
                         {
                             Id = "fd700b5d-ae2f-4dae-91ae-46d8f3bf3be2",
-                            FilePath = "Images/fd700b5d-ae2f-4dae-91ae-46d8f3bf3be2.jpg",
+                            FilePath = "/Images/fd700b5d-ae2f-4dae-91ae-46d8f3bf3be2.jpg",
                             ProductId = 34,
                             Url = "https://cdna.pcpartpicker.com/static/forever/images/product/760d63945cda200b5c35cb492ebc5a25.1600.jpg"
                         },
                         new
                         {
                             Id = "fe1a4e59-6541-4d42-ad4a-90094c4b8c97",
-                            FilePath = "Images/fe1a4e59-6541-4d42-ad4a-90094c4b8c97.jpg",
+                            FilePath = "/Images/fe1a4e59-6541-4d42-ad4a-90094c4b8c97.jpg",
                             ProductId = 54,
                             Url = "https://m.media-amazon.com/images/I/31WTkBtfx-L.jpg"
                         });
@@ -1373,6 +1416,68 @@ namespace HardwareStore.App.Migrations
                             Id = 27,
                             Name = "LG"
                         });
+                });
+
+            modelBuilder.Entity("HardwareStore.App.Data.Models.Order", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("OrderSum")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("PaymentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("HardwareStore.App.Data.Models.OrderProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OrderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("OriginalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrdersProducts");
                 });
 
             modelBuilder.Entity("HardwareStore.App.Data.Models.PartNumber", b =>
@@ -1984,6 +2089,9 @@ namespace HardwareStore.App.Migrations
                     b.Property<string>("NameDetailed")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -1999,7 +2107,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 5,
                             ManufacturerId = 3,
                             Name = "AMD Ryzen 5 5600X",
-                            NameDetailed = "AMD Ryzen 5 5600X 3.7 GHz 6-Core Processor"
+                            NameDetailed = "AMD Ryzen 5 5600X 3.7 GHz 6-Core Processor",
+                            Price = 0m
                         },
                         new
                         {
@@ -2007,7 +2116,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 5,
                             ManufacturerId = 3,
                             Name = "AMD Ryzen 7 7800X3D",
-                            NameDetailed = "AMD Ryzen 7 7800X3D 4.2 GHz 8-Core Processor"
+                            NameDetailed = "AMD Ryzen 7 7800X3D 4.2 GHz 8-Core Processor",
+                            Price = 0m
                         },
                         new
                         {
@@ -2015,7 +2125,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 5,
                             ManufacturerId = 4,
                             Name = "Intel Core i7-13700K",
-                            NameDetailed = "Intel Core i7-13700K 3.4 GHz 16-Core Processor"
+                            NameDetailed = "Intel Core i7-13700K 3.4 GHz 16-Core Processor",
+                            Price = 0m
                         },
                         new
                         {
@@ -2023,7 +2134,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 5,
                             ManufacturerId = 3,
                             Name = "AMD Ryzen 7 5800X",
-                            NameDetailed = "AMD Ryzen 7 5800X 3.8 GHz 8-Core Processor"
+                            NameDetailed = "AMD Ryzen 7 5800X 3.8 GHz 8-Core Processor",
+                            Price = 0m
                         },
                         new
                         {
@@ -2031,7 +2143,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 6,
                             ManufacturerId = 5,
                             Name = "Cooler Master Hyper 212 Black Edition",
-                            NameDetailed = "Cooler Master Hyper 212 Black Edition 42 CFM CPU Cooler"
+                            NameDetailed = "Cooler Master Hyper 212 Black Edition 42 CFM CPU Cooler",
+                            Price = 0m
                         },
                         new
                         {
@@ -2039,7 +2152,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 6,
                             ManufacturerId = 5,
                             Name = "Cooler Master MASTERLIQUID ML240L RGB V2",
-                            NameDetailed = "Cooler Master MASTERLIQUID ML240L RGB V2 65.59 CFM Liquid CPU Cooler"
+                            NameDetailed = "Cooler Master MASTERLIQUID ML240L RGB V2 65.59 CFM Liquid CPU Cooler",
+                            Price = 0m
                         },
                         new
                         {
@@ -2047,7 +2161,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 6,
                             ManufacturerId = 6,
                             Name = "be quiet! Dark Rock Pro 4",
-                            NameDetailed = "be quiet! Dark Rock Pro 4 50.5 CFM CPU Cooler"
+                            NameDetailed = "be quiet! Dark Rock Pro 4 50.5 CFM CPU Cooler",
+                            Price = 0m
                         },
                         new
                         {
@@ -2055,7 +2170,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 6,
                             ManufacturerId = 7,
                             Name = "Corsair iCUE H150i ELITE CAPELLIX XT",
-                            NameDetailed = "Corsair iCUE H150i ELITE CAPELLIX XT 65.57 CFM Liquid CPU Cooler"
+                            NameDetailed = "Corsair iCUE H150i ELITE CAPELLIX XT 65.57 CFM Liquid CPU Cooler",
+                            Price = 0m
                         },
                         new
                         {
@@ -2063,7 +2179,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 7,
                             ManufacturerId = 8,
                             Name = "MSI B550 GAMING GEN3",
-                            NameDetailed = "MSI B550 GAMING GEN3 ATX AM4 Motherboard"
+                            NameDetailed = "MSI B550 GAMING GEN3 ATX AM4 Motherboard",
+                            Price = 0m
                         },
                         new
                         {
@@ -2071,7 +2188,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 7,
                             ManufacturerId = 9,
                             Name = "Gigabyte B650 AORUS ELITE AX",
-                            NameDetailed = "Gigabyte B650 AORUS ELITE AX ATX AM5 Motherboard"
+                            NameDetailed = "Gigabyte B650 AORUS ELITE AX ATX AM5 Motherboard",
+                            Price = 0m
                         },
                         new
                         {
@@ -2079,7 +2197,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 7,
                             ManufacturerId = 8,
                             Name = "MSI MAG B550 TOMAHAWK",
-                            NameDetailed = "MSI MAG B550 TOMAHAWK ATX AM4 Motherboard"
+                            NameDetailed = "MSI MAG B550 TOMAHAWK ATX AM4 Motherboard",
+                            Price = 0m
                         },
                         new
                         {
@@ -2087,7 +2206,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 7,
                             ManufacturerId = 9,
                             Name = "Gigabyte Z790 AORUS ELITE AX",
-                            NameDetailed = "Gigabyte Z790 AORUS ELITE AX ATX LGA1700 Motherboard"
+                            NameDetailed = "Gigabyte Z790 AORUS ELITE AX ATX LGA1700 Motherboard",
+                            Price = 0m
                         },
                         new
                         {
@@ -2095,7 +2215,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 8,
                             ManufacturerId = 7,
                             Name = "Corsair Vengeance LPX 16 GB",
-                            NameDetailed = "Corsair Vengeance LPX 16 GB (2 x 8 GB) DDR4-3200 CL16 Memory"
+                            NameDetailed = "Corsair Vengeance LPX 16 GB (2 x 8 GB) DDR4-3200 CL16 Memory",
+                            Price = 0m
                         },
                         new
                         {
@@ -2103,7 +2224,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 8,
                             ManufacturerId = 7,
                             Name = "Corsair Vengeance 32 GB",
-                            NameDetailed = "Corsair Vengeance 32 GB (2 x 16 GB) DDR5-5600 CL36 Memory"
+                            NameDetailed = "Corsair Vengeance 32 GB (2 x 16 GB) DDR5-5600 CL36 Memory",
+                            Price = 0m
                         },
                         new
                         {
@@ -2111,7 +2233,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 8,
                             ManufacturerId = 7,
                             Name = "Corsair Vengeance RGB Pro 32 GB",
-                            NameDetailed = "Corsair Vengeance RGB Pro 32 GB (2 x 16 GB) DDR4-3600 CL18 Memory"
+                            NameDetailed = "Corsair Vengeance RGB Pro 32 GB (2 x 16 GB) DDR4-3600 CL18 Memory",
+                            Price = 0m
                         },
                         new
                         {
@@ -2119,7 +2242,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 8,
                             ManufacturerId = 10,
                             Name = "G.Skill Trident Z5 RGB 32 GB",
-                            NameDetailed = "G.Skill Trident Z5 RGB 32 GB (2 x 16 GB) DDR5-6000 CL36 Memory"
+                            NameDetailed = "G.Skill Trident Z5 RGB 32 GB (2 x 16 GB) DDR5-6000 CL36 Memory",
+                            Price = 0m
                         },
                         new
                         {
@@ -2127,7 +2251,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 9,
                             ManufacturerId = 11,
                             Name = "Samsung 980 Pro",
-                            NameDetailed = "Samsung 980 Pro 2 TB M.2-2280 PCIe 4.0 X4 NVME Solid State Drive"
+                            NameDetailed = "Samsung 980 Pro 2 TB M.2-2280 PCIe 4.0 X4 NVME Solid State Drive",
+                            Price = 0m
                         },
                         new
                         {
@@ -2135,7 +2260,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 9,
                             ManufacturerId = 12,
                             Name = "Seagate Barracuda Compute",
-                            NameDetailed = "Seagate Barracuda Compute 2 TB 3.5\" 7200 RPM Internal Hard Drive"
+                            NameDetailed = "Seagate Barracuda Compute 2 TB 3.5\" 7200 RPM Internal Hard Drive",
+                            Price = 0m
                         },
                         new
                         {
@@ -2143,7 +2269,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 9,
                             ManufacturerId = 13,
                             Name = "Kingston A400",
-                            NameDetailed = "Kingston A400 240 GB 2.5\" Solid State Drive"
+                            NameDetailed = "Kingston A400 240 GB 2.5\" Solid State Drive",
+                            Price = 0m
                         },
                         new
                         {
@@ -2151,7 +2278,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 9,
                             ManufacturerId = 14,
                             Name = "Crucial P3",
-                            NameDetailed = "Crucial P3 4 TB M.2-2280 PCIe 3.0 X4 NVME Solid State Drive"
+                            NameDetailed = "Crucial P3 4 TB M.2-2280 PCIe 3.0 X4 NVME Solid State Drive",
+                            Price = 0m
                         },
                         new
                         {
@@ -2159,7 +2287,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 10,
                             ManufacturerId = 8,
                             Name = "MSI GeForce RTX 3060 Ventus 2X 12G",
-                            NameDetailed = "MSI GeForce RTX 3060 Ventus 2X 12G GeForce RTX 3060 12GB 12 GB Video Card"
+                            NameDetailed = "MSI GeForce RTX 3060 Ventus 2X 12G GeForce RTX 3060 12GB 12 GB Video Card",
+                            Price = 0m
                         },
                         new
                         {
@@ -2167,7 +2296,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 10,
                             ManufacturerId = 9,
                             Name = "Gigabyte WINDFORCE OC",
-                            NameDetailed = "Gigabyte WINDFORCE OC GeForce RTX 4070 12 GB Video Card"
+                            NameDetailed = "Gigabyte WINDFORCE OC GeForce RTX 4070 12 GB Video Card",
+                            Price = 0m
                         },
                         new
                         {
@@ -2175,7 +2305,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 10,
                             ManufacturerId = 15,
                             Name = "Asus ROG STRIX GAMING OC",
-                            NameDetailed = "Asus ROG STRIX GAMING OC GeForce RTX 4090 24 GB Video Card"
+                            NameDetailed = "Asus ROG STRIX GAMING OC GeForce RTX 4090 24 GB Video Card",
+                            Price = 0m
                         },
                         new
                         {
@@ -2183,7 +2314,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 10,
                             ManufacturerId = 8,
                             Name = "MSI RTX 3060 Ventus 3X 12G OC",
-                            NameDetailed = "MSI RTX 3060 Ventus 3X 12G OC GeForce RTX 3060 12GB 12 GB Video Card"
+                            NameDetailed = "MSI RTX 3060 Ventus 3X 12G OC GeForce RTX 3060 12GB 12 GB Video Card",
+                            Price = 0m
                         },
                         new
                         {
@@ -2191,7 +2323,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 11,
                             ManufacturerId = 7,
                             Name = "Corsair RM750e (2023)",
-                            NameDetailed = "Corsair RM750e (2023) 750 W 80+ Gold Certified Fully Modular ATX Power Supply"
+                            NameDetailed = "Corsair RM750e (2023) 750 W 80+ Gold Certified Fully Modular ATX Power Supply",
+                            Price = 0m
                         },
                         new
                         {
@@ -2199,7 +2332,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 11,
                             ManufacturerId = 16,
                             Name = "Thermaltake Toughpower GX2",
-                            NameDetailed = "Thermaltake Toughpower GX2 600 W 80+ Gold Certified ATX Power Supply"
+                            NameDetailed = "Thermaltake Toughpower GX2 600 W 80+ Gold Certified ATX Power Supply",
+                            Price = 0m
                         },
                         new
                         {
@@ -2207,7 +2341,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 11,
                             ManufacturerId = 8,
                             Name = "MSI MPG A650GF",
-                            NameDetailed = "MSI MPG A650GF 650 W 80+ Gold Certified Fully Modular ATX Power Supply"
+                            NameDetailed = "MSI MPG A650GF 650 W 80+ Gold Certified Fully Modular ATX Power Supply",
+                            Price = 0m
                         },
                         new
                         {
@@ -2215,7 +2350,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 11,
                             ManufacturerId = 17,
                             Name = "EVGA 500 W1",
-                            NameDetailed = "EVGA 500 W1 500 W 80+ Certified ATX Power Supply"
+                            NameDetailed = "EVGA 500 W1 500 W 80+ Certified ATX Power Supply",
+                            Price = 0m
                         },
                         new
                         {
@@ -2223,7 +2359,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 12,
                             ManufacturerId = 18,
                             Name = "Deepcool CC560",
-                            NameDetailed = "Deepcool CC560 ATX Mid Tower Case"
+                            NameDetailed = "Deepcool CC560 ATX Mid Tower Case",
+                            Price = 0m
                         },
                         new
                         {
@@ -2231,7 +2368,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 12,
                             ManufacturerId = 19,
                             Name = "NZXT H5 Flow",
-                            NameDetailed = "NZXT H5 Flow ATX Mid Tower Case"
+                            NameDetailed = "NZXT H5 Flow ATX Mid Tower Case",
+                            Price = 0m
                         },
                         new
                         {
@@ -2239,7 +2377,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 12,
                             ManufacturerId = 20,
                             Name = "Lian Li O11 Dynamic EVO",
-                            NameDetailed = "Lian Li O11 Dynamic EVO ATX Mid Tower Case"
+                            NameDetailed = "Lian Li O11 Dynamic EVO ATX Mid Tower Case",
+                            Price = 0m
                         },
                         new
                         {
@@ -2247,7 +2386,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 12,
                             ManufacturerId = 21,
                             Name = "Fractal Design North",
-                            NameDetailed = "Fractal Design North ATX Mid Tower Case"
+                            NameDetailed = "Fractal Design North ATX Mid Tower Case",
+                            Price = 0m
                         },
                         new
                         {
@@ -2255,7 +2395,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 13,
                             ManufacturerId = 22,
                             Name = "HP HyperX Cloud II",
-                            NameDetailed = "HP HyperX Cloud II 7.1 Channel Headset"
+                            NameDetailed = "HP HyperX Cloud II 7.1 Channel Headset",
+                            Price = 0m
                         },
                         new
                         {
@@ -2263,7 +2404,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 13,
                             ManufacturerId = 23,
                             Name = "Razer BlackShark V2 X",
-                            NameDetailed = "Razer BlackShark V2 X 7.1 Channel Headset"
+                            NameDetailed = "Razer BlackShark V2 X 7.1 Channel Headset",
+                            Price = 0m
                         },
                         new
                         {
@@ -2271,7 +2413,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 13,
                             ManufacturerId = 24,
                             Name = "Logitech Pro X",
-                            NameDetailed = "Logitech Pro X 7.1 Channel Headset"
+                            NameDetailed = "Logitech Pro X 7.1 Channel Headset",
+                            Price = 0m
                         },
                         new
                         {
@@ -2279,7 +2422,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 13,
                             ManufacturerId = 23,
                             Name = "Razer Kraken Kitty",
-                            NameDetailed = "Razer Kraken Kitty Headset"
+                            NameDetailed = "Razer Kraken Kitty Headset",
+                            Price = 0m
                         },
                         new
                         {
@@ -2287,7 +2431,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 14,
                             ManufacturerId = 7,
                             Name = "Corsair K60 RGB Pro",
-                            NameDetailed = "Corsair K60 RGB Pro Wired Gaming Keyboard"
+                            NameDetailed = "Corsair K60 RGB Pro Wired Gaming Keyboard",
+                            Price = 0m
                         },
                         new
                         {
@@ -2295,7 +2440,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 14,
                             ManufacturerId = 24,
                             Name = "Logitech K120",
-                            NameDetailed = "Logitech K120 Wired Standard Keyboard"
+                            NameDetailed = "Logitech K120 Wired Standard Keyboard",
+                            Price = 0m
                         },
                         new
                         {
@@ -2303,7 +2449,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 14,
                             ManufacturerId = 23,
                             Name = "Razer Huntsman Mini",
-                            NameDetailed = "Razer Huntsman Mini RGB Wired Mini Keyboard"
+                            NameDetailed = "Razer Huntsman Mini RGB Wired Mini Keyboard",
+                            Price = 0m
                         },
                         new
                         {
@@ -2311,7 +2458,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 14,
                             ManufacturerId = 23,
                             Name = "Razer BlackWidow V3",
-                            NameDetailed = "Razer BlackWidow V3 RGB Wired Gaming Keyboard"
+                            NameDetailed = "Razer BlackWidow V3 RGB Wired Gaming Keyboard",
+                            Price = 0m
                         },
                         new
                         {
@@ -2319,7 +2467,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 15,
                             ManufacturerId = 24,
                             Name = "Logitech G502 HERO",
-                            NameDetailed = "Logitech G502 HERO Wired Optical Mouse"
+                            NameDetailed = "Logitech G502 HERO Wired Optical Mouse",
+                            Price = 0m
                         },
                         new
                         {
@@ -2327,7 +2476,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 15,
                             ManufacturerId = 23,
                             Name = "Razer Basilisk V3",
-                            NameDetailed = "Razer Basilisk V3 Wired Optical Mouse"
+                            NameDetailed = "Razer Basilisk V3 Wired Optical Mouse",
+                            Price = 0m
                         },
                         new
                         {
@@ -2335,7 +2485,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 15,
                             ManufacturerId = 23,
                             Name = "Razer DeathAdder Essential",
-                            NameDetailed = "Razer DeathAdder Essential Wired Optical Mouse"
+                            NameDetailed = "Razer DeathAdder Essential Wired Optical Mouse",
+                            Price = 0m
                         },
                         new
                         {
@@ -2343,7 +2494,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 15,
                             ManufacturerId = 23,
                             Name = "Razer Viper Mini",
-                            NameDetailed = "Razer Viper Mini Wired Optical Mouse"
+                            NameDetailed = "Razer Viper Mini Wired Optical Mouse",
+                            Price = 0m
                         },
                         new
                         {
@@ -2351,7 +2503,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 16,
                             ManufacturerId = 24,
                             Name = "Logitech Z200",
-                            NameDetailed = "Logitech Z200 10 W Speakers"
+                            NameDetailed = "Logitech Z200 10 W Speakers",
+                            Price = 0m
                         },
                         new
                         {
@@ -2359,7 +2512,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 16,
                             ManufacturerId = 24,
                             Name = "Logitech Z906",
-                            NameDetailed = "Logitech Z906 500 W 5.1-Channel Speakers"
+                            NameDetailed = "Logitech Z906 500 W 5.1-Channel Speakers",
+                            Price = 0m
                         },
                         new
                         {
@@ -2367,7 +2521,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 16,
                             ManufacturerId = 23,
                             Name = "Razer Leviathan V2",
-                            NameDetailed = "Razer Leviathan V2 65 W 2.1-Channel Speakers"
+                            NameDetailed = "Razer Leviathan V2 65 W 2.1-Channel Speakers",
+                            Price = 0m
                         },
                         new
                         {
@@ -2375,7 +2530,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 16,
                             ManufacturerId = 25,
                             Name = "Creative Labs Creative Stage V2",
-                            NameDetailed = "Creative Labs Creative Stage V2 80 W 2.1-Channel Speakers"
+                            NameDetailed = "Creative Labs Creative Stage V2 80 W 2.1-Channel Speakers",
+                            Price = 0m
                         },
                         new
                         {
@@ -2383,7 +2539,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 17,
                             ManufacturerId = 24,
                             Name = "Logitech BRIO Ultra HD Pro",
-                            NameDetailed = "Logitech BRIO Ultra HD Pro Webcam"
+                            NameDetailed = "Logitech BRIO Ultra HD Pro Webcam",
+                            Price = 0m
                         },
                         new
                         {
@@ -2391,7 +2548,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 17,
                             ManufacturerId = 23,
                             Name = "Razer Kiyo Pro Ultra",
-                            NameDetailed = "Razer Kiyo Pro Ultra Webcam"
+                            NameDetailed = "Razer Kiyo Pro Ultra Webcam",
+                            Price = 0m
                         },
                         new
                         {
@@ -2399,7 +2557,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 18,
                             ManufacturerId = 15,
                             Name = "Asus TUF Gaming VG27AQ",
-                            NameDetailed = "Asus TUF Gaming VG27AQ 27.0\" 2560 x 1440 165 Hz Monitor"
+                            NameDetailed = "Asus TUF Gaming VG27AQ 27.0\" 2560 x 1440 165 Hz Monitor",
+                            Price = 0m
                         },
                         new
                         {
@@ -2407,7 +2566,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 18,
                             ManufacturerId = 11,
                             Name = "Samsung Odyssey G7",
-                            NameDetailed = "Samsung Odyssey G7 27.0\" 2560 x 1440 240 Hz Curved Monitor"
+                            NameDetailed = "Samsung Odyssey G7 27.0\" 2560 x 1440 240 Hz Curved Monitor",
+                            Price = 0m
                         },
                         new
                         {
@@ -2415,7 +2575,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 18,
                             ManufacturerId = 26,
                             Name = "AOC C27G2Z",
-                            NameDetailed = "AOC C27G2Z 27.0\" 1920 x 1080 240 Hz Curved Monitor"
+                            NameDetailed = "AOC C27G2Z 27.0\" 1920 x 1080 240 Hz Curved Monitor",
+                            Price = 0m
                         },
                         new
                         {
@@ -2423,7 +2584,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 17,
                             ManufacturerId = 24,
                             Name = "Logitech C270",
-                            NameDetailed = "Logitech C270 Webcam"
+                            NameDetailed = "Logitech C270 Webcam",
+                            Price = 0m
                         },
                         new
                         {
@@ -2431,7 +2593,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 17,
                             ManufacturerId = 23,
                             Name = "Razer Kiyo",
-                            NameDetailed = "Razer Kiyo Webcam"
+                            NameDetailed = "Razer Kiyo Webcam",
+                            Price = 0m
                         },
                         new
                         {
@@ -2439,7 +2602,8 @@ namespace HardwareStore.App.Migrations
                             CategoryId = 18,
                             ManufacturerId = 27,
                             Name = "LG UltraGear",
-                            NameDetailed = "LG UltraGear 27.0\" 2560 x 1440 165 Hz Monitor"
+                            NameDetailed = "LG UltraGear 27.0\" 2560 x 1440 165 Hz Monitor",
+                            Price = 0m
                         });
                 });
 
@@ -2458,17 +2622,24 @@ namespace HardwareStore.App.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsApproved")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Review")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Rating")
+                        .HasColumnType("int");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Review")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -12446,6 +12617,17 @@ namespace HardwareStore.App.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("HardwareStore.App.Data.Models.Address", b =>
+                {
+                    b.HasOne("HardwareStore.App.Data.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("Addresses")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
             modelBuilder.Entity("HardwareStore.App.Data.Models.Cart", b =>
                 {
                     b.HasOne("HardwareStore.App.Data.Models.ApplicationUser", "ApplicationUser")
@@ -12483,6 +12665,36 @@ namespace HardwareStore.App.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("HardwareStore.App.Data.Models.Order", b =>
+                {
+                    b.HasOne("HardwareStore.App.Data.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("Orders")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("HardwareStore.App.Data.Models.OrderProduct", b =>
+                {
+                    b.HasOne("HardwareStore.App.Data.Models.Order", "Order")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HardwareStore.App.Data.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
 
                     b.Navigation("Product");
                 });
@@ -12626,8 +12838,12 @@ namespace HardwareStore.App.Migrations
 
             modelBuilder.Entity("HardwareStore.App.Data.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("Addresses");
+
                     b.Navigation("Cart")
                         .IsRequired();
+
+                    b.Navigation("Orders");
 
                     b.Navigation("ProductReviews");
                 });
@@ -12647,6 +12863,11 @@ namespace HardwareStore.App.Migrations
             modelBuilder.Entity("HardwareStore.App.Data.Models.Manufacturer", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("HardwareStore.App.Data.Models.Order", b =>
+                {
+                    b.Navigation("OrderProducts");
                 });
 
             modelBuilder.Entity("HardwareStore.App.Data.Models.Product", b =>
