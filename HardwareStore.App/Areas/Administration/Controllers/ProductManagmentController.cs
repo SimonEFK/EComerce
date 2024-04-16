@@ -12,10 +12,8 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
 
-    [Area(Areas.Administration)]
-    [Authorize(Roles = "admin")]
-
-    public class ProductManagmentController : Controller
+   
+    public class ProductManagmentController : AdminBaseController
     {
         private readonly ICategoryDataService _categoryDataService;
         private readonly IProductDataService _productDataService;

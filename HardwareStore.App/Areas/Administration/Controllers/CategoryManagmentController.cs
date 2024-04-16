@@ -7,10 +7,9 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
-    [Area("administration")]
-    //[Authorize(Roles = "admin")]
+    
 
-    public class CategoryManagmentController : Controller
+    public class CategoryManagmentController : AdminBaseController
     {
         private readonly ICategoryDataService _categoryDataService;
         private readonly IMapper mapper;

@@ -4,9 +4,8 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
-    [Area("administration")]
-    [Authorize(Roles = "admin")]
-    public class AdminController : Controller
+    
+    public class AdminController : AdminBaseController
     {
                 
         public IActionResult Index()

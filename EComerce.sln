@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HardwareStore.Test", "HardwareStore.Test\HardwareStore.Test.csproj", "{489999AD-D9EC-400E-B68D-EA63B7F45CFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{9B02120E-8073-4D39-AD75-F2F87D84C20F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B02120E-8073-4D39-AD75-F2F87D84C20F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B02120E-8073-4D39-AD75-F2F87D84C20F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{489999AD-D9EC-400E-B68D-EA63B7F45CFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{489999AD-D9EC-400E-B68D-EA63B7F45CFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{489999AD-D9EC-400E-B68D-EA63B7F45CFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{489999AD-D9EC-400E-B68D-EA63B7F45CFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

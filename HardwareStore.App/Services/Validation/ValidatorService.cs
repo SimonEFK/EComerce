@@ -3,7 +3,6 @@
     using HardwareStore.App.Data;
     using HardwareStore.App.Services.ProductFiltering;
     using Microsoft.EntityFrameworkCore;
-    using System.ComponentModel.DataAnnotations;
 
     public class ValidatorService : IValidatorService
     {
@@ -36,7 +35,7 @@
         public async Task<bool> IsManufacturerValidAsync(HashSet<int> manufacturerIds)
         {
             var manufacturers = await data.Manufacturers.Select(x => x.Id).ToListAsync();
-            foreach (var id in manufacturers)
+            foreach (var id in manufacturerIds)
             {
                 if (!manufacturers.Any(x => x == id))
                 {
@@ -49,7 +48,7 @@
 
         public async Task<bool> IsSpecificationValidAsync(int specificationId)
         {
-            return await data.SpecificationValues.AnyAsync(x => x.SpecificationId == specificationId);
+            return await data.Specifications.AnyAsync(x => x.Id == specificationId);
         }
 
         public async Task<bool> IsSpecificationValueValidAsync(int valueId)

@@ -27,7 +27,7 @@
                         }
                     </div>
                 </div>
-                <form method="post" asp-controller="UserProfile" asp-action="EditReview">
+                <form method="post" asp-controller="UserProfile" asp-action="EditReview">                    
                     <input disabled type="hidden" name="ReviewId" value="@item.Id" />
                     <input disabled type="hidden" name="ProductId" value="@item.ProductId" />
                     <input asp-for="@Model.ReviewInputModel.Content" name="Content" disabled type="text" value="@item.Review" class="my-2 form-control" />
@@ -38,12 +38,15 @@
                         <option value="4">4 Stars</option>
                         <option value="5">5 Stars</option>
                     </select>
+                    @Html.AntiForgeryToken()
                     <button data-editbtn type="button" class="btn btn-outline-info">Edit</button>
                     <button class="btn btn-outline-info">Apply</button>
                 </form>
                 @if (!item.IsDeleted)
                 {
-                    <form method="post" asp-controller="UserProfile" asp-action="RemoveReview">
+
+                    <form method="post" asp-controller="UserProfile" asp-action="RemoveReview"> 
+                        @Html.AntiForgeryToken()
                         <input type="hidden" name="reviewId" value="@item.Id" />
                         <button class="btn btn-outline-danger position-absolute bottom-0 end-0" type="submit">Delete</button>
                     </form>

@@ -6,9 +6,8 @@
     using Microsoft.AspNetCore.Mvc;
     using static HardwareStore.App.Constants.Constants;
 
-    [Area(Areas.Administration)]
-    //[Authorize(Roles = Roles.Admin)]
-    public class ReviewManagmentController : Controller
+    
+    public class ReviewManagmentController : AdminBaseController
     {
         private IProductReviewService productReviewService;
 

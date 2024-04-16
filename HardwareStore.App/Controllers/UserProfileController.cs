@@ -4,10 +4,12 @@
     using HardwareStore.App.Models.Review;
     using HardwareStore.App.Models.UserProfile;
     using HardwareStore.App.Services.ProductReview;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.Security.Claims;
 
+    [Authorize]
     public class UserProfileController : Controller
     {
         private readonly IProductReviewService _productReviewService;
@@ -37,6 +39,7 @@
             return View(viewModel);
         }
 
+        [HttpPost]        
         public async Task<IActionResult> EditReview(ReviewInputModel model)
         {
             if (!ModelState.IsValid)
@@ -57,6 +60,7 @@
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveReview(int reviewId)
         {
             var result = await _productReviewService.DeleteReview(reviewId);
@@ -66,7 +70,6 @@
             }
 
             return Redirect("/UserProfile/UserReviews");
-
         }
 
 
@@ -77,7 +80,8 @@
             return View(viewModel);
         }
 
-        [HttpPost]
+        [HttpPost]        
+        [ValidateAntiForgeryToken]
         public IActionResult AddAddress(CreateAddressViewModel model)
         {
             if (!ModelState.IsValid)
