@@ -39,7 +39,7 @@
 
         public async Task<IActionResult> ProductReviews(int productId)
         {
-            var productReviews = await _productReviewService.GetProductReviews(productId);
+            var productReviews = await _productReviewService.GetProductReviewsAsync(productId);
             var productReviewInputModel = new ReviewInputModel();
             var productReviewViewModel = new ProductReviewViewModel
             {

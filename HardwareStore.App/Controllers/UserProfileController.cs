@@ -33,7 +33,7 @@
             {
                 return BadRequest();
             }
-            var userReviews = await _productReviewService.GetUserReviews(userId, true);
+            var userReviews = await _productReviewService.GetUserReviewsAsync(userId, true);
 
             var viewModel = new UserProfileViewModel { ProductReviews = userReviews };
             return View(viewModel);
@@ -49,7 +49,7 @@
             var user = await _userManager.GetUserAsync(this.HttpContext.User);
 
             var result = await _productReviewService
-                .EditReview(user, model.ReviewId.Value,
+                .EditReviewAsync(user, model.ReviewId.Value,
                 model.Content,
                 model.Rating.Value);
             if (result.Success == false)
@@ -63,7 +63,7 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveReview(int reviewId)
         {
-            var result = await _productReviewService.DeleteReview(reviewId);
+            var result = await _productReviewService.DeleteReviewAsync(reviewId);
             if (result.Success == false)
             {
                 return BadRequest();

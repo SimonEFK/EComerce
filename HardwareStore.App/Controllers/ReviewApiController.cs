@@ -32,7 +32,7 @@
             }
             try
             {
-                await _productReviewService.CreateReview(user, model.Content, model.Rating, model.ProductId);
+                await _productReviewService.CreateReviewAsync(user, model.Content, model.Rating, model.ProductId);
             }
             catch (Exception ex)
             {

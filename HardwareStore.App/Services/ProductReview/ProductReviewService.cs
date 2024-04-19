@@ -19,7 +19,7 @@
             this.mapper = mapper;
         }
 
-        public async Task CreateReview(ApplicationUser user, string content, int? rating, int productId)
+        public async Task CreateReviewAsync(ApplicationUser user, string content, int? rating, int productId)
         {
             var product = await dbContext.Products.Include(x=>x.ProductReviews).FirstOrDefaultAsync(x => x.Id == productId);
             if (product == null)
@@ -42,7 +42,7 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<ProductReviewDTO>> GetProductReviews(int productId, bool includeNotApproved = false, bool includeDeleted = false)
+        public async Task<List<ProductReviewDTO>> GetProductReviewsAsync(int productId, bool includeNotApproved = false, bool includeDeleted = false)
         {
             var query = dbContext.ProductReviews
                 .Where(x => x.ProductId == productId).AsQueryable();
@@ -60,7 +60,7 @@
             return result;
         }
 
-        public async Task<IEnumerable<ProductReviewDTO>> GetAll(bool includeNotApproved = false)
+        public async Task<IEnumerable<ProductReviewDTO>> GetAllAsync(bool includeNotApproved = false)
         {
             var query = dbContext.ProductReviews.AsQueryable();
 
@@ -75,7 +75,7 @@
             return reviews;
         }
 
-        public async Task<IEnumerable<ProductReviewDTO>> GetUserReviews(string userId, bool includeNotApproved = false)
+        public async Task<IEnumerable<ProductReviewDTO>> GetUserReviewsAsync(string userId, bool includeNotApproved = false)
         {
             var query = dbContext.ProductReviews.AsQueryable();
 
@@ -88,7 +88,7 @@
             return userReviews;
         }
 
-        public async Task<ServiceResult> ChangeReviewStatus(int reviewId, bool isApproved)
+        public async Task<ServiceResult> ChangeReviewStatusAsync(int reviewId, bool isApproved)
         {
             var serviceResult = new ServiceResult();
 
@@ -104,7 +104,7 @@
             return serviceResult;
         }
 
-        public async Task<ServiceResult> DeleteReview(int reviewId, bool trueDelete = false)
+        public async Task<ServiceResult> DeleteReviewAsync(int reviewId, bool trueDelete = false)
         {
             var serviceResult = new ServiceResult();
             var review = await dbContext.ProductReviews.FirstOrDefaultAsync(x => x.Id == reviewId);
@@ -130,7 +130,7 @@
             return serviceResult;
         }
 
-        public async Task<ServiceResult> EditReview(ApplicationUser user, int reviewId, string content, int rating)
+        public async Task<ServiceResult> EditReviewAsync(ApplicationUser user, int reviewId, string content, int rating)
         {
             var serviceResult = new ServiceResult();
             var review = await dbContext.ProductReviews.FirstOrDefaultAsync(x => x.Id == reviewId);

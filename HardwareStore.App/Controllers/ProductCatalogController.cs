@@ -123,7 +123,7 @@
                 return RedirectToAction(nameof(Index));
             }
 
-            var productReviews = await reviewService.GetProductReviews(id);
+            var productReviews = await reviewService.GetProductReviewsAsync(id);
             var viewModel = new ComponentDetailViewModel
             {
                 Product = product,

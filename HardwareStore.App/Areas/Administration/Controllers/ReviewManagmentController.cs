@@ -18,7 +18,7 @@
 
         public async Task<IActionResult> Index()
         {
-            var reviews = await productReviewService.GetAll(true);
+            var reviews = await productReviewService.GetAllAsync(true);
             var viewModel = new ProductReviewViewModel
             {
                 ProductReviews = reviews.ToList()
@@ -29,7 +29,7 @@
         [HttpPost]
         public async Task<IActionResult> ChangeReviewStatus(int reviewId, bool isApproved)
         {
-            var result = await productReviewService.ChangeReviewStatus(reviewId, isApproved);
+            var result = await productReviewService.ChangeReviewStatusAsync(reviewId, isApproved);
 
             if (result.Success == false)
             {
@@ -41,7 +41,7 @@
         [HttpPost]
         public async Task<IActionResult> DeleteReview(int reviewId)
         {
-            var result = await productReviewService.DeleteReview(reviewId, true);
+            var result = await productReviewService.DeleteReviewAsync(reviewId, true);
 
             if (result.Success == false)
             {
