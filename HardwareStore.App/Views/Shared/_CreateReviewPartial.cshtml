@@ -1,7 +1,7 @@
 ﻿@using HardwareStore.App.Models.Review
 @model ReviewInputModel
 
-<form id="reviewForm" method="post">
+<form asp-controller="Review" asp-action="CreateReview" method="post">
     <input type="hidden" asp-for="@Model.ProductId" />
     <span asp-validation-for="@Model.Rating"></span>
     <div class="row mb-2">
@@ -17,5 +17,5 @@
     </div>    
     <textarea asp-for="@Model.Content" class="form-control"></textarea>
     <div class="text-danger" asp-validation-summary="All"></div>
-    <button class="btn btn-outline-primary" id="submitReviewBtn" type="submit">Submit</button>
+    <button asp-controller="Review" asp-action="CreateReview" class="btn btn-outline-primary" type="submit">Submit</button>
 </form>

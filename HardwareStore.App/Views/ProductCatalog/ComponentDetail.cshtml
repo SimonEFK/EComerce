@@ -80,72 +80,7 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-        let submitReviewBtn = document.querySelector('#productReviewsRow');
-        if (submitReviewBtn) {
-            submitReviewBtn.addEventListener('click', SubmitReviewForm);
-        }
-        async function SubmitReviewForm(event) {
-            event.preventDefault();
-            let target = event.target;
-
-            if (target.matches("button[id='submitReviewBtn']")) {
-                $('#reviewForm').validate();
-                if ($('#reviewForm').valid()) {
-                    let reviewForm = document.querySelector('#reviewForm');
-                    let data = new FormData(reviewForm);
-                    var token = $('[name=__RequestVerificationToken]').val();
-                    const jsonObject = {};
-                    data.forEach((value, key) => {
-                        jsonObject[key] = value;
-                    });
-                    let reviewApiUrl = `/api/ReviewApi`;
-                    let response = await fetch(reviewApiUrl, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": token
-                        },
-                        body: JSON.stringify(jsonObject)
-                    })
-                    if (response.ok) {
-                        var productId = @Model.Product.Id;
-                        var reviewsUrl = `/Review/ProductReviews?productId=${productId}`;
-                        $('#productReviewsRow').load(reviewsUrl);
-
-                        let toast = new bootstrap.Toast('.toast');
-                        let toastHeader = document.querySelector('.toast-header')
-
-                        toastHeader.innerHTML =
-                            `<a class="text-black text-decoration-none" href="/UserProfile/UserReviews">
-                                            <i class="bi bi-cart"></i>
-                                            <strong>My Reviews</strong>
-                                        </a>`
-                        let toastMessageSpan = document.querySelector('.toast-message');
-                        toastMessageSpan.textContent = `Review created and is awaiting approvement`;
-                        toast.show();
-                    } else {
-
-                        let errMessage = await response.text()
-
-                        let toast = new bootstrap.Toast('.toast');
-                        let toastHeader = document.querySelector('.toast-header')
-
-                        toastHeader.innerHTML =
-                            `<a class="text-black text-decoration-none" href="/UserProfile/UserReviews">
-                                                    <i class="bi bi-cart"></i>
-                                                    <strong>My Reviews</strong>
-                                                </a>`
-                        let toastMessageSpan = document.querySelector('.toast-message');
-                        toastMessageSpan.textContent = `${errMessage}`;
-                        toast.show();
-
-
-                        
-                        
-                    }
-                }
-            }
-        };
+        
         let productContainer = document.querySelector('#productInfoContainer');
         productContainer.addEventListener('click', AddProductToCart);
         let imgList = document.querySelector('#imgList');
@@ -163,6 +98,5 @@
                 selectedContainer.classList.add("active");
             }
         }
-
     </script>
 }

@@ -1,5 +1,7 @@
 ﻿namespace HardwareStore.App.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using static HardwareStore.App.Constants.ModelConstraints.Product;
     public class Product
     {
         public Product()
@@ -15,7 +17,11 @@
 
         public decimal Price { get; set; }
 
+        [Required]
+        [MaxLength(NameMaxLength)]
         public string Name { get; set; }
+
+        [MaxLength(NameDetailedMaxLength)]
 
         public string? NameDetailed { get; set; }
 

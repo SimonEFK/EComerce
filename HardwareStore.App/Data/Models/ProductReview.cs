@@ -1,5 +1,8 @@
 ﻿namespace HardwareStore.App.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using static Constants.ModelConstraints.ProductReview;
+
     public class ProductReview
     {
         public int Id { get; set; }
@@ -14,8 +17,11 @@
 
         public Product Product { get; set; }
 
+        [Required]
+        [MaxLength(ReviewMaxLength)]
         public string Review { get; set; }
 
+        [Range(1, RatingMaxValue)]
         public int? Rating { get; set; }
 
         public DateTime CreatedOn { get; set; }

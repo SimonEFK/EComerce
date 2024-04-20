@@ -49,7 +49,8 @@
                 productCartEntry = new CartProduct()
                 {
                     CartId = userCart.Id,
-                    ProductId = productId
+                    ProductId = productId,
+                    Amount = 1
                 };
                 userCart.Products.Add(productCartEntry);
             }
