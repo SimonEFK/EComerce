@@ -5,7 +5,7 @@
     using static HardwareStore.App.Constants.Constants;
 
     [Area(Areas.Administration)]
-    //[Authorize(Roles = Roles.Admin)]
+    [Authorize(Roles = Roles.Admin)]
     public class AdminBaseController : Controller
     {
         

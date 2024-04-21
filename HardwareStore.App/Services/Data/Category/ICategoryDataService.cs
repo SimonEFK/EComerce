@@ -5,25 +5,25 @@
 
     public interface ICategoryDataService
     {
-        Task<CategoryInfoDTO> CategoryInfo(int categoryId);
+        Task<CategoryInfoDTO> CategoryInfoAsync(int categoryId);
 
-        Task<ServiceResult> CreateCategory(string name, string ImageUrl);
+        Task<ServiceResult> CreateCategoryAsync(string? name = null, string? ImageUrl = null);
 
-        Task<ServiceResult> CreateSpecification(int categoryId, string name, bool isFilter = false, bool isEssential = false);
+        Task<ServiceResult> CreateSpecificationAsync(int categoryId, string? name = null, bool isFilter = false, bool isEssential = false);
 
-        Task<ServiceResult> CreateSpecificationValue(int categoryId, int specificationId, string value, string? metric);
+        Task<ServiceResult> CreateSpecificationValueAsync(int categoryId, int specificationId, string? value = null, string? metric = null);
 
-        Task<ServiceResult> EditCategory(int id, string name, string imageUrl, string imageFilePath);
+        Task<ServiceResult> EditCategoryAsync(int id, string? name = null, string? imageUrl = null, string? imageFilePath = null);
 
-        Task<ServiceResult> EditSpecification(int categoryId, int id, string name, bool isFilter = false, bool isEssential = false);
+        Task<ServiceResult> EditSpecificationAsync(int categoryId, int id, string? name = null, bool isFilter = false, bool isEssential = false);
 
-        Task<ServiceResult> EditSpecificationValue(int categoryId, int specificationId, int valueId, string value, string? metric);
+        Task<ServiceResult> EditSpecificationValueAsync(int categoryId, int specificationId, int valueId, string? value = null, string? metric = null);
 
-        Task<ICollection<TModel>> GetCategories<TModel>();
+        Task<ICollection<TModel>> GetCategoriesAsync<TModel>();
 
         Task<ICollection<(string Name, int Id)>> GetCategoriesAsTupleCollectionAsync();
 
-        Task<SpecificationInfoDTO> SpecificationInfo(int specificationId);
+        Task<SpecificationInfoDTO> SpecificationInfoAsync(int specificationId);
         
     }
 }

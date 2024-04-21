@@ -22,7 +22,7 @@
 
         public async Task<IActionResult> Index()
         {
-            var categories = await _categoryDataService.GetCategories<CategoryViewModel>();
+            var categories = await _categoryDataService.GetCategoriesAsync<CategoryViewModel>();
             var createCategoryInputModel = new CreateCategoryInputModel();
             var categoryListViewModel = new CategoryListingViewModel()
             {
@@ -35,7 +35,7 @@
         [HttpGet]
         public async Task<IActionResult> CategoryInfo(int Id)
         {
-            var categoryInfoModel = await _categoryDataService.CategoryInfo(Id);
+            var categoryInfoModel = await _categoryDataService.CategoryInfoAsync(Id);
             var categoryEditModel = mapper.Map<CategoryEditInputModel>(categoryInfoModel);
             var specificationCreateModel = new SpecificationCreateInputModel
             {
@@ -53,7 +53,7 @@
         [HttpGet]
         public async Task<IActionResult> SpecificationInfo(int id)
         {
-            var specificationInfo = await _categoryDataService.SpecificationInfo(id);
+            var specificationInfo = await _categoryDataService.SpecificationInfoAsync(id);
             var editForm = mapper.Map<SpecificationCreateInputModel>(specificationInfo);
             var valueForm = new SpecificationValueCreateInputModel()
             {
@@ -83,7 +83,7 @@
             if (!ModelState.IsValid)
             {
                 ViewData["FormCollapse"] = "show";
-                var categories = await _categoryDataService.GetCategories<CategoryViewModel>();
+                var categories = await _categoryDataService.GetCategoriesAsync<CategoryViewModel>();
                 var categoryListViewModel = new CategoryListingViewModel()
                 {
                     Categories = categories.ToList(),
@@ -91,7 +91,7 @@
                 };
                 return View("Index", categoryListViewModel);
             }
-            var result = await _categoryDataService.CreateCategory(createCategoryInputModel.Name, createCategoryInputModel.Image);
+            var result = await _categoryDataService.CreateCategoryAsync(createCategoryInputModel.Name, createCategoryInputModel.Image);
 
             if (!result.Success)
             {
@@ -106,7 +106,7 @@
         {
             if (!ModelState.IsValid)
             {
-                var categoryInfoModel = await _categoryDataService.CategoryInfo(categoryEditModel.Id);
+                var categoryInfoModel = await _categoryDataService.CategoryInfoAsync(categoryEditModel.Id);
                 var specificationCreateModel = new SpecificationCreateInputModel
                 {
                     CategoryId = categoryInfoModel.Id,
@@ -119,7 +119,7 @@
                 };
                 return View("CategoryInfo", categoryInfoViewModel);
             }
-            var result = await _categoryDataService.EditCategory(
+            var result = await _categoryDataService.EditCategoryAsync(
                 categoryEditModel.Id,
                 categoryEditModel.Name,
                 categoryEditModel.Url,
@@ -139,7 +139,7 @@
 
             if (!ModelState.IsValid)
             {
-                var categoryInfoModel = await _categoryDataService.CategoryInfo(specificationCreateModel.CategoryId ?? 0);
+                var categoryInfoModel = await _categoryDataService.CategoryInfoAsync(specificationCreateModel.CategoryId ?? 0);
                 var categoryEditModel = mapper.Map<CategoryEditInputModel>(categoryInfoModel);
                 var categoryInfoViewModel = new CategoryInfoViewModel
                 {
@@ -150,7 +150,7 @@
                 ViewData["FormCollapse"] = "show";
                 return View("CategoryInfo", categoryInfoViewModel);
             }
-            var result = await _categoryDataService.CreateSpecification(specificationCreateModel.CategoryId ?? 0, specificationCreateModel.Name, specificationCreateModel.Filter, specificationCreateModel.Essential);
+            var result = await _categoryDataService.CreateSpecificationAsync(specificationCreateModel.CategoryId ?? 0, specificationCreateModel.Name, specificationCreateModel.Filter, specificationCreateModel.Essential);
 
             if (!result.Success)
             {
@@ -168,7 +168,7 @@
 
             if (!ModelState.IsValid)
             {
-                var specificationInfo = await _categoryDataService.SpecificationInfo(id);
+                var specificationInfo = await _categoryDataService.SpecificationInfoAsync(id);
                 var specificationViewModel = new SpecificationInfoViewModel
                 {
                     SpecificationCreateInputModel = specificationEditModel,
@@ -178,7 +178,7 @@
             }
 
             var result = await _categoryDataService
-                .EditSpecification(specificationEditModel.CategoryId ?? 0, id, specificationEditModel.Name, specificationEditModel.Filter, specificationEditModel.Essential);
+                .EditSpecificationAsync(specificationEditModel.CategoryId ?? 0, id, specificationEditModel.Name, specificationEditModel.Filter, specificationEditModel.Essential);
             if (!result.Success)
             {
 
@@ -192,7 +192,7 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateSpecificationValue(SpecificationValueCreateInputModel ValueCreateFormModel)
         {
-            var specificationInfo = await _categoryDataService.SpecificationInfo(ValueCreateFormModel.SpecificationId);
+            var specificationInfo = await _categoryDataService.SpecificationInfoAsync(ValueCreateFormModel.SpecificationId);
 
             if (!ModelState.IsValid)
             {
@@ -206,7 +206,7 @@
                 };
                 return View("SpecificationInfo", specificationViewModel);
             }
-            var result = await _categoryDataService.CreateSpecificationValue(ValueCreateFormModel.CategoryId ?? 0, ValueCreateFormModel.SpecificationId, ValueCreateFormModel.Value, ValueCreateFormModel.Metric);
+            var result = await _categoryDataService.CreateSpecificationValueAsync(ValueCreateFormModel.CategoryId ?? 0, ValueCreateFormModel.SpecificationId, ValueCreateFormModel.Value, ValueCreateFormModel.Metric);
             if (result.Success == false)
             {
                 return BadRequest(result);
@@ -221,7 +221,7 @@
         public async Task<IActionResult> EditSpecificationValue(SpecificationValueCreateInputModel ValueEditFormModel)
         {
 
-            var specificationInfo = await _categoryDataService.SpecificationInfo(ValueEditFormModel.SpecificationId);
+            var specificationInfo = await _categoryDataService.SpecificationInfoAsync(ValueEditFormModel.SpecificationId);
             if (!ModelState.IsValid)
             {
                 var editForm = mapper.Map<SpecificationCreateInputModel>(specificationInfo);
@@ -244,7 +244,7 @@
                 };
                 return View("SpcificationInfo", specificationViewModel);
             }
-            var result = await _categoryDataService.EditSpecificationValue(ValueEditFormModel.CategoryId ?? 0, ValueEditFormModel.SpecificationId, ValueEditFormModel.ValueId, ValueEditFormModel.Value, ValueEditFormModel.Metric);
+            var result = await _categoryDataService.EditSpecificationValueAsync(ValueEditFormModel.CategoryId ?? 0, ValueEditFormModel.SpecificationId, ValueEditFormModel.ValueId, ValueEditFormModel.Value, ValueEditFormModel.Metric);
             if (!result.Success)
             {
 
@@ -257,7 +257,7 @@
         [HttpGet]
         public async Task<IActionResult> CategoryInfoJson(int categoryId)
         {
-            var result = await _categoryDataService.CategoryInfo(categoryId);
+            var result = await _categoryDataService.CategoryInfoAsync(categoryId);
             return Json(result);
         }
     }

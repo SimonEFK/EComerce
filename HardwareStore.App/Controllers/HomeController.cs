@@ -24,7 +24,7 @@
         {
             
             var products = await catalogService.GetLatestProductsAsync(8);
-            var categories = await categoryDataService.GetCategories<CategoryModel>();
+            var categories = await categoryDataService.GetCategoriesAsync<CategoryModel>();
             var homeIndexViewModel = new HomeIndexViewModel
             {
                 Categories = categories,

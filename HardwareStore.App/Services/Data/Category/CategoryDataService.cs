@@ -2,6 +2,8 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using CommunityToolkit.Diagnostics;
+    using HardwareStore.App.Constants;
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Services.DownloadImage;
@@ -21,11 +23,17 @@
 
         }
 
-        public async Task<ServiceResult> CreateCategory(string name, string imageUrl)
+        public async Task<ServiceResult> CreateCategoryAsync(string name, string imageUrl)
         {
+            Guard.IsNotNullOrEmpty(name, nameof(name));
+            Guard.IsNotWhiteSpace(name, nameof(name));
+            Guard.HasSizeLessThanOrEqualTo(name, ModelConstraints.Category.NameMaxLength);
+            Guard.IsNotNullOrEmpty(imageUrl, nameof(imageUrl));
+            Guard.IsNotWhiteSpace(imageUrl, nameof(imageUrl));
+           
 
             var serviceResult = new ServiceResult();
-            var newCategoryName = name.Trim();
+            var newCategoryName = name;
 
             var categoryExsist = dbContext.Categories.ToList().FirstOrDefault(x => string.Equals(x.Name, newCategoryName, StringComparison.OrdinalIgnoreCase));
 
@@ -35,23 +43,39 @@
                 serviceResult.ErrorMessage = string.Format(ErrorMessages.CategoryExsist, categoryExsist.Name);
                 return serviceResult;
             }
-
-            var newCategory = new Category()
+            try
             {
-                Name = newCategoryName.ToTitleCase(),
-                Url = imageUrl
-            };
+                var newCategory = new Category()
+                {
+                    Name = newCategoryName.ToTitleCase().Trim(),
+                    Url = imageUrl
+                };
+                await dbContext.Categories.AddAsync(newCategory);
+                await dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage = $"Error saving category with name:\"{name}\" and imageUrl:\"{imageUrl}\"";
 
-            dbContext.Categories.Add(newCategory);
-            var result = await dbContext.SaveChangesAsync();
+                return serviceResult;
+            }
             return serviceResult;
-
         }
 
-        public async Task<ServiceResult> EditCategory(int id, string name, string imageUrl, string imageFilePath)
+        public async Task<ServiceResult> EditCategoryAsync(int id, string name, string? imageUrl = null, string? imageFilePath = null)
         {
-            var serviceResult = new ServiceResult();
+            Guard.IsNotNullOrEmpty(name, nameof(name));
+            Guard.IsNotWhiteSpace(name, nameof(name));
+            Guard.HasSizeLessThanOrEqualTo(name, ModelConstraints.Category.NameMaxLength);
+            if (imageUrl is not null)
+            {
+                Guard.IsNotNullOrEmpty(imageUrl, nameof(imageUrl));
+                Guard.IsNotWhiteSpace(imageUrl, nameof(imageUrl));
+            }
+
             var category = await dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
+            var serviceResult = new ServiceResult();
             if (category == null)
             {
                 serviceResult.Success = false;
@@ -67,19 +91,31 @@
                 serviceResult.ErrorMessage = string.Format(ErrorMessages.CategoryExsist, name);
                 return serviceResult;
             }
-
             category.Name = name.ToTitleCase();
             category.FilePath = imageFilePath;
             category.Url = imageUrl;
+            try
+            {
+                await dbContext.SaveChangesAsync();
 
-
-            await dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage = $"Error saving category with name:\"{name}\" and imageUrl:\"{imageUrl}\"";
+                return serviceResult;
+            }
 
             return serviceResult;
         }
 
-        public async Task<ServiceResult> CreateSpecification(int categoryId, string name, bool isFilter = false, bool isEssential = false)
+        public async Task<ServiceResult> CreateSpecificationAsync(int categoryId, string name, bool isFilter = false, bool isEssential = false)
         {
+
+            Guard.IsNotNullOrEmpty(name, nameof(name));
+            Guard.IsNotWhiteSpace(name, nameof(name));
+            Guard.HasSizeLessThanOrEqualTo(name, ModelConstraints.Specification.NameMaxLength);
+
             var serviceResult = new ServiceResult();
 
             var categoryExists = await dbContext.Categories
@@ -105,7 +141,7 @@
             var specification = new Specification()
             {
                 CategoryId = categoryExists.Id,
-                Name = name.ToTitleCase(),
+                Name = name.ToTitleCase().Trim(),
                 InfoLevel = isEssential == true ? "Essential" : "None",
                 Filter = isFilter
             };
@@ -114,7 +150,7 @@
             return serviceResult;
         }
 
-        public async Task<ServiceResult> EditSpecification(
+        public async Task<ServiceResult> EditSpecificationAsync(
             int categoryId, int id, string name, bool isFilter = false, bool isEssential = false)
         {
             var serviceResult = new ServiceResult();
@@ -126,6 +162,14 @@
                 return serviceResult;
             }
             var specification = category.Specifications.FirstOrDefault(x => x.Id == id);
+
+            if (specification == null)
+            {
+                serviceResult.Success = false;
+                serviceResult.ErrorMessage = "Invalid Specification";
+                return serviceResult;
+            }
+
             var specificationExsist = category.Specifications.Where(x => x.Id != specification.Id).Any(x => string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
             if (specificationExsist)
             {
@@ -142,7 +186,7 @@
             return serviceResult;
         }
 
-        public async Task<ServiceResult> CreateSpecificationValue(int categoryId, int specificationId, string value, string? metric)
+        public async Task<ServiceResult> CreateSpecificationValueAsync(int categoryId, int specificationId, string value, string? metric)
         {
             var serviceResult = new ServiceResult();
             var category = await dbContext.Categories.Include(x => x.Specifications).ThenInclude(x => x.Values).FirstOrDefaultAsync(x => x.Id == categoryId);
@@ -179,7 +223,7 @@
             return serviceResult;
         }
 
-        public async Task<ServiceResult> EditSpecificationValue(int categoryId, int specificationId, int valueId, string newValue, string? metric)
+        public async Task<ServiceResult> EditSpecificationValueAsync(int categoryId, int specificationId, int valueId, string newValue, string? metric)
         {
             var serviceResult = new ServiceResult();
             var category = await dbContext.Categories.Include(x => x.Specifications).ThenInclude(x => x.Values).FirstOrDefaultAsync(x => x.Id == categoryId);
@@ -217,7 +261,7 @@
             return serviceResult;
         }
 
-        public async Task<ICollection<TModel>> GetCategories<TModel>()
+        public async Task<ICollection<TModel>> GetCategoriesAsync<TModel>()
         {
             var categories = dbContext.Categories.AsQueryable();
 
@@ -243,7 +287,7 @@
             return categoriesResult;
         }
 
-        public async Task<CategoryInfoDTO> CategoryInfo(int categoryId)
+        public async Task<CategoryInfoDTO> CategoryInfoAsync(int categoryId)
         {
             var category = await dbContext.Categories
                 .Where(x => x.Id == categoryId)
@@ -252,7 +296,7 @@
             return category;
         }
 
-        public async Task<SpecificationInfoDTO> SpecificationInfo(int specificationId)
+        public async Task<SpecificationInfoDTO> SpecificationInfoAsync(int specificationId)
         {
             var specificationInfo = await dbContext.Specifications
                 .Where(x => x.Id == specificationId)

@@ -14,7 +14,7 @@
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var categories = await categoryDataService.GetCategories<CategoryModel>();
+            var categories = await categoryDataService.GetCategoriesAsync<CategoryModel>();
             return View(categories.Where(x => x.ProductsCount > 0).ToList());
         }
     }

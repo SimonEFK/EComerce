@@ -50,6 +50,7 @@
             builder.Entity<SpecificationValue>().HasData(specificationValues);
             builder.Entity<ProductSpecificationValues>().HasData(productSpecificationValues);
 
+            
 
 
             base.OnModelCreating(builder);

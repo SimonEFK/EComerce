@@ -6,6 +6,6 @@
     {
         public PaginationModel Pagination { get; set; }
 
-        public ICollection<ProductExtendedModel> Products { get; set; } = new List<ProductExtendedModel>();
+        public List<ProductExtendedModel> Products { get; set; } = new List<ProductExtendedModel>();
     }
 }

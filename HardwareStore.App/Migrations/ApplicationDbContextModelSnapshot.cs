@@ -2115,7 +2115,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 3,
                             Name = "AMD Ryzen 5 5600X",
                             NameDetailed = "AMD Ryzen 5 5600X 3.7 GHz 6-Core Processor",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2124,7 +2124,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 3,
                             Name = "AMD Ryzen 7 7800X3D",
                             NameDetailed = "AMD Ryzen 7 7800X3D 4.2 GHz 8-Core Processor",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2133,7 +2133,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 4,
                             Name = "Intel Core i7-13700K",
                             NameDetailed = "Intel Core i7-13700K 3.4 GHz 16-Core Processor",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2142,7 +2142,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 3,
                             Name = "AMD Ryzen 7 5800X",
                             NameDetailed = "AMD Ryzen 7 5800X 3.8 GHz 8-Core Processor",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2151,7 +2151,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 5,
                             Name = "Cooler Master Hyper 212 Black Edition",
                             NameDetailed = "Cooler Master Hyper 212 Black Edition 42 CFM CPU Cooler",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2160,7 +2160,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 5,
                             Name = "Cooler Master MASTERLIQUID ML240L RGB V2",
                             NameDetailed = "Cooler Master MASTERLIQUID ML240L RGB V2 65.59 CFM Liquid CPU Cooler",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2169,7 +2169,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 6,
                             Name = "be quiet! Dark Rock Pro 4",
                             NameDetailed = "be quiet! Dark Rock Pro 4 50.5 CFM CPU Cooler",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2178,7 +2178,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 7,
                             Name = "Corsair iCUE H150i ELITE CAPELLIX XT",
                             NameDetailed = "Corsair iCUE H150i ELITE CAPELLIX XT 65.57 CFM Liquid CPU Cooler",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2187,7 +2187,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 8,
                             Name = "MSI B550 GAMING GEN3",
                             NameDetailed = "MSI B550 GAMING GEN3 ATX AM4 Motherboard",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2196,7 +2196,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 9,
                             Name = "Gigabyte B650 AORUS ELITE AX",
                             NameDetailed = "Gigabyte B650 AORUS ELITE AX ATX AM5 Motherboard",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2205,7 +2205,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 8,
                             Name = "MSI MAG B550 TOMAHAWK",
                             NameDetailed = "MSI MAG B550 TOMAHAWK ATX AM4 Motherboard",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2214,7 +2214,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 9,
                             Name = "Gigabyte Z790 AORUS ELITE AX",
                             NameDetailed = "Gigabyte Z790 AORUS ELITE AX ATX LGA1700 Motherboard",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2223,7 +2223,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 7,
                             Name = "Corsair Vengeance LPX 16 GB",
                             NameDetailed = "Corsair Vengeance LPX 16 GB (2 x 8 GB) DDR4-3200 CL16 Memory",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2232,7 +2232,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 7,
                             Name = "Corsair Vengeance 32 GB",
                             NameDetailed = "Corsair Vengeance 32 GB (2 x 16 GB) DDR5-5600 CL36 Memory",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2241,7 +2241,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 7,
                             Name = "Corsair Vengeance RGB Pro 32 GB",
                             NameDetailed = "Corsair Vengeance RGB Pro 32 GB (2 x 16 GB) DDR4-3600 CL18 Memory",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2250,7 +2250,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 10,
                             Name = "G.Skill Trident Z5 RGB 32 GB",
                             NameDetailed = "G.Skill Trident Z5 RGB 32 GB (2 x 16 GB) DDR5-6000 CL36 Memory",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2259,7 +2259,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 11,
                             Name = "Samsung 980 Pro",
                             NameDetailed = "Samsung 980 Pro 2 TB M.2-2280 PCIe 4.0 X4 NVME Solid State Drive",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2268,7 +2268,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 12,
                             Name = "Seagate Barracuda Compute",
                             NameDetailed = "Seagate Barracuda Compute 2 TB 3.5\" 7200 RPM Internal Hard Drive",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2277,7 +2277,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 13,
                             Name = "Kingston A400",
                             NameDetailed = "Kingston A400 240 GB 2.5\" Solid State Drive",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2286,7 +2286,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 14,
                             Name = "Crucial P3",
                             NameDetailed = "Crucial P3 4 TB M.2-2280 PCIe 3.0 X4 NVME Solid State Drive",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2295,7 +2295,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 8,
                             Name = "MSI GeForce RTX 3060 Ventus 2X 12G",
                             NameDetailed = "MSI GeForce RTX 3060 Ventus 2X 12G GeForce RTX 3060 12GB 12 GB Video Card",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2304,7 +2304,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 9,
                             Name = "Gigabyte WINDFORCE OC",
                             NameDetailed = "Gigabyte WINDFORCE OC GeForce RTX 4070 12 GB Video Card",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2313,7 +2313,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 15,
                             Name = "Asus ROG STRIX GAMING OC",
                             NameDetailed = "Asus ROG STRIX GAMING OC GeForce RTX 4090 24 GB Video Card",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2322,7 +2322,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 8,
                             Name = "MSI RTX 3060 Ventus 3X 12G OC",
                             NameDetailed = "MSI RTX 3060 Ventus 3X 12G OC GeForce RTX 3060 12GB 12 GB Video Card",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2331,7 +2331,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 7,
                             Name = "Corsair RM750e (2023)",
                             NameDetailed = "Corsair RM750e (2023) 750 W 80+ Gold Certified Fully Modular ATX Power Supply",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2340,7 +2340,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 16,
                             Name = "Thermaltake Toughpower GX2",
                             NameDetailed = "Thermaltake Toughpower GX2 600 W 80+ Gold Certified ATX Power Supply",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2349,7 +2349,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 8,
                             Name = "MSI MPG A650GF",
                             NameDetailed = "MSI MPG A650GF 650 W 80+ Gold Certified Fully Modular ATX Power Supply",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2358,7 +2358,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 17,
                             Name = "EVGA 500 W1",
                             NameDetailed = "EVGA 500 W1 500 W 80+ Certified ATX Power Supply",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2367,7 +2367,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 18,
                             Name = "Deepcool CC560",
                             NameDetailed = "Deepcool CC560 ATX Mid Tower Case",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2376,7 +2376,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 19,
                             Name = "NZXT H5 Flow",
                             NameDetailed = "NZXT H5 Flow ATX Mid Tower Case",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2385,7 +2385,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 20,
                             Name = "Lian Li O11 Dynamic EVO",
                             NameDetailed = "Lian Li O11 Dynamic EVO ATX Mid Tower Case",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2394,7 +2394,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 21,
                             Name = "Fractal Design North",
                             NameDetailed = "Fractal Design North ATX Mid Tower Case",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2403,7 +2403,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 22,
                             Name = "HP HyperX Cloud II",
                             NameDetailed = "HP HyperX Cloud II 7.1 Channel Headset",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2412,7 +2412,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 23,
                             Name = "Razer BlackShark V2 X",
                             NameDetailed = "Razer BlackShark V2 X 7.1 Channel Headset",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2421,7 +2421,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 24,
                             Name = "Logitech Pro X",
                             NameDetailed = "Logitech Pro X 7.1 Channel Headset",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2430,7 +2430,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 23,
                             Name = "Razer Kraken Kitty",
                             NameDetailed = "Razer Kraken Kitty Headset",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2439,7 +2439,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 7,
                             Name = "Corsair K60 RGB Pro",
                             NameDetailed = "Corsair K60 RGB Pro Wired Gaming Keyboard",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2448,7 +2448,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 24,
                             Name = "Logitech K120",
                             NameDetailed = "Logitech K120 Wired Standard Keyboard",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2457,7 +2457,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 23,
                             Name = "Razer Huntsman Mini",
                             NameDetailed = "Razer Huntsman Mini RGB Wired Mini Keyboard",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2466,7 +2466,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 23,
                             Name = "Razer BlackWidow V3",
                             NameDetailed = "Razer BlackWidow V3 RGB Wired Gaming Keyboard",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2475,7 +2475,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 24,
                             Name = "Logitech G502 HERO",
                             NameDetailed = "Logitech G502 HERO Wired Optical Mouse",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2484,7 +2484,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 23,
                             Name = "Razer Basilisk V3",
                             NameDetailed = "Razer Basilisk V3 Wired Optical Mouse",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2493,7 +2493,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 23,
                             Name = "Razer DeathAdder Essential",
                             NameDetailed = "Razer DeathAdder Essential Wired Optical Mouse",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2502,7 +2502,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 23,
                             Name = "Razer Viper Mini",
                             NameDetailed = "Razer Viper Mini Wired Optical Mouse",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2511,7 +2511,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 24,
                             Name = "Logitech Z200",
                             NameDetailed = "Logitech Z200 10 W Speakers",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2520,7 +2520,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 24,
                             Name = "Logitech Z906",
                             NameDetailed = "Logitech Z906 500 W 5.1-Channel Speakers",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2529,7 +2529,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 23,
                             Name = "Razer Leviathan V2",
                             NameDetailed = "Razer Leviathan V2 65 W 2.1-Channel Speakers",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2538,7 +2538,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 25,
                             Name = "Creative Labs Creative Stage V2",
                             NameDetailed = "Creative Labs Creative Stage V2 80 W 2.1-Channel Speakers",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2547,7 +2547,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 24,
                             Name = "Logitech BRIO Ultra HD Pro",
                             NameDetailed = "Logitech BRIO Ultra HD Pro Webcam",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2556,7 +2556,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 23,
                             Name = "Razer Kiyo Pro Ultra",
                             NameDetailed = "Razer Kiyo Pro Ultra Webcam",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2565,7 +2565,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 15,
                             Name = "Asus TUF Gaming VG27AQ",
                             NameDetailed = "Asus TUF Gaming VG27AQ 27.0\" 2560 x 1440 165 Hz Monitor",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2574,7 +2574,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 11,
                             Name = "Samsung Odyssey G7",
                             NameDetailed = "Samsung Odyssey G7 27.0\" 2560 x 1440 240 Hz Curved Monitor",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2583,7 +2583,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 26,
                             Name = "AOC C27G2Z",
                             NameDetailed = "AOC C27G2Z 27.0\" 1920 x 1080 240 Hz Curved Monitor",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2592,7 +2592,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 24,
                             Name = "Logitech C270",
                             NameDetailed = "Logitech C270 Webcam",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2601,7 +2601,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 23,
                             Name = "Razer Kiyo",
                             NameDetailed = "Razer Kiyo Webcam",
-                            Price = 0m
+                            Price = 500.00m
                         },
                         new
                         {
@@ -2610,7 +2610,7 @@ namespace HardwareStore.App.Migrations
                             ManufacturerId = 27,
                             Name = "LG UltraGear",
                             NameDetailed = "LG UltraGear 27.0\" 2560 x 1440 165 Hz Monitor",
-                            Price = 0m
+                            Price = 500.00m
                         });
                 });
 

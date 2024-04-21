@@ -30,7 +30,7 @@
 
         public async Task<IActionResult> Index()
         {
-            var categories = await categoryDataService.GetCategories<CategoryModel>();
+            var categories = await categoryDataService.GetCategoriesAsync<CategoryModel>();
             return View(categories.Where(x => x.ProductsCount > 0)
                 .OrderByDescending(x => x.Name)
                 .ToList());
@@ -92,7 +92,8 @@
                 .Order(model.SortOrder)
                 .Pagination(model.Page)
                 .ToList<ProductExtendedModel>();
-            
+
+
             foreach (var product in products)
             {
                 product.Specifications = product.Specifications.DistinctBy(x => x.Name).ToList();
@@ -105,7 +106,7 @@
             };
             var productListingViewModel = new ProductListViewModel()
             {
-                Products = products,
+                Products = products.DistinctBy(x => x.Id).ToList(),
                 Pagination = paginationModel,
             };
 

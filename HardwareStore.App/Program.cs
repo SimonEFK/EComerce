@@ -2,6 +2,7 @@ namespace HardwareStore.App
 {
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
+    using HardwareStore.App.Extension;
     using HardwareStore.App.Services;
     using HardwareStore.App.Services.Cart;
     using HardwareStore.App.Services.Catalog;
@@ -83,7 +84,8 @@ namespace HardwareStore.App
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.ApplyMigrations();
+            app.SeedAdmin();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -105,7 +107,7 @@ namespace HardwareStore.App
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.MapRazorPages();
-
+            
             app.Run();
         }
     }
