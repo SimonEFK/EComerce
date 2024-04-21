@@ -40,7 +40,7 @@
         public async Task<ServiceResultGeneric<T>> CreateProductAsync<T>(CreateProductDTO createProductDTO)
         {            
             var result = await this.createProductService
-            .CreateProduct(createProductDTO.Name, createProductDTO.NameDetailed, createProductDTO.CategoryId, createProductDTO.ManufacturerId)
+            .CreateProduct(createProductDTO.Name, createProductDTO.CategoryId, createProductDTO.ManufacturerId, createProductDTO.NameDetailed)
             .AddImages(createProductDTO.ImageUrls)
             .AddSpecifications(createProductDTO.Specifications)
             .SaveChangesAsync<T>();

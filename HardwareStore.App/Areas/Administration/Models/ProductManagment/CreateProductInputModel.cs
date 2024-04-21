@@ -1,5 +1,6 @@
 ﻿namespace HardwareStore.App.Areas.Administration.Models.ProductManagment
 {
+    using HardwareStore.App.Constants;
     using HardwareStore.App.ValidationAttributes;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -24,7 +25,7 @@
         public HashSet<int> Specifications { get; set; } = new HashSet<int>();
 
         [Required(ErrorMessage = "Product image is required")]
-        [CollectionRegex(@"^https?:\/\/.*\/.*\.(jpg|jpeg|png|gif|webp|avif)$", ErrorMessage = "Invalid Url Format")]
+        [CollectionRegex(ModelConstraints.Image.ImageRegexPattern, ErrorMessage = "Invalid Url Format")]
         public HashSet<string> ImageUrls { get; set; } = new HashSet<string>();
 
         public ICollection<(string Name, int Id)> CategoryList { get; set; } = new List<(string Name, int Id)>();

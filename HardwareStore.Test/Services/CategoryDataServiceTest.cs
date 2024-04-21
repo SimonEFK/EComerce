@@ -451,7 +451,7 @@
             var categoryService = new CategoryDataService(mapper, dbContext, null);
 
             var result = await categoryService.CreateSpecificationValueAsync(1, 1, "4", null);
-            var specificationValues = dbContext.Specifications.Include(x => x.Values).Where(x => x.CategoryId == 1 && x.Id==1).FirstOrDefault().Values;
+            var specificationValues = dbContext.Specifications.Include(x => x.Values).Where(x => x.CategoryId == 1 && x.Id == 1).FirstOrDefault().Values;
             Assert.True(result.Success);
             Assert.True(specificationValues.Any(x => x.Value == "4"));
 
@@ -504,9 +504,9 @@
             var categoryService = new CategoryDataService(mapper, dbContext, null);
 
             var result = await categoryService.CreateSpecificationValueAsync(123, 1, "4", null);
-            
+
             Assert.False(result.Success);
-            
+
 
         }
 
@@ -615,7 +615,264 @@
 
         }
 
+        [Fact]
+        public async Task EditSpecificationValueCorrectly()
+        {
+            var dbContext = GetInMemoryDBContext();
+            var mapper = GetMapper();
 
+            var categories = new List<Category>
+            {
+                new Category
+                {
+                    Id= 1,
+                    Name= "Processor",
+                    Specifications = new List<Specification>
+                    {
+                        new Specification
+                        {
+                            Id= 1,
+                            Name = "Core Count",
+                            Values = new List<SpecificationValue>
+                            {
+                                new SpecificationValue
+                                {
+                                    Id= 1,
+                                    Value = "8"
+                                },
+                                new SpecificationValue
+                                {
+                                    Id = 2,
+                                    Value = "16"
+                                },
+                            }
+                        },
+                    }
+
+                },
+                new Category
+                {
+                    Id= 2,
+                    Name= "Video Card"
+                },
+            };
+            await dbContext.Categories.AddRangeAsync(categories);
+            await dbContext.SaveChangesAsync();
+
+            var categoryService = new CategoryDataService(mapper, dbContext, null);
+
+            var result = await categoryService.EditSpecificationValueAsync(1, 1, 1, "24", null);
+            var specificationValue = dbContext.SpecificationValues.FirstOrDefault(x => x.SpecificationId == 1 && x.Id == 1);
+            Assert.True(result.Success);
+            Assert.True(specificationValue.Value == "24");
+
+        }
+        [Fact]
+        public async Task EditSpecificationValueReturnsFalseIfCategoryInvalid()
+        {
+            var dbContext = GetInMemoryDBContext();
+            var mapper = GetMapper();
+
+            var categories = new List<Category>
+            {
+                new Category
+                {
+                    Id= 1,
+                    Name= "Processor",
+                    Specifications = new List<Specification>
+                    {
+                        new Specification
+                        {
+                            Id= 1,
+                            Name = "Core Count",
+                            Values = new List<SpecificationValue>
+                            {
+                                new SpecificationValue
+                                {
+                                    Id= 1,
+                                    Value = "8"
+                                },
+                                new SpecificationValue
+                                {
+                                    Id = 2,
+                                    Value = "16"
+                                },
+                            }
+                        },
+                    }
+
+                },
+                new Category
+                {
+                    Id= 2,
+                    Name= "Video Card"
+                },
+            };
+            await dbContext.Categories.AddRangeAsync(categories);
+            await dbContext.SaveChangesAsync();
+
+            var categoryService = new CategoryDataService(mapper, dbContext, null);
+
+            var result = await categoryService.EditSpecificationValueAsync(55, 1, 1, "24", null);
+            var specificationValue = dbContext.SpecificationValues.FirstOrDefault(x => x.SpecificationId == 1 && x.Id == 1);
+            Assert.False(result.Success);            
+        }
+
+        [Fact]
+        public async Task EditSpecificationValueReturnsFalseIfSpecificationInvalid()
+        {
+            var dbContext = GetInMemoryDBContext();
+            var mapper = GetMapper();
+
+            var categories = new List<Category>
+            {
+                new Category
+                {
+                    Id= 1,
+                    Name= "Processor",
+                    Specifications = new List<Specification>
+                    {
+                        new Specification
+                        {
+                            Id= 1,
+                            Name = "Core Count",
+                            Values = new List<SpecificationValue>
+                            {
+                                new SpecificationValue
+                                {
+                                    Id= 1,
+                                    Value = "8"
+                                },
+                                new SpecificationValue
+                                {
+                                    Id = 2,
+                                    Value = "16"
+                                },
+                            }
+                        },
+                    }
+
+                },
+                new Category
+                {
+                    Id= 2,
+                    Name= "Video Card"
+                },
+            };
+            await dbContext.Categories.AddRangeAsync(categories);
+            await dbContext.SaveChangesAsync();
+
+            var categoryService = new CategoryDataService(mapper, dbContext, null);
+
+            var result = await categoryService.EditSpecificationValueAsync(1, 55, 1, "24", null);
+            var specificationValue = dbContext.SpecificationValues.FirstOrDefault(x => x.SpecificationId == 1 && x.Id == 1);
+            Assert.False(result.Success);           
+
+        }
+
+        [Fact]
+        public async Task EditSpecificationValueReturnsFalseIfSpecificationValueInvalid()
+        {
+            var dbContext = GetInMemoryDBContext();
+            var mapper = GetMapper();
+
+            var categories = new List<Category>
+            {
+                new Category
+                {
+                    Id= 1,
+                    Name= "Processor",
+                    Specifications = new List<Specification>
+                    {
+                        new Specification
+                        {
+                            Id= 1,
+                            Name = "Core Count",
+                            Values = new List<SpecificationValue>
+                            {
+                                new SpecificationValue
+                                {
+                                    Id= 1,
+                                    Value = "8"
+                                },
+                                new SpecificationValue
+                                {
+                                    Id = 2,
+                                    Value = "16"
+                                },
+                            }
+                        },
+                    }
+
+                },
+                new Category
+                {
+                    Id= 2,
+                    Name= "Video Card"
+                },
+            };
+            await dbContext.Categories.AddRangeAsync(categories);
+            await dbContext.SaveChangesAsync();
+
+            var categoryService = new CategoryDataService(mapper, dbContext, null);
+
+            var result = await categoryService.EditSpecificationValueAsync(1, 1, 55, "24", null);
+            var specificationValue = dbContext.SpecificationValues.FirstOrDefault(x => x.SpecificationId == 1 && x.Id == 1);
+            Assert.False(result.Success);
+
+        }
+
+        [Fact]
+        public async Task EditSpecificationValueReturnsFalseIfSpecificationValueAlreadyExsist()
+        {
+            var dbContext = GetInMemoryDBContext();
+            var mapper = GetMapper();
+
+            var categories = new List<Category>
+            {
+                new Category
+                {
+                    Id= 1,
+                    Name= "Processor",
+                    Specifications = new List<Specification>
+                    {
+                        new Specification
+                        {
+                            Id= 1,
+                            Name = "Core Count",
+                            Values = new List<SpecificationValue>
+                            {
+                                new SpecificationValue
+                                {
+                                    Id= 1,
+                                    Value = "8"
+                                },
+                                new SpecificationValue
+                                {
+                                    Id = 2,
+                                    Value = "16"
+                                },
+                            }
+                        },
+                    }
+
+                },
+                new Category
+                {
+                    Id= 2,
+                    Name= "Video Card"
+                },
+            };
+            await dbContext.Categories.AddRangeAsync(categories);
+            await dbContext.SaveChangesAsync();
+
+            var categoryService = new CategoryDataService(mapper, dbContext, null);
+
+            var result = await categoryService.EditSpecificationValueAsync(1, 1, 1, "16", null);
+            var specificationValue = dbContext.SpecificationValues.FirstOrDefault(x => x.SpecificationId == 1 && x.Id == 1);
+            Assert.False(result.Success);
+
+        }
 
         private static ApplicationDbContext GetInMemoryDBContext()
         {

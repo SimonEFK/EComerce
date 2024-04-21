@@ -46,5 +46,9 @@
             public const int ValueMaxLength = 100;
             public const int MetricMaxLength = 30;
         }
+        public static class Image
+        {
+            public const string ImageRegexPattern = @"^https?:\/\/.*\/.*\.(jpg|jpeg|png|gif|webp|avif)$";
+        }
     }
 }

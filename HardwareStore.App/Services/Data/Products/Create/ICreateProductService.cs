@@ -7,7 +7,7 @@
     {
         ICreateProductService AddImages(HashSet<string> images);
         ICreateProductService AddSpecifications(HashSet<int> specificationValueIds);
-        ICreateProductService CreateProduct(string name, string? nameDetailed, int categoryId, int manufacturerId);
+        ICreateProductService CreateProduct(string name, int categoryId, int manufacturerId, string? nameDetailed = null);
         Task<ServiceResultGeneric<T>> SaveChangesAsync<T>();
     }
 }
