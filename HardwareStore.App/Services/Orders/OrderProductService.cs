@@ -3,39 +3,38 @@
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using HardwareStore.App.Data;
-    using HardwareStore.App.Data.Models;    
+    using HardwareStore.App.Data.Models;
     using HardwareStore.App.Services.ProductDiscount;
     using HardwareStore.App.Services.Validation;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using PayPal.Api;
-    
+
 
     public class OrderProductService : IOrderProductService
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        
         private ApplicationDbContext dbContext;
         private IProductDiscountService productDiscountService;
         private IValidatorService validatorService;
-        private IMapper mapper;
-        private readonly IPayPalService payPalService;
+        private IMapper mapper;        
         private APIContext apiContext;
 
 
-        public OrderProductService(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, IProductDiscountService productDiscountService, IValidatorService validatorService, IMapper mapper, IPayPalService payPalService)
+        public OrderProductService(ApplicationDbContext dbContext, IProductDiscountService productDiscountService, IValidatorService validatorService, IMapper mapper, IPayPalService payPalService)
         {
-            _userManager = userManager;
+
             this.dbContext = dbContext;
             this.productDiscountService = productDiscountService;
             this.validatorService = validatorService;
-            this.mapper = mapper;
-            this.payPalService = payPalService;
+            this.mapper = mapper;           
+            this.apiContext = apiContext;
         }
 
         public async Task<ServiceResultGeneric<string?>> CreateOrderAsync(ApplicationUser applicationUser, IEnumerable<CreateOrderItemDTO> orderItems)
         {
             var serviceResult = new ServiceResultGeneric<string?>();
-            serviceResult.Data = null;
+            
 
             if (applicationUser is null)
             {
@@ -43,7 +42,6 @@
                 serviceResult.ErrorMessage = "Invalid User";
                 return serviceResult;
             }
-
 
             var order = new HardwareStore.App.Data.Models.Order
             {
@@ -74,7 +72,6 @@
             await dbContext.Orders.AddAsync(order);
             await dbContext.SaveChangesAsync();
 
-            await ClearUserCartAsync(applicationUser);
             serviceResult.Data = order.Id;
             return serviceResult;
         }
@@ -82,7 +79,7 @@
 
         public async Task<Payment> CreatePayment(string orderId)
         {
-            this.apiContext = payPalService.GetAPIContext();
+            
             var order = await dbContext.Orders.Where(x => x.Id == orderId).Include(x => x.OrderProducts).ThenInclude(x => x.Product).FirstOrDefaultAsync();
 
             var items = new List<Item>();
@@ -169,7 +166,7 @@
             return orderProducts;
         }
 
-        private async Task ClearUserCartAsync(ApplicationUser applicationUser)
+        public async Task ClearUserCartAsync(ApplicationUser applicationUser)
         {
             var userCart = await dbContext.Carts
                 .Include(x => x.Products)
@@ -180,11 +177,21 @@
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateOrderStatus(string paymentId, string newStatus)
+        private async Task UpdateOrderStatus(string paymentId, string newStatus)
         {
-            var order = await dbContext.Orders.FirstOrDefaultAsync(x=> x.PaymentId == paymentId);
+            var order = await dbContext.Orders.FirstOrDefaultAsync(x => x.PaymentId == paymentId);
             order.Status = newStatus;
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task ExecutePayment(string payerId, string paymentId)
+        {
+
+            var paymentExecution = new PaymentExecution { payer_id = payerId };
+            var executedPayment = new Payment { id = paymentId }.Execute(this.apiContext, paymentExecution);
+            await UpdateOrderStatus(paymentId, executedPayment.state);
+            
+
         }
 
     }

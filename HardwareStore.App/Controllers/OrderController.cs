@@ -16,7 +16,6 @@
         private UserManager<ApplicationUser> userManager;
         private IOrderProductService orderProductService;
         private readonly IPayPalService payPalService;
-        private APIContext payPalContext;
 
         public OrderController(IMapper mapper, UserManager<ApplicationUser> userManager, IOrderProductService orderProductService, IPayPalService payPalService)
         {
@@ -65,7 +64,7 @@
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest();
 
             }
         }
@@ -75,16 +74,14 @@
 
             try
             {
-                this.payPalContext = this.payPalService.GetAPIContext();
-                var paymentExecution = new PaymentExecution { payer_id = payerId };
-                var executedPayment = new Payment { id = paymentId }.Execute(this.payPalContext, paymentExecution);
-                await orderProductService.UpdateOrderStatus(paymentId, executedPayment.state);
+                await orderProductService.ExecutePayment(payerId, paymentId);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);                
+                return BadRequest();
             }
-            
+            var user = await userManager.GetUserAsync(this.HttpContext.User);
+            await orderProductService.ClearUserCartAsync(user);
             return RedirectToAction(nameof(UserOrders));
         }
 

@@ -53,11 +53,19 @@ namespace HardwareStore.App
             });
             builder.Services.AddAntiforgery(options => options.HeaderName = "X-CSRF-TOKEN");
             builder.Services.AddControllersWithViews();
+            
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddScoped<IProductDataService, ProductDataService>();
             builder.Services.AddScoped<IGenerateProductFilterOptionService, GenerateProductFilterOptionService>();
-            builder.Services.AddSingleton<APIContext,APIContext>();
+            builder.Services.AddScoped<APIContext>(provider =>
+            {
+                var config = provider.GetRequiredService<IConfiguration>();
+                var paypalService = new PayPalService();
+                var payPalConfig = paypalService.PayPalConfig(config);
+                var accessToken = paypalService.GetAccessToken(payPalConfig);                
+                return new APIContext(accessToken);
+            });
             builder.Services.AddSingleton<IPayPalService,PayPalService>();
             builder.Services.AddScoped<ICategoryDataService, CategoryDataService>();
             builder.Services.AddScoped<IManufacturerDataService, ManufacturerDataService>();
