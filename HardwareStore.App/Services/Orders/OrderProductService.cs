@@ -21,13 +21,13 @@
         private APIContext apiContext;
 
 
-        public OrderProductService(ApplicationDbContext dbContext, IProductDiscountService productDiscountService, IValidatorService validatorService, IMapper mapper, IPayPalService payPalService)
+        public OrderProductService(ApplicationDbContext dbContext, IProductDiscountService productDiscountService, IValidatorService validatorService, IMapper mapper, APIContext apiContext)
         {
 
             this.dbContext = dbContext;
             this.productDiscountService = productDiscountService;
             this.validatorService = validatorService;
-            this.mapper = mapper;           
+            this.mapper = mapper;
             this.apiContext = apiContext;
         }
 
