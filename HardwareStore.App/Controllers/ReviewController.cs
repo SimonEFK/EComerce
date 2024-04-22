@@ -61,7 +61,7 @@
                 return Redirect("/Home/Error");
             }
             
-            return RedirectToAction($"/ComponentDetail/{reviewInputModel.ProductId}");
+            return Redirect($"/ComponentDetail/{reviewInputModel.ProductId}");
         }
 
         public async Task<IActionResult> ProductReviews(int productId)

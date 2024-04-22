@@ -87,6 +87,7 @@
 
         public IActionResult PaypalFailPayment()
         {
+            var test = this.HttpContext.User;
             return BadRequest();
         }
 
