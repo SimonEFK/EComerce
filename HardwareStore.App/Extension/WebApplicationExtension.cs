@@ -27,18 +27,20 @@
             var dbContext = app.Services
                 .CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
+            var config = app.Services.GetRequiredService<IConfiguration>();
 
-
+            var userEmail = config.GetValue<string>("AdminUser:Email");
+            var userPassword = config.GetValue<string>("AdminUser:Password");
             var adminUser = new ApplicationUser
             {
-                UserName = "admin@fakeEmail.com",
-                Email = "admin@fakeEmail.com",
+                UserName = userEmail,
+                Email = userEmail,
                 EmailConfirmed = true
             };
             var userExsist = userManager.Users.FirstOrDefault(x => x.Email == adminUser.Email);
             if (userExsist == null)
             {
-                userManager.CreateAsync(adminUser, "123321").GetAwaiter().GetResult();
+                userManager.CreateAsync(adminUser, userPassword).GetAwaiter().GetResult();
                 var roleExsist = roleManager.Roles.FirstOrDefault(x => x.Name == Roles.Admin);
                 if (roleExsist == null)
                 {

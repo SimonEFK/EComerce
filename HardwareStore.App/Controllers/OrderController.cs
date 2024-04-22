@@ -39,20 +39,20 @@
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return Redirect($"/Error/BadRequest");
             }
 
             var user = await userManager.GetUserAsync(this.HttpContext.User);
             if (user == null)
             {
-                return BadRequest();
+                return Redirect($"/Error/BadRequest");
             }
             var orderItems = mapper.Map<List<CreateOrderItemDTO>>(orderInputModel.Items);
             var result = await orderProductService.CreateOrderAsync(user, orderItems);
 
             if (result.Success == false)
             {
-                return BadRequest(result);
+                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
             }
             var orderId = result.Data;
 
@@ -64,7 +64,7 @@
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return Redirect($"/Error/BadRequest");
 
             }
         }
@@ -78,7 +78,7 @@
             }
             catch (Exception)
             {
-                return BadRequest();
+                return Redirect($"/Error/BadRequest");
             }
             var user = await userManager.GetUserAsync(this.HttpContext.User);
             await orderProductService.ClearUserCartAsync(user);
@@ -87,8 +87,8 @@
 
         public IActionResult PaypalFailPayment()
         {
-            var test = this.HttpContext.User;
-            return BadRequest();
+
+            return Redirect($"/Error/BadRequest");
         }
 
         [HttpGet]
@@ -99,7 +99,7 @@
 
             if (user == null)
             {
-                return BadRequest();
+                return Redirect($"/Error/BadRequest");
             }
 
             var userOrders = await orderProductService.GetUserOrdersAsync(user.Id);

@@ -53,7 +53,7 @@ namespace HardwareStore.App
             });
             builder.Services.AddAntiforgery(options => options.HeaderName = "X-CSRF-TOKEN");
             builder.Services.AddControllersWithViews();
-            
+
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddScoped<IProductDataService, ProductDataService>();
@@ -63,10 +63,10 @@ namespace HardwareStore.App
                 var config = provider.GetRequiredService<IConfiguration>();
                 var paypalService = new PayPalService();
                 var payPalConfig = paypalService.PayPalConfig(config);
-                var accessToken = paypalService.GetAccessToken(payPalConfig);                
+                var accessToken = paypalService.GetAccessToken(payPalConfig);
                 return new APIContext(accessToken);
             });
-            builder.Services.AddSingleton<IPayPalService,PayPalService>();
+            builder.Services.AddSingleton<IPayPalService, PayPalService>();
             builder.Services.AddScoped<ICategoryDataService, CategoryDataService>();
             builder.Services.AddScoped<IManufacturerDataService, ManufacturerDataService>();
             builder.Services.AddScoped<ICartService, CartService>();
@@ -89,6 +89,7 @@ namespace HardwareStore.App
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -102,8 +103,6 @@ namespace HardwareStore.App
             app.UseAuthentication();
             app.UseAuthorization();
 
-
-
             app.MapControllerRoute(
                 name: "areas",
                 pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
@@ -113,9 +112,13 @@ namespace HardwareStore.App
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.MapFallback(context =>
+            {
+                context.Response.Redirect("/Error/PageNotFound");
+                return Task.CompletedTask;
+            });
+           app.MapRazorPages();
 
-            app.MapRazorPages();
-            
             app.Run();
         }
     }

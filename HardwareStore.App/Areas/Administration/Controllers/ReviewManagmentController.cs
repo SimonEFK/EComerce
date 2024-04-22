@@ -33,7 +33,7 @@
 
             if (result.Success == false)
             {
-                return BadRequest(result);
+                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
             }
             return Ok();
         }
@@ -45,7 +45,7 @@
 
             if (result.Success == false)
             {
-                return BadRequest(result);
+                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
             }
             return Ok();
         }

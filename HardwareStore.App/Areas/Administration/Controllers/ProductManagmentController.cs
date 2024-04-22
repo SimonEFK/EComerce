@@ -8,11 +8,9 @@
     using HardwareStore.App.Services.Data.Products;
     using HardwareStore.App.Services.Data.Products.Create;
     using HardwareStore.App.Services.Data.Products.Edit;
-    using static HardwareStore.App.Constants.Constants;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Authorization;
 
-   
+
     public class ProductManagmentController : AdminBaseController
     {
         private readonly ICategoryDataService _categoryDataService;
@@ -60,7 +58,7 @@
 
             if (productStatus.Success == false)
             {
-                return BadRequest();
+                return Redirect($"/Error/BadRequest?errormessage={productStatus.ErrorMessage}");
             }
 
             return Redirect($"/ComponentDetail/{productStatus.Data.Id}");
@@ -92,7 +90,7 @@
             var result = await _productDataService.EditProductAsync<ProductSimplifiedModel>(editProductDto);
             if (result.Success == false)
             {
-                return BadRequest();
+                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
             }
             return Redirect($"/Administration/ProductManagment/EditProduct/{id}");
         }
@@ -116,13 +114,13 @@
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return Redirect($"/Error/BadRequest");
 
             }
             var result = await _productDataService.AddSpecificationAsync(id, model.ValueId);
             if (result.Success == false)
             {
-                return BadRequest();
+                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
 
             }
             return Redirect($"/Administration/ProductManagment/EditProduct/{id}");
@@ -140,7 +138,7 @@
             var result = await _productDataService.AddImageAsync(id, imageModel.ImageUrl);
             if (result.Success == false)
             {
-                return BadRequest();
+                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
 
             }
             return Redirect($"/Administration/ProductManagment/EditProduct/{id}");
@@ -152,13 +150,13 @@
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return Redirect($"/Error/BadRequest");
 
             }
             var result = await _productDataService.RemoveImageAsync(id, imageModel.ImageId);
             if (result.Success == false)
             {
-                return BadRequest();
+                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
 
             }
             return Redirect($"/Administration/ProductManagment/EditProduct/{id}");

@@ -13,6 +13,12 @@
         {
             var clientId = configuration.GetValue<string>("PayPal:ClientId");
             var clientSecret = configuration.GetValue<string>("PayPal:Secret");
+
+            if (string.IsNullOrEmpty(clientSecret) || string.IsNullOrEmpty(clientId))
+            {
+                throw new InvalidOperationException("PayPal credentials are missing. Please configure them.");
+            }
+
             var config = new Dictionary<string, string>
             {
                     {"clientId" , clientId },
@@ -28,11 +34,15 @@
         {
             if (string.IsNullOrEmpty(this.token) || DateTime.UtcNow >= expiryTime)
             {
-                
+
+
                 var tokenCredential =
-                    new OAuthTokenCredential(config["clientId"], config["clientSercret"]);
+                new OAuthTokenCredential(config["clientId"], config["clientSercret"]);
                 this.token = tokenCredential.GetAccessToken();
                 this.expiryTime = DateTime.UtcNow.AddHours(8).AddMinutes(-5);
+
+
+
             }
 
             return this.token;
