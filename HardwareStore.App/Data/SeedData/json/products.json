@@ -1,6 +1,6 @@
 [
   {
-    "Price": 500.00,
+    "Price": 560.00,
     "Id": 3,
     "Name": "AMD Ryzen 5 5600X",
     "NameDetailed": "AMD Ryzen 5 5600X 3.7 GHz 6-Core Processor",
@@ -8,7 +8,7 @@
     "ManufacturerId": 3
   },
   {
-    "Price": 500.00,
+    "Price": 530.00,
     "Id": 4,
     "Name": "AMD Ryzen 7 7800X3D",
     "NameDetailed": "AMD Ryzen 7 7800X3D 4.2 GHz 8-Core Processor",
@@ -16,7 +16,7 @@
     "ManufacturerId": 3
   },
   {
-    "Price": 500.00,
+    "Price": 520.00,
     "Id": 5,
     "Name": "Intel Core i7-13700K",
     "NameDetailed": "Intel Core i7-13700K 3.4 GHz 16-Core Processor",
@@ -24,7 +24,7 @@
     "ManufacturerId": 4
   },
   {
-    "Price": 500.00,
+    "Price": 570.00,
     "Id": 6,
     "Name": "AMD Ryzen 7 5800X",
     "NameDetailed": "AMD Ryzen 7 5800X 3.8 GHz 8-Core Processor",
@@ -32,7 +32,7 @@
     "ManufacturerId": 3
   },
   {
-    "Price": 500.00,
+    "Price": 550.00,
     "Id": 7,
     "Name": "Cooler Master Hyper 212 Black Edition",
     "NameDetailed": "Cooler Master Hyper 212 Black Edition 42 CFM CPU Cooler",
@@ -40,7 +40,7 @@
     "ManufacturerId": 5
   },
   {
-    "Price": 500.00,
+    "Price": 560.00,
     "Id": 8,
     "Name": "Cooler Master MASTERLIQUID ML240L RGB V2",
     "NameDetailed": "Cooler Master MASTERLIQUID ML240L RGB V2 65.59 CFM Liquid CPU Cooler",
@@ -48,7 +48,7 @@
     "ManufacturerId": 5
   },
   {
-    "Price": 500.00,
+    "Price": 570.00,
     "Id": 9,
     "Name": "be quiet! Dark Rock Pro 4",
     "NameDetailed": "be quiet! Dark Rock Pro 4 50.5 CFM CPU Cooler",
@@ -56,7 +56,7 @@
     "ManufacturerId": 6
   },
   {
-    "Price": 500.00,
+    "Price": 530.00,
     "Id": 10,
     "Name": "Corsair iCUE H150i ELITE CAPELLIX XT",
     "NameDetailed": "Corsair iCUE H150i ELITE CAPELLIX XT 65.57 CFM Liquid CPU Cooler",
@@ -64,7 +64,7 @@
     "ManufacturerId": 7
   },
   {
-    "Price": 500.00,
+    "Price": 1200.00,
     "Id": 11,
     "Name": "MSI B550 GAMING GEN3",
     "NameDetailed": "MSI B550 GAMING GEN3 ATX AM4 Motherboard",
@@ -72,7 +72,7 @@
     "ManufacturerId": 8
   },
   {
-    "Price": 500.00,
+    "Price": 1400.00,
     "Id": 12,
     "Name": "Gigabyte B650 AORUS ELITE AX",
     "NameDetailed": "Gigabyte B650 AORUS ELITE AX ATX AM5 Motherboard",
@@ -80,7 +80,7 @@
     "ManufacturerId": 9
   },
   {
-    "Price": 500.00,
+    "Price": 1200.00,
     "Id": 13,
     "Name": "MSI MAG B550 TOMAHAWK",
     "NameDetailed": "MSI MAG B550 TOMAHAWK ATX AM4 Motherboard",
@@ -88,7 +88,7 @@
     "ManufacturerId": 8
   },
   {
-    "Price": 500.00,
+    "Price": 5400.00,
     "Id": 14,
     "Name": "Gigabyte Z790 AORUS ELITE AX",
     "NameDetailed": "Gigabyte Z790 AORUS ELITE AX ATX LGA1700 Motherboard",
@@ -96,7 +96,7 @@
     "ManufacturerId": 9
   },
   {
-    "Price": 500.00,
+    "Price": 5050.00,
     "Id": 15,
     "Name": "Corsair Vengeance LPX 16 GB",
     "NameDetailed": "Corsair Vengeance LPX 16 GB (2 x 8 GB) DDR4-3200 CL16 Memory",
@@ -104,7 +104,7 @@
     "ManufacturerId": 7
   },
   {
-    "Price": 500.00,
+    "Price": 300.00,
     "Id": 16,
     "Name": "Corsair Vengeance 32 GB",
     "NameDetailed": "Corsair Vengeance 32 GB (2 x 16 GB) DDR5-5600 CL36 Memory",
@@ -112,7 +112,7 @@
     "ManufacturerId": 7
   },
   {
-    "Price": 500.00,
+    "Price": 30.00,
     "Id": 17,
     "Name": "Corsair Vengeance RGB Pro 32 GB",
     "NameDetailed": "Corsair Vengeance RGB Pro 32 GB (2 x 16 GB) DDR4-3600 CL18 Memory",
@@ -120,7 +120,7 @@
     "ManufacturerId": 7
   },
   {
-    "Price": 500.00,
+    "Price": 20.00,
     "Id": 18,
     "Name": "G.Skill Trident Z5 RGB 32 GB",
     "NameDetailed": "G.Skill Trident Z5 RGB 32 GB (2 x 16 GB) DDR5-6000 CL36 Memory",
@@ -160,7 +160,7 @@
     "ManufacturerId": 14
   },
   {
-    "Price": 500.00,
+    "Price": 30.00,
     "Id": 23,
     "Name": "MSI GeForce RTX 3060 Ventus 2X 12G",
     "NameDetailed": "MSI GeForce RTX 3060 Ventus 2X 12G GeForce RTX 3060 12GB 12 GB Video Card",
@@ -168,7 +168,7 @@
     "ManufacturerId": 8
   },
   {
-    "Price": 500.00,
+    "Price": 5300.00,
     "Id": 24,
     "Name": "Gigabyte WINDFORCE OC",
     "NameDetailed": "Gigabyte WINDFORCE OC GeForce RTX 4070 12 GB Video Card",
@@ -184,7 +184,7 @@
     "ManufacturerId": 15
   },
   {
-    "Price": 500.00,
+    "Price": 100.00,
     "Id": 26,
     "Name": "MSI RTX 3060 Ventus 3X 12G OC",
     "NameDetailed": "MSI RTX 3060 Ventus 3X 12G OC GeForce RTX 3060 12GB 12 GB Video Card",
@@ -192,7 +192,7 @@
     "ManufacturerId": 8
   },
   {
-    "Price": 500.00,
+    "Price": 200.00,
     "Id": 27,
     "Name": "Corsair RM750e (2023)",
     "NameDetailed": "Corsair RM750e (2023) 750 W 80+ Gold Certified Fully Modular ATX Power Supply",
@@ -200,7 +200,7 @@
     "ManufacturerId": 7
   },
   {
-    "Price": 500.00,
+    "Price": 300.00,
     "Id": 28,
     "Name": "Thermaltake Toughpower GX2",
     "NameDetailed": "Thermaltake Toughpower GX2 600 W 80+ Gold Certified ATX Power Supply",
@@ -208,7 +208,7 @@
     "ManufacturerId": 16
   },
   {
-    "Price": 500.00,
+    "Price": 600.00,
     "Id": 29,
     "Name": "MSI MPG A650GF",
     "NameDetailed": "MSI MPG A650GF 650 W 80+ Gold Certified Fully Modular ATX Power Supply",
