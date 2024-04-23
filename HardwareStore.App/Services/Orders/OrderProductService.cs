@@ -9,15 +9,16 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using PayPal.Api;
-
+    using System.ComponentModel;
+    using System.Globalization;
 
     public class OrderProductService : IOrderProductService
     {
-        
+
         private ApplicationDbContext dbContext;
         private IProductDiscountService productDiscountService;
         private IValidatorService validatorService;
-        private IMapper mapper;        
+        private IMapper mapper;
         private APIContext apiContext;
 
 
@@ -34,7 +35,7 @@
         public async Task<ServiceResultGeneric<string?>> CreateOrderAsync(ApplicationUser applicationUser, IEnumerable<CreateOrderItemDTO> orderItems)
         {
             var serviceResult = new ServiceResultGeneric<string?>();
-            
+
 
             if (applicationUser is null)
             {
@@ -79,28 +80,30 @@
 
         public async Task<Payment> CreatePayment(string orderId)
         {
-            
+            var cultureInfo = new CultureInfo("en-US");
             var order = await dbContext.Orders.Where(x => x.Id == orderId).Include(x => x.OrderProducts).ThenInclude(x => x.Product).FirstOrDefaultAsync();
 
             var items = new List<Item>();
 
             foreach (var product in order.OrderProducts)
             {
+                var productPrice = product.Product.Price.ToString("F2", cultureInfo);
                 var item = new Item
                 {
                     name = product.Product.Name,
                     currency = "USD",
-                    price = product.Product.Price.ToString(),
+                    price = productPrice,
                     quantity = product.Amount.ToString(),
                     sku = "sku"
                 };
+                
                 items.Add(item);
             }
 
 
             var itemList = new ItemList();
             itemList.items = items;
-
+            var orderSum = order.OrderSum.ToString("F2", cultureInfo);
             var payment = new Payment()
             {
                 intent = "sale",
@@ -114,7 +117,7 @@
                             amount = new Amount()
                             {
                                 currency = "USD",
-                                total = order.OrderSum.ToString()
+                                total = orderSum
                             },
                             item_list = itemList
                         }
@@ -190,7 +193,7 @@
             var paymentExecution = new PaymentExecution { payer_id = payerId };
             var executedPayment = new Payment { id = paymentId }.Execute(this.apiContext, paymentExecution);
             await UpdateOrderStatus(paymentId, executedPayment.state);
-            
+
 
         }
 
