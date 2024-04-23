@@ -5,6 +5,7 @@
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Models.Product;
+    using HardwareStore.App.Services.Data.Products;
     using HardwareStore.App.Services.Data.Products.Create;
     using HardwareStore.App.Services.Validation;
     using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class CreateProductServiceTest
+    public class ProductDataServiceTest
     {
         [Fact]
         public async Task CreateProductCorrectly()
@@ -97,31 +98,33 @@
             dbContext.Manufacturers.AddRange(manufacturers);
             dbContext.SaveChanges();
             var createProductService = new CreateProductService(dbContext, validatorService, mapper);
+            var productDataService = new ProductDataService(null, null, createProductService, null);
 
-            var name = "Ryzen5";
-            var nameDetailed = "Ryzen5DetailedName";
-            var categoryId = 1;
-            var manufacturerId = 1;
-            var specifications = new HashSet<int>
+            var createProductDTO = new CreateProductDTO
             {
-                2,3
+                Name = "Ryzen5",
+                NameDetailed = "Ryzen5DetailedName",
+                CategoryId = 1,
+                ManufacturerId = 1,
+                Specifications = new HashSet<int>
+                {
+                    2,3
+                },
+                ImageUrls = new HashSet<string>
+                {
+                    "https://www.dpnow.com/images/PhotoFixChallenge/DSC00092small.jpg",
+                }
+
             };
-            var images = new HashSet<string>
-            {
-                "https://www.dpnow.com/images/PhotoFixChallenge/DSC00092small.jpg",
-            };
-            var result = await createProductService
-                .CreateProduct(name, categoryId, manufacturerId, nameDetailed)
-                .AddSpecifications(specifications)
-                .AddImages(images)
-                .SaveChangesAsync<ProductSimplifiedModel>();
+            var result = await productDataService.CreateProductAsync<ProductSimplifiedModel>(createProductDTO);
+
 
             var product = dbContext.Products.Include(x => x.Images).Include(x => x.Specifications).FirstOrDefault();
             Assert.True(result.Success);
-            Assert.True(product.Name == "Ryzen5");
-            Assert.True(product.NameDetailed == "Ryzen5DetailedName");
-            Assert.True(product.Images.Any(x => x.Url == images.First()));
-            Assert.True(product.ManufacturerId == manufacturerId);
+            Assert.True(product.Name == createProductDTO.Name);
+            Assert.True(product.NameDetailed == createProductDTO.NameDetailed);
+            Assert.True(product.Images.Any(x => x.Url == createProductDTO.ImageUrls.First()));
+            Assert.True(product.ManufacturerId == createProductDTO.ManufacturerId);
             Assert.True(product.Specifications.Count == 2);
 
 
@@ -129,7 +132,7 @@
 
         [Theory]
         [InlineData("productName", "productNameDetailed", 1, 1, 1, "invalidUrl")]
-        [InlineData("productName","productNameDetailed",1,234,1, "https://www.dpnow.com/images/PhotoFixChallenge/DSC00092small.jpg")]
+        [InlineData("productName", "productNameDetailed", 1, 234, 1, "https://www.dpnow.com/images/PhotoFixChallenge/DSC00092small.jpg")]
         [InlineData("productName", "productNameDetailed", 1, 1, 2555, "invalidUrl")]
         [InlineData("productName", "productNameDetailed", 1, 1, 1, "invalidUrl")]
         [InlineData("productName", "productNameDetailed", 54, 1, 1, "invalidUrl")]
@@ -138,7 +141,6 @@
             var dbContext = GetInMemoryDBContext();
             var mapper = GetMapper();
             var validatorService = new ValidatorService(dbContext, null);
-
             var categories = new List<Category>
             {
                 new Category
@@ -208,13 +210,11 @@
                 }
 
             };
-
             dbContext.Categories.AddRange(categories);
             dbContext.Manufacturers.AddRange(manufacturers);
             dbContext.SaveChanges();
             var createProductService = new CreateProductService(dbContext, validatorService, mapper);
-
-
+            var productDataService = new ProductDataService(null, null, createProductService, null);
             var specifications = new HashSet<int>
             {
                 specification
@@ -223,12 +223,19 @@
             {
                 image
             };
-            await Assert.ThrowsAnyAsync<Exception>(async()=> await createProductService
-                .CreateProduct(name, categoryId, manufacturerId, nameDetailed)
-                .AddSpecifications(specifications)
-                .AddImages(images)
-                .SaveChangesAsync<ProductSimplifiedModel>());
-           
+            var createProductDTO = new CreateProductDTO
+            {
+                Name = name,
+                NameDetailed = nameDetailed,
+                CategoryId = categoryId,
+                ManufacturerId = manufacturerId,
+                Specifications = specifications,
+                ImageUrls = images
+
+            };
+
+            await Assert.ThrowsAnyAsync<Exception>(async () => await productDataService
+                .CreateProductAsync<ProductSimplifiedModel>(createProductDTO));               
         }
 
         private static ApplicationDbContext GetInMemoryDBContext()

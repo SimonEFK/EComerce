@@ -20,49 +20,52 @@
         public async Task<ServiceResult> AddSpecificationAsync(int productId, int valueId)
         {
             var result = new ServiceResult();
-            var product = await dbContext.Products.FirstOrDefaultAsync(x => x.Id == productId);
+            var product = await dbContext.Products.Include(x => x.Specifications).FirstOrDefaultAsync(x => x.Id == productId);
 
             if (product is null)
             {
                 result.Success = false;
-                result.ErrorMessage = string.Format(ErrorMessages.InvalidProductId, productId);                   
+                result.ErrorMessage = string.Format(ErrorMessages.InvalidProductId, productId);
                 return result;
             }
-
             var isValueIdValid = await validatorService.IsSpecificationValueValidAsync(valueId);
             if (!isValueIdValid)
             {
                 result.Success = false;
-                result.ErrorMessage = string.Format(ErrorMessages.InvalidVlaueId, valueId);                   
+                result.ErrorMessage = string.Format(ErrorMessages.InvalidVlaueId, valueId);
                 return result;
             }
-
-            var productSpecificationValue = new ProductSpecificationValues
+            var alreadyHaveValue = dbContext.Products.Where(x => x.Id == productId).Any(x => x.Specifications.FirstOrDefault(x => x.SpecificationValueId == valueId) != null);
+            if (!alreadyHaveValue)
             {
-                SpecificationValueId = valueId,
-            };
-            product.Specifications.Add(productSpecificationValue);
+                var productSpecificationValue = new ProductSpecificationValues
+                {
+                    SpecificationValueId = valueId,
+                };
+                product.Specifications.Add(productSpecificationValue);
 
-            await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
+            }
+           
             return result;
         }
 
         public async Task<ServiceResult> RemoveSpecificationAsync(int productId, int valueId)
         {
             var result = new ServiceResult();
-            var product = await dbContext.Products.Include(x=>x.Specifications).FirstOrDefaultAsync(x => x.Id == productId);
+            var product = await dbContext.Products.Include(x => x.Specifications).FirstOrDefaultAsync(x => x.Id == productId);
 
             if (product is null)
             {
                 result.Success = false;
-                result.ErrorMessage = string.Format(ErrorMessages.InvalidProductId, productId);                   
+                result.ErrorMessage = string.Format(ErrorMessages.InvalidProductId, productId);
                 return result;
             }
             var isValueIdValid = await validatorService.IsSpecificationValueValidAsync(valueId);
             if (!isValueIdValid)
             {
                 result.Success = false;
-                result.ErrorMessage = string.Format(ErrorMessages.InvalidVlaueId, valueId);                   
+                result.ErrorMessage = string.Format(ErrorMessages.InvalidVlaueId, valueId);
                 return result;
             }
             foreach (var item in product.Specifications)

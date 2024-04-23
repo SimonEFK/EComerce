@@ -1,9 +1,13 @@
 ﻿namespace HardwareStore.App.Services.Data.Products.Edit
 {
     using AutoMapper;
+    using CommunityToolkit.Diagnostics;
+    using HardwareStore.App.Constants;
     using HardwareStore.App.Data;
     using HardwareStore.App.Services.Data.Products.ProductSpecifications;
+    using HardwareStore.App.Services.Validation;
     using Microsoft.EntityFrameworkCore;
+    using System.Text.RegularExpressions;
     using static Constants.Constants;
 
     public class EditProductService : IEditProductService
@@ -12,22 +16,46 @@
         private readonly ApplicationDbContext dbContext;
         private readonly IProductSpecificationService productSpecificationService;
         private readonly IMapper mapper;
+        private readonly IValidatorService validatorService;
 
-        public EditProductService(ApplicationDbContext dbContext, IProductSpecificationService productSpecificationService, IMapper mapper)
+        public EditProductService(ApplicationDbContext dbContext, IProductSpecificationService productSpecificationService, IMapper mapper, IValidatorService validatorService)
         {
             this.dbContext = dbContext;
             this.productSpecificationService = productSpecificationService;
             this.mapper = mapper;
+            this.validatorService = validatorService;
         }
 
         public async Task<ServiceResultGeneric<T>> EditProductAsync<T>(int id, string name, string? nameDetailed, int categoryId, int manufacturerId)
         {
-            var result = new ServiceResultGeneric<T>();
+
+            Guard.IsNotNullOrWhiteSpace(name, nameof(name));
+            Guard.IsNotWhiteSpace(name, nameof(name));
+            Guard.HasSizeLessThanOrEqualTo(name, ModelConstraints.Product.NameMaxLength);
+            if (nameDetailed != null)
+            {
+                Guard.IsNotNullOrWhiteSpace(nameDetailed, nameof(nameDetailed));
+                Guard.IsNotWhiteSpace(nameDetailed, nameof(nameDetailed));
+                Guard.HasSizeLessThanOrEqualTo(name, ModelConstraints.Product.NameDetailedMaxLength);
+            }
+
+            var isCategoryValid = Task.Run(async () => await validatorService.IsCategoryValidAsync(categoryId)).GetAwaiter().GetResult();
+            if (!isCategoryValid)
+            {
+                throw new ArgumentException("Invalid Category");
+            }
+            var isManufacturerValid = await validatorService.IsManufacturerValidAsync(manufacturerId);
+            if (!isManufacturerValid)
+            {
+                throw new ArgumentException("Invalid Manufacturer");
+            }
             var product = await dbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var result = new ServiceResultGeneric<T>();
+
             if (product == null)
             {
                 result.Success = false;
-                result.ErrorMessage = string.Format(ErrorMessages.InvalidProductId, id);                
+                result.ErrorMessage = string.Format(ErrorMessages.InvalidProductId, id);
                 return result;
             }
 
@@ -36,15 +64,30 @@
             product.CategoryId = categoryId;
             product.ManufacturerId = manufacturerId;
 
-            await dbContext.SaveChangesAsync();
+            try
+            {
+                await dbContext.SaveChangesAsync();
+
+            }
+            catch (DbUpdateException)
+            {
+                result.ErrorMessage = "Failed to edit product";
+                return result;
+            }
             result.Data = mapper.Map<T>(product);
             return result;
         }
 
         public async Task<ServiceResult> AddImageAsync(int id, string url)
         {
-            var result = new ServiceResult();
+
+            if (!Regex.IsMatch(url, ModelConstraints.Image.ImageRegexPattern))
+            {
+                throw new ArgumentException($"\"{url}\" has invalid format");
+            }
             var product = dbContext.Products.FirstOrDefault(x => x.Id == id);
+            var result = new ServiceResult();
+
             if (product == null)
             {
                 result.Success = false;
@@ -58,7 +101,17 @@
                 Url = url,
             };
             product.Images.Add(newImage);
-            await dbContext.SaveChangesAsync();
+
+            try
+            {
+                await dbContext.SaveChangesAsync();
+
+            }
+            catch (DbUpdateException)
+            {
+                result.ErrorMessage = "Failed to save image";
+                return result;
+            }
             return result;
         }
 
