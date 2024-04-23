@@ -1,7 +1,6 @@
 ﻿namespace HardwareStore.App.Services.PriceManager
 {
     using HardwareStore.App.Data;
-    using HardwareStore.App.Data.Models;
     using Microsoft.EntityFrameworkCore;
 
     public class PriceManagerService : IPriceManagerService

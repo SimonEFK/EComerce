@@ -39,7 +39,7 @@
                 Guard.HasSizeLessThanOrEqualTo(name, ModelConstraints.Product.NameDetailedMaxLength);
             }
 
-            var isCategoryValid = Task.Run(async () => await validatorService.IsCategoryValidAsync(categoryId)).GetAwaiter().GetResult();
+            var isCategoryValid = await validatorService.IsCategoryValidAsync(categoryId);
             if (!isCategoryValid)
             {
                 throw new ArgumentException("Invalid Category");
