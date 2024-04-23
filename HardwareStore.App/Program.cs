@@ -58,15 +58,16 @@ namespace HardwareStore.App
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddScoped<IProductDataService, ProductDataService>();
             builder.Services.AddScoped<IGenerateProductFilterOptionService, GenerateProductFilterOptionService>();
+            builder.Services.AddSingleton<IPayPalService, PayPalService>();
+
             builder.Services.AddScoped<APIContext>(provider =>
             {
                 var config = provider.GetRequiredService<IConfiguration>();
-                var paypalService = new PayPalService();
+                var paypalService = provider.GetRequiredService<IPayPalService>();
                 var payPalConfig = paypalService.PayPalConfig(config);
                 var accessToken = paypalService.GetAccessToken(payPalConfig);
                 return new APIContext(accessToken);
             });
-            builder.Services.AddSingleton<IPayPalService, PayPalService>();
             builder.Services.AddScoped<ICategoryDataService, CategoryDataService>();
             builder.Services.AddScoped<IManufacturerDataService, ManufacturerDataService>();
             builder.Services.AddScoped<ICartService, CartService>();
