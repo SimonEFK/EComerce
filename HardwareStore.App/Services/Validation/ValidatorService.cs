@@ -81,5 +81,16 @@
             }
             return true;
         }
+
+        public async Task<bool> IsSpecificationValueValidForCategory(int productCategoryId, int valueId)
+        {
+            var isValid = await data
+           .SpecificationValues
+           .Where(x => x.Specification.CategoryId == productCategoryId)
+           .Select(x => x.Id)
+           .AnyAsync(x => valueId == x);
+
+            return isValid;
+        }
     }
 }

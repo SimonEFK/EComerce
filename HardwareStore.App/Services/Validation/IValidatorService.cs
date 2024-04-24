@@ -13,5 +13,6 @@
         Task<bool> IsSpecificationValidAsync(int specificationId);
         Task<bool> IsSpecificationValueValidAsync(int valueId);
         Task<bool> IsSpecificationValueValidAsync(HashSet<int> valueIds);
+        Task<bool> IsSpecificationValueValidForCategory(int productCategoryId, int valueId);
     }
 }

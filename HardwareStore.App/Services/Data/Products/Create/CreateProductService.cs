@@ -34,6 +34,7 @@
                 Guard.IsNotNullOrWhiteSpace(nameDetailed, nameof(nameDetailed));
                 Guard.IsNotWhiteSpace(nameDetailed, nameof(nameDetailed));
                 Guard.HasSizeLessThanOrEqualTo(name, ModelConstraints.Product.NameDetailedMaxLength);
+                nameDetailed.Trim();
             }
 
             var isCategoryValid = Task.Run(async () => await validatorService.IsCategoryValidAsync(categoryId)).GetAwaiter().GetResult();
@@ -49,7 +50,7 @@
             product = new Product
             {
                 Name = name.Trim(),
-                NameDetailed = nameDetailed.Trim(),
+                NameDetailed = nameDetailed,
                 CategoryId = categoryId,
                 ManufacturerId = manufacturerId
             };
@@ -81,6 +82,14 @@
             foreach (var valueId in specificationValueIds)
             {
                 var isValid = Task.Run(async () => await validatorService.IsSpecificationValueValidAsync(valueId)).GetAwaiter().GetResult();
+                var productCategoryId = this.product.CategoryId;
+
+                var isValidForThisCategory = Task.Run(async () => await validatorService.IsSpecificationValueValidForCategory(productCategoryId,valueId)).GetAwaiter().GetResult();
+                
+                if (!isValidForThisCategory)
+                {
+                    continue;
+                }
                 if (isValid)
                 {
                     product.Specifications.Add(new ProductSpecificationValues
@@ -92,6 +101,16 @@
             return this;
         }
 
+
+        public ICreateProductService SetPrice(decimal price)
+        {
+            if (price < 0)
+            {
+                throw new ArgumentException($"{nameof(price)} cant be zero or negative.");
+            }
+            this.product.Price = price;
+            return this;
+        }
         public async Task<ServiceResultGeneric<T>> SaveChangesAsync<T>()
         {
             var result = new ServiceResultGeneric<T>();

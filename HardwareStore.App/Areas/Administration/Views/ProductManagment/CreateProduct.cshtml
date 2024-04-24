@@ -17,6 +17,13 @@
                     <span asp-validation-for="@this.Model.NameDetailed" class="text-danger"></span>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label asp-for="@this.Model.Price" class="form-label"></label>
+                    <input asp-for="@this.Model.Price" class="form-control" />
+                    <span asp-validation-for="@this.Model.Price" class="text-danger"></span>
+                </div>                
+            </div>
             <div class="row my-2">
                 <div class="col-md-6">
                     <select asp-for="@this.Model.CategoryId" class="form-select" id="categorySelectInputField">
@@ -100,9 +107,18 @@
         let specificationsSelectMenu = document.querySelector('#specificationsSelectMenu');
         let specValuesSelectMenu = document.querySelector("#specValuesSelectMenu");
 
+        categorySelectInputField.addEventListener("input", ClearSpecificationValues);
+
         categorySelectInputField.addEventListener("input", UpdateSpecificationValues);
         categorySelectInputField.addEventListener("load", UpdateSpecificationValues);
         specificationsSelectMenu.addEventListener("input", UpdateValues);
+
+
+        function ClearSpecificationValues() {
+            debugger;
+            let specificationBox = document.querySelector('.specificationsBox');
+            specificationBox.innerHTML = "";
+        }
 
 
         async function UpdateSpecificationValues(event) {
@@ -112,7 +128,9 @@
 
             specificationsSelectMenu.innerHTML = `<option>Select Specification</option>`;
             specValuesSelectMenu.innerHTML = `<option>Select Value</option>`;
-            Array.from(categoryInfo.specifications).forEach(x => {
+
+            let specifications = Array.from(categoryInfo.specifications);
+            specifications.forEach(x => {
 
                 let option = document.createElement('option')
 
@@ -141,7 +159,6 @@
 
 
         }
-
 
         let imagesUrlInputContainer = document.querySelector('.image-urlInput-container');
         imagesUrlInputContainer.addEventListener('click', RemoveImageInputField);

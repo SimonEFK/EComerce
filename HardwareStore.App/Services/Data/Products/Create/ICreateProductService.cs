@@ -9,5 +9,6 @@
         ICreateProductService AddSpecifications(HashSet<int> specificationValueIds);
         ICreateProductService CreateProduct(string name, int categoryId, int manufacturerId, string? nameDetailed = null);
         Task<ServiceResultGeneric<T>> SaveChangesAsync<T>();
+        ICreateProductService SetPrice(decimal price);
     }
 }

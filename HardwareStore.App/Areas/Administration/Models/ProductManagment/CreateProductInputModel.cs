@@ -7,6 +7,9 @@
 
     public class CreateProductInputModel         
     {
+
+        public decimal? Price { get; set; }
+
         [Required]
         [StringLength(maximumLength: 60, MinimumLength = 6, ErrorMessage = "{0} field must be {2}-{1} characters long")]
         public string Name { get; set; }

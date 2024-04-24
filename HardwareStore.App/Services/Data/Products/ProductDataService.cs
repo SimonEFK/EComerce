@@ -43,6 +43,7 @@
             .CreateProduct(createProductDTO.Name, createProductDTO.CategoryId, createProductDTO.ManufacturerId, createProductDTO.NameDetailed)
             .AddImages(createProductDTO.ImageUrls)
             .AddSpecifications(createProductDTO.Specifications)
+            .SetPrice(createProductDTO.Price)
             .SaveChangesAsync<T>();
 
             return result;
