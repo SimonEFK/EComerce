@@ -31,7 +31,7 @@
                                     <button data-removeproductfromcart="@item.ProductId" class="btn btn-close" type="button"></button>
                                 </li>
                                 <li class="list-group-item flex-grow-1">
-                                    <input name="orderInputModel.items[@count].amount" class="form-control" type="number" value="@item.Amount" />
+                                    <input name="orderInputModel.items[@count].amount" class="form-control" type="number" min="1" oninput="this.value = Math.abs(this.value)" value="@item.Amount" />
                                     <input name="orderInputModel.items[@count].productid" type="hidden" value="@item.ProductId" />
                                     <p class="text-success fw-bold m-0">
                                         $@string.Format("{0:0.00}", item.ProductPrice.ToString())
