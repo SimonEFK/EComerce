@@ -8,6 +8,7 @@
 
         public string Image { get; set; }
 
+        
         public int ProductsCount { get; set; }
     }
 }
