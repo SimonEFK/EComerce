@@ -58,7 +58,7 @@
 
             if (productStatus.Success == false)
             {
-                return Redirect($"/Error/BadRequest?errormessage={productStatus.ErrorMessage}");
+                return Redirect($"/Error/ErrorHandler?errormessage={productStatus.ErrorMessage}");
             }
 
             return Redirect($"/ComponentDetail/{productStatus.Data.Id}");
@@ -90,7 +90,7 @@
             var result = await _productDataService.EditProductAsync<ProductSimplifiedModel>(editProductDto);
             if (result.Success == false)
             {
-                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
+                return Redirect($"/Error/ErrorHandler?errorMessage={result.ErrorMessage}");
             }
             return Redirect($"/Administration/ProductManagment/EditProduct/{id}");
         }
@@ -114,13 +114,13 @@
         {
             if (!ModelState.IsValid)
             {
-                return Redirect($"/Error/BadRequest");
+                return Redirect($"/Error/ErrorHandler");
 
             }
             var result = await _productDataService.AddSpecificationAsync(id, model.ValueId);
             if (result.Success == false)
             {
-                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
+                return Redirect($"/Error/ErrorHandler?errorMessage={result.ErrorMessage}");
 
             }
             return Redirect($"/Administration/ProductManagment/EditProduct/{id}");
@@ -138,7 +138,7 @@
             var result = await _productDataService.AddImageAsync(id, imageModel.ImageUrl);
             if (result.Success == false)
             {
-                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
+                return Redirect($"/Error/ErrorHandler?errorMessage={result.ErrorMessage}");
 
             }
             return Redirect($"/Administration/ProductManagment/EditProduct/{id}");
@@ -150,13 +150,13 @@
         {
             if (!ModelState.IsValid)
             {
-                return Redirect($"/Error/BadRequest");
+                return Redirect($"/Error/ErrorHandler");
 
             }
             var result = await _productDataService.RemoveImageAsync(id, imageModel.ImageId);
             if (result.Success == false)
             {
-                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
+                return Redirect($"/Error/ErrorHandler?errorMessage={result.ErrorMessage}");
 
             }
             return Redirect($"/Administration/ProductManagment/EditProduct/{id}");

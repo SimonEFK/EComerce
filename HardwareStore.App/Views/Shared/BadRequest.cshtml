@@ -1,6 +1,7 @@
-﻿<div class="container text-center">
+﻿@model string;
+<div class="container text-center">
     <h1 class="display-4 text-danger">Bad Request</h1>
     <p class="lead">Oops! Something went wrong with your request.</p>
-    <p>@ViewData["Error"]</p>
+    <p class="text-danger">@Model</p>
     <a href="/" class="btn btn-primary">Go back to homepage</a>
 </div>

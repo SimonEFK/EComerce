@@ -40,7 +40,7 @@
             var user = await _userManager.GetUserAsync(this.HttpContext.User);
             if (user is null)
             {
-                return Redirect($"/Error/BadRequest");
+                return Redirect($"/Error/ErrorHandler");
             }
             try
             {
@@ -50,7 +50,7 @@
             catch (Exception ex)
             {
 
-                return Redirect($"/Error/BadRequest");
+                return Redirect($"/Error/ErrorHandler");
             }
 
             return Ok();
@@ -62,7 +62,7 @@
         {
             if (!ModelState.IsValid)
             {
-                return Redirect($"/Error/BadRequest");
+                return Redirect($"/Error/ErrorHandler");
             }
             var user = await _userManager.GetUserAsync(this.HttpContext.User);
 
@@ -72,7 +72,7 @@
             }
             catch (Exception ex)
             {
-                return Redirect($"/Error/BadRequest");
+                return Redirect($"/Error/ErrorHandler");
             }
 
             return RedirectToAction(nameof(Index), "Cart");

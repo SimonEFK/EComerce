@@ -2,21 +2,20 @@
 {
     using Microsoft.AspNetCore.Mvc;
 
-    [Route("Error")]
+    
     public class ErrorController : Controller
     {
-        [HttpGet("{statusCode}")]
-        public IActionResult PageNotFound(int statusCode)
+        [HttpGet()]
+        public IActionResult ErrorHandler(int errorCode,string errorMessage)
         {
-            
-            return View("PageNotFound");
-        }
+            if (errorCode == 404)
+            {
+                return View("PageNotFound");
 
-        [HttpGet("BadRequest")]
-        public IActionResult BadRequest(string? errorMessage)
-        {
-            ViewData["Error"] = errorMessage;
-            return View("BadRequest");
+            }
+
+            return View("BadRequest",errorMessage);
         }
+        
     }
 }

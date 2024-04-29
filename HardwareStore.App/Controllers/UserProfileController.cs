@@ -31,7 +31,7 @@
             var userId = this.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             if (userId == null)
             {
-                return Redirect($"/Error/BadRequest");
+                return Redirect($"/Error/ErrorHandler");
             }
             var userReviews = await _productReviewService.GetUserReviewsAsync(userId, true);
 
@@ -54,7 +54,7 @@
                 model.Rating.Value);
             if (result.Success == false)
             {
-                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
+                return Redirect($"/Error/ErrorHandler?errorMessage={result.ErrorMessage}");
             }
             return Redirect("/UserProfile/UserReviews");
         }
@@ -66,7 +66,7 @@
             var result = await _productReviewService.DeleteReviewAsync(reviewId);
             if (result.Success == false)
             {
-                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
+                return Redirect($"/Error/ErrorHandler?errorMessage={result.ErrorMessage}");
             }
 
             return Redirect("/UserProfile/UserReviews");

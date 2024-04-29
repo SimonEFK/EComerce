@@ -95,7 +95,7 @@
 
             if (!result.Success)
             {
-                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
+                return Redirect($"/Error/ErrorHandler?errorMessage={result.ErrorMessage}");
             }
             return Redirect("/Administration/CategoryManagment");
         }
@@ -127,7 +127,7 @@
 
             if (!result.Success)
             {
-                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
+                return Redirect($"/Error/ErrorHandler?errorMessage={result.ErrorMessage}");
             }
             return Redirect($"/Administration/CategoryManagment/CategoryInfo/{categoryEditModel.Id}");
         }
@@ -155,7 +155,7 @@
             if (!result.Success)
             {
 
-                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
+                return Redirect($"/Error/ErrorHandler?errorMessage={result.ErrorMessage}");
 
             }
             return Redirect($"/Administration/CategoryManagment/CategoryInfo/{specificationCreateModel.CategoryId}");
@@ -182,7 +182,7 @@
             if (!result.Success)
             {
 
-                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
+                return Redirect($"/Error/ErrorHandler?errorMessage={result.ErrorMessage}");
 
             }
             return Redirect($"/Administration/CategoryManagment/SpecificationInfo/{specificationEditModel.Id}");
@@ -209,7 +209,7 @@
             var result = await _categoryDataService.CreateSpecificationValueAsync(ValueCreateFormModel.CategoryId ?? 0, ValueCreateFormModel.SpecificationId, ValueCreateFormModel.Value, ValueCreateFormModel.Metric);
             if (result.Success == false)
             {
-                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
+                return Redirect($"/Error/ErrorHandler?errorMessage={result.ErrorMessage}");
 
             }
 
@@ -248,7 +248,7 @@
             if (!result.Success)
             {
 
-                return Redirect($"/Error/BadRequest?errorMessage={result.ErrorMessage}");
+                return Redirect($"/Error/ErrorHandler?errorMessage={result.ErrorMessage}");
             }
             return Redirect($"/Administration/CategoryManagment/SpecificationInfo/{ValueEditFormModel.SpecificationId}");
 
