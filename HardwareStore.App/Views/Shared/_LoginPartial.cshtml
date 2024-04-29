@@ -13,17 +13,17 @@
             </a>
         </li>
         <li class="nav-item">
-            <div class="dropdown">
-                <button class="bg-transparent btn btn-secondary dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="text-primary bi bi-person-circle"></i>
-                </button>
-                <ul class="dropdown-menu position-absolute">
-                    <li><a class="dropdown-item" asp-area="" asp-controller="UserProfile" asp-action="UserReviews">My Reviews</a></li>
-                    <li><a class="dropdown-item" asp-area="" asp-controller="Order" asp-action="UserOrders">My Orders</a></li>
-                    <li><a class="dropdown-item" asp-area="Identity" asp-controller="Account" asp-action="Manage">Settings</a></li>
+            <button class="btn btn-primary bg-transparent border-0" type="button" data-bs-toggle="collapse" data-bs-target="#userNav" aria-expanded="false" aria-controls="collapseExample">
+                <i class="text-primary bi bi-person-circle"></i>
+            </button>
+            <div class="collapse" id="userNav">
+                <ul class="list-group position-absolute">
+                    <li text-color-class="text-light" custom-active class="list-group-item"><a class="dropdown-item" asp-area="" asp-controller="UserProfile" asp-action="UserReviews">My Reviews</a></li>
+                    <li text-color-class="text-light" custom-active class="list-group-item"><a class="dropdown-item" asp-area="" asp-controller="Order" asp-action="UserOrders">My Orders</a></li>
+                    <li text-color-class="text-light" custom-active class="list-group-item"><a class="dropdown-item" asp-area="" asp-controller="Cart" asp-action="Index">My Cart</a></li>
+                    <li text-color-class="text-light" custom-active class="list-group-item"><a class="dropdown-item" asp-area="Identity" asp-controller="Account" asp-action="Manage">Settings</a></li>
                 </ul>
             </div>
-
         </li>
 
         <li class="nav-item">
@@ -43,7 +43,7 @@
                 </a>
             </li>
         }
-        
+
 
     }
     else

@@ -26,12 +26,19 @@
                 var existingClasses = output.Attributes["class"]?.Value?.ToString() ?? "";
                 var childClasses = child.GetContent().Split().ToList();
 
-                var newClass = TextColorClass;
+                
                 var index = childClasses.FindIndex(x => x.Contains("class"));
+                if (index != -1)
+                {
+                    var classString =
+                    $"{childClasses[index].Replace("class=", string.Empty).Replace("\"", string.Empty)}";
+                    
 
-                childClasses.Insert(index + 1, newClass);
+                    childClasses[index] = $"class=\"{classString} {TextColorClass}\"";
+                }
+                
+
                 var childHtml = string.Join(" ", childClasses);
-
 
                 output.Attributes.SetAttribute("class", $"{existingClasses} active");
                 output.Content.SetHtmlContent(childHtml);

@@ -18,7 +18,7 @@
                     }
                 }
             </select>
-            <button class="btn btn-primary w-100 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#FilterMenu" aria-expanded="false" aria-controls="collapseExample">
+            <button class="btn btn-primary w-100 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#FilterMenu" aria-expanded="false" aria-controls="collapseExample">
                 Filters
             </button>
             <div class="overflow-scroll h-75 z-2 col-lg-2 col-11 position-absolute collapse show" id="FilterMenu">
@@ -27,7 +27,7 @@
                         var selectedSpecificationIds = ViewData["selectedSpecs"] as List<int>;
                         var selectedManufacturerIds = ViewData["selectedManufacturers"] as List<int>;
                     }
-                    @Html.AntiForgeryToken();
+                    @Html.AntiForgeryToken()
                     <input id="sortInputHidden" type="hidden" name="so" value="@ViewData["sortOrder"]" />
                     <input id="searchStringHidden" type="hidden" name="s" value="@ViewData["searchstring"]" />
                     @* @if (Model.Specifications.Count == 1)

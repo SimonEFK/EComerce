@@ -3,18 +3,21 @@
 }
 <div class="row">
     <div class="col-md-2">
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" asp-controller="UserProfile" asp-action="UserReviews">My Reviews</a>
+        <ul class="nav flex-column list-group">
+            <li text-color-class="text-light" custom-active class="nav-item list-group-item">
+                <a class="nav-link" aria-current="page" asp-controller="UserProfile" asp-action="UserReviews">My Reviews</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" asp-controller="Order" asp-action="UserOrders">My Orders</a>
+            <li text-color-class="text-light" custom-active class="nav-item list-group-item">
+                <a class="nav-link" aria-current="page" asp-controller="Order" asp-action="UserOrders">My Orders</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" asp-controller="UserProfile" asp-action="AddAddress">Add Address</a>
+            <li text-color-class="text-light" custom-active class="nav-item list-group-item">
+                <a class="nav-link" aria-current="page" asp-controller="UserProfile" asp-action="AddAddress">Add Address</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" asp-controller="Cart" asp-action="Index">My Cart</a>
+            <li text-color-class="text-light" custom-active class="nav-item disabled list-group-item">
+                <a class="nav-link" aria-current="page" asp-controller="UserProfile" asp-action="AddAddress">My Addresses</a>
+            </li>
+            <li text-color-class="text-light" custom-active class="nav-item list-group-item">
+                <a class="nav-link" aria-current="page" asp-controller="Cart" asp-action="Index">My Cart</a>
             </li>
         </ul>
     </div>
