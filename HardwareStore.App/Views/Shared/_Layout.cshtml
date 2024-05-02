@@ -13,7 +13,7 @@
 <body>
     <header>
         <nav class="bg-dark border-body">
-            <div class="container-fluid">
+            <div class="container">
                 <a class="navbar-brand" href="/">Logo</a>
                 <div id="navbarSupportedContent">
                     <partial name="_LoginPartial" />
@@ -21,9 +21,9 @@
             </div>
 
         </nav>
-        <div class="container-fluid">
-            <div class="row align-items-center my-3">
-                <div class="position-relative col-auto col-xl-2">
+        <div class="container-lg">
+            <div class="row p-2">
+                <div class="col-auto position-relative">
                     <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                         <i class="text-primary d-xl-none bi bi-list"></i>
                         <span class="d-none d-xl-block">Categories</span>
@@ -34,7 +34,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-10 col-xl-8 position-relative">
+                <div class="col-8 flex-grow-1 position-relative">
                     <form id="searchForm" autocomplete="off" method="get" asp-controller="Catalog" asp-action="Products" asp-route-page="1" class="d-flex me-auto" role="search">
                         <input id="globalSearchbar" class="form-control me-2" placeholder="Search All Products" aria-label="Search" name="s" value="@ViewData["SearchString"]">
                         <button class="btn btn-outline-success" type="submit" id="searchSubmitBtn">

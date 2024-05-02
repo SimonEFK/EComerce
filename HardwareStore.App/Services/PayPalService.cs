@@ -14,6 +14,8 @@
             var clientId = configuration.GetValue<string>("PayPal:ClientId");
             var clientSecret = configuration.GetValue<string>("PayPal:Secret");
 
+           
+
             if (string.IsNullOrEmpty(clientSecret) || string.IsNullOrEmpty(clientId))
             {
                 throw new InvalidOperationException("PayPal credentials are missing. Please configure them.");

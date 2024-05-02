@@ -32,27 +32,6 @@
             builder.Entity<ProductReview>(x => x.Property(y => y.IsApproved).HasDefaultValue(false));
 
 
-            var categories = Seed.Data<Category>("categories.json");
-            var manufacturers = Seed.Data<Manufacturer>("manufacturers.json");
-            var products = Seed.Data<Product>("products.json");
-            var images = Seed.Data<Image>("images.json");
-            var partNumbers = Seed.Data<PartNumber>("productPartNumber.json");
-            var specifications = Seed.Data<Specification>("specifications.json");
-            var specificationValues = Seed.Data<SpecificationValue>("specValues.json");
-            var productSpecificationValues = Seed.Data<ProductSpecificationValues>("productSpecValues.json");
-
-            builder.Entity<Category>().HasData(categories);
-            builder.Entity<Manufacturer>().HasData(manufacturers);
-            builder.Entity<Product>().HasData(products);
-            builder.Entity<Image>().HasData(images);
-            builder.Entity<PartNumber>().HasData(partNumbers);
-            builder.Entity<Specification>().HasData(specifications);
-            builder.Entity<SpecificationValue>().HasData(specificationValues);
-            builder.Entity<ProductSpecificationValues>().HasData(productSpecificationValues);
-
-            
-
-
             base.OnModelCreating(builder);
         }
 
