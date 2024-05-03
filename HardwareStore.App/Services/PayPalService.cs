@@ -11,10 +11,12 @@
 
         public Dictionary<string, string> PayPalConfig(IConfiguration configuration)
         {
-            var clientId = configuration.GetValue<string>("PayPal:ClientId");
-            var clientSecret = configuration.GetValue<string>("PayPal:Secret");
 
-           
+            
+            var clientId = configuration.GetValue<string>("PayPal_ClientId");
+            var clientSecret = configuration.GetValue<string>("PayPal_Secret");
+
+            
 
             if (string.IsNullOrEmpty(clientSecret) || string.IsNullOrEmpty(clientId))
             {

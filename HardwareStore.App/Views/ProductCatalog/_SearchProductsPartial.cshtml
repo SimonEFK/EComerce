@@ -2,14 +2,12 @@
 @foreach (var item in Model)
 {
     <li class="list-group-item">
-
         <a href="/ComponentDetail/@item.Id" class="text-decoration-none">
             <div class="row">
-
-                <div class="col-2 d-flex justify-content-center align-items-center" style="height:100px;">
+                <div class="col-12 col-md-4 d-flex flex-column flex-md-row justify-content-center align-items-center" style="height:100px;">
                     <img alt="img" src="@item.Image" class="img-fluid" style="max-height:100px;" />
                 </div>
-                <div class="col d-flex justify-content-between align-items-center gap-3">
+                <div class="col d-flex flex-column flex-md-row justify-content-between text-md-center align-items-center gap-3">
                     <p class="m-0">@item.Name</p>
                     <div class="row justify-content-end">
                         <div class="col">

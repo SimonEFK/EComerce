@@ -4,7 +4,7 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<ul class="navbar-nav justify-content-end align-items-center d-flex flex-row column-gap-2">
+<ul class="navbar-nav justify-content-between justify-content-md-end align-items-center d-flex flex-row column-gap-2">
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">

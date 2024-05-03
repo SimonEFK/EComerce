@@ -29,8 +29,8 @@
 
             var config = app.Services.GetRequiredService<IConfiguration>();
 
-            var userEmail = config.GetValue<string>("AdminUser:Email");
-            var userPassword = config.GetValue<string>("AdminUser:Password");
+            var userEmail = config.GetValue<string>("AdminUser_Email");
+            var userPassword = config.GetValue<string>("AdminUser_Password");
             var adminUser = new ApplicationUser
             {
                 UserName = userEmail,
