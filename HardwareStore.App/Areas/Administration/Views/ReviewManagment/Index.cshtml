@@ -1,7 +1,7 @@
 ﻿@using HardwareStore.App.Models.ProductCatalog
 @model ProductReviewViewModel;
 <div class="row justify-content-center">
-    <div class="col-md-6 col-lg-8 col-xl-10 overflow-scroll">
+    <div class="col-md-6 col-lg-8 col-xl-10 ">
         <table class="table table-sm">
             <thead>
                 <tr>
@@ -27,11 +27,11 @@
                         <td><a class="text-decoration-none" target="_blank" href="/ComponentDetail/@item.ProductId">@item.ProductId</a></td>
                         <td>@item.ApplicationUserUserName</td>
                         <td>@item.Rating</td>
-                        <td>@item.Review</td>
+                        <td class="text-wrap text-break">@item.Review</td>
                         <td>@item.IsApproved</td>
                         <td>@item.IsDeleted</td>
                         <td>
-                            <div class="d-flex column-gap-1">
+                            <div class="d-flex justify-content-between column-gap-1">
                                 @if (!item.IsApproved)
                                 {
                                     <button data-btnApprove="@item.IsApproved" class="btn btn-success">Approve</button>
