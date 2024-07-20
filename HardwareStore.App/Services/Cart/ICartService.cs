@@ -5,11 +5,11 @@
 
     public interface ICartService
     {
-        Task AddProductToCartAsync(ApplicationUser user, int productId);
+        Task AddProductToCartAsync(string applicationUserId, int productId);
 
-        Task CreateCartAsync(ApplicationUser applicationUser);    
-        
-        Task<ICollection<CartProductModel>> GetUserCartProductsAsync(ApplicationUser applicationUser);
-        Task RemoveItem(ApplicationUser applicationUser, int productId);
+        Task CreateCartAsync(string applicationUserId);
+
+        Task<ICollection<CartProductModel>> GetUserCartProductsAsync(string applicationUserId);
+        Task RemoveItem(string applicationUserId, int productId);
     }
 }
