@@ -61,7 +61,7 @@
             var result = await userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                await cartService.CreateCartAsync(user);
+                await cartService.CreateCartAsync(user.Id);
                 return RedirectToAction(nameof(Login));
             }
             foreach (var error in result.Errors)
