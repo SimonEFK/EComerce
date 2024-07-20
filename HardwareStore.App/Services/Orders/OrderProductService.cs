@@ -81,13 +81,17 @@
         public async Task<Payment> CreatePayment(string orderId)
         {
             var cultureInfo = new CultureInfo("en-US");
+            cultureInfo.NumberFormat.NumberDecimalSeparator = ".";
+
+
             var order = await dbContext.Orders.Where(x => x.Id == orderId).Include(x => x.OrderProducts).ThenInclude(x => x.Product).FirstOrDefaultAsync();
 
             var items = new List<Item>();
 
             foreach (var product in order.OrderProducts)
             {
-                var productPrice = product.Product.Price.ToString("F2", cultureInfo);
+                var productPrice = product.Product.Price
+                    .ToString("F2", cultureInfo);
                 var item = new Item
                 {
                     name = product.Product.Name,
@@ -96,7 +100,7 @@
                     quantity = product.Amount.ToString(),
                     sku = "sku"
                 };
-                
+
                 items.Add(item);
             }
 
