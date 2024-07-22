@@ -23,7 +23,7 @@
             var clientSecret = Environment.GetEnvironmentVariable("Paypal_ClientSecret");
             var clientId = Environment.GetEnvironmentVariable("Paypal_ClientId");
             var mode = this.settings.Value.Mode;
-            var connectionTimeout = this.settings.Value.ConnectionTimeOut.ToString();
+            var connectionTimeout = this.settings.Value.ConnectionTimeOut;
             var requestRetries = this.settings.Value.RequestRetries;
 
             if (string.IsNullOrEmpty(clientSecret) || string.IsNullOrEmpty(clientId))

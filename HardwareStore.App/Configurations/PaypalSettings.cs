@@ -6,7 +6,7 @@
 
         public string Mode { get; set; }
 
-        public int ConnectionTimeOut { get; set; }
+        public string ConnectionTimeOut { get; set; }
 
         public string RequestRetries { get; set; }
         
