@@ -3,6 +3,7 @@
     using HardwareStore.App.Configurations;
     using Microsoft.Extensions.Options;
     using PayPal.Api;
+    using System.Configuration;
 
     public class PayPalService : IPayPalService
     {
@@ -16,11 +17,11 @@
             this.settings = settings;
         }
 
-        public Dictionary<string, string> PayPalConfig(IConfiguration configuration)
+        public Dictionary<string, string> PayPalConfig()
         {
 
-            var clientSecret = this.settings.Value.ClientSecret;
-            var clientId = this.settings.Value.ClientId;
+            var clientSecret = Environment.GetEnvironmentVariable("Paypal_ClientSecret");
+            var clientId = Environment.GetEnvironmentVariable("Paypal_ClientId");
             var mode = this.settings.Value.Mode;
             var connectionTimeout = this.settings.Value.ConnectionTimeOut.ToString();
             var requestRetries = this.settings.Value.RequestRetries;

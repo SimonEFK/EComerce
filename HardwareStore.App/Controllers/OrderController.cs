@@ -1,15 +1,12 @@
 ﻿namespace HardwareStore.App.Controllers
 {
     using AutoMapper;
-    using HardwareStore.App.Data.Models;
     using HardwareStore.App.Extension;
     using HardwareStore.App.Models.Orders;
     using HardwareStore.App.Services;
     using HardwareStore.App.Services.Orders;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using PayPal.Api;
 
     public class OrderController : Controller
     {

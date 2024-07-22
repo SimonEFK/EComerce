@@ -2,12 +2,14 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using HardwareStore.App.Configurations;
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Services.ProductDiscount;
     using HardwareStore.App.Services.Validation;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Options;
     using PayPal.Api;
     using System.Globalization;
 
@@ -20,9 +22,15 @@
         private IMapper mapper;
         private UserManager<ApplicationUser> userManager;
         private APIContext apiContext;
+        private readonly IOptions<PaypalSettings> settings;
 
-
-        public OrderProductService(ApplicationDbContext dbContext, IProductDiscountService productDiscountService, IValidatorService validatorService, IMapper mapper, APIContext apiContext, UserManager<ApplicationUser> userManager)
+        public OrderProductService(ApplicationDbContext dbContext,
+            IProductDiscountService productDiscountService,
+            IValidatorService validatorService,
+            IMapper mapper,
+            APIContext apiContext,
+            UserManager<ApplicationUser> userManager,
+            IOptions<PaypalSettings> settings)
         {
 
             this.dbContext = dbContext;
@@ -31,6 +39,7 @@
             this.mapper = mapper;
             this.apiContext = apiContext;
             this.userManager = userManager;
+            this.settings = settings;
         }
 
         public async Task<ServiceResultGeneric<string?>> CreateOrderAsync(string userId, IEnumerable<CreateOrderItemDTO> orderItems)
@@ -82,7 +91,7 @@
 
         public async Task<Payment> CreatePayment(string orderId)
         {
-            var cultureInfo = new CultureInfo("en-US");
+            var cultureInfo = new CultureInfo(settings.Value.Culture);
             cultureInfo.NumberFormat.NumberDecimalSeparator = ".";
 
 
@@ -122,7 +131,7 @@
                             invoice_number = order.Id,
                             amount = new Amount()
                             {
-                                currency = "USD",
+                                currency = settings.Value.Currency,
                                 total = orderSum
                             },
                             item_list = itemList
@@ -130,8 +139,8 @@
                     },
                 redirect_urls = new RedirectUrls()
                 {
-                    return_url = "https://localhost:7082/Order/PaypalPayment",
-                    cancel_url = "https://localhost:7082/Order/PaypalPayment",
+                    return_url = settings.Value.ReturnUrl,
+                    cancel_url = settings.Value.CancelUrl,
                 }
             };
 

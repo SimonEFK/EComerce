@@ -63,9 +63,8 @@ namespace HardwareStore.App
 
             builder.Services.AddScoped<APIContext>(provider =>
             {
-                var config = provider.GetRequiredService<IConfiguration>();
                 var paypalService = provider.GetRequiredService<IPayPalService>();
-                var payPalConfig = paypalService.PayPalConfig(config);
+                var payPalConfig = paypalService.PayPalConfig();
                 var accessToken = paypalService.GetAccessToken(payPalConfig);
                 return new APIContext(accessToken);
             });
