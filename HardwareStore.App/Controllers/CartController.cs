@@ -12,23 +12,19 @@
     {
         private readonly ICartService _cartService;
 
-
         public CartController(ICartService cartService)
         {
             _cartService = cartService;
         }
 
-
         public async Task<IActionResult> Index()
         {
 
             var userId = this.HttpContext.User.Id();
-
             var userProducts = await _cartService.GetUserCartProductsAsync(userId);
-
             var cartViewModel = new CartViewModel { CartProducts = userProducts.ToList() };
-
             var inputModel = new OrderInputModel();
+
             return View(cartViewModel);
         }
 
@@ -50,7 +46,6 @@
             }
             catch (Exception ex)
             {
-
                 return Redirect($"/Error/ErrorHandler");
             }
 

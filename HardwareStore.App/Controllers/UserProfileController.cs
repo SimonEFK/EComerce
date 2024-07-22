@@ -1,24 +1,21 @@
 ﻿namespace HardwareStore.App.Controllers
 {
-    using HardwareStore.App.Data.Models;
+    using HardwareStore.App.Extension;
     using HardwareStore.App.Models.Review;
     using HardwareStore.App.Models.UserProfile;
     using HardwareStore.App.Services.ProductReview;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using System.Security.Claims;
 
     [Authorize]
     public class UserProfileController : Controller
     {
         private readonly IProductReviewService _productReviewService;
-        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserProfileController(IProductReviewService productReviewService, UserManager<ApplicationUser> userManager)
+        public UserProfileController(IProductReviewService productReviewService)
         {
             _productReviewService = productReviewService;
-            _userManager = userManager;
+
         }
 
         public IActionResult Index()
@@ -28,7 +25,7 @@
 
         public async Task<IActionResult> UserReviews()
         {
-            var userId = this.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userId = this.HttpContext.User.Id();
             if (userId == null)
             {
                 return Redirect($"/Error/ErrorHandler");
@@ -39,19 +36,22 @@
             return View(viewModel);
         }
 
-        [HttpPost]        
+        [HttpPost]
         public async Task<IActionResult> EditReview(ReviewInputModel model)
         {
             if (!ModelState.IsValid)
             {
                 return Redirect("/UserProfile/UserReviews");
             }
-            var user = await _userManager.GetUserAsync(this.HttpContext.User);
+            var userId = this.HttpContext.User.Id();
 
             var result = await _productReviewService
-                .EditReviewAsync(user, model.ReviewId.Value,
+                .EditReviewAsync(
+                userId,
+                model.ReviewId.Value,
                 model.Content,
                 model.Rating.Value);
+
             if (result.Success == false)
             {
                 return Redirect($"/Error/ErrorHandler?errorMessage={result.ErrorMessage}");
@@ -80,13 +80,12 @@
             return View(viewModel);
         }
 
-        [HttpPost]        
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddAddress(CreateAddressViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                
                 return View(model);
             }
             return Ok();
