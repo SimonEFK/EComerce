@@ -2,14 +2,15 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using HardwareStore.App.Configurations;
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Services.ProductDiscount;
     using HardwareStore.App.Services.Validation;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Options;
     using PayPal.Api;
-    using System.ComponentModel;
     using System.Globalization;
 
     public class OrderProductService : IOrderProductService
@@ -19,10 +20,17 @@
         private IProductDiscountService productDiscountService;
         private IValidatorService validatorService;
         private IMapper mapper;
+        private UserManager<ApplicationUser> userManager;
         private APIContext apiContext;
+        private readonly IOptions<PaypalSettings> settings;
 
-
-        public OrderProductService(ApplicationDbContext dbContext, IProductDiscountService productDiscountService, IValidatorService validatorService, IMapper mapper, APIContext apiContext)
+        public OrderProductService(ApplicationDbContext dbContext,
+            IProductDiscountService productDiscountService,
+            IValidatorService validatorService,
+            IMapper mapper,
+            APIContext apiContext,
+            UserManager<ApplicationUser> userManager,
+            IOptions<PaypalSettings> settings)
         {
 
             this.dbContext = dbContext;
@@ -30,12 +38,15 @@
             this.validatorService = validatorService;
             this.mapper = mapper;
             this.apiContext = apiContext;
+            this.userManager = userManager;
+            this.settings = settings;
         }
 
-        public async Task<ServiceResultGeneric<string?>> CreateOrderAsync(ApplicationUser applicationUser, IEnumerable<CreateOrderItemDTO> orderItems)
+        public async Task<ServiceResultGeneric<string?>> CreateOrderAsync(string userId, IEnumerable<CreateOrderItemDTO> orderItems)
         {
             var serviceResult = new ServiceResultGeneric<string?>();
 
+            var applicationUser = await userManager.FindByIdAsync(userId);
 
             if (applicationUser is null)
             {
@@ -80,14 +91,18 @@
 
         public async Task<Payment> CreatePayment(string orderId)
         {
-            var cultureInfo = new CultureInfo("en-US");
+            var cultureInfo = new CultureInfo(settings.Value.Culture);
+            cultureInfo.NumberFormat.NumberDecimalSeparator = ".";
+
+
             var order = await dbContext.Orders.Where(x => x.Id == orderId).Include(x => x.OrderProducts).ThenInclude(x => x.Product).FirstOrDefaultAsync();
 
             var items = new List<Item>();
 
             foreach (var product in order.OrderProducts)
             {
-                var productPrice = product.Product.Price.ToString("F2", cultureInfo);
+                var productPrice = product.Product.Price
+                    .ToString("F2", cultureInfo);
                 var item = new Item
                 {
                     name = product.Product.Name,
@@ -96,7 +111,7 @@
                     quantity = product.Amount.ToString(),
                     sku = "sku"
                 };
-                
+
                 items.Add(item);
             }
 
@@ -116,7 +131,7 @@
                             invoice_number = order.Id,
                             amount = new Amount()
                             {
-                                currency = "USD",
+                                currency = settings.Value.Currency,
                                 total = orderSum
                             },
                             item_list = itemList
@@ -124,8 +139,8 @@
                     },
                 redirect_urls = new RedirectUrls()
                 {
-                    return_url = "https://localhost:7082/Order/PaypalPayment",
-                    cancel_url = "https://localhost:7082/Order/PaypalPayment",
+                    return_url = settings.Value.ReturnUrl,
+                    cancel_url = settings.Value.CancelUrl,
                 }
             };
 
@@ -169,11 +184,11 @@
             return orderProducts;
         }
 
-        public async Task ClearUserCartAsync(ApplicationUser applicationUser)
+        public async Task ClearUserCartAsync(string userId)
         {
             var userCart = await dbContext.Carts
                 .Include(x => x.Products)
-                .FirstOrDefaultAsync(c => c.ApplicationUserId == applicationUser.Id);
+                .FirstOrDefaultAsync(c => c.ApplicationUserId == userId);
 
             userCart.Products.Clear();
 
@@ -193,7 +208,6 @@
             var paymentExecution = new PaymentExecution { payer_id = payerId };
             var executedPayment = new Payment { id = paymentId }.Execute(this.apiContext, paymentExecution);
             await UpdateOrderStatus(paymentId, executedPayment.state);
-
 
         }
 

@@ -4,6 +4,7 @@
     using AutoMapper.QueryableExtensions;
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using static Constants.Constants;
 
@@ -11,13 +12,19 @@
     {
         private readonly ApplicationDbContext data;
         private readonly IMapper mapper;
-        public CartService(ApplicationDbContext data, IMapper mapper)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public CartService(ApplicationDbContext data, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
             this.data = data;
             this.mapper = mapper;
+            _userManager = userManager;
         }
-        public async Task CreateCartAsync(ApplicationUser applicationUser)
+        public async Task CreateCartAsync(string applicationUserId)
         {
+            var applicationUser = await this._userManager
+                .FindByIdAsync(applicationUserId);
+
             var userCart = await UserCartExsistAsync(applicationUser);
             if (userCart != null)
             {
@@ -30,10 +37,14 @@
             data.Carts.Add(cart);
             await data.SaveChangesAsync();
         }
-        public async Task AddProductToCartAsync(ApplicationUser user, int productId)
+        public async Task AddProductToCartAsync(string applicationUserId, int productId)
         {
+
+            var applicationUser = await this._userManager
+               .FindByIdAsync(applicationUserId);
+
             var product = data.Products.FirstOrDefault(x => x.Id == productId);
-            var userCart = await GetUserCartAsync(user);
+            var userCart = await GetUserCartAsync(applicationUser);
             if (product == null)
             {
                 throw new ArgumentNullException(string.Format(ErrorMessages.InvalidProductId, productId));
@@ -58,6 +69,7 @@
         }
         private async Task<Cart> GetUserCartAsync(ApplicationUser applicationUser)
         {
+
             var userCart = await UserCartExsistAsync(applicationUser);
             if (userCart == null)
             {
@@ -70,8 +82,9 @@
             return await data.Carts
                 .FirstOrDefaultAsync(x => x.ApplicationUserId == applicationUser.Id);
         }
-        public async Task RemoveItem(ApplicationUser applicationUser, int productId)
+        public async Task RemoveItem(string applicationUserId, int productId)
         {
+            var applicationUser = await this._userManager.FindByIdAsync(applicationUserId);
             var product = data.Products.FirstOrDefault(x => x.Id == productId);
             if (product == null)
             {
@@ -82,7 +95,7 @@
             {
                 throw new ArgumentNullException(nameof(userCart), "Invalid User Cart");
             }
-            
+
             var productCartEntry = await data.CartProducts
                 .FirstOrDefaultAsync(x => x.CartId == userCart.Id && x.ProductId == productId);
             if (productCartEntry != null)
@@ -92,11 +105,12 @@
             }
 
         }
-        public async Task<ICollection<CartProductModel>> GetUserCartProductsAsync(ApplicationUser applicationUser)
+        public async Task<ICollection<CartProductModel>> GetUserCartProductsAsync(string applicationUserId)
         {
+            var applicationUser = await this._userManager.FindByIdAsync(applicationUserId);
             var cart = await data.Carts.FirstOrDefaultAsync(x => x.ApplicationUserId == applicationUser.Id);
             var cartProducts = await data.CartProducts
-                .Where(x => x.CartId == cart.Id).ProjectTo<CartProductModel>(mapper.ConfigurationProvider).ToListAsync();            
+                .Where(x => x.CartId == cart.Id).ProjectTo<CartProductModel>(mapper.ConfigurationProvider).ToListAsync();
             return cartProducts;
         }
     }

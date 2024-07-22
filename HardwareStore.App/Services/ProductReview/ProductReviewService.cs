@@ -4,6 +4,7 @@
     using AutoMapper.QueryableExtensions;
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using static HardwareStore.App.Constants.Constants;
 
@@ -11,28 +12,37 @@
     {
         private readonly ApplicationDbContext dbContext;
 
+        private readonly UserManager<ApplicationUser> userManager;
+
         private readonly IMapper mapper;
 
-        public ProductReviewService(ApplicationDbContext dbContext, IMapper mapper)
+        public ProductReviewService(ApplicationDbContext dbContext, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
             this.dbContext = dbContext;
             this.mapper = mapper;
+            this.userManager = userManager;
         }
 
-        public async Task CreateReviewAsync(ApplicationUser user, string content, int? rating, int productId)
+        public async Task CreateReviewAsync(string userId, string content, int? rating, int productId)
         {
-            var product = await dbContext.Products.Include(x=>x.ProductReviews).FirstOrDefaultAsync(x => x.Id == productId);
+            var applicationUser = await userManager.FindByIdAsync(userId);
+            if (applicationUser == null)
+            {
+                throw new ArgumentException("Invalid user");
+            }
+
+            var product = await dbContext.Products.Include(x => x.ProductReviews).FirstOrDefaultAsync(x => x.Id == productId);
             if (product == null)
             {
                 throw new ArgumentNullException(nameof(productId), "Invalid Product");
             }
-            if (product.ProductReviews.Any(x => x.ApplicationUserId == user.Id))
+            if (product.ProductReviews.Any(x => x.ApplicationUserId == userId))
             {
                 throw new ArgumentException("User already has review for this product");
             }
             var review = new ProductReview
             {
-                ApplicationUser = user,
+                ApplicationUserId = userId,
                 Product = product,
                 Review = content,
                 Rating = rating,
@@ -83,7 +93,11 @@
             {
                 query = query.Where(x => x.IsApproved == true);
             }
-            var userReviews = await query.Where(x => x.ApplicationUserId == userId).ProjectTo<ProductReviewDTO>(mapper.ConfigurationProvider).ToListAsync();
+
+            var userReviews = await query
+                .Where(x => x.ApplicationUserId == userId)
+                .ProjectTo<ProductReviewDTO>(mapper.ConfigurationProvider)
+                .ToListAsync();
 
             return userReviews;
         }
@@ -119,7 +133,6 @@
             if (trueDelete == true)
             {
                 dbContext.ProductReviews.Remove(review);
-
             }
             else
             {
@@ -130,7 +143,7 @@
             return serviceResult;
         }
 
-        public async Task<ServiceResult> EditReviewAsync(ApplicationUser user, int reviewId, string content, int rating)
+        public async Task<ServiceResult> EditReviewAsync(string userId, int reviewId, string content, int rating)
         {
             var serviceResult = new ServiceResult();
             var review = await dbContext.ProductReviews.FirstOrDefaultAsync(x => x.Id == reviewId);
@@ -140,7 +153,7 @@
                 serviceResult.ErrorMessage = string.Format(ErrorMessages.InvalidReviewId, reviewId);
                 return serviceResult;
             }
-            if (review.ApplicationUserId != user.Id)
+            if (review.ApplicationUserId != userId)
             {
                 serviceResult.Success = false;
                 return serviceResult;

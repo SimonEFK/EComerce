@@ -1,5 +1,6 @@
 namespace HardwareStore.App
 {
+    using HardwareStore.App.Configurations;
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
     using HardwareStore.App.Extension;
@@ -62,9 +63,8 @@ namespace HardwareStore.App
 
             builder.Services.AddScoped<APIContext>(provider =>
             {
-                var config = provider.GetRequiredService<IConfiguration>();
                 var paypalService = provider.GetRequiredService<IPayPalService>();
-                var payPalConfig = paypalService.PayPalConfig(config);
+                var payPalConfig = paypalService.PayPalConfig();
                 var accessToken = paypalService.GetAccessToken(payPalConfig);
                 return new APIContext(accessToken);
             });
@@ -81,6 +81,10 @@ namespace HardwareStore.App
             builder.Services.AddScoped<IEditProductService, EditProductService>();
             builder.Services.AddScoped<IProductSpecificationService, ProductSpecificationService>();
             builder.Services.AddScoped<IOrderProductService, OrderProductService>();
+
+            var paypalSettings = builder.Configuration.GetSection("Paypal");
+            builder.Services.Configure<PaypalSettings>(paypalSettings);
+
             var app = builder.Build();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -92,7 +96,7 @@ namespace HardwareStore.App
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseStatusCodePagesWithRedirects("/Error/ErrorHandler?errorCode={0}");                
+                app.UseStatusCodePagesWithRedirects("/Error/ErrorHandler?errorCode={0}");
                 app.UseHsts();
             }
             app.ApplyMigrations();
@@ -114,8 +118,8 @@ namespace HardwareStore.App
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-            
-           app.MapRazorPages();
+
+            app.MapRazorPages();
 
             app.Run();
         }

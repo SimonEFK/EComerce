@@ -1,25 +1,23 @@
 ﻿namespace HardwareStore.App.Controllers
 {
-    using HardwareStore.App.Data.Models;
+    using HardwareStore.App.Extension;
     using HardwareStore.App.Models.ProductCatalog;
     using HardwareStore.App.Models.Review;
     using HardwareStore.App.Services.Catalog;
     using HardwareStore.App.Services.ProductReview;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using System.Security.Claims;
 
-    
+
     public class ReviewController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+
         private readonly IProductReviewService _productReviewService;
         private readonly ICatalogService catalogService;
 
-        public ReviewController(UserManager<ApplicationUser> userManager, IProductReviewService productReviewService, ICatalogService catalogService)
+        public ReviewController(IProductReviewService productReviewService, ICatalogService catalogService)
         {
-            _userManager = userManager;
+
             _productReviewService = productReviewService;
             this.catalogService = catalogService;
         }
@@ -49,18 +47,18 @@
                 };
                 return View("/ProductCatalog/ComponentDetail", viewModel);
             }
-            var user = await _userManager.GetUserAsync(this.HttpContext.User);
+            var userId = this.HttpContext.User.Id();
             try
             {
                 await _productReviewService
-                .CreateReviewAsync(user, reviewInputModel.Content, reviewInputModel.Rating, reviewInputModel.ProductId);
+                .CreateReviewAsync(userId, reviewInputModel.Content, reviewInputModel.Rating, reviewInputModel.ProductId);
             }
             catch (Exception)
             {
 
                 return Redirect("/Home/Error");
             }
-            
+
             return Redirect($"/ComponentDetail/{reviewInputModel.ProductId}");
         }
 

@@ -2,17 +2,16 @@
 {
     using HardwareStore.App.Data;
     using HardwareStore.App.Data.Models;
-    using HardwareStore.App.Services.ProductFiltering;
     using Microsoft.EntityFrameworkCore;
-    using Moq;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
     using AutoMapper;
     using HardwareStore.App;
     using HardwareStore.App.Services.Cart;
+    using Microsoft.AspNetCore.Identity;
+    using Moq;
 
     public class CartServiceTest
     {
@@ -41,8 +40,9 @@
             await dbContext.Users.AddRangeAsync(users);
             await dbContext.SaveChangesAsync();
 
-            var cartService = new CartService(dbContext, mapper);
-            await cartService.CreateCartAsync(users[0]);
+            var userManagerMock = UserManagerMock(users[0].Id, users[0]).Object;
+            var cartService = new CartService(dbContext, mapper, userManagerMock);
+            await cartService.CreateCartAsync(users[0].Id);
 
             var userCarts = dbContext.Carts.FirstOrDefaultAsync(x => x.ApplicationUserId == users[0].Id);
             Assert.NotNull(userCarts);
@@ -70,9 +70,12 @@
             await dbContext.Users.AddRangeAsync(users);
             await dbContext.SaveChangesAsync();
 
-            var cartService = new CartService(dbContext, mapper);
-            await cartService.CreateCartAsync(users[0]);
-            await Assert.ThrowsAnyAsync<Exception>(async () => await cartService.CreateCartAsync(users[0]));
+
+            var userManagerMock = UserManagerMock(users[0].Id, users[0]);
+
+            var cartService = new CartService(dbContext, mapper, userManagerMock.Object);
+            await cartService.CreateCartAsync(users[0].Id);
+            await Assert.ThrowsAnyAsync<Exception>(async () => await cartService.CreateCartAsync(users[0].Id));
 
         }
 
@@ -98,9 +101,11 @@
             await dbContext.Products.AddAsync(product);
             await dbContext.Carts.AddAsync(userCart);
             await dbContext.SaveChangesAsync();
-            var cartService = new CartService(dbContext, mapper);
 
-            await cartService.AddProductToCartAsync(user, product.Id);
+            var userManagerMock = UserManagerMock(user.Id, user);
+            var cartService = new CartService(dbContext, mapper, userManagerMock.Object);
+
+            await cartService.AddProductToCartAsync(user.Id, product.Id);
 
             Assert.True(user.Cart.Products.Count() == 1);
             Assert.True(user.Cart.Products.FirstOrDefault().Product.Id == product.Id);
@@ -128,10 +133,13 @@
             await dbContext.Products.AddAsync(product);
             await dbContext.Carts.AddAsync(userCart);
             await dbContext.SaveChangesAsync();
-            var cartService = new CartService(dbContext, mapper);
 
-            await cartService.AddProductToCartAsync(user, product.Id);
-            await cartService.AddProductToCartAsync(user, product.Id);
+            var userManagerMock = UserManagerMock(user.Id, user);
+
+            var cartService = new CartService(dbContext, mapper, userManagerMock.Object);
+
+            await cartService.AddProductToCartAsync(user.Id, product.Id);
+            await cartService.AddProductToCartAsync(user.Id, product.Id);
 
             Assert.True(user.Cart.Products.Count() == 1);
             Assert.True(2 == user.Cart.Products.FirstOrDefault().Amount);
@@ -159,9 +167,12 @@
             await dbContext.Products.AddAsync(product);
             await dbContext.Carts.AddAsync(userCart);
             await dbContext.SaveChangesAsync();
-            var cartService = new CartService(dbContext, mapper);
 
-            await Assert.ThrowsAnyAsync<Exception>(async () => await cartService.AddProductToCartAsync(user, 12334));
+            var userManagerMock = UserManagerMock(user.Id, user);
+
+            var cartService = new CartService(dbContext, mapper, userManagerMock.Object);
+
+            await Assert.ThrowsAnyAsync<Exception>(async () => await cartService.AddProductToCartAsync(user.Id, 12334));
 
         }
 
@@ -196,9 +207,11 @@
             await dbContext.Products.AddAsync(product);
             await dbContext.Carts.AddAsync(userCart);
             await dbContext.SaveChangesAsync();
-            var cartService = new CartService(dbContext, mapper);
 
-            await cartService.RemoveItem(user, product.Id);
+            var userManagerMock = UserManagerMock(user.Id, user);
+            var cartService = new CartService(dbContext, mapper, userManagerMock.Object);
+
+            await cartService.RemoveItem(user.Id, product.Id);
 
             Assert.False(user.Cart.Products.Any());
         }
@@ -233,9 +246,12 @@
             await dbContext.Products.AddAsync(product);
             await dbContext.Carts.AddAsync(userCart);
             await dbContext.SaveChangesAsync();
-            var cartService = new CartService(dbContext, mapper);
 
-            await Assert.ThrowsAnyAsync<Exception>(async () => await cartService.RemoveItem(user, 555));
+            var userManagerMock = UserManagerMock(user.Id, user);
+
+            var cartService = new CartService(dbContext, mapper, userManagerMock.Object);
+
+            await Assert.ThrowsAnyAsync<Exception>(async () => await cartService.RemoveItem(user.Id, 555));
 
         }
         [Fact]
@@ -273,9 +289,12 @@
             await dbContext.Products.AddAsync(product);
             await dbContext.Carts.AddAsync(userCart);
             await dbContext.SaveChangesAsync();
-            var cartService = new CartService(dbContext, mapper);
 
-            await Assert.ThrowsAnyAsync<Exception>(async () => await cartService.RemoveItem(user2, 555));
+            var userManagerMock = UserManagerMock(user2.Id, user2);
+
+            var cartService = new CartService(dbContext, mapper, userManagerMock.Object);
+
+            await Assert.ThrowsAnyAsync<Exception>(async () => await cartService.RemoveItem(user2.Id, 555));
 
         }
 
@@ -323,10 +342,12 @@
             await dbContext.Products.AddRangeAsync(products);
             await dbContext.CartProducts.AddRangeAsync(cartProducts);
             await dbContext.SaveChangesAsync();
-            var cartService = new CartService(dbContext, mapper);
-            var userCartProducts = await cartService.GetUserCartProductsAsync(user);
 
-            Assert.True(userCartProducts.Count==3);            
+            var userManagerMock = UserManagerMock(user.Id, user);
+            var cartService = new CartService(dbContext, mapper, userManagerMock.Object);
+            var userCartProducts = await cartService.GetUserCartProductsAsync(user.Id);
+
+            Assert.True(userCartProducts.Count == 3);
 
         }
 
@@ -347,6 +368,24 @@
                 x.AddProfile<MappingProfile>();
             }).CreateMapper();
             return mapper;
+        }
+
+        private static Mock<UserManager<ApplicationUser>> UserManagerMock(string userId, ApplicationUser user)
+        {
+            var userManagerMock = new Mock<UserManager<ApplicationUser>>(
+                    Mock.Of<IUserStore<ApplicationUser>>(),
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null);
+            userManagerMock.Setup(u => u.FindByIdAsync(userId)).ReturnsAsync(user);
+
+            return userManagerMock;
+
         }
     }
 }
