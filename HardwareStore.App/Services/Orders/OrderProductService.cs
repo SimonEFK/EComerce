@@ -9,7 +9,6 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using PayPal.Api;
-    using System.ComponentModel;
     using System.Globalization;
 
     public class OrderProductService : IOrderProductService
@@ -19,10 +18,11 @@
         private IProductDiscountService productDiscountService;
         private IValidatorService validatorService;
         private IMapper mapper;
+        private UserManager<ApplicationUser> userManager;
         private APIContext apiContext;
 
 
-        public OrderProductService(ApplicationDbContext dbContext, IProductDiscountService productDiscountService, IValidatorService validatorService, IMapper mapper, APIContext apiContext)
+        public OrderProductService(ApplicationDbContext dbContext, IProductDiscountService productDiscountService, IValidatorService validatorService, IMapper mapper, APIContext apiContext, UserManager<ApplicationUser> userManager)
         {
 
             this.dbContext = dbContext;
@@ -30,12 +30,14 @@
             this.validatorService = validatorService;
             this.mapper = mapper;
             this.apiContext = apiContext;
+            this.userManager = userManager;
         }
 
-        public async Task<ServiceResultGeneric<string?>> CreateOrderAsync(ApplicationUser applicationUser, IEnumerable<CreateOrderItemDTO> orderItems)
+        public async Task<ServiceResultGeneric<string?>> CreateOrderAsync(string userId, IEnumerable<CreateOrderItemDTO> orderItems)
         {
             var serviceResult = new ServiceResultGeneric<string?>();
 
+            var applicationUser = await userManager.FindByIdAsync(userId);
 
             if (applicationUser is null)
             {
@@ -173,11 +175,11 @@
             return orderProducts;
         }
 
-        public async Task ClearUserCartAsync(ApplicationUser applicationUser)
+        public async Task ClearUserCartAsync(string userId)
         {
             var userCart = await dbContext.Carts
                 .Include(x => x.Products)
-                .FirstOrDefaultAsync(c => c.ApplicationUserId == applicationUser.Id);
+                .FirstOrDefaultAsync(c => c.ApplicationUserId == userId);
 
             userCart.Products.Clear();
 
@@ -197,7 +199,6 @@
             var paymentExecution = new PaymentExecution { payer_id = payerId };
             var executedPayment = new Payment { id = paymentId }.Execute(this.apiContext, paymentExecution);
             await UpdateOrderStatus(paymentId, executedPayment.state);
-
 
         }
 
