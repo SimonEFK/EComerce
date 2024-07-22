@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using HardwareStore.App.Data.Models;
+    using HardwareStore.App.Extension;
     using HardwareStore.App.Models.Orders;
     using HardwareStore.App.Services;
     using HardwareStore.App.Services.Orders;
@@ -12,15 +13,13 @@
 
     public class OrderController : Controller
     {
-        private IMapper mapper;
-        private UserManager<ApplicationUser> userManager;
+        private IMapper mapper;        
         private IOrderProductService orderProductService;
         private readonly IPayPalService payPalService;
 
-        public OrderController(IMapper mapper, UserManager<ApplicationUser> userManager, IOrderProductService orderProductService, IPayPalService payPalService)
+        public OrderController(IMapper mapper, IOrderProductService orderProductService, IPayPalService payPalService)
         {
-            this.mapper = mapper;
-            this.userManager = userManager;
+            this.mapper = mapper;            
             this.orderProductService = orderProductService;
             this.payPalService = payPalService;
         }
@@ -42,13 +41,13 @@
                 return Redirect($"/Error/ErrorHandler");
             }
 
-            var user = await userManager.GetUserAsync(this.HttpContext.User);
-            if (user == null)
+            var userId = this.HttpContext.User.Id();
+            if (userId == null)
             {
                 return Redirect($"/Error/ErrorHandler");
             }
             var orderItems = mapper.Map<List<CreateOrderItemDTO>>(orderInputModel.Items);
-            var result = await orderProductService.CreateOrderAsync(user, orderItems);
+            var result = await orderProductService.CreateOrderAsync(userId, orderItems);
 
             if (result.Success == false)
             {
@@ -80,8 +79,9 @@
             {
                 return Redirect($"/Error/ErrorHandler");
             }
-            var user = await userManager.GetUserAsync(this.HttpContext.User);
-            await orderProductService.ClearUserCartAsync(user);
+            var userId = this.HttpContext.User.Id();
+
+            await orderProductService.ClearUserCartAsync(userId);
             return RedirectToAction(nameof(UserOrders));
         }
 
@@ -95,14 +95,14 @@
         [Authorize]
         public async Task<IActionResult> UserOrders()
         {
-            var user = await userManager.GetUserAsync(this.HttpContext.User);
+            var userId = this.HttpContext.User.Id();
 
-            if (user == null)
+            if (userId == null)
             {
                 return Redirect($"/Error/ErrorHandler");
             }
 
-            var userOrders = await orderProductService.GetUserOrdersAsync(user.Id);
+            var userOrders = await orderProductService.GetUserOrdersAsync(userId);
 
             return View(userOrders.ToList());
         }
